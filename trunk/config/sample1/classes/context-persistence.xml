@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: context-persistence.xml,v 1.16 2008/06/03 15:21:59 brightc Exp $ -->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"> 
+
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	
+	<bean id="actionLogDAO" class="cg.iseepublish.dao.jpa.ActionLogJpaDAO" />
+	
+	<bean id="clientDownloadDAO" class="cg.iseepublish.dao.jpa.ClientDownloadJpaDAO" />
+	
+	<bean id="messageLogDAO" class="cg.iseepublish.dao.jpa.MessageLogJpaDAO" />
+	
+	<bean id="phoneDAO" class="cg.iseepublish.dao.jpa.PhoneJpaDAO" />
+	
+	<bean id="phonePublicationDAO" class="cg.iseepublish.dao.jpa.PhonePublicationJpaDAO" />
+	
+	<bean id="subscriberDAO" class="cg.iseepublish.dao.jpa.SubscriberJpaDAO" />
+	
+	<bean id="subscriptionDAO" class="cg.iseepublish.dao.jpa.SubscriptionJpaDAO" />
+	
+	<bean id="roleDAO" class="cg.iseepublish.dao.jpa.RoleJpaDAO" />
+	
+	<bean id="publicationDAO" class="cg.iseepublish.dao.jpa.PublicationJpaDAO" />
+	
+	<bean id="documentDAO" class="cg.iseepublish.dao.jpa.DocumentJpaDAO" />
+	
+	<bean id="publisherDAO" class="cg.iseepublish.dao.jpa.PublisherJpaDAO" />
+	
+	<bean id="publisherUserDAO" class="cg.iseepublish.dao.jpa.PublisherUserJpaDAO" />
+	
+	<!-- for advertisement report -->
+	<bean id="editionItemDAO" class="cg.iseepublish.dao.jpa.EditionItemJpaDAO" />
+	
+	<bean id="editionDAO" class="cg.iseepublish.dao.jpa.EditionJpaDAO" />
+	
+	<bean id="phoneTransactionDAO" class="cg.iseepublish.dao.jpa.PhoneTransactionJpaDAO" />
+	
+	<bean id="genericImpressionDataDAO" class="cg.iseepublish.dao.jpa.GenericImpressionDataJpaDAO" />
+	
+	<bean id="endUserDailyDataDAO" class="cg.iseepublish.dao.jpa.EndUserDailyDataJpaDAO" />
+	
+	<bean id="endUserConsolidatedDataDAO" class="cg.iseepublish.dao.jpa.EndUserConsolidatedDataJpaDAO" />
+	
+	<bean id="transactionSummaryDAO" class="cg.iseepublish.dao.jpa.TransactionSummaryJpaDAO" />
+	
+	<bean id="publicationSectionDAO" class="cg.iseepublish.dao.jpa.PublicationSectionJpaDAO" />
+
+	<bean id="publicationEditionDAO" class="cg.iseepublish.dao.jpa.PublicationEditionJpaDAO" />
+
+	<bean id="editionSectionDAO" class="cg.iseepublish.dao.jpa.EditionSectionJpaDAO" />
+	
+	<bean id="deviceStatusHistoryDAO" class="cg.iseepublish.dao.jpa.DeviceStatusHistoryJpaDAO" />
+	
+	<bean id="subscriptionHistoryDAO" class="cg.iseepublish.dao.jpa.SubscriptionHistoryJpaDAO" />
+
+  <bean id="advertiseInfoDAO" class="cg.iseepublish.dao.jpa.AdvertiseInfoJpaDAO" />
+	
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="database" value="ORACLE" />
+                <property name="showSql" value="false" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+            <property name="driverClassName"><value>${db.jdbc.driver_class}</value></property>
+            <property name="url"><value>${db.jdbc.url}</value></property>
+            <property name="username"><value>${db.username}</value></property>
+            <property name="password"><value>${db.password}</value></property>
+            <property name="maxActive"><value>150</value></property>
+            <property name="maxIdle"><value>50</value></property>
+            <property name="maxWait"><value>10000</value></property>
+            <property name="validationQuery"><value>${db.validation.query}</value></property>
+            <property name="defaultAutoCommit"><value>false</value></property>
+            <property name="testOnBorrow"><value>false</value></property>
+            <property name="testWhileIdle"><value>true</value></property>
+            <property name="testOnReturn"><value>false</value></property>
+            <property name="timeBetweenEvictionRunsMillis"><value>60000</value></property>
+            <property name="numTestsPerEvictionRun"><value>10</value></property>
+            <property name="minEvictableIdleTimeMillis"><value>120000</value></property>
+    </bean>
+
+</beans>
