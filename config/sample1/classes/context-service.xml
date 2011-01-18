@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: context-service.xml,v 1.26 2008/08/22 20:56:51 brightc Exp $ -->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="actionLogService"
+        class="cg.iseepublish.service.ActionLogServiceImpl">   
+        <property name="actionLogDAO"><ref bean="actionLogDAO"/></property> 	    	    
+	</bean>
+	
+	<bean id="clientDownloadService"
+        class="cg.iseepublish.service.ClientDownloadServiceImpl">   
+        <property name="clientDownloadDAO"><ref bean="clientDownloadDAO"/></property> 	    	    
+	</bean>
+	
+	<bean id="messageLogService"
+        class="cg.iseepublish.service.MessageLogServiceImpl">   
+        <property name="messageLogDAO"><ref bean="messageLogDAO"/></property> 	    	    
+	</bean>
+	
+	<bean id="phoneService"
+        class="cg.iseepublish.service.PhoneServiceImpl">   
+        <property name="phoneDAO"><ref bean="phoneDAO"/></property> 	    	    
+	</bean>
+	
+	<bean id="phonePublicationService"
+        class="cg.iseepublish.service.PhonePublicationServiceImpl">   
+        <property name="phonePublicationDAO"><ref bean="phonePublicationDAO"/></property> 	    	    
+	</bean>
+	
+	<bean id="subscriberService"
+        class="cg.iseepublish.service.SubscriberServiceImpl">   
+        <property name="subscriberDAO"><ref bean="subscriberDAO"/></property> 	    	    
+	</bean>
+	
+	<bean id="subscriptionService"
+        class="cg.iseepublish.service.SubscriptionServiceImpl">   
+        <property name="subscriptionDAO"><ref bean="subscriptionDAO"/></property> 	    	    
+	</bean>
+	
+	<bean id="roleService"
+        class="cg.iseepublish.service.RoleServiceImpl">   
+        <property name="roleDAO"><ref bean="roleDAO"/></property> 	    	    
+	</bean>
+	
+	<bean id="publicationService"
+        class="cg.iseepublish.service.PublicationServiceImpl">   
+        <property name="publicationDAO"><ref bean="publicationDAO"/></property> 	    	    
+	</bean>
+	
+	<bean id="documentService"
+        class="cg.iseepublish.service.DocumentServiceImpl">   
+        <property name="documentDAO"><ref bean="documentDAO"/></property> 	    	    
+	</bean>
+	
+	<bean id="publisherService"
+        class="cg.iseepublish.service.PublisherServiceImpl">   
+        <property name="publisherDAO"><ref bean="publisherDAO"/></property> 	    	    
+	</bean>
+	
+	<bean id="publisherUserService"
+        class="cg.iseepublish.service.PublisherUserServiceImpl">   
+        <property name="publisherUserDAO"><ref bean="publisherUserDAO"/></property> 	    	    
+	</bean>
+	
+	<bean id="ftpUserService" class="cg.iseepublish.service.FtpUserServiceImpl">
+		<property name="ftpUsersFilePath"><value>${ftp.usersFilePath}</value></property>
+		<property name="ftpUsersFilePathNew"><value>${ftp.usersFilePathNew}</value></property>
+	</bean>
+	
+	<bean id="ftpFileService" class="cg.iseepublish.service.FtpFileServiceImpl">
+		<property name="ftpFileInfoMap"><ref bean="ftpFileInfoMap"/></property>
+	</bean>
+	
+	<bean id="emailService"
+        class="cg.common.email.EmailServiceImpl">
+        <property name="emailTemplatePackage"><value>email-templates</value></property>
+        <property name="mailServer"><value>${mail.smtp.host}</value></property>
+        <property name="username"><value>${mail.smtp.username}</value></property>
+        <property name="password"><value>${mail.smtp.password}</value></property>
+        <property name="fromAddress"><value>${mail.from}</value></property>
+        <property name="iseepublishServer"><value>${mail.iseepublish_server}</value></property>
+    </bean>
+    
+    <bean id="emailServiceNew" class="cg.iseepublish.service.EmailServiceImpl">
+        <property name="hostname"><value>${mail.smtp.host}</value></property>
+        <property name="username"><value>${mail.smtp.username}</value></property>
+        <property name="password"><value>${mail.smtp.password}</value></property>
+        <property name="emailFrom"><value>${mail.from}</value></property>
+    </bean>
+    
+    <bean id="emailTemplateService" class="cg.iseepublish.service.EmailTemplateServiceImpl">
+        <property name="emailTemplateDir"><value>${mail.template.dir}</value></property>
+    </bean>
+    
+    <!-- bean for report services -->
+    <bean id="reportService" class="cg.iseepublish.service.report.JasperReportService">   
+    	<property name="dataSourceFactory"><ref bean="dataSourceFactory"/></property>
+    	<property name="jasperReportTemplateFactory"><ref bean="jasperReportTemplateFactory"/></property>
+    	<property name="genericImpressionReportTemplateFactory"><ref bean="genericImpressionReportTemplateFactory"/></property>
+    	<property name="isStoreReport"><value>${report.isStoreReport}</value></property>
+    	<!-- uncomment it if specify the delimiter for cvs   property name="csvDelimiter"><value>|</value></property -->
+    	<!-- uncomment it if use transient mode   property name="serviceMode"><value>1</value></property -->
+	</bean>
+	
+	<bean id="dataSourceFactory" class="cg.iseepublish.service.report.DataSourceSimpleFactory"> 
+		<!-- use service 
+		<property name="editionItemDAO"><ref bean="editionItemDAO"/></property>
+		<property name="editionDAO"><ref bean="editionDAO"/></property>
+		-->
+		<property name="editionItemService"><ref bean="editionItemService"/></property>
+		<property name="genericImpressionDataService"><ref bean="genericImpressionDataService"/></property>
+		<property name="endUserDailyDataService"><ref bean="endUserDailyDataService"/></property>
+		<property name="endUserConsolidatedDataService"><ref bean="endUserConsolidatedDataService"/></property>
+		
+	</bean>
+	
+	<bean id="jasperReportTemplateFactory" class="cg.iseepublish.service.report.JasperReportTemplateStaticFactory"> 
+	</bean>
+
+	<bean id="genericImpressionReportTemplateFactory" class="cg.iseepublish.service.report.GenericImpressionReportTemplateFactory"> 
+	    <property name="transactionSummaryDSFactory"><ref bean="transactionSummaryDSFactory"/></property>
+	    <property name="fontName">      <value>${genericImpressionReportTemplateFactory.fontName}</value>       </property>
+	    <property name="pdfFontName">   <value>${genericImpressionReportTemplateFactory.pdfFontName}</value>    </property>
+	    <property name="pdfEncoding">   <value>${genericImpressionReportTemplateFactory.pdfEncoding}</value>    </property>
+	    <property name="pdfEmbedded">   <value>${genericImpressionReportTemplateFactory.pdfEmbedded}</value>    </property>
+	</bean>
+
+	<bean id="transactionSummaryDSFactory" class="cg.iseepublish.service.report.RefinedTransactionSummaryDSFactory"> 
+	</bean>
+
+    <!-- or use the DbTransactionSummaryDSFactory, but it may cause data incompatiable prolem as the time differencial between fetch GenericImpressionData
+         and TransactionSummary data
+	<bean id="transactionSummaryDSFactory" class="cg.iseepublish.service.report.DbTransactionSummaryDSFactory"> 
+	    <property name="transactionSummaryService"><ref bean="transactionSummaryService"/></property>
+	</bean>
+	-->
+
+
+    <bean id="editionService" class="cg.iseepublish.service.EditionServiceImpl">   
+    	<property name="editionDAO"><ref bean="editionDAO"/></property>
+	</bean>
+
+    <bean id="editionItemService" class="cg.iseepublish.service.EditionItemServiceImpl">   
+    	<property name="editionItemDAO"><ref bean="editionItemDAO"/></property>
+	</bean>
+
+    <bean id="phoneTransactionService" class="cg.iseepublish.service.PhoneTransactionServiceImpl">   
+    	<property name="phoneTransactionDAO"><ref bean="phoneTransactionDAO"/></property>
+    	<property name="documentService"><ref bean="documentService"/></property>
+    	<property name="phoneService"><ref bean="phoneService"/></property>
+	</bean>
+
+    <bean id="genericImpressionDataService" class="cg.iseepublish.service.GenericImpressionDataServiceImpl">   
+    	<property name="genericImpressionDataDAO"><ref bean="genericImpressionDataDAO"/></property>
+    	<property name="sqlString">
+    	    <value>
+                 select
+	  			    ei.EDITIONITEM_ID as generic_impression_id,
+                    p.publication_name as publication_name,
+                    t.EDITION_NAME as document_name,
+                    TO_CHAR( d.updated, 'MON DD') as publication_date,
+                    ei.title as title,
+                    ei.page_no as page_no,
+                    count( t.phone ) as impression_num  
+                from
+                    tb_publication p,
+                    tb_document d,
+                    tb_edition e,
+                    tb_editionitem ei,
+                    tb_publicationedition pe,
+                    tb_phone_transaction t  
+                where
+                    p.PUBLICATION_ID = ?1    
+                    and pe.PUBLICATION_ID = p.PUBLICATION_ID
+                    and t.TRANSACTION_TIME between ?2 and ?3 
+                    and d.PUBLICATION_ID = p.PUBLICATION_ID  
+                    and e.DOCUMENT_ID = d.DOCUMENT_ID 
+                    and ei.EDITION_ID = e.EDITION_ID    
+					and ei.ITEM_TYPE = 'ad'  					
+					and t.DOCUMENT_ID(+) = d.DOCUMENT_ID
+			  		and t.EDITION_NAME = pe.PUBLICATION_ED
+			  		and t.FIGUREID = ei.FIGUREID
+                group by
+                   (p.publication_name, 
+			   		t.DOCUMENT_ID,
+                    t.EDITION_NAME, 
+			   		t.FIGUREID,
+                    d.updated, 
+					ei.EDITIONITEM_ID, 
+					ei.title, 
+					ei.page_no) 
+                order by 
+				 	p.publication_name,
+					t.EDITION_NAME,
+                    d.updated,
+                    ei.title 
+                    ASC	
+            </value>
+        
+        </property>            
+	</bean>
+
+    <bean id="endUserDailyDataService" class="cg.iseepublish.service.EndUserDailyDataServiceImpl">   
+    	<property name="endUserDailyDataDAO"><ref bean="endUserDailyDataDAO"/></property>
+    	<property name="sqlString">
+    	    <value>
+    			select
+    		        CONCAT( TO_CHAR( ei.EDITIONITEM_ID, 99999 ), TO_CHAR( ph.PHONE_ID, 99999 ) ) as end_user_daily_id,
+    		        p.publication_name as publication_name,
+    		        t.EDITION_NAME as document_name,
+    		        TO_CHAR( d.updated,
+    		        'MON DD') as publication_date,
+    		        ei.title as title,
+    		        ei.page_no as page_no,
+    		        t.phone as phone,
+    		        count( t.phone ) as impression_num                   
+    		    from
+    		        tb_publication p,
+    		        tb_document d,
+    		        tb_edition e,
+    		        tb_editionitem ei,
+    		        tb_phone ph,
+    		        tb_publicationedition pe,
+    		        tb_phone_transaction t                   
+    		    where
+    		        p.PUBLICATION_ID = ?1         
+    		        and t.TRANSACTION_TIME between ?2 and ?3      
+    		        and ei.ITEM_TYPE = 'ad'                     
+    		        and d.PUBLICATION_ID = p.PUBLICATION_ID  
+    		        and pe.PUBLICATION_ID = p.PUBLICATION_ID                       
+    		        and e.DOCUMENT_ID = d.DOCUMENT_ID                      
+    		        and ei.EDITION_ID = e.EDITION_ID                         
+    		        and t.DOCUMENT_ID(+) = d.DOCUMENT_ID
+    		        and t.EDITION_NAME = pe.PUBLICATION_ED
+			  		and t.FIGUREID = ei.FIGUREID        
+    		        and ph.PHONE_NUMBER = t.PHONE                 
+    		    group by
+    		        (
+			p.publication_name,
+			t.DOCUMENT_ID,
+			t.EDITION_NAME, 
+			t.FIGUREID,
+    		        d.updated,
+    		        ei.title,
+    		        ei.page_no,
+			CONCAT( TO_CHAR( ei.EDITIONITEM_ID, 99999 ), TO_CHAR( ph.PHONE_ID, 99999 ) ),
+    		        t.phone 
+    				)                 
+    		    order by
+    		        p.publication_name,
+    		        t.EDITION_NAME,
+    		        d.updated,
+    		        ei.title,
+			ei.page_no,
+    		        t.phone 
+    				ASC                                      
+
+            </value>
+        </property>            
+
+	</bean>
+
+    <bean id="endUserConsolidatedDataService" class="cg.iseepublish.service.EndUserConsolidatedDataServiceImpl">   
+    	<property name="endUserConsolidatedDataDAO"><ref bean="endUserConsolidatedDataDAO"/></property>
+    	<property name="sqlString">
+    	    <value>
+                select
+	  				CONCAT( TO_CHAR( ei.EDITIONITEM_ID, 99999 ), TO_CHAR( ph.PHONE_ID, 99999 ) ) as end_user_consolidated_id,
+                    p.publication_name as publication_name,
+                    t.EDITION_NAME as document_name,
+                    ei.title as title,
+                    t.phone as phone,
+                    count( t.phone ) as impression_num  
+                from
+                    tb_publication p,
+                    tb_document d,
+                    tb_edition e,
+                    tb_editionitem ei,
+					tb_phone ph,
+					tb_publicationedition pe,
+                    tb_phone_transaction t  
+                where
+                    p.PUBLICATION_ID = ?1   
+                    and ei.ITEM_TYPE = 'ad'
+                    and d.PUBLICATION_ID = p.PUBLICATION_ID  
+                    and pe.PUBLICATION_ID = p.PUBLICATION_ID    
+                    and e.DOCUMENT_ID = d.DOCUMENT_ID 
+                    and ei.EDITION_ID = e.EDITION_ID    
+                    and t.DOCUMENT_ID = d.DOCUMENT_ID  
+                    and t.EDITION_NAME = pe.PUBLICATION_ED
+			  		and t.FIGUREID = ei.FIGUREID
+			  		and t.TRANSACTION_TIME between ?2 and ?3        
+					and ph.PHONE_NUMBER = t.PHONE
+                group by
+                    ( p.publication_name,
+			   		t.DOCUMENT_ID,
+                    t.EDITION_NAME, 
+			   		t.FIGUREID,
+                    ei.title,
+                    CONCAT( TO_CHAR( ei.EDITIONITEM_ID, 99999 ), TO_CHAR( ph.PHONE_ID, 99999 ) ),
+					ph.PHONE_ID,
+                    t.phone )
+                order by 
+				 	p.publication_name,
+					t.EDITION_NAME,
+                    ei.title 
+                    ASC			
+                    
+            </value>
+        </property>   
+	</bean>
+
+    <bean id="transactionSummaryService" class="cg.iseepublish.service.TransactionSummaryServiceImpl">   
+    	<property name="transactionSummaryDAO"><ref bean="transactionSummaryDAO"/></property>
+	</bean>
+
+    <bean id="publicationSectionService" class="cg.iseepublish.service.PublicationSectionServiceImpl">   
+    	<property name="publicationSectionDAO"><ref bean="publicationSectionDAO"/></property>
+	</bean>
+	
+    <bean id="publicationEditionService" class="cg.iseepublish.service.PublicationEditionServiceImpl">   
+    	<property name="publicationEditionDAO"><ref bean="publicationEditionDAO"/></property>
+	</bean>
+
+    <bean id="editionSectionService" class="cg.iseepublish.service.EditionSectionServiceImpl">   
+    	<property name="editionSectionDAO"><ref bean="editionSectionDAO"/></property>
+	</bean>
+	
+	<!-- beans required for ftp -->
+    <bean id="ftpConfigService" class="cg.iseepublish.service.FtpConfigServiceImpl">   
+    	<property name="ftpConfigFilePath"> <value>${ftp.ftpConfig}</value> </property>
+	</bean>
+
+    <bean id="documentProcessService" class="cg.iseepublish.service.DocumentProcessServiceImpl">   
+        <property name="publicationService"> <ref bean="publicationService"/> </property>
+        <property name="publicationEditionService"> <ref bean="publicationEditionService"/> </property>
+        <property name="publicationSectionService"> <ref bean="publicationSectionService"/> </property>
+        <property name="editionSectionService"> <ref bean="editionSectionService"/> </property>
+        <property name="documentService"> <ref bean="documentService"/> </property>
+        <property name="emailService"> <ref bean="emailService"/> </property>
+        <property name="publisherUserService"> <ref bean="publisherUserService"/> </property>
+        <property name="documentRepository"> <ref bean="fileRepository"/> </property>
+        <property name="adaptationEngine"> <ref bean="adaptationEngine"/> </property>
+        <property name="threadPoolSize"> <value>${documentProcess.threadPoolSize}</value> </property>
+        
+	</bean>
+
+
+    <bean id="deviceStatusHistoryService" class="cg.iseepublish.service.DeviceStatusHistoryServiceImpl">   
+    	<property name="deviceStatusHistoryDAO"><ref bean="deviceStatusHistoryDAO"/></property>
+	</bean>
+
+  <bean id="subscriptionHistoryService" class="cg.iseepublish.service.SubscriptionHistoryServiceImpl">   
+    	<property name="subscriptionHistoryDAO"><ref bean="subscriptionHistoryDAO"/></property>
+  </bean>
+
+  <bean id="phoneOperationService" class="cg.iseepublish.service.PhoneOperationServiceImpl">   
+    	<property name="phoneService"><ref bean="phoneService"/></property>
+    	<property name="subscriptionService"><ref bean="subscriptionService"/></property>
+    	<property name="subscriptionHistoryService"><ref bean="subscriptionHistoryService"/></property>
+    	<property name="deviceStatusHistoryService"><ref bean="deviceStatusHistoryService"/></property>
+    	<property name="publicationService">    <ref bean="publicationService"/></property>
+  </bean>
+	
+	
+  <bean id="advertiseInfoService" class="cg.iseepublish.service.AdvertiseInfoServiceImpl">   
+    	<property name="advertiseInfoDAO"><ref bean="advertiseInfoDAO"/></property>
+  </bean>
+	
+  <bean id="advertiseInfoFileProcessService" class="cg.iseepublish.service.AdvertiseInfoFileProcessServiceImpl">   
+    	<property name="editionSectionService"> <ref bean="editionSectionService"/></property>
+    	<property name="advertiseInfoService">  <ref bean="advertiseInfoService"/></property>
+    	<property name="publicationService">    <ref bean="publicationService"/></property>
+    	<property name="publicationEditionService"><ref bean="publicationEditionService"/></property>
+    	<property name="publicationSectionService"><ref bean="publicationSectionService"/></property>
+  </bean>
+	
+	
+
+</beans>

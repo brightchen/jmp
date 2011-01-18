@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"> 
+
+  <!-- "enable" Annotations -->
+  <tx:annotation-driven/>
+  
+  <!-- Configurer that replaces ${...} placeholders with values from a properties file -->
+  <bean id="propertyConfigurer" class="cg.adaptation.config.SpringPropertyConfigurer">
+  </bean>
+  
+  <bean id="fileRepository"
+        class="cg.repository.persistence.file.FileRepository"  init-method="load">
+        <property name="directoryPath"><value>${repository.rootDirectory}</value></property>
+  </bean>
+  <bean id="imageService"
+        class="cg.document.image.ImageServiceImpl"  init-method="load">
+	<property name="serverImageDirectory"><value>${repository.rootDirectory}</value></property>
+  </bean>
+  
+  <bean id="pdfAdapterAlIttihad"
+        class="cg.adaptation.adapter.PDFBoxAdapterGeneric">
+        <property name="type"><value>AlIttihad</value></property>
+        <property name="configResource"><value>Ittihad.xml</value></property>
+  </bean>
+    <bean id="pdfAdapterEtisalat"
+        class="cg.adaptation.adapter.PDFBoxAdapterGeneric">
+        <property name="type"><value>Etisalat</value></property>
+        <property name="configResource"><value>Etisalat.xml</value></property>
+  </bean>
+  <bean id="pdfAdapterNational"
+        class="cg.adaptation.adapter.PDFBoxAdapterGeneric">
+        <property name="type"><value>National</value></property>
+        <property name="configResource"><value>National.xml</value></property>
+  </bean>  
+  <bean id="pdfAdapter"
+        class="cg.adaptation.adapter.PDFBoxAdapterGeneric">
+  </bean>
+  
+  <bean id="documentAdapterRegistry"
+        class="cg.adaptation.adapter.DocumentAdapterRegistryImpl">
+        <property name="adapters">
+        	<list>
+        		<ref bean="pdfAdapterAlIttihad"/>
+        		<ref bean="pdfAdapterEtisalat"/>
+        		<ref bean="pdfAdapterNational"/>
+        		<ref bean="pdfAdapter"/>
+            </list>
+        </property>
+  </bean>
+  
+  <bean id="adaptationEngine"
+        class="cg.adaptation.engine.AdaptationEngineImpl">
+	<property name="documentAdapterRegistry"><ref bean="documentAdapterRegistry"/></property>
+  </bean>
+
+</beans>

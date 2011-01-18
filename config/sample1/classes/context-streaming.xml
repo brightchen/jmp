@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: context-streaming.xml,v 1.25 2008/06/12 14:21:33 waifus Exp $ -->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!-- Application Context for Spring framework -->
+
+<beans>
+	  <bean id="authorizationFilter" class="cg.iseepublish.web.action.AuthorizationFilter">
+	        <property name="phoneService" ref="phoneService" />
+	        <property name="enableAuthorization" value="${enable.Authorization}"/>
+	        <property name="excludeUrls">
+	        <map>
+               <entry key="docs">
+                  <value>image,thumbnail</value>
+               </entry>
+               <entry key="channels">
+                  <value>confirmGenericActivation</value>
+               </entry>
+	        </map>
+          </property>
+	  </bean>
+								 
+</beans>

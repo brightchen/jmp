@@ -1,0 +1,1024 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- $Id: struts-publish-action.xml,v 1.64 2008/06/16 16:51:58 kellyc Exp $ -->
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    
+    <package name="main-action" namespace="/" extends="publish-default">
+    
+    	<action name="Welcome" class="mainMenu">
+            <result name="input">/login.jsp</result>
+            <result name="success" type="redirect-action">ListAllPreparedDocuments</result>
+            <interceptor-ref name="guest"/>
+        </action>    
+               
+        <action name="PublisherMainMenu" class="mainMenu">
+            <result>/publisher/publisherMainMenu.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="Logout" method="logout" class="publisherLoginAction">
+            <result type="redirect-action">Welcome</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="ForgotPwd_*"  method="{1}" class="publisherLoginAction">
+        	<result name="input">/publisher/forgotPwd.jsp</result>
+            <result name="cancel" type="redirect-action">Welcome</result>
+            <result name="success">/publisher/forgotPwdDone.jsp</result>
+            <interceptor-ref name="guest"/>        
+        </action>
+    
+    </package>
+    
+    <package name="publisher-action" namespace="/" extends="publish-default">
+    
+    	<action name="PublisherRegistrationInput" class="publisherAction">
+        	<result>/publisher/publisherRegistration.jsp</result>
+            <interceptor-ref name="guest" />
+        </action>
+        
+        <action name="PublisherRegistration" method="registration" class="publisherAction">
+        	<result name="cancel" type="redirect-action">Welcome</result>
+        	<result name="input">/publisher/publisherRegistration.jsp</result>
+        	<result name="success">/publisher/publisherRegistrationDone.jsp</result>
+            <interceptor-ref name="guest-submit" />
+        </action>
+        
+        <action name="PublisherProfileInput" method="input" class="publisherAction">
+        	<result>/publisher/publisherProfileForm.jsp</result>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="PublisherProfile" method="profile" class="publisherAction">
+            <result name="input">/publisher/publisherProfileForm.jsp</result>
+            <result name="success">/publisher/publisherProfileFormDone.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="ListPublishers" method="list" class="publisherAction">
+            <result name="input">/publisher/publisherList.jsp</result>
+            <result name="success">/publisher/publisherList.jsp</result>
+            <interceptor-ref name="user" />        
+        </action>
+        
+    	<action name="ListPublisherUsers" method="list" class="publisherUserAction">
+            <result name="input">/publisher/publisherUserList.jsp</result>
+            <result name="success">/publisher/publisherUserList.jsp</result>
+            <interceptor-ref name="user" />        
+        </action>
+        
+        <action name="ListVirtualPublisherUsers" method="listVirtual" class="publisherUserAction">
+            <result name="input">/publisher/publisherUserVirtualList.jsp</result>
+            <result name="success">/publisher/publisherUserVirtualList.jsp</result>
+            <interceptor-ref name="user" />        
+        </action>
+        
+        <action name="ListFtpUsers" method="listFtpUsers" class="publisherUserAction">
+            <result name="input">/publisher/ftpUserList.jsp</result>
+            <result name="success">/publisher/ftpUserList.jsp</result>
+            <interceptor-ref name="user" />        
+        </action>
+        
+        <action name="CreatePublisherUserInput" method="input" class="publisherUserAction">
+        	<result>/publisher/publisherUserCreateForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="CreatePublisherUser" method="create" class="publisherUserAction">
+            <result name="input">/publisher/publisherUserCreateForm.jsp</result>
+            <result name="success" type="redirect-action">ListPublisherUsers</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="CreateVirtualPublisherUserInput" method="inputVirtual" class="publisherUserAction">
+        	<result name="input">/publisher/publisherMainMenu.jsp</result>
+        	<result name="success">/publisher/publisherUserCreateVirtualForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="CreateVirtualPublisherUser" method="createVirtual" class="publisherUserAction">
+            <result name="input">/publisher/publisherUserCreateVirtualForm.jsp</result>
+            <result name="success" type="redirect-action">ListVirtualPublisherUsers</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="CreateFtpUserInput" method="input" class="publisherUserAction">
+        	<result>/publisher/ftpUserForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="CreateFtpUser" method="createFtpUser" class="publisherUserAction">
+            <result name="input">/publisher/ftpUserForm.jsp</result>
+            <result name="success" type="redirect-action">ListFtpUsers</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="UpdatePublisherInput" method="input" class="publisherAction">
+        	<result>/publisher/publisherUpdateForm.jsp</result>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="UpdatePublisher" method="update" class="publisherAction">
+            <result name="input">/publisher/publisherUpdateForm.jsp</result>
+            <result name="success" type="redirect-action">ListPublishers</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="UpdatePublisherUserInput" method="input" class="publisherUserAction">
+        	<result>/publisher/publisherUserUpdateForm.jsp</result>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="UpdatePublisherUser" method="update" class="publisherUserAction">
+            <result name="input">/publisher/publisherUserUpdateForm.jsp</result>
+            <result name="success" type="redirect-action">ListPublisherUsers</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="UpdateVirtualPublisherUserInput" method="input" class="publisherUserAction">
+        	<result>/publisher/publisherUserUpdateVirtualForm.jsp</result>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="UpdateVirtualPublisherUser" method="update" class="publisherUserAction">
+            <result name="input">/publisher/publisherUserUpdateVirtualForm.jsp</result>
+            <result name="success" type="redirect-action">ListVirtualPublisherUsers</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="UpdateFtpUserInput" method="input" class="publisherUserAction">
+        	<result>/publisher/ftpUserForm.jsp</result>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="UpdateFtpUser" method="updateFtpUser" class="publisherUserAction">
+            <result name="input">/publisher/ftpUserForm.jsp</result>
+            <result name="success" type="redirect-action">ListFtpUsers</result>
+            <interceptor-ref name="user-submit" />
+        </action>        
+                
+        <action name="DeletePublisherUserInput" class="publisherUserAction">
+            <result name="input">/publisher/publisherUserUpdateForm.jsp</result>
+            <result name="success">/publisher/publisherUserDeleteForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="DeletePublisherUser" method="delete" class="publisherUserAction">
+            <result name="input">/publisher/publisherUserUpdateForm.jsp</result>
+            <result name="success" type="redirect-action">ListPublisherUsers</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="DeleteVirtualPublisherUserInput" class="publisherUserAction">
+            <result name="input">/publisher/publisherUserUpdateVirtualForm.jsp</result>
+            <result name="success">/publisher/publisherUserDeleteVirtualForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="DeleteVirtualPublisherUser" method="delete" class="publisherUserAction">
+            <result name="input">/publisher/publisherUserDeleteVirtualForm.jsp</result>
+            <result name="success" type="redirect-action">ListVirtualPublisherUsers</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="DeleteFtpUserInput" class="publisherUserAction">
+            <result name="input">/publisher/ftpUserForm.jsp</result>
+            <result name="success">/publisher/ftpUserDeleteForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="DeleteFtpUser" method="delete" class="publisherUserAction">
+            <result name="input">/publisher/ftpUserForm.jsp</result>
+            <result name="success" type="redirect-action">ListFtpUsers</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="ChangePasswordInput" class="publisherUserAction">
+            <result name="input">/publisher/publisherUserUpdateForm.jsp</result>
+            <result name="success">/publisher/changePublisherUserPwd.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="ChangePasswordVirtualInput" class="publisherUserAction">
+            <result name="input">/publisher/publisherUserUpdateVirtualForm.jsp</result>
+            <result name="success">/publisher/changeVirtualPublisherUserPwd.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+		<action name="ChangePassword" method="changePassword" class="publisherUserAction">
+            <result name="input">/publisher/changePublisherUserPwd.jsp</result>
+            <result name="success">/publisher/publisherUserUpdateForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="ChangePasswordVirtual" method="changePassword" class="publisherUserAction">
+            <result name="input">/publisher/changeVirtualPublisherUserPwd.jsp</result>
+            <result name="success">/publisher/publisherUserUpdateVirtualForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="ChangePwdInput" class="publisherUserAction">
+            <result name="input">/publisher/changePwd.jsp</result>
+            <result name="success">/publisher/changePwd.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="ChangePwd" method="changePwd" class="publisherUserAction">
+            <result name="input">/publisher/changePwd.jsp</result>
+            <result name="success">/publisher/changePwdDone.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="ChangeFtpPasswordInput" class="publisherUserAction">
+            <result name="input">/publisher/ftpUserForm.jsp</result>
+            <result name="success">/publisher/changeFtpUserPwd.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+		<action name="ChangeFtpPassword" method="changeFtpPassword" class="publisherUserAction">
+            <result name="input">/publisher/changeFtpUserPwd.jsp</result>
+            <result name="success">/publisher/ftpUserForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>        
+        
+        
+         <action name="EnablePublisherInput" method="verfiyInput" class="publisherAction">
+   	    <result name="input">/publisher/publisherList.jsp</result>
+            <result name="success" >/publisher/enablePublisher.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+         <action name="EnablePublisher" method="enable" class="publisherAction">
+   	    <result name="input">/publisher/enablePublisher.jsp</result>
+            <result name="success" type="redirect-action">ListPublishers</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+         <action name="DisablePublisherInput" method="verfiyInput" class="publisherAction">
+   	    <result name="input">/publisher/publisherList.jsp</result>
+            <result name="success">/publisher/disablePublisher.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+          <action name="DisablePublisher" method="disable" class="publisherAction">
+   	    <result name="input">/publisher/disablePublisher.jsp</result>
+             <result name="success" type="redirect-action">ListPublishers</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+         <action name="ActivatePublisherInput" method="verfiyInput" class="publisherAction">
+   	    <result name="input">/publisher/publisherList.jsp</result>
+            <result name="success">/publisher/activatePublisher.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+         <action name="ActivatePublisher" method="activate" class="publisherAction">
+   	    <result name="input">/publisher/activatePublisher.jsp</result>
+              <result name="success" type="redirect-action">ListPublishers</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        
+    </package>
+      
+	<package name="provision-action" namespace="/" extends="publish-default">
+
+		<action name="CreateProvisionInput" method="input" class="phoneProvisionAction">
+        	<result>/provision/provisionForm.jsp</result>
+            	<interceptor-ref name="user" />
+		</action>
+        
+		<action name="CreateProvision" method="create" class="phoneProvisionAction">
+      		<result name="input">/provision/provisionForm.jsp</result>
+        	<result name="success">/provision/provisionSuccess.jsp</result>
+            <interceptor-ref name="user-submit" />
+		</action>
+   
+		<action name="SearchProvisionInputDel" method="" class="phoneProvisionAction">
+        	<result>/provision/provisionSearch.jsp</result>
+        	<interceptor-ref name="user" />
+		</action>
+        
+        <action name="SimpleSearchProvisionInput" method="" class="phoneProvisionAction">
+        	<result>/provision/simpleProvisionSearch.jsp</result>
+        	<interceptor-ref name="user" />
+		</action>
+		
+       	<action name="SimpleSearchProvision" method="search" class="phoneProvisionAction">
+     		<result name="input">/provision/simpleProvisionSearch.jsp</result>
+        	<result name="success">/provision/simpleProvisionList.jsp</result>
+		<interceptor-ref name="user" />
+		</action>
+		
+		<action name="SimpleWildSearchProvision" method="searchWild" class="phoneProvisionAction">
+     		<result name="input">/provision/simpleProvisionWildList.jsp</result>
+        	<result name="success">/provision/simpleProvisionWildList.jsp</result>
+            	<interceptor-ref name="user" />
+		</action>
+		
+		<action name="SearchProvisionDel" method="search" class="phoneProvisionAction">
+     		<result name="input">/provision/provisionSearch.jsp</result>
+        	<result name="success">/provision/provisionList.jsp</result>
+        	
+		<interceptor-ref name="user" />
+		</action>
+		
+		<action name="WildSearchProvisionDel" method="searchWild" class="phoneProvisionAction">
+     		<result name="input">/provision/provisionSearch.jsp</result>
+        	<result name="success">/provision/provisionWildList.jsp</result>
+            	<interceptor-ref name="user" />
+		</action>
+      
+		<action name="ForwardList" method="forwardList" class="phoneProvisionAction">
+     		<result name="input">/provision/provisionSearch.jsp</result>
+        	<result name="success">/provision/provisionList.jsp</result>        	
+			<interceptor-ref name="user" />
+		</action>
+
+       
+       	      <action name="deleteProvisionRecordInput" method="deleteInput" class="phoneProvisionAction">
+		<result name="success">/provision/confirm.jsp</result>
+		<interceptor-ref name="user" />
+        	</action>
+		
+		  <action name="deleteProvisionRecordWildInput" method="deleteInput" class="phoneProvisionAction">
+		<result name="success">/provision/confirmWild.jsp</result>
+		<interceptor-ref name="user" />
+        	</action>
+        	
+	    <action name="deleteProvisionRecord" method="delete" class="phoneProvisionAction">
+      		<result name="input">/provision/provisionDeleteForm.jsp</result>
+        	<result name="success" type="redirect-action">SearchProvisionDel?phoneNumber=${phoneNumber}</result>
+	            <interceptor-ref name="user" />
+	            </action>
+	            	
+	    <action name="deleteProvisionWildRecord" method="delete" class="phoneProvisionAction">
+      		<result name="input">/provision/provisionDeleteForm.jsp</result>
+        	<result name="success" type="redirect-action">WildSearchProvisionDel?phoneNumber=${phoneNumber}</result>
+	            <interceptor-ref name="user" />
+        </action>
+		
+	</package>
+    
+    <package name="publication-action" namespace="/" extends="publish-default">
+    	
+    	<action name="ListPublications" method="list" class="publicationAction">
+            <result name="input">/publication/publicationList.jsp</result>
+            <result name="success">/publication/publicationList.jsp</result>
+            <interceptor-ref name="user" />        
+        </action>
+        
+        <action name="ListVirtualPublications" method="listVirtual" class="publicationAction">
+            <result name="input">/publication/publicationVirtualList.jsp</result>
+            <result name="success">/publication/publicationVirtualList.jsp</result>
+            <interceptor-ref name="user" />        
+        </action>
+        
+        <action name="CreatePublicationInput" method="input" class="publicationAction">
+        	<result>/publication/publicationForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="CreatePublication" method="create" class="publicationAction">
+            <result name="input">/publication/publicationForm.jsp</result>
+            <!-- result name="success" type="redirect-action">ListPublications</result -->
+            <result name="success" type="redirect-action">AddPublicationSectionsConfirm</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+
+
+        <!-- publication sections actions begin -->
+        <action name="AddPublicationSectionsConfirm" method="confirm" class="publicationSectionsAction">
+            <result>/publication/AddPublicationSectionsConfirmationForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+
+        <action name="InputPublicationSections" method="input" class="publicationSectionsAction">
+            <result name="input">/publication/PublicationSectionsForm.jsp</result>
+            <result name="success">/publication/PublicationSectionsForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+
+        <action name="DeletePublicationSections" method="deletePublicationSections" class="publicationSectionsAction">
+            <result name="input">/publication/PublicationSectionsForm.jsp</result>
+            <result name="success">/publication/PublicationSectionsForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="SavePublicationSections" method="savePublicationSections" class="publicationSectionsAction">
+            <result name="input">/publication/PublicationSectionsForm.jsp</result>
+            <result name="success">/publication/PublicationSectionsForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        <!-- publication sections actions end -->
+
+        <action name="TestAction" method="editPublicationSections" class="testAction">
+            <result>/publication/Test.jsp</result>
+        </action>
+        
+        
+        <!-- publication editions actions begin -->
+        <action name="ChoosePublicationInput" method="choosePublicationInput" class="publicationEditionsAction">
+        	<result name="success">/publicationEdition/choosePublicationForm.jsp</result>
+        	<result name="error">/publicationEdition/choosePublicationForm.jsp</result>
+        	<result name="no_publication" type="redirect-action">CreatePublicationInput</result>
+            <interceptor-ref name="user" />
+        </action>        
+
+        <action name="ChoosePublication" method="choosePublication" class="publicationEditionsAction">
+        	<result name="AddPublicationEdition" type="redirect-action">AddPublicationEditionInput</result>
+        	<result name="AddEditionSection" type="redirect-action">AddEditionSectionInput</result>
+        	<result name="ViewPublicationEditions" type="redirect-action">ViewPublicationEditionsInput</result>
+            <interceptor-ref name="user" />
+        </action>
+                
+        <action name="AddPublicationEditionInput" method="addPublicationEditionInput" class="publicationEditionsAction">
+            <result name="no_publication">/publication/NoPublicationHandlerForm.jsp</result>
+            <result name="success">/publicationEdition/editionCreateForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+
+        <action name="AddPublicationEdition" method="addPublicationEdition" class="publicationEditionsAction">
+            <result name="input" type="redirect-action">AddPublicationEditionInput</result>
+            <result name="success" type="redirect-action">AddEditionSectionsConfirm</result>
+            <interceptor-ref name="user" />
+        </action>
+
+        <action name="AddEditionSectionsConfirm" method="addSectionsconfirm" class="publicationEditionsAction">
+            <result>/publicationEdition/AddEditionSectionsConfirmationForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+
+         <action name="AddEditionSectionPreInput" method="addEditionSectionPreInput" class="publicationEditionsAction">
+             <result name="no_publication">/publication/NoPublicationHandlerForm.jsp</result>
+            <result name="no_edition">/publicationEdition/NoEditionHandlerForm.jsp</result>
+            <result name="no_section" type="redirect-action">ViewPublicationEditionsInput</result>
+            <result name="input" type="redirect-action">ChoosePublicationInput</result>
+            <result name="no_section" type="redirect-action">ViewPublicationEditionsInput</result>
+            <result name="success">/publicationEdition/EditionSectionPreForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="AddEditionSectionInput" method="addEditionSectionInput" class="publicationEditionsAction">
+            <result name="no_publication">/publication/NoPublicationHandlerForm.jsp</result>
+            <result name="no_edition">/publicationEdition/NoEditionHandlerForm.jsp</result>
+            <result name="no_section" type="redirect-action">ViewPublicationEditionsInput</result>
+            <result name="input" type="redirect-action">ChoosePublicationInput</result>
+            <result name="no_section" type="redirect-action">ViewPublicationEditionsInput</result>
+            <result name="success">/publicationEdition/EditionSectionForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="AddEditionSection" method="addEditionSection" class="publicationEditionsAction">
+            <result name="input" >/publicationEdition/EditionSectionForm.jsp</result>
+            <result name="success">/publicationEdition/addEditionSectionSuccessful.jsp</result>   
+            <!--
+            <result name="input" >/publicationEdition/EditionSectionForm.jsp</result>
+            <result name="success" >/publicationEdition/EditionSectionForm.jsp</result>
+            <interceptor-ref name="user" />
+            -->
+        </action>
+
+
+        <action name="ViewPublicationEditionsInput" method="viewPublicationEditionsInput" class="publicationEditionsAction">
+            <result name="no_publication">/publication/NoPublicationHandlerForm.jsp</result>
+            <result name="success">/publicationEdition/ViewPublicationEditionsForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+
+        <action name="UpdatePublicationEditions" method="updateEdition" class="publicationEditionsAction">
+            <result name="input" type="redirect-action">ViewPublicationEditionsInput</result>
+            <result name="success">/publicationEdition/editionUpdateForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+         <action name="PublishEdition" method="publishEdition" class="publicationEditionsAction">
+	            <result name="input">/publicationEdition/editionUpdateForm.jsp</result>
+	            <result name="success">/publicationEdition/editionUpdateForm.jsp</result>
+	            <interceptor-ref name="user" />
+        </action>
+        
+         <action name="RetireEdition" method="retireEdition" class="publicationEditionsAction">
+	            <result name="input">/publicationEdition/editionUpdateForm.jsp</result>
+	            <result name="success">/publicationEdition/editionUpdateForm.jsp</result>
+	            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="ViewPublicationEditions" method="viewPublicationEditions" class="publicationEditionsAction">
+            <result name="input_publication" type="redirect-action">ChoosePublicationInput</result>
+            <result>/publicationEdition/ViewPublicationEditionsForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        <!-- publication editions actions end -->
+        
+        <!--
+        <action name="CreateVirtualPublicationInput" method="inputVirtual" class="publicationAction">
+        	<result name="input">/publisher/publicationForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+
+        <action name="CreateVirtualPublication" method="createVirtual" class="publicationAction">
+            <result name="input">/publication/publicationForm.jsp</result>
+            <result name="success" type="redirect-action">AddPublicationSectionsConfirm</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        -->
+        
+        <action name="UpdatePublicationInput" method="input" class="publicationAction">
+        	<result>/publication/publicationForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+      
+        <action name="UpdatePublication" method="update" class="publicationAction">
+            <result name="input">/publication/publicationForm.jsp</result>
+            <result name="success" type="redirect-action">ListPublications</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="UpdateVirtualPublicationInput" method="inputVirtual" class="publicationAction">
+        	<result>/publication/publicationUpdateVirtualForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+      
+        <action name="UpdateVirtualPublication" method="update" class="publicationAction">
+            <result name="input">/publication/publicationUpdateVirtualForm.jsp</result>
+            <result name="success" type="redirect-action">ListVirtualPublications</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="DeletePublicationInput" class="publicationAction">
+            <result name="input">/publication/publicationForm.jsp</result>
+            <result name="success">/publication/publicationDeleteForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="DeletePublication" method="delete" class="publicationAction">
+            <result name="input">/publication/publicationDeleteForm.jsp</result>
+            <result name="success" type="redirect-action">ListPublications</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="DeleteVirtualPublicationInput" class="publicationAction">
+            <result name="input">/publication/publicationUpdateVirtualForm.jsp</result>
+            <result name="success">/publication/publicationDeleteVirtualForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="DeleteVirtualPublication" method="delete" class="publicationAction">
+            <result name="input">/publication/publicationDeleteVirtualForm.jsp</result>
+            <result name="success" type="redirect-action">ListVirtualPublications</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+            
+    </package>
+    
+    <package name="document-action" namespace="/" extends="publish-default">
+    
+    	<action name="ListPreProcess" method="listPreProcess" class="documentAction">
+            <result name="input">/document/documentListPreForm.jsp</result>
+            <result name="success">/document/documentListPreForm.jsp</result>
+             <interceptor-ref name="scope">
+		<param name="key">wizard</param>
+		<param name="type">start</param>
+		</interceptor-ref>
+            <interceptor-ref name="user" />        
+        </action>
+        
+		<action name="ListWithPreProcess" method="listWithPreProcess" class="documentAction">
+            <result name="input">/document/documentList.jsp</result>
+            <result name="success" type="redirect-action">ListDocuments</result>
+             <interceptor-ref name="scope">
+		<param name="key">wizard</param>
+		<param name="session">publication.publicationname</param>
+		</interceptor-ref>
+           <interceptor-ref name="user" />        
+        </action>
+        
+    	<action name="ListDocuments" method="list" class="documentAction">
+            <result name="input">/document/documentListPreForm.jsp</result>
+            <result name="success">/document/documentList.jsp</result>
+             <interceptor-ref name="scope">
+		<param name="key">wizard</param>
+		<param name="session">publication.publicationname</param>
+		</interceptor-ref>
+            <interceptor-ref name="user" />        
+        </action>
+        
+        <action name="ListVirtualDocumentPreProcess" method="listVirtualDocumentPreProcess" class="documentAction">
+            <result name="input">/publisher/publisherMainMenu.jsp</result>
+            <result name="success">/document/documentVirtualListPreForm.jsp</result>
+            <interceptor-ref name="user" />        
+        </action>
+        
+        <action name="ListVirtualDocumentWithPreProcess" method="listWithPreProcess" class="documentAction">
+            <result name="input">/document/documentVirtualListPreForm.jsp</result>
+            <result name="success" type="redirect-action">ListVirtualDocuments</result>
+           <interceptor-ref name="user" />        
+        </action>
+        
+        <action name="ListVirtualDocuments" method="listVirtual" class="documentAction">
+            <result name="input">/document/documentVirtualListPreForm.jsp</result>
+            <result name="success">/document/documentVirtualList.jsp</result>
+            <interceptor-ref name="user" />        
+        </action>
+        
+        <action name="CreateDocumentFromMain" method="create" class="documentAction">
+            <result name="cancel" type="redirect">/publisher/publisherMainMenu.jsp</result>
+            <result name="input">/publisher/publisherMainMenu.jsp</result>
+            <result name="success" type="redirect-action">ListDocuments</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="CreateDocumentInput" method="preProcessInput" class="documentAction">
+        	<result>/document/documentPreForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>        
+       
+        <action name="CreateDocumentPreProcess" method="preProcess" class="documentAction">
+            <result name="input">/document/documentCreateForm.jsp</result>
+            <result name="success">/document/documentCreateForm.jsp</result>
+            <interceptor-ref name="scope">
+		<param name="key">wizard</param>
+		<param name="session">styles</param>
+		</interceptor-ref>
+		<interceptor-ref name="user" />
+
+        </action>
+        
+        <action name="CreateDocument" method="create" class="documentAction">
+            <result name="input">/document/documentCreateForm.jsp</result>
+            <result name="success" type="redirect-action">ListDocuments</result>
+             <interceptor-ref name="scope">
+		<param name="key">wizard</param>
+		<param name="session">styles</param>
+		</interceptor-ref>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="CreateVirtualDocumentInput" method="preProcessVirtualInput" class="documentAction">
+        	<result name="input">/publisher/publisherMainMenu.jsp</result>
+        	<result name="success">/document/documentVirtualPreForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>        
+       
+        <action name="CreateVirtualDocumentPreProcess" method="preProcess" class="documentAction">
+            <result name="input">/document/documentCreateVirtualForm.jsp</result>
+            <result name="success">/document/documentCreateVirtualForm.jsp</result>
+		<interceptor-ref name="user" />
+
+        </action>
+        
+        <action name="CreateVirtualDocument" method="create" class="documentAction">
+            <result name="input">/document/documentVirtualForm.jsp</result>
+            <result name="success" type="redirect-action">ListVirtualDocuments</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        
+        <action name="ListAllPreparedDocuments" method="preparedDocList" class="documentAction">
+            <result name="input">/publisher/publisherMainMenu.jsp</result>
+            <result name="success">/document/documentPreparedList.jsp</result>  
+        </action>
+         <action name="ListAllPreparedDocumentSections" method="preparedDocSectionList" class="documentAction">
+            <result name="input">/publisher/publisherMainMenu.jsp</result>
+            <result name="success">/document/documentPreparedList.jsp</result>  
+        </action>
+        
+        <action name="UpdateDocumentInput" method="input" class="documentAction">
+        	<result>/document/documentUpdateForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="UpdateDocument" method="update" class="documentAction">
+            <result name="input">/document/documentUpdateForm.jsp</result>
+            <result name="success">/document/documentMainMenu.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="UpdateVirtualDocumentInput" method="input" class="documentAction">
+        	<result>/document/documentUpdateVirtualForm.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="UpdateVirtualDocument" method="update" class="documentAction">
+            <result name="input">/document/documentUpdateVirtualForm.jsp</result>
+            <result name="success">/document/documentMainMenu.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="ReviewDocument" method="review" class="documentAction">
+            <result name="input">/document/documentUpdateForm.jsp</result>
+            <result name="success">/preview/index.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="ReviewVirtualDocument" method="review" class="documentAction">
+            <result name="input">/document/documentUpdateVirtualForm.jsp</result>
+            <result name="success">/preview/indexVirtual.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+           
+        <action name="ApproveDocument" method="approve" class="documentAction">
+            <result name="input">/preview/index.jsp</result>
+            <result name="success" type="redirect-action">UpdateDocumentInput?id=${id}</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="ApproveVirtualDocument" method="approve" class="documentAction">
+            <result name="input">/preview/indexVirtual.jsp</result>
+            <result name="success" type="redirect-action">UpdateVirtualDocumentInput?id=${id}</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="PublishDocument" method="publish" class="documentAction">
+            <result name="input">/document/documentUpdateForm.jsp</result>
+            <result name="success" type="redirect-action">ListDocuments</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="PublishVirtualDocument" method="publish" class="documentAction">
+            <result name="input">/document/documentUpdateVirtualForm.jsp</result>
+            <result name="success" type="redirect-action">ListVirtualDocuments</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="RetireDocumentInput" class="documentAction">
+            <result name="input">/document/documentUpdateForm.jsp</result>
+            <result name="success">/document/documentRetireForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="RetireDocument" method="retire" class="documentAction">
+            <result name="input">/document/documentUpdateForm.jsp</result>
+            <result name="success" type="redirect-action">ListDocuments</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="RetireVirtualDocumentInput" class="documentAction">
+            <result name="input">/document/documentUpdateVirtualForm.jsp</result>
+            <result name="success">/document/documentRetireVirtualForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="RetireVirtualDocument" method="retire" class="documentAction">
+            <result name="input">/document/documentUpdateVirtualForm.jsp</result>
+            <result name="success" type="redirect-action">ListVirtualDocuments</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+         
+        <action name="DeleteDocumentInput" class="documentAction">
+            <result name="input">/document/documentUpdateForm.jsp</result>
+            <result name="success">/document/documentDeleteForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="DeleteDocument" method="delete" class="documentAction">
+            <result name="input">/document/documentDeleteForm.jsp</result>
+            <result name="success" type="redirect-action">/ViewPublicationEditionsInput</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="DeleteVirtualDocumentInput" class="documentAction">
+            <result name="input">/document/documentUpdateVirtualForm.jsp</result>
+            <result name="success">/document/documentDeleteVirtualForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="DeleteVirtualDocument" method="delete" class="documentAction">
+            <result name="input">/document/documentDeleteVirtualForm.jsp</result>
+            <result name="success" type="redirect-action">ListVirtualDocuments</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+        
+        <action name="EditDocument" method="edit" class="documentAction">
+        	<result name="input">/document/documentUpdateForm.jsp</result>
+        	<result name="success" type="redirect-action">authoring/edit.do?id=${id}</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="EditVirtualDocument" method="edit" class="documentAction">
+        	<result name="input">/document/documentUpdateVirtualForm.jsp</result>
+        	<result name="success" type="redirect-action">authoring/edit.do?id=${id}&amp;virtual=true</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="SearchDocument" method="searchDocument" class="documentAction">
+        	<result name="input">/document/documentMainMenu.jsp</result>
+        	<result name="success">/document/documentManage.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+        
+        <action name="Download" method="download" class="documentAction">
+        	<result name="input">/document/documentManage.jsp</result>
+        	<result name="success" type="stream">
+                <param name="inputName">inputStream</param>
+                <param name="contentType">application/pdf</param>
+                <param name="contentDisposition">filename="${document.sourceFileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+            <interceptor-ref name="user" />
+        </action>
+    
+    </package>
+    
+    <package name="jasper-report-action" namespace="/" extends="publish-default">   
+    	
+    	<action name="ClientDownloadCustomReportInput" method="input" class="clientDownloadJasperAction">
+        	<result>/report/jasperClientDownloadReport.jsp</result>
+        </action>
+        
+        <action name="ClientDownloadStaticYearlyReportInput" method="input" class="clientDownloadJasperAction">
+        	<result>/report/jasperClientDownloadStaticReportYearly.jsp</result>
+        </action>
+        
+        <action name="ClientDownloadStaticQuarterlyReportInput" method="input" class="clientDownloadJasperAction">
+        	<result>/report/jasperClientDownloadStaticReportQuarterly.jsp</result>
+        </action>
+        
+        <action name="ClientDownloadStaticMonthlyReportInput" method="input" class="clientDownloadJasperAction">
+        	<result>/report/jasperClientDownloadStaticReportMonthly.jsp</result>
+        </action>
+        
+        <action name="ClientDownloadReport" method="executeReport" class="clientDownloadJasperAction">
+			<result name="input">/report/jasperClientDownloadReport.jsp</result>
+			<result name="success" type="jasper">
+				<param name="location">/jasper/client_download_compiled_template.jasper</param>
+				<param name="dataSource">dataList</param>
+				<param name="documentName">ClientDownloadReport</param>
+				<param name="format">${reportFormat}</param>
+			</result>
+			<result name="none">/report/clientReport.jsp</result>
+		</action>
+		
+    	<action name="ClientDownloadStaticYearlyReport" method="executeStaticReport" class="clientDownloadJasperAction">
+			<result name="input">/report/jasperClientDownloadStaticReportYearly.jsp</result>
+			<result name="success" type="jasper">
+				<param name="location">/jasper/client_download_compiled_template.jasper</param>
+				<param name="dataSource">dataList</param>
+				<param name="documentName">ClientDownloadReport</param>
+				<param name="format">${reportFormat}</param>
+			</result>
+			<result name="none">/report/clientReport.jsp</result>
+		</action>
+		
+		<action name="ClientDownloadStaticQuarterlyReport" method="executeStaticReport" class="clientDownloadJasperAction">
+			<result name="input">/report/jasperClientDownloadStaticReportQuarterly.jsp</result>
+			<result name="success" type="jasper">
+				<param name="location">/jasper/client_download_compiled_template.jasper</param>
+				<param name="dataSource">dataList</param>
+				<param name="documentName">ClientDownloadReport</param>
+				<param name="format">${reportFormat}</param>
+			</result>
+			<result name="none">/report/clientReport.jsp</result>
+		</action>
+		
+		<action name="ClientDownloadStaticMonthlyReport" method="executeStaticReport" class="clientDownloadJasperAction">
+			<result name="input">/report/jasperClientDownloadStaticReportMonthly.jsp</result>
+			<result name="success" type="jasper">
+				<param name="location">/jasper/client_download_compiled_template.jasper</param>
+				<param name="dataSource">dataList</param>
+				<param name="documentName">ClientDownloadReport</param>
+				<param name="format">${reportFormat}</param>
+			</result>
+			<result name="none">/report/clientReport.jsp</result>
+		</action>
+		
+		<action name="SubscriptionCustomReportInput" method="input" class="subscriptionJasperAction">
+        	<result>/report/jasperSubscriptionReport.jsp</result>
+        </action>
+        
+        <action name="SubscriptionStaticYearlyReportInput" method="input" class="subscriptionJasperAction">
+        	<result>/report/jasperSubscriptionStaticReportYearly.jsp</result>
+        </action>
+        
+        <action name="SubscriptionStaticQuarterlyReportInput" method="input" class="subscriptionJasperAction">
+        	<result>/report/jasperSubscriptionStaticReportQuarterly.jsp</result>
+        </action>
+        
+        <action name="SubscriptionStaticMonthlyReportInput" method="input" class="subscriptionJasperAction">
+        	<result>/report/jasperSubscriptionStaticReportMonthly.jsp</result>
+        </action>
+        
+        <action name="SubscriptionReport" method="executeReport" class="subscriptionJasperAction">
+			<result name="input">/report/jasperSubscriptionReport.jsp</result>
+			<result name="success" type="jasper">
+				<param name="location">/jasper/subscription_compiled_template.jasper</param>
+				<param name="dataSource">dataList</param>
+				<param name="documentName">SubscriptionReport</param>
+				<param name="format">${reportFormat}</param>
+			</result>
+		</action>
+		
+    	<action name="SubscriptionStaticYearlyReport" method="executeStaticReport" class="subscriptionJasperAction">
+			<result name="input">/report/jasperSubscriptionStaticReportYearly.jsp</result>
+			<result name="success" type="jasper">
+				<param name="location">/jasper/subscription_compiled_template.jasper</param>
+				<param name="dataSource">dataList</param>
+				<param name="documentName">SubscriptionReport</param>
+				<param name="format">${reportFormat}</param>
+			</result>
+		</action>
+		
+		<action name="SubscriptionStaticQuarterlyReport" method="executeStaticReport" class="subscriptionJasperAction">
+			<result name="input">/report/jasperSubscriptionStaticReportQuarterly.jsp</result>
+			<result name="success" type="jasper">
+				<param name="location">/jasper/subscription_compiled_template.jasper</param>
+				<param name="dataSource">dataList</param>
+				<param name="documentName">SubscriptionReport</param>
+				<param name="format">${reportFormat}</param>
+			</result>
+		</action>
+		
+		<action name="SubscriptionStaticMonthlyReport" method="executeStaticReport" class="subscriptionJasperAction">
+			<result name="input">/report/jasperSubscriptionStaticReportMonthly.jsp</result>
+			<result name="success" type="jasper">
+				<param name="location">/jasper/subscription_compiled_template.jasper</param>
+				<param name="dataSource">dataList</param>
+				<param name="documentName">SubscriptionReport</param>
+				<param name="format">${reportFormat}</param>
+			</result>
+		</action>
+		
+		<!-- Advertisement Report -->
+        <action name="AdvertisementReportInput" method="input" class="advertisementReportAction">
+            <result name="no_publication">/publication/NoPublicationHandlerForm.jsp</result>
+        	<result name="success">/report/advertisementReport.jsp</result>
+        </action>
+        
+		<action name="AdvertisementReport" method="execute" class="advertisementReportAction">
+			<result name="input"> /report/advertisementReport.jsp</result>
+			<result name="success" type="viewReport">
+        <param name="inputName">reportInputStream</param>
+        <param name="bufferSize">1024</param>
+			</result>
+			<result name="none">/report/advertisementReport.jsp</result>
+		</action>
+		
+    </package>
+    
+    <package name="wildcard" namespace="/" extends="publish-default">
+
+        <action name="*" class="cg.iseepublish.web.action.BaseAction">
+            <result>/{1}.jsp</result>
+        </action>
+        
+    </package>
+
+
+    <!-- subscriber management package -->
+    <package name="subscribeManagement" namespace="/" extends="publish-default">
+        <action name="SubscriberManagementInput" method="input" class="subscribeAction">
+            <result>/subscriber/subscriberManagementForm.jsp</result>
+        </action>
+        
+        <action name="LookupDeviceStatusHistory" method="lookupDeviceStatusHistory" class="subscribeAction">
+            <result name="success">/subscriber/deviceStatusHistoryForm.jsp</result>
+            <result name="input">/subscriber/subscriberManagementForm.jsp</result>
+        </action>
+        
+        <action name="LookupSubscriptionDetails" method="lookupSubscriptionDetails" class="subscribeAction">
+            <result name="success">/subscriber/subscriptionDetailsForm.jsp</result>
+            <result name="input">/subscriber/subscriberManagementForm.jsp</result>
+        </action>
+
+        <action name="LookupSubscriptionHistory" method="lookupSubscriptionHistory" class="subscribeAction">
+            <result name="success">/subscriber/subscriptionHistoryForm.jsp</result>
+            <result name="input">/subscriber/subscriberManagementForm.jsp</result>
+        </action>
+
+        <action name="TerminateAccount" method="terminateAccount" class="subscribeAction">
+            <result name="success">/subscriber/subscriberManagementForm.jsp</result>
+            <result name="input">/subscriber/subscriberManagementForm.jsp</result>
+        </action>
+
+ 	<action name="TerminateAccountConfirm" class="subscribeAction">
+            <result>/subscriber/subscriptionTerminateConfimationForm.jsp</result>
+        </action>
+
+        <action name="SubscriptionManagementInput" method="input" class="subscribeAction">
+            <result>/subscriber/subscriptionManagementForm.jsp</result>
+        </action>
+
+        <action name="QuerySubscription" method="querySubscription" class="subscribeAction">
+            <result name="input">/subscriber/subscriptionManagementForm.jsp</result>
+            <result name="success">/subscriber/subscriptionManagementForm.jsp</result>
+        </action>
+
+        <action name="ChangeSubscriptionInput" method="input" class="subscribeAction">
+        	<result>/subscriber/subscriptionManagementForm.jsp</result>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="ChangeSubscription" method="changeSubscription" class="subscribeAction">
+            <result name="input">/subscriber/subscriptionManagementForm.jsp</result>
+            <result name="success">/subscriber/subscriptionManagementForm.jsp</result>
+            <result name="error">/subscriber/subscriptionManagementForm.jsp</result>
+            <interceptor-ref name="user-submit" />
+        </action>
+    
+    </package>
+
+</struts>

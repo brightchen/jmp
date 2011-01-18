@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="publicationAction" class="cg.iseepublish.web.action.PublicationAction" scope="prototype">
+        <property name="publicationService" ref="publicationService"/>
+        <property name="publisherService" ref="publisherService"/>
+        <property name="documentService" ref="documentService"/>
+        <property name="subscriptionService" ref="subscriptionService"/>
+        <property name="availablestyles"><value>${publication.style.adapter}</value></property> 
+    </bean>
+    	
+	<bean id="documentAction" class="cg.iseepublish.web.action.DocumentAction" scope="prototype">
+        <property name="documentService" ref="documentService"/>
+        <property name="documentRepository" ref="fileRepository"/>
+        <property name="adaptationEngine" ref="adaptationEngine"/>
+        <property name="publicationService" ref="publicationService"/>
+        <property name="publisherUserService" ref="publisherUserService"/>
+        <property name="emailService" ref="emailService"/>
+        <property name="editionService" ref="editionService"/>
+    </bean>
+    
+    <bean id="publisherLoginAction" class="cg.iseepublish.web.action.PublisherLoginAction" scope="prototype">
+        <property name="publisherUserService" ref="publisherUserService"/>
+        <property name="emailService" ref="emailServiceNew"/>
+        <property name="emailTemplateService" ref="emailTemplateService"/>
+    </bean>
+    
+    <bean id="publisherAction" class="cg.iseepublish.web.action.PublisherAction" scope="prototype">
+        <property name="publisherService" ref="publisherService"/>
+        <property name="publisherUserService" ref="publisherUserService"/>
+        <property name="roleService" ref="roleService"/>
+        <property name="emailService" ref="emailService"/>
+        <property name="adminDefaultPWD"><value>${admin.default.password}</value></property>
+    </bean>
+
+    <bean id="publicationSectionsAction" class="cg.iseepublish.web.action.PublicationSectionsAction" scope="prototype">
+        <property name="publicationSectionService" ref="publicationSectionService"/>
+    </bean>
+    
+    <bean id="publicationEditionsAction" class="cg.iseepublish.web.action.PublicationEditionsAction" scope="prototype">
+        <!-- properties required by documentAction -->
+        <property name="documentService" ref="documentService"/>
+        <property name="documentRepository" ref="fileRepository"/>
+        <property name="adaptationEngine" ref="adaptationEngine"/>
+        <property name="publicationService" ref="publicationService"/>
+        <property name="publisherUserService" ref="publisherUserService"/>
+        <property name="emailService" ref="emailService"/>
+        <property name="editionService" ref="editionService"/>
+
+        <property name="publicationEditionService" ref="publicationEditionService"/>
+        <property name="publicationSectionService" ref="publicationSectionService"/>
+        <property name="editionSectionService" ref="editionSectionService"/>
+        <property name="documentProcessService" ref="documentProcessService"/>
+    </bean>
+
+    <bean id="testAction" class="cg.iseepublish.web.action.TestAction" scope="prototype">
+        <property name="publicationSectionService" ref="publicationSectionService"/>
+    </bean>
+    
+    
+    
+    <bean id="phoneProvisionAction" class="cg.iseepublish.web.action.PhoneProvisionAction" scope="prototype">
+        <property name="phonePublicationService" ref="phonePublicationService"/>
+        <property name="publicationService" ref="publicationService"/>
+      
+    </bean>
+    
+    <bean id="publisherUserAction" class="cg.iseepublish.web.action.PublisherUserAction" scope="prototype">
+        <property name="publisherService" ref="publisherService"/>
+        <property name="publisherUserService" ref="publisherUserService"/>
+        <property name="roleService" ref="roleService"/>
+        <property name="emailService" ref="emailService"/>
+        <property name="actionLogService"           ref="actionLogService"/>
+    </bean>
+
+    <bean id="mainMenu" class="cg.iseepublish.web.action.MainMenu" scope="prototype" />
+    
+    <bean id="authoringAction" class="cg.iseepublish.web.action.AuthoringAction" scope="prototype">
+        <property name="documentService" ref="documentService"/>
+        <property name="documentRepository" ref="fileRepository"/>
+        <property name="adaptationEngine" ref="adaptationEngine"/>
+        <property name="editionSectionService" ref="editionSectionService"/>
+        <property name="advertiseInfoService"  ref="advertiseInfoService"/>
+        <property name="publicationService"  ref="publicationService"/>
+        <property name="publicationEditionService"  ref="publicationEditionService"/>
+        <property name="publicationSectionService"  ref="publicationSectionService"/>
+        <property name="publisherUserService"       ref="publisherUserService"/>
+        <property name="emailService" 		    ref="emailService"/>
+        
+        <property name="defaultPageLayoutFilePath"><value>${ajax.default.layout.filePath}</value></property>
+        
+        <property name="editionService" ref="editionService"/>
+        <property name="editionItemService" ref="editionItemService"/>
+    </bean>
+    
+    <bean id="clientDownloadJasperAction" class="cg.iseepublish.web.jasper.ClientDownloadJasperAction" scope="prototype">
+        <property name="clientDownloadService" ref="clientDownloadService"/>
+        <property name="actionLogService" ref="actionLogService"/>
+    </bean>
+    
+    <bean id="subscriptionJasperAction" class="cg.iseepublish.web.jasper.SubscriptionJasperAction" scope="prototype">
+        <property name="subscriptionService" ref="subscriptionService"/>
+        <property name="actionLogService" ref="actionLogService"/>
+        <property name="publicationService" ref="publicationService"/>
+    </bean>
+
+    <bean id="advertisementReportAction" class="cg.iseepublish.web.action.report.AdvertisementReportAction" scope="prototype">
+        <property name="reportService" ref="reportService"/>
+        <property name="publicationService" ref="publicationService"/>
+    </bean>
+    
+    <!-- implement it in iseepublish project 
+    <bean id="docsAction" class="cg.iseepublish.frontend.action.DocsAction" scope="prototype">
+        <property name="phoneTransactionService" ref="phoneTransactionService"/>
+    </bean>
+    -->
+    <bean id="docsAction" class="cg.iseepublish.web.action.FrontendDocsAction" scope="prototype">
+        <property name="phoneTransactionService" ref="phoneTransactionService"/>
+    </bean>
+    
+    <bean id="subscribeAction" class="cg.iseepublish.web.action.SubscribeAction" scope="prototype">
+        <property name="phoneService"               ref="phoneService"/>
+        <property name="deviceStatusHistoryService" ref="deviceStatusHistoryService"/>
+        <property name="subscriptionService"        ref="subscriptionService"/>
+        <property name="subscriptionHistoryService" ref="subscriptionHistoryService"/>
+        <property name="phoneOperationService"      ref="phoneOperationService"/>
+        <property name="actionLogService"           ref="actionLogService"/>
+        <property name="phonePublicationService" 	ref="phonePublicationService"/>
+    </bean>
+    
+</beans>
