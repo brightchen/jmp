@@ -2,6 +2,7 @@ package cg.oam.config;
 
 import java.util.Properties;
 
+// the default strategy is runtime input properties > default properties > buildin properties
 public class ConfigDefaultStrategy implements ConfigStrategy
 {
   private Properties props;
@@ -9,8 +10,9 @@ public class ConfigDefaultStrategy implements ConfigStrategy
   @Override
   public String getProperty( String name )
   {
-    // TODO Auto-generated method stub
-    return null;
+    if( props == null )
+      props = getProperties();
+    return props.getProperty( name );
   }
 
   @Override

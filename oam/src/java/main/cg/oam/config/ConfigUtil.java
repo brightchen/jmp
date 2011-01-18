@@ -25,6 +25,8 @@ public class ConfigUtil
   }
   
   
+  // merge the defaultProps with overrideProps.
+  // both the input props are not suppose to be changed.
   public static Properties merge( Properties defaultProps, Properties overrideProps )
   {
     if( defaultProps == null )
