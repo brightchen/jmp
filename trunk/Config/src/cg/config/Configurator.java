@@ -8,7 +8,7 @@ public class Configurator
   
   protected IConfigMergeStrategy configStrategy;
   
-  private Configurator(){};
+  protected Configurator(){};
   
   public static Configurator getInstance()
   {
@@ -36,7 +36,9 @@ public class Configurator
   {
     if( configStrategy == null )
     {
-      configStrategy = new ConfigMergeTypicalStrategy();
+      ConfigMergeTypicalStrategy strategy = new ConfigMergeTypicalStrategy();
+      strategy.setBuildinProperties( getBuildinProperties() );
+      configStrategy = strategy;
     }
     return configStrategy;
   }
@@ -46,5 +48,9 @@ public class Configurator
     this.configStrategy = configStrategy;
   }
   
+  protected Properties getBuildinProperties()
+  {
+    return new Properties();
+  }
   
 }
