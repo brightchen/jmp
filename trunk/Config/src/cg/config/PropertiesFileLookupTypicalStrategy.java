@@ -3,6 +3,8 @@ package cg.config;
 import java.io.File;
 import java.net.URL;
 
+import cg.config.IPropertiesFileLookupStrategy.PropertiesFileType;
+
 // 1. file name
 // 1.1 propertiesFileNameProperty
 // 1.2 default properties file name
@@ -10,18 +12,14 @@ import java.net.URL;
 // 
 public class PropertiesFileLookupTypicalStrategy implements IPropertiesFileLookupStrategy
 {
-  protected static enum PropertiesFileType
-  {
-    properties,
-    xml
-  }
-
   // the property with keep the information of properties file path
   protected String propertiesFilePathProperty;
   // the property with keep the information of properties file name
   protected String propertiesFileNameProperty;
   // the default properties file name
   protected String defaultPropertiesFileName;
+  
+  protected PropertiesFileType propertiesFileType;
 
   @Override
   public File findPropertiesFile()
@@ -29,6 +27,7 @@ public class PropertiesFileLookupTypicalStrategy implements IPropertiesFileLooku
     String propertiesFilePath = System.getProperty( propertiesFilePathProperty );
     if( propertiesFilePath != null && !propertiesFilePath.isEmpty() && doesPropertiesFileExist( propertiesFilePath ) )
     {
+      propertiesFileType = getPropertiesFileType( propertiesFilePath );
       return new File( propertiesFilePath );
     }
     
@@ -46,31 +45,68 @@ public class PropertiesFileLookupTypicalStrategy implements IPropertiesFileLooku
     propertiesFilePath = propertyUrl.getPath();
     if( !doesPropertiesFileExist( propertiesFilePath ) )
       return null;
+    
+    propertiesFileType = getPropertiesFileType( propertiesFilePath );
     return new File( propertiesFilePath );
   }
   
   // the filePath should be properties file path and the file exists
   protected boolean doesPropertiesFileExist( String filePath )
   {
-    if( filePath == null || filePath.isEmpty() )
-      return false;
-
-    //file type
-    boolean couldBePropertiesFilePath = false;
-    for( PropertiesFileType fileType : PropertiesFileType.values() )
-    {
-      if( filePath.endsWith( fileType.name() ) )
-      {
-        couldBePropertiesFilePath = true;
-        break;
-      }
-    }
-    if( !couldBePropertiesFilePath )
+    PropertiesFileType fileType = getPropertiesFileType( filePath );
+    if( fileType == null )
       return false;
     
     //file existence
     File file = new File( filePath );
     return( file.exists() && file.isFile() );
   }
+  
+  public PropertiesFileType getPropertiesFileType( String filePath )
+  {
+    if( filePath == null || filePath.isEmpty() )
+      return null;
+    for( PropertiesFileType fileType : PropertiesFileType.values() )
+    {
+      if( filePath.endsWith( fileType.name() ) )
+      {
+        return fileType;
+      }
+    }
+    return null;
+  }
+  
+  // the PropertiesFileType of the found properties file
+  @Override
+  public PropertiesFileType getPropertiesFileType()
+  {
+    return propertiesFileType;
+  }
 
+  public String getPropertiesFilePathProperty()
+  {
+    return propertiesFilePathProperty;
+  }
+  public void setPropertiesFilePathProperty( String propertiesFilePathProperty )
+  {
+    this.propertiesFilePathProperty = propertiesFilePathProperty;
+  }
+
+  public String getPropertiesFileNameProperty()
+  {
+    return propertiesFileNameProperty;
+  }
+  public void setPropertiesFileNameProperty( String propertiesFileNameProperty )
+  {
+    this.propertiesFileNameProperty = propertiesFileNameProperty;
+  }
+
+  public String getDefaultPropertiesFileName()
+  {
+    return defaultPropertiesFileName;
+  }
+  public void setDefaultPropertiesFileName( String defaultPropertiesFileName )
+  {
+    this.defaultPropertiesFileName = defaultPropertiesFileName;
+  }
 }
