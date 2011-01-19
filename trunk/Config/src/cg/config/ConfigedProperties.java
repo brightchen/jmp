@@ -12,19 +12,8 @@ import java.util.Properties;
 public class ConfigedProperties extends Properties
 {
   private static final long serialVersionUID = -1496935754867075190L;
-  protected static enum PropertyFileType
-  {
-    properties,
-    xml
-  }
 
-  // the property with keep the information of properties file name
-  protected String propertiesFileNameProperty;
-
-  // the default properties file name
-  protected String defaultPropertiesFileName;
-
-  public static Properties getProperties()
+  public Properties getProperties()
   {
     String filePath = getPropertyFilePath();
     if( filePath == null )
@@ -60,27 +49,11 @@ public class ConfigedProperties extends Properties
   }
   
 
-  protected static String getPropertyFilePath()
+  protected String getPropertyFilePath()
   {
-    //get from property first
-    String propertyFileName = null;
-    propertyFileName = System.getProperty( propertiesFileNameProperty );
-    if( propertyFileName != null && !propertyFileName.isEmpty() )
-      return propertyFileName;
-    
-    //get from classpath
-    for( PropertyFileType suffix : PropertyFileType.values() )
-    {
-      propertyFileName = defaultPropertiesFileName + "." + suffix.name();
-      URL propertyUrl = ClassLoader.getSystemResource( propertyFileName );
-      if( propertyUrl == null )
-        continue;
-      return propertyUrl.getPath();
-    }
-    return null;
   }
   
-  protected static PropertyFileType getSuffix( String filePath )
+  protected PropertyFileType getSuffix( String filePath )
   {
     for( PropertyFileType suffix : PropertyFileType.values() )
     {
@@ -88,10 +61,5 @@ public class ConfigedProperties extends Properties
         return suffix;
     }
     throw new RuntimeException( "Invlid filePath: " + filePath );
-  }
-  
-  public static void main( String argv[] )
-  {
-    System.out.println( getPropertyFilePath() );
   }
 }
