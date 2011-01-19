@@ -8,58 +8,68 @@ import java.util.Properties;
 
 // the properties with load/save from/to config file
 // the config file maybe properties file or xml file
-// the schema of f
 public class ConfigedProperties extends Properties
 {
   private static final long serialVersionUID = -1496935754867075190L;
+  
+  protected IPropertiesFileLookupStrategy propertiesFileLookupStrategy;
+  
+  public ConfigedProperties()
+  {
+  }
+
+  public ConfigedProperties( IPropertiesFileLookupStrategy propertiesFileLookupStrategy )
+  {
+    setPropertiesFileLookupStrategy( propertiesFileLookupStrategy );
+  }
 
   public Properties getProperties()
   {
-    String filePath = getPropertyFilePath();
-    if( filePath == null )
-      return null;
+    File propertiesFile = getPropertiesFile();
+    if( propertiesFile == null )
+      return new Properties();
     
-    Properties props = new Properties();
-    
-    //check property file existance
-    File propertyFile = new File( filePath );
-    if( !propertyFile.exists() )
-    {
-      return props;
-    }
-    
-    PropertyFileType suffix = getSuffix( filePath );
     try
     {
-      FileInputStream propertyFileIs = new FileInputStream( propertyFile );
-      if( PropertyFileType.properties.equals( suffix ) )
+      Properties props = new Properties();
+      FileInputStream propertyFileIs = new FileInputStream( propertiesFile );
+      IPropertiesFileLookupStrategy.PropertiesFileType propertiesFileType = getPropertiesFileLookupStrategy().getPropertiesFileType();
+      
+      if( IPropertiesFileLookupStrategy.PropertiesFileType.properties.equals( propertiesFileType ) )
       {
         props.load( propertyFileIs );
       }
-      if( PropertyFileType.xml.equals( suffix ) )
+      if( IPropertiesFileLookupStrategy.PropertiesFileType.xml.equals( propertiesFileType ) )
       {
         props.loadFromXML( propertyFileIs );
       }
       propertyFileIs.close();
+      return props;
     }
     catch( Exception e )
     {
+      return new Properties();
     }
-    return props;
   }
   
 
-  protected String getPropertyFilePath()
+  protected File getPropertiesFile()
   {
+    if( getPropertiesFileLookupStrategy() == null )
+      return null;
+    return getPropertiesFileLookupStrategy().findPropertiesFile();
+  }
+
+
+  public IPropertiesFileLookupStrategy getPropertiesFileLookupStrategy()
+  {
+    return propertiesFileLookupStrategy;
+  }
+
+  public void setPropertiesFileLookupStrategy( IPropertiesFileLookupStrategy propertiesFileLookupStrategy )
+  {
+    this.propertiesFileLookupStrategy = propertiesFileLookupStrategy;
   }
   
-  protected PropertyFileType getSuffix( String filePath )
-  {
-    for( PropertyFileType suffix : PropertyFileType.values() )
-    {
-      if( filePath.endsWith( suffix.name() ) )
-        return suffix;
-    }
-    throw new RuntimeException( "Invlid filePath: " + filePath );
-  }
+  
 }
