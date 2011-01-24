@@ -4,5 +4,5 @@ import cg.usermanagement.api.model.IUser;
 
 public interface IUserService
 {
-  public IUser findUser( String userId );
+  public IUser findUserByName( String name );
 }
