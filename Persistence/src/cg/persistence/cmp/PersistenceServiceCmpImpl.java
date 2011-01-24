@@ -18,23 +18,20 @@ public class PersistenceServiceCmpImpl implements IPersistenceService
   @Override
   public < T extends IEntity > T find( Class< T > entityClass, long id )
   {
-    Query query = getEntityManager().createQuery( String.format( "FROM %s a WHERE a.id = %d", entityClass.getName(), id ) );
-    List results = query.getResultList();
-    return results == null ? null : (T)results.get( 0 );
+    return getEntityManager().find( entityClass, id );
   }
 
   @Override
   public < T extends IEntity > List< T > findAll( Class< T > entityClass )
   {
-    // TODO Auto-generated method stub
-    return null;
+    Query query = getEntityManager().createQuery( String.format( "SELECT object(a) FROM %s a", entityClass.getName() ) );
+    return (List<T>)query.getResultList();
   }
 
   @Override
   public < T extends IEntity > void save( T entity )
   {
-    // TODO Auto-generated method stub
-    
+    getEntityManager().merge( entity );
   }
 
   @Override
