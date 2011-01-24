@@ -5,6 +5,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/IModel"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Config"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=build%2Fivy.xml&amp;confs=*"/>
-	<classpathentry kind="lib" path="C:/dev/jarRepo/j2ee/javaee-api-5.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
