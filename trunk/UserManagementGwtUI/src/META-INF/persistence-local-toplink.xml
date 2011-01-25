@@ -1,0 +1,13 @@
+<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+    <provider>
+        oracle.toplink.essentials.PersistenceProvider
+    </provider>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+        <property name="toplink.logging.level" value="INFO"/>
+        <property name="toplink.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+        <property name="toplink.jdbc.url" value="jdbc:oracle:thin:@myhost:l521:MYSID"/>
+        <property name="toplink.jdbc.password" value="tiger"/>
+        <property name="toplink.jdbc.user" value="scott"/>
+    </properties>
+</persistence-unit>
