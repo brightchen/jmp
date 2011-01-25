@@ -9,12 +9,20 @@
   
   <resolvers>
     <chain name="chained" returnFirst="true">
-		  <filesystem name="libraries">
-		    <artifact pattern="${dest.repo.dir}/[artifact]-[revision](-[classifier]).[ext]"/>
-		  </filesystem>
-			<ibiblio name="shared" m2compatible="true" root="http://raonbuild.on.reserveamerica.com:8081/artifactory/repo"/>
-			<ibiblio name="release" m2compatible="true" root="http://raonbuild.on.reserveamerica.com:8081/artifactory/libs-releases-local"/>
-			<ibiblio name="snapshot" m2compatible="true" root="http://raonbuild.on.reserveamerica.com:8081/artifactory/libs-snapshots-local"/>
-		</chain>
-	</resolvers>
+      <filesystem name="libraries">
+        <artifact pattern="${dest.repo.dir}/[artifact]-[revision](-[classifier]).[ext]"/>
+      </filesystem>
+      <ibiblio name="maven2" m2compatible="true"/>
+      <!-- "http://mvnrepository.com/artifact/" -->
+      <ibiblio name="maven" m2compatible="true" usepoms="false"/>
+      
+      <!-- jboss maven repository -->
+      <ibiblio name="jboss-public-repository-group" m2compatible="true" root="https://repository.jboss.org/nexus/content/groups/public/" />
+      
+      <ibiblio name="jboss-maven2" m2compatible="true" root="https://repository.jboss.org/nexus/content/groups/public-jboss/" />
+      
+      <ibiblio name="glassfish-group" m2compatible="true" root="http://maven.glassfish.org/content/groups/glassfish" />
+      
+    </chain>
+  </resolvers>
 </ivysettings>
