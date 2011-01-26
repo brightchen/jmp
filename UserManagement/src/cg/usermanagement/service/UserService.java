@@ -8,9 +8,8 @@ import cg.usermanagement.api.service.IUserService;
 
 public class UserService extends JpaDaoService implements IUserService
 {
-
   @Override
-  public IUser findUser( String userId )
+  public IUser findUserByName( String userId )
   {
     Query query = createQuery( "select u from User u where u.userId = :userId" );
     query.setParameter( "userId", userId );
