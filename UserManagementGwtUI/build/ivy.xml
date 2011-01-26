@@ -21,7 +21,10 @@
     <dependency org="commons-dbcp" name="commons-dbcp" rev="1.4"/>
     <dependency org="commons-pool" name="commons-pool" rev="1.5.5"/>
     
-     <!--javax.activation#activation;1.0.2!activation.jar; download manually; the activation should be http://repository.jboss.org/maven2/javax/activation/activation/1.0.2/ -->
+    <dependency org="org.eclipse.persistence" name="org.eclipse.persistence.core" rev="2.2.0-SNAPSHOT"/>
     
+    <dependency org="org.apache.derby" name="derby" rev="10.7.1.1"/>
+    
+    <!--javax.activation#activation;1.0.2!activation.jar; download manually; the activation should be http://repository.jboss.org/maven2/javax/activation/activation/1.0.2/ -->
   </dependencies>
 </ivy-module>

@@ -1,11 +1,12 @@
 <persistence>
-	<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:/DefaultDS</jta-data-source>
-		<properties>
-			<property name="hibernate.dialect" 
-			         value="org.hibernate.dialect.HSQLDialect"/>
-			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-		</properties>
-	</persistence-unit>
+  <persistence-unit name="app">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <jta-data-source>java:/DefaultDS</jta-data-source>
+    <properties>
+      <property name="hibernate.dialect" 
+               value="org.hibernate.dialect.HSQLDialect"/>
+      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      <property name="show_sql">true</property>
+    </properties>
+  </persistence-unit>
 </persistence>
