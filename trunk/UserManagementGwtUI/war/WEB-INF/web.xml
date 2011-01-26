@@ -29,7 +29,7 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-  
+   
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Login.html</welcome-file>

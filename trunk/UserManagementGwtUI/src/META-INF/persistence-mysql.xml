@@ -1,0 +1,8 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+    <persistence-unit name="admin-PU" transaction-type="JTA">
+        <jta-data-source>java:/AdminDS</jta-data-source>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+        </properties>
+    </persistence-unit>
+</persistence>

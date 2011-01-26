@@ -7,7 +7,7 @@ public class PersistenceManager
 {
   private static PersistenceManager instance;
   
-  private PersistenceManager(){};
+  public PersistenceManager(){};
   
   public static PersistenceManager getInstance()
   {
@@ -22,17 +22,29 @@ public class PersistenceManager
     return instance;
   }
   
-  @PersistenceContext
   private EntityManager entityManager;
 
-  public static EntityManager getEntityManager()
+  public static EntityManager getPersistenceEntityManager()
   {
     return getInstance().entityManager;
   }
 
-  public static void setEntityManager( EntityManager entityManager )
+  public static void setPersistenceEntityManager( EntityManager entityManager )
   {
     getInstance().entityManager = entityManager;
+  }
+
+  public EntityManager getEntityManager()
+  {
+    return entityManager;
+  }
+
+  @PersistenceContext(unitName="app")
+  public void setEntityManager( EntityManager entityManager )
+  {
+    if( instance == null )
+      instance = this;
+    this.entityManager = entityManager;
   }
    
 }
