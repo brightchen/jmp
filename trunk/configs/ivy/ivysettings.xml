@@ -23,6 +23,9 @@
       
       <ibiblio name="glassfish-group" m2compatible="true" root="http://maven.glassfish.org/content/groups/glassfish" />
       
+      <!-- this one suppose be deprecated by  https://repository.jboss.org/nexus/content/groups/public-jboss/-->
+      <!-- <ibiblio name="jboss-maven2-deprecated" m2compatible="true" root="http://repository.jboss.org/maven2" />  -->
+      
     </chain>
   </resolvers>
 </ivysettings>
