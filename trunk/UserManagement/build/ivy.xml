@@ -5,8 +5,25 @@
   </configurations>
    
   <dependencies>
+    <dependency org="org.slf4j" name="slf4j-api" rev="1.6.1" />
+    <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.1" />
+  
     <dependency org="net.java.dev.glassfish" name="glassfish-persistence-api" rev="b32g" />
     <dependency org="org.apache.tomcat" name="servlet-api" rev="6.0.29"/>
+
+    <dependency org="org.springframework" name="spring-core" rev="3.0.5.RELEASE"/>
+    <dependency org="org.springframework" name="spring-web" rev="3.0.5.RELEASE"/>
+    <dependency org="org.springframework" name="spring-orm" rev="3.0.5.RELEASE"/>
+    
+    <dependency org="org.hibernate" name="hibernate-core" rev="3.6.0.Final" />
+    <dependency org="org.hibernate" name="hibernate-entitymanager" rev="3.6.0.Final" />
+    
+    <dependency org="commons-dbcp" name="commons-dbcp" rev="1.4"/>
+    <dependency org="commons-pool" name="commons-pool" rev="1.5.5"/>
+    
+    <dependency org="org.eclipse.persistence" name="org.eclipse.persistence.core" rev="2.2.0-SNAPSHOT"/>
+    
+    <dependency org="org.apache.derby" name="derby" rev="10.7.1.1"/>
       
   </dependencies>
 </ivy-module>
