@@ -11,7 +11,13 @@ import cg.service.api.dao.IJpaDaoService;
 public class JpaDaoService implements IJpaDaoService
 {
   private EntityManager em;
-
+  private boolean inited = false;
+  
+  public JpaDaoService()
+  {
+    inited = true;
+  }
+  
   @PersistenceContext
   public void setEntityManager( EntityManager em )
   {
