@@ -26,9 +26,8 @@
       <ibiblio name="eclipseLink" m2compatible="true" root="http://mirror.csclub.uwaterloo.ca/eclipse/rt/eclipselink/maven.repo/" />
 
       <!-- this one suppose be deprecated by  https://repository.jboss.org/nexus/content/groups/public-jboss/-->
-      <!-- <ibiblio name="jboss-maven2-deprecated" m2compatible="true" root="http://repository.jboss.org/maven2" />  -->
+      <!-- <ibiblio name="jboss-maven2-deprecated" m2compatible="true" root="http://repository.jboss.org/maven2" /> -->
       
->>>>>>> .r50
     </chain>
   </resolvers>
 </ivysettings>
