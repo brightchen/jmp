@@ -14,5 +14,15 @@
     <servlet-name>userServlet</servlet-name>
     <url-pattern>/servlet/userServlet</url-pattern>
   </servlet-mapping>
+
+    
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <context-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/context*.xml</param-value>
+    </context-param>
   
 </web-app>  
