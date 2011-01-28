@@ -8,9 +8,9 @@ import cg.usermanagement.api.model.IAddress;
 import cg.usermanagement.api.model.IUser;
 
 
-@Entity 
+@Entity
 @Table(name="TUSER")
-public class User implements IUser
+public class UserBean implements IUser
 {
   @javax.persistence.SequenceGenerator(name="TUSER_SEQ",sequenceName="TUSER_SEQ")
   @javax.persistence.Id 
