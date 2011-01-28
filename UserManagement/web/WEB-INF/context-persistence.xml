@@ -3,6 +3,10 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.springframework.org/schema/beans 
     http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"> 
+
+  <!-- the bean of persistence annotation post processor -->
+  <!-- the EntityManager is injected by this processor -->
+  <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
   
   <bean id="daoService" class="cg.service.dao.JpaDaoService" />
   
