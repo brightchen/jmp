@@ -31,6 +31,10 @@ public class Configurator
     return getConfigStrategy().getProperties();
   }
 
+  public String getProperty( String name )
+  {
+    return getProperties().getProperty( name );
+  }
   
   protected IConfigMergeStrategy getConfigStrategy()
   {
