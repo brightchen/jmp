@@ -8,5 +8,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/tomcat-6.0.29-bin"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/tomcat-6.0.29-lib"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=build%2Fivy.xml&amp;confs=*"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Config"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
