@@ -3,8 +3,11 @@ package cg.dbmanagement.gwt.client;
 import cg.usermanagement.gwt.client.LoginHandler;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -15,6 +18,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class DbManager implements EntryPoint
 {
+  private IConfigServiceAsync configService = GWT.create( IConfigService.class );
+  private ListBox databaseList;
+  
   /**
    * This is the entry point method.
    */
@@ -66,24 +72,28 @@ public class DbManager implements EntryPoint
 
   protected Widget buildDatabaseLogin()
   {
-//    DbManagerConfigurator configurator = DbManagerConfigurator.getInstance();
-    
     
     FlexTable table = new FlexTable();
 
     table.setText( 0, 0, "select database type: " );
-//    String[] databases = configurator.getSupportedDatabases();
-//    if( databases != null && databases.length > 0 )
-//    {
-//      final ListBox driverClassList = new ListBox();
-//      for( String db : databases )
-//      {
-//        driverClassList.addItem( db );
-//      }
-//      
-//      table.setWidget( 0, 1, driverClassList );
-//    }
+    ListBox driverClassList = new ListBox();
+    table.setWidget( 0, 1, driverClassList );
     
+    configService.getSupportedDatabases( new AsyncCallback< String[] >()
+    {
+      @Override
+      public void onFailure( Throwable caught )
+      {
+      }
+
+      @Override
+      public void onSuccess( String[] result )
+      {
+        refreshDatabases( result );
+      }
+      
+    } );
+
     
     table.setText( 1, 0, "password" );
     final TextBox passwordField = new TextBox();
@@ -101,6 +111,18 @@ public class DbManager implements EntryPoint
       table.setWidget( 2, 0, loginButton );
     }
     return table;
+  }
+  
+  protected void refreshDatabases( String[] databases )
+  {
+    if( databases != null && databases.length > 0 )
+    {
+      for( String db : databases )
+      {
+        databaseList.addItem( db );
+      }
+    }
+    
   }
 
 }
