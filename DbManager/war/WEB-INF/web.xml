@@ -4,22 +4,34 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 
-<web-app version="2.5" 
-  xmlns="http://java.sun.com/xml/ns/javaee" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<web-app version="2.5"
+  xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
   
-  <!-- Servlets -->
+  <!-- Servlets/services and mappings -->
   <servlet>
     <servlet-name>authenticateServlet</servlet-name>
     <servlet-class>cg.usermanagement.gwt.server.AuthenticateServlet</servlet-class>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>authenticateServlet</servlet-name>
     <url-pattern>/usermanagement/authenticate</url-pattern>
   </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>dbManagerConfigService</servlet-name>
+    <servlet-class>cg.dbmanagement.gwt.server.ConfigServiceServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dbManagerConfigService</servlet-name>
+    <url-pattern>dbmanager/configService</url-pattern>
+  </servlet-mapping>
+  
+
+
 
   <!-- the parameter required by org.springframework.web.context.ContextLoaderListener -->  
   <context-param>
