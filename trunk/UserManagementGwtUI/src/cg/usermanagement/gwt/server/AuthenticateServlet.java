@@ -4,7 +4,6 @@ import cg.usermanagement.api.model.IUser;
 import cg.usermanagement.api.service.IUserService;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.shared.LoginException;
-import cg.usermanagement.persistence.PersistenceManager;
 import cg.usermanagement.persistence.UserService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
