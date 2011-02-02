@@ -3,8 +3,6 @@ package cg.config;
 import java.io.File;
 import java.net.URL;
 
-import cg.config.IPropertiesFileLookupStrategy.PropertiesFileType;
-
 // 1. file name
 // 1.1 propertiesFileNameProperty
 // 1.2 default properties file name
@@ -24,21 +22,31 @@ public class PropertiesFileLookupTypicalStrategy implements IPropertiesFileLooku
   @Override
   public File findPropertiesFile()
   {
-    String propertiesFilePath = System.getProperty( propertiesFilePathProperty );
-    if( propertiesFilePath != null && !propertiesFilePath.isEmpty() && doesPropertiesFileExist( propertiesFilePath ) )
+    String propertiesFilePath;
+    if( propertiesFilePathProperty != null && !propertiesFilePathProperty.isEmpty() )
     {
-      propertiesFileType = getPropertiesFileType( propertiesFilePath );
-      return new File( propertiesFilePath );
+      propertiesFilePath = System.getProperty( propertiesFilePathProperty );
+      if( propertiesFilePath != null && !propertiesFilePath.isEmpty() && doesPropertiesFileExist( propertiesFilePath ) )
+      {
+        propertiesFileType = getPropertiesFileType( propertiesFilePath );
+        return new File( propertiesFilePath );
+      }
     }
     
     //get from property first
-    String propertiesFileName = System.getProperty( propertiesFileNameProperty );
+    String propertiesFileName = null;
+    if( propertiesFileNameProperty != null && !propertiesFileNameProperty.isEmpty() )
+    {
+      propertiesFileName = System.getProperty( propertiesFileNameProperty );
+    }
     if( propertiesFileName == null || propertiesFileName.isEmpty() )
     {
       propertiesFileName = defaultPropertiesFileName;
     }
     
     //search the properties file with the classpath
+    if( propertiesFileName == null || propertiesFileName.isEmpty() )
+      return null;    
     URL propertyUrl = ClassLoader.getSystemResource( propertiesFileName );
     if( propertyUrl == null )
       return null;
