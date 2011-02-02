@@ -3,7 +3,6 @@ package cg.usermanagement.model;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import cg.model.api.INamedEntity;
 import cg.usermanagement.api.model.IAddress;
 import cg.usermanagement.api.model.IUser;
 
