@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class DbManager implements EntryPoint
 {
   private IConfigServiceAsync configService = GWT.create( IConfigService.class );
-  private ListBox databaseList;
+  private ListBox databaseList = new ListBox();
   
   /**
    * This is the entry point method.
@@ -72,12 +72,10 @@ public class DbManager implements EntryPoint
 
   protected Widget buildDatabaseLogin()
   {
-    
     FlexTable table = new FlexTable();
 
     table.setText( 0, 0, "select database type: " );
-    ListBox driverClassList = new ListBox();
-    table.setWidget( 0, 1, driverClassList );
+    table.setWidget( 0, 1, databaseList );
     
     configService.getSupportedDatabases( new AsyncCallback< String[] >()
     {
@@ -91,7 +89,6 @@ public class DbManager implements EntryPoint
       {
         refreshDatabases( result );
       }
-      
     } );
 
     
@@ -119,6 +116,8 @@ public class DbManager implements EntryPoint
     {
       for( String db : databases )
       {
+        if( db == null || db.isEmpty() )
+          continue;
         databaseList.addItem( db );
       }
     }
