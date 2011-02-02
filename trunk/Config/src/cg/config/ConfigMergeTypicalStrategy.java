@@ -19,6 +19,7 @@ public class ConfigMergeTypicalStrategy implements IConfigMergeStrategy
   protected IPropertiesFileLookupStrategy defaultPropertiesFileLookupStrategy;
   protected IPropertiesFileLookupStrategy deploymentPropertiesFileLookupStrategy;
   
+  protected Properties properties;
   
   public ConfigMergeTypicalStrategy()
   {
@@ -27,13 +28,18 @@ public class ConfigMergeTypicalStrategy implements IConfigMergeStrategy
   @Override
   public Properties getProperties()
   {
-    MergeableProperties props = new MergeableProperties();
-    props.merge( getBuildinProperties() );
-    props.merge( getDefaultProperties() );
-    props.merge( getDeploymentProperties() );
-    props.merge( getCommandLineProperties() );
+    if( properties == null )
+    {
+      MergeableProperties props = new MergeableProperties();
+      props.merge( getBuildinProperties() );
+      props.merge( getDefaultProperties() );
+      props.merge( getDeploymentProperties() );
+      props.merge( getCommandLineProperties() );
+      
+      properties = props;
+    }
     
-    return props;
+    return properties;
   }
 
   public Properties getBuildinProperties()

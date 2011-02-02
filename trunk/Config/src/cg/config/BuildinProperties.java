@@ -33,11 +33,11 @@ public class BuildinProperties
     }
     if( SECTION.DB_DERBY.equals( section ) )
     {
-      props.put( "db.jdbc.driver_class", "org.apache.derby.jdbc.EmbeddedDriver" );
-      props.put( "db.jdbc.url", "jdbc:derby:test;create=true" );
-      props.put( "db.username", "user1" );
-      props.put( "db.password", "user1" );
-      props.put( "db.validation.query", "" );
+      props.setProperty( "db.jdbc.driver_class", "org.apache.derby.jdbc.EmbeddedDriver" );
+      props.setProperty( "db.jdbc.url", "jdbc:derby:test;create=true" );
+      props.setProperty( "db.username", "user1" );
+      props.setProperty( "db.password", "user1" );
+      props.setProperty( "db.validation.query", "" );
       return props;
     }
     
