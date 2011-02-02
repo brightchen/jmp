@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import cg.config.Configurator;
 
-public class DbManagerConfigurator extends cg.config.Configurator
+public class DbManagerConfigurator extends Configurator
 {
   
   private static DbManagerConfigurator instance;
@@ -29,7 +29,7 @@ public class DbManagerConfigurator extends cg.config.Configurator
 
   public String getProperty( DbManagerPropertyName.NAME propertyName )
   {
-    return getProperty( propertyName.name() );
+    return getProperty( propertyName.getPropertyKey() );
   }
 
   public String[] getSupportedDatabases()

@@ -19,9 +19,10 @@ public class BuildinProperties
     for( DatabaseType.TYPE type : DatabaseType.TYPE.values() )
     {
       databases.append( type.name() ).append( seperator );
-      props.put( driverClassPrefix + "." + type.name(), DatabaseType.getDriverClass( type ) );
+      props.setProperty( driverClassPrefix + "." + type.name(), DatabaseType.getDriverClass( type ) );
     }
-    props.put( "databases", databases );
+    
+    props.setProperty( DbManagerPropertyName.NAME.databases.getPropertyKey(), databases.toString() );
     
     return props;
   }
