@@ -27,10 +27,25 @@ public class DbManager implements EntryPoint
   public void onModuleLoad()
   {
     TabPanel tp = new TabPanel();
+
+//    TabLayoutPanel tp = new TabLayoutPanel( 1.5, Unit.EM );
+    //use the lazy initialize
     tp.add( buildSystemLogin(), "System" );
     tp.add( buildDatabaseLogin(), "Database" );
+//    tp.addSelectionHandler( new SelectionHandler< Integer >()
+//                            {
+//                              @Override
+//                              public void onSelection( SelectionEvent<Integer> event )
+//                              {
+//                                Integer selectItemIndex = event.getSelectedItem();
+//                                if( selectItemIndex == 1 )
+//                                {
+//                                  //the database login tab is selected
+//                                  refreshDatabases();
+//                                }
+//                              }
+//                            } );
 
-    // Show the 'bar' tab initially.
     tp.selectTab( 1 );
 
     //this module using UserManagementGwtUI, remove the widget added by UserManagementGwtUI
@@ -77,21 +92,6 @@ public class DbManager implements EntryPoint
     table.setText( 0, 0, "select database type: " );
     table.setWidget( 0, 1, databaseList );
     
-    configService.getSupportedDatabases( new AsyncCallback< String[] >()
-    {
-      @Override
-      public void onFailure( Throwable caught )
-      {
-      }
-
-      @Override
-      public void onSuccess( String[] result )
-      {
-        refreshDatabases( result );
-      }
-    } );
-
-    
     table.setText( 1, 0, "password" );
     final TextBox passwordField = new TextBox();
     passwordField.setText( "" );
@@ -107,9 +107,29 @@ public class DbManager implements EntryPoint
 
       table.setWidget( 2, 0, loginButton );
     }
+    
+    refreshDatabases();
+    
     return table;
   }
   
+  protected void refreshDatabases()
+  {
+    configService.getSupportedDatabases( new AsyncCallback< String[] >()
+    {
+      @Override
+      public void onFailure( Throwable caught )
+      {
+      }
+
+      @Override
+      public void onSuccess( String[] result )
+      {
+        refreshDatabases( result );
+      }
+    } );
+  }
+
   protected void refreshDatabases( String[] databases )
   {
     if( databases != null && databases.length > 0 )
