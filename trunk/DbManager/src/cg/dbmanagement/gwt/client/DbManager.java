@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class DbManager implements EntryPoint
 {
   private IConfigServiceAsync configService = GWT.create( IConfigService.class );
-  private ListBox databaseList = new ListBox();
   
   /**
    * This is the entry point method.
@@ -68,30 +67,7 @@ public class DbManager implements EntryPoint
 
   protected Widget buildDatabaseLogin()
   {
-    FlexTable table = new FlexTable();
 
-    table.setText( 0, 0, "select database type: " );
-    table.setWidget( 0, 1, databaseList );
-    
-    table.setText( 1, 0, "password" );
-    final TextBox passwordField = new TextBox();
-    passwordField.setText( "" );
-    table.setWidget( 1, 1, passwordField );
-
-    // login button
-    {
-      final Button loginButton = new Button( "Login" );
-      // Add a handler to send the name to the server
-//      LoginHandler handler = new LoginHandler( nameField, passwordField );
-//      loginButton.addClickHandler( handler );
-//      loginButton.addKeyUpHandler( handler );
-
-      table.setWidget( 2, 0, loginButton );
-    }
-    
-//    refreshDatabases();
-    
-    return table;
   }
   
   protected void refreshDatabases()
