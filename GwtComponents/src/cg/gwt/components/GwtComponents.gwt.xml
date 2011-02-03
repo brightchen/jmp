@@ -13,7 +13,7 @@
   <!-- Other module inherits                                      -->
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='cg.gwt.components.client.GwtComponents'/>
+  <!-- <entry-point class='cg.gwt.components.client.GwtComponents'/>  -->
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
