@@ -7,18 +7,16 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.TextBox;
 
 public class LoginHandler implements ClickHandler, KeyUpHandler
 {
-  private TextBox tbUserName;
-  private TextBox tbPassword;
   private IAuthenticateServiceAsync userService = GWT.create( IAuthenticateService.class );
   
-  public LoginHandler( TextBox tbUserName, TextBox tbPassword )
+  private String userName;
+  private String password;
+  
+  public LoginHandler()
   {
-    this.tbUserName = tbUserName;
-    this.tbPassword = tbPassword;
   }
   /**
    * Fired when the user clicks on the sendButton.
@@ -28,9 +26,6 @@ public class LoginHandler implements ClickHandler, KeyUpHandler
     onLogin();
   }
 
-  /**
-   * Fired when the user types in the nameField.
-   */
   public void onKeyUp( KeyUpEvent event )
   {
     if ( event.getNativeKeyCode() == KeyCodes.KEY_ENTER )
@@ -39,13 +34,13 @@ public class LoginHandler implements ClickHandler, KeyUpHandler
     }
   }
 
-  /**
-   * Send the name from the nameField to the server and wait for a response.
-   */
-  private void onLogin()
+  //get data from UI
+  protected void updateData(){}
+  
+  protected void onLogin()
   {
-    String userName = tbUserName.getText();
-    String password = tbPassword.getText();
+    updateData();
+    
     userService.login( userName, password, new AsyncCallback< Void >()
     {
       @Override
@@ -61,4 +56,22 @@ public class LoginHandler implements ClickHandler, KeyUpHandler
       }
     } );
   }
+  public String getUserName()
+  {
+    return userName;
+  }
+  public void setUserName( String userName )
+  {
+    this.userName = userName;
+  }
+  public String getPassword()
+  {
+    return password;
+  }
+  public void setPassword( String password )
+  {
+    this.password = password;
+  }
+  
+  
 }
