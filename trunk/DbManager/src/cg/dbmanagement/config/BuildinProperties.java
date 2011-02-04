@@ -22,7 +22,7 @@ public class BuildinProperties
       props.setProperty( driverClassPrefix + "." + type.name(), DatabaseType.getDriverClass( type ) );
     }
     
-    props.setProperty( DbManagerPropertyName.NAME.databases.getPropertyKey(), databases.toString() );
+    props.setProperty( DbManagerPropertyName.PROPERTY_NAME.databases.getPropertyKey(), databases.toString() );
     
     return props;
   }

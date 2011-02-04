@@ -27,14 +27,14 @@ public class DbManagerConfigurator extends Configurator
     return instance;
   }
 
-  public String getProperty( DbManagerPropertyName.NAME propertyName )
+  public String getProperty( DbManagerPropertyName.PROPERTY_NAME propertyName )
   {
     return getProperty( propertyName.getPropertyKey() );
   }
 
   public String[] getSupportedDatabases()
   {
-    String databases = getProperty( DbManagerPropertyName.NAME.databases );
+    String databases = getProperty( DbManagerPropertyName.PROPERTY_NAME.databases );
     if( databases == null || databases.isEmpty() )
       return null;
     return databases.split( BuildinProperties.seperator );
