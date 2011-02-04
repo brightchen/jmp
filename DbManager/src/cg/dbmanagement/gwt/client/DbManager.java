@@ -1,18 +1,13 @@
 package cg.dbmanagement.gwt.client;
 
+import cg.dbmanagement.gwt.client.ui.DbUserLoginPart;
 import cg.usermanagement.gwt.client.ui.SystemUserLoginPart;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -20,14 +15,10 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class DbManager implements EntryPoint
 {
-  private IConfigServiceAsync configService = GWT.create( IConfigService.class );
+  private DbUserLoginPart dbLoginPart;
   
-  /**
-   * This is the entry point method.
-   */
   public void onModuleLoad()
   {
-
     //TabLayoutPanel seems don't work and TabPanel doesn't deprecated in gwt2.1.1
     // TabLayoutPanel tp = new TabLayoutPanel( 1.5, Unit.EM );
     //use the lazy initialize
@@ -43,7 +34,7 @@ public class DbManager implements EntryPoint
                                 if( selectItemIndex == 1 )
                                 {
                                   //the database login tab is selected
-                                  refreshDatabases();
+                                  dbLoginPart.load();
                                 }
                               }
                             } );
@@ -60,45 +51,18 @@ public class DbManager implements EntryPoint
 
   protected Widget buildSystemLogin()
   {
-    SystemUserLoginPart loginPart = new SystemUserLoginPart();
+    SystemUserLoginPart systemLoginPart = new SystemUserLoginPart();
     
-    return loginPart.build();
+    return systemLoginPart.build();
   }
 
   protected Widget buildDatabaseLogin()
   {
+    dbLoginPart = new DbUserLoginPart();
+    
+    return dbLoginPart.build();
 
   }
   
-  protected void refreshDatabases()
-  {
-    configService.getSupportedDatabases( new AsyncCallback< String[] >()
-    {
-      @Override
-      public void onFailure( Throwable caught )
-      {
-      }
-
-      @Override
-      public void onSuccess( String[] result )
-      {
-        refreshDatabases( result );
-      }
-    } );
-  }
-
-  protected void refreshDatabases( String[] databases )
-  {
-    if( databases != null && databases.length > 0 )
-    {
-      for( String db : databases )
-      {
-        if( db == null || db.isEmpty() )
-          continue;
-        databaseList.addItem( db );
-      }
-    }
-    
-  }
 
 }
