@@ -27,7 +27,7 @@ public abstract class Part< T extends PartData, W extends Widget >
     return build();
   }
   
-  //get the data from UI
+  //get the data from UI and set to data
   public abstract void updateData();
   
   public T getData()
