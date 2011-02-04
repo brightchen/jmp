@@ -2,6 +2,7 @@ package cg.usermanagement.gwt.client.ui;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 import cg.gwt.components.client.ui.Part;
@@ -28,7 +29,7 @@ public class SystemUserLoginPart extends Part< SystemUserLoginData, FlexTable >
     table.setWidget( 1, 0, nameField );
 
     table.setText( 0, 1, "password" );
-    passwordField = new TextBox();
+    passwordField = new PasswordTextBox();
     passwordField.setText( "" );
     table.setWidget( 1, 1, passwordField );
 
