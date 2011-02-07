@@ -27,9 +27,18 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>dbManagerConfigService</servlet-name>
-    <url-pattern>dbmanager/configService</url-pattern>
+    <url-pattern>/dbmanager/configService</url-pattern>
   </servlet-mapping>
   
+
+  <servlet>
+    <servlet-name>dbManagerPersistenceService</servlet-name>
+    <servlet-class>cg.dbmanagement.gwt.server.PersistenceServiceServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dbManagerPersistenceService</servlet-name>
+    <url-pattern>/dbmanager/persistenceService</url-pattern>
+  </servlet-mapping>
 
 
 
