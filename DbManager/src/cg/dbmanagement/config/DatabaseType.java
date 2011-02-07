@@ -24,4 +24,24 @@ public class DatabaseType
   {
     return DatabaseTypeDrivers.get( type );
   }
+  
+  public static String getDriverClass( String databaseTypeName )
+  {
+    TYPE type = getDatabaseType( databaseTypeName );
+    if( type == null )
+      return null;
+    return getDriverClass( type );
+  }
+  
+  public static TYPE getDatabaseType( String databaseTypeName )
+  {
+    for( TYPE type : TYPE.values() )
+    {
+      if( type.name().equalsIgnoreCase( databaseTypeName ) )
+      {
+        return type;
+      }
+    }
+    return null;
+  }
 }

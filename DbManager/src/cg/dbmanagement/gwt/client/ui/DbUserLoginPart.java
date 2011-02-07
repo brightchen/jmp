@@ -2,8 +2,11 @@ package cg.dbmanagement.gwt.client.ui;
 
 import cg.dbmanagement.gwt.client.IConfigService;
 import cg.dbmanagement.gwt.client.IConfigServiceAsync;
+import cg.dbmanagement.gwt.client.IPersistenceService;
+import cg.dbmanagement.gwt.client.IPersistenceServiceAsync;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
 import cg.gwt.components.client.ui.LazyLoadingPart;
+import cg.usermanagement.gwt.client.MessageDialog;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -26,6 +29,15 @@ public class DbUserLoginPart extends LazyLoadingPart< DbUserLoginData, FlexTable
   
   
   private IConfigServiceAsync configService = GWT.create( IConfigService.class );
+  private IPersistenceServiceAsync persistenceService = GWT.create( IPersistenceService.class );
+  
+  //create an empty data instance
+  @Override
+  protected DbUserLoginData createData()
+  {
+    return new DbUserLoginData();
+  }
+
   
   @Override
   public FlexTable build()
@@ -48,6 +60,7 @@ public class DbUserLoginPart extends LazyLoadingPart< DbUserLoginData, FlexTable
     table.setWidget( row, 1, databaseList );
 
     //jdbc url
+    ++row;
     table.setText( row, 0, "jdbc url: " );
     urlField = new TextBox();
     urlField.setText( data == null ? "" : data.getJdbcUrl() );
@@ -99,7 +112,22 @@ public class DbUserLoginPart extends LazyLoadingPart< DbUserLoginData, FlexTable
 
   protected void connectToDB()
   {
-    
+    persistenceService.connectToDb( getData(), new AsyncCallback< Void >()
+                                    {
+                                      @Override
+                                      public void onFailure( Throwable exception )
+                                      {
+                                        (new MessageDialog()).displayMessage( "login failed due to " + exception.toString() );
+                                        
+                                      }
+
+                                      @Override
+                                      public void onSuccess( Void result )
+                                      {
+                                        (new MessageDialog()).displayMessage( "login success." );
+                                      }
+      
+                                    } );
   }
   
   @Override
@@ -113,11 +141,6 @@ public class DbUserLoginPart extends LazyLoadingPart< DbUserLoginData, FlexTable
   public void updateData()
   {
     DbUserLoginData data = getData();
-    if( data == null )
-    {
-      data = new DbUserLoginData();
-      setData( data );
-    }
     data.setSelectedDatabaseIndex( databaseList.getSelectedIndex() );
     data.setJdbcUrl( urlField.getText() );
     data.setUserName( userNameField.getText() );
