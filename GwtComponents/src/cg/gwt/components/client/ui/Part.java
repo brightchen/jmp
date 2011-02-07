@@ -30,12 +30,18 @@ public abstract class Part< T extends PartData, W extends Widget >
   //get the data from UI and set to data
   public abstract void updateData();
   
+  //return an empty data instance if data not set. this avoid return null;
   public T getData()
   {
+    if( data == null )
+      data = createData();
     return data;
   }
   public void setData( T data )
   {
     this.data = data;
   }
+  
+  //create an empty data instance
+  protected abstract T createData();
 }
