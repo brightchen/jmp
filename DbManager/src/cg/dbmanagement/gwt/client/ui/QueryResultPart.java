@@ -12,7 +12,7 @@ public class QueryResultPart extends Part< QueryResultData, FlexTable >
   public FlexTable build()
   {
     // TODO Auto-generated method stub
-    return null;
+    return new FlexTable();
   }
 
   @Override

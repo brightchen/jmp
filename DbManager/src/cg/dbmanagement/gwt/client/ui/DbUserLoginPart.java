@@ -117,14 +117,13 @@ public class DbUserLoginPart extends LazyLoadingPart< DbUserLoginData, FlexTable
                                       @Override
                                       public void onFailure( Throwable exception )
                                       {
-                                        (new MessageDialog()).displayMessage( "login failed due to " + exception.toString() );
-                                        
+                                        onconnectToDBFailed( exception );
                                       }
 
                                       @Override
                                       public void onSuccess( Void result )
                                       {
-                                        (new MessageDialog()).displayMessage( "login success." );
+                                        onconnectToDBSuccess();
                                       }
       
                                     } );
@@ -180,4 +179,13 @@ public class DbUserLoginPart extends LazyLoadingPart< DbUserLoginData, FlexTable
     
   }
 
+  protected void onconnectToDBSuccess()
+  {
+    (new MessageDialog()).displayMessage( "login success." );
+  }
+  
+  protected void onconnectToDBFailed( Throwable exception )
+  {
+    (new MessageDialog()).displayMessage( "login failed due to " + exception.toString() );
+  }
 }
