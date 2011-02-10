@@ -3,6 +3,9 @@ package cg.persistence.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import cg.common.converter.ConvertNotSupportException;
+import cg.common.converter.Converter;
+
 public class Column
 {
   private ColumnMetaData metaData;
@@ -27,7 +30,7 @@ public class Column
   //convert the object to type T and add to the data list
   public void addObject( Object obj )
   {
-    
+    data.add( obj );
   }
   
   public List< Object > getData()
@@ -46,6 +49,14 @@ public class Column
   //rowIndex begins with 0
   public String convertRowToString( int rowIndex )
   {
+    try
+    {
+      Converter.convertType( data.get( rowIndex ), String.class );
+    }
+    catch( ConvertNotSupportException e )
+    {
+      e.printStackTrace();
+    }
     return null;
   }
 }
