@@ -63,6 +63,7 @@ public class ColumnMetaData
     }
     return null;
   }
+  
   public String getName()
   {
     return name;
