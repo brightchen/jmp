@@ -2,9 +2,12 @@ package cg.persistence.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+
+import cg.persistence.api.PersistenceException;
 
 // one ConnectionManager manages the connection to one url;
 public class ConnectionManager
@@ -30,7 +33,7 @@ public class ConnectionManager
   }
 
   // get an ideal connection for use.
-  public Connection getConnectionForUse()
+  public Connection getConnectionForUse() throws PersistenceException
   {
     Connection connection = null;
     if ( idleConnections.size() > 0 )
@@ -87,7 +90,7 @@ public class ConnectionManager
     }
   }
 
-  protected Connection newConnection()
+  protected Connection newConnection() throws PersistenceException
   {
     Properties props = new Properties(); // connection properties
     props.put( "user", connectionParameters.getUserName() );
@@ -105,11 +108,11 @@ public class ConnectionManager
       }
       return connection;
     }
-    catch ( Exception e )
+    catch ( SQLException e )
     {
       e.printStackTrace();
+      throw new PersistenceException( "connect to database failed", e.getCause() );
     }
-    return null;
   }
   
   //the connection suppose to be detached from list
