@@ -2,6 +2,7 @@ package cg.dbmanagement.gwt.client;
 
 import cg.dbmanagement.gwt.client.ui.DbUserLoginPart;
 import cg.dbmanagement.gwt.client.ui.QueryInputPart;
+import cg.dbmanagement.gwt.client.ui.QueryPart;
 import cg.dbmanagement.gwt.client.ui.QueryResultPart;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
 import cg.usermanagement.gwt.client.ui.SystemUserLoginPart;
@@ -82,11 +83,12 @@ public class DbManager implements EntryPoint
 //                      queryPanel.addWest(new HTML("navigation"), 128);
 //                      queryPanel.addNorth(new HTML("list"), 384);
 //                      queryPanel.add(new HTML("details"));
-                      
+                      QueryPart queryPart = new QueryPart( input, result );
                       VerticalPanel queryPanel = new VerticalPanel();
-                      queryPanel.add( input.build() );
-                      queryPanel.add( result.build() );
-                      tabPanel.add( queryPanel, "Query" );
+                      queryPart.setContainer( queryPanel );
+//                      queryPanel.add( input.build() );
+//                      queryPanel.add( result.build() );
+                      tabPanel.add( queryPart.build(), "Query" );
                       tabPanel.selectTab( 2 );
                     }
                   };
