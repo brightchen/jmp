@@ -22,6 +22,8 @@ public class QueryInputPart extends Part< QueryInputData, FlexTable >
     table.setText( 0, 0, "sql: " );
 
     sqlField = new TextArea();
+    sqlField.setWidth( "800px" );
+    sqlField.setHeight( "400px" );
     sqlField.setText( data == null ? "" : data.getSql() );
     table.setWidget( 0, 1, sqlField );
 
