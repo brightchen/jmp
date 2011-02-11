@@ -10,20 +10,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cg.common.identity.GlobalLongIdentityGenerator;
+import cg.common.identity.Identifiable;
+import cg.persistence.api.PersistenceException;
 
-public class PersistenceSession
+
+public class PersistenceSession implements Identifiable< Long >
 {
   private ConnectionParameters connectionParameters;
   private Connection connection;
+  private long identity;
+  
   public PersistenceSession( ConnectionParameters connectionParameters )
   {
+    identity = GlobalLongIdentityGenerator.generateIdentity();
     setConnectionParameters( connectionParameters );
   }
   
-  public void connect()
+  public void connect() throws PersistenceException
   {
     ConnectionManager connectionManager = ConnectionManagerFactory.getConnectionManager( connectionParameters );
-    connectionManager.newConnection();
+    connection = connectionManager.newConnection();
   }
   
   public void setConnectionParameters( ConnectionParameters connectionParameters )
@@ -94,5 +101,12 @@ public class PersistenceSession
 
     Statement statement = connection.createStatement();
     return statement.execute( sql );
+  }
+
+
+  @Override
+  public Long getIdentity()
+  {
+    return identity;
   }
 }
