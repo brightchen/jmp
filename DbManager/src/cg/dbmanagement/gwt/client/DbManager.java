@@ -3,6 +3,7 @@ package cg.dbmanagement.gwt.client;
 import cg.dbmanagement.gwt.client.ui.DbUserLoginPart;
 import cg.dbmanagement.gwt.client.ui.QueryInputPart;
 import cg.dbmanagement.gwt.client.ui.QueryResultPart;
+import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
 import cg.usermanagement.gwt.client.ui.SystemUserLoginPart;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -74,6 +75,7 @@ public class DbManager implements EntryPoint
                     {
                       QueryInputPart input = new QueryInputPart();
                       QueryResultPart result = new QueryResultPart();
+// the SplitLayoutPanel doesn't work properly     
 //                      SplitLayoutPanel queryPanel = new SplitLayoutPanel();
 //                      input.build();
 //                      result.build();
@@ -82,13 +84,18 @@ public class DbManager implements EntryPoint
 //                      queryPanel.add(new HTML("details"));
                       
                       VerticalPanel queryPanel = new VerticalPanel();
-                      queryPanel.add( new HTML("first") );
-                      queryPanel.add( new HTML("second") );
-                      
+                      queryPanel.add( input.build() );
+                      queryPanel.add( result.build() );
                       tabPanel.add( queryPanel, "Query" );
                       tabPanel.selectTab( 2 );
                     }
                   };
+    
+    DbUserLoginData data = new DbUserLoginData();
+    data.setJdbcUrl( "jdbc:derby:userdb;create=true" );
+    data.setUserName( "user1" );
+    data.setPassword( "user1" );
+    dbLoginPart.setData( data );
     
     return dbLoginPart.build();
 
