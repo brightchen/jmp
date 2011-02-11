@@ -1,16 +1,14 @@
 package cg.dbmanagement.gwt.server;
 
-import java.sql.Connection;
-
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 import cg.dbmanagement.config.DatabaseType;
 import cg.dbmanagement.gwt.client.IPersistenceService;
 import cg.dbmanagement.gwt.shared.data.DbException;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
-import cg.persistence.jdbc.ConnectionManager;
-import cg.persistence.jdbc.ConnectionManagerFactory;
+import cg.persistence.api.PersistenceException;
 import cg.persistence.jdbc.ConnectionParameters;
+import cg.persistence.jdbc.PersistenceSession;
+
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class PersistenceServiceServlet extends RemoteServiceServlet implements IPersistenceService
 {
@@ -28,11 +26,15 @@ public class PersistenceServiceServlet extends RemoteServiceServlet implements I
     connParams.setUserName( dbData.getUserName() );
     connParams.setPassword( dbData.getPassword() );
     
-    ConnectionManager connManager = ConnectionManagerFactory.getConnectionManager( connParams );
-    Connection connection = connManager.getConnectionForUse();
-    if( connection == null )
-      throw new DbException( "get connection failed" );
-    
+    PersistenceSession session = new PersistenceSession( connParams );
+    try
+    {
+      session.connect();
+    }
+    catch( PersistenceException e )
+    {
+      throw new DbException( "connect to database failed: " + e.getMessage() );
+    }
   }
 
 }
