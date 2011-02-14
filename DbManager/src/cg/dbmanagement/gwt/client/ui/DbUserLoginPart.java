@@ -112,7 +112,7 @@ public class DbUserLoginPart extends LazyLoadingPart< DbUserLoginData, FlexTable
 
   protected void connectToDB()
   {
-    persistenceService.connectToDb( getData(), new AsyncCallback< Void >()
+    persistenceService.connectToDb( getData(), new AsyncCallback< String >()
                                     {
                                       @Override
                                       public void onFailure( Throwable exception )
@@ -121,9 +121,9 @@ public class DbUserLoginPart extends LazyLoadingPart< DbUserLoginData, FlexTable
                                       }
 
                                       @Override
-                                      public void onSuccess( Void result )
+                                      public void onSuccess( String sessionIdentity )
                                       {
-                                        onconnectToDBSuccess();
+                                        onconnectToDBSuccess( sessionIdentity );
                                       }
       
                                     } );
@@ -179,7 +179,7 @@ public class DbUserLoginPart extends LazyLoadingPart< DbUserLoginData, FlexTable
     
   }
 
-  protected void onconnectToDBSuccess()
+  protected void onconnectToDBSuccess( String sessionIdentity )
   {
     (new MessageDialog()).displayMessage( "login success." );
   }
