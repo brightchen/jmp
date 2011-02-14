@@ -5,11 +5,17 @@ import cg.dbmanagement.gwt.client.ui.QueryInputPart;
 import cg.dbmanagement.gwt.client.ui.QueryPart;
 import cg.dbmanagement.gwt.client.ui.QueryResultPart;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
+import cg.dbmanagement.gwt.shared.data.SessionAttribute;
+import cg.gwt.services.client.ISessionManagementService;
+import cg.gwt.services.client.ISessionManagementServiceAsync;
+import cg.usermanagement.gwt.client.MessageDialog;
 import cg.usermanagement.gwt.client.ui.SystemUserLoginPart;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -26,7 +32,11 @@ public class DbManager implements EntryPoint
   private DbUserLoginPart dbLoginPart;
   private TabPanel tabPanel;
   private SplitLayoutPanel queryPanel;
-  
+
+  //services
+  private ISessionManagementServiceAsync sessionService = GWT.create( ISessionManagementService.class );
+
+
   public void onModuleLoad()
   {
     //TabLayoutPanel seems don't work and TabPanel doesn't deprecated in gwt2.1.1
@@ -72,8 +82,25 @@ public class DbManager implements EntryPoint
     dbLoginPart = new DbUserLoginPart()
                   {
                     @Override
-                    protected void onconnectToDBSuccess()
+                    protected void onconnectToDBSuccess( String sessionIdentity )
                     {
+                      //
+                      sessionService.setStringValue( SessionAttribute.KEY.PERSISTENCE_SESSION_ID.name(),
+                                                     sessionIdentity,
+                                                     new AsyncCallback< Void >()
+                                                     {
+                                                      @Override
+                                                      public void onFailure( Throwable exception )
+                                                      {
+                                                        (new MessageDialog()).displayMessage( "login failed due to " + exception.toString() );
+                                                      }
+
+                                                      @Override
+                                                      public void onSuccess( Void result )
+                                                      {
+                                                      }
+                                                     } );
+
                       QueryInputPart input = new QueryInputPart();
                       QueryResultPart result = new QueryResultPart();
 // the SplitLayoutPanel doesn't work properly     
@@ -93,6 +120,7 @@ public class DbManager implements EntryPoint
                     }
                   };
     
+    //set default information
     DbUserLoginData data = new DbUserLoginData();
     data.setJdbcUrl( "jdbc:derby:userdb;create=true" );
     data.setUserName( "user1" );
