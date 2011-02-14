@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,16 +22,25 @@ public class PersistenceSession implements Identifiable< Long >
   private Connection connection;
   private long identity;
   
-  public PersistenceSession( ConnectionParameters connectionParameters )
+  //not allow outside construct this class
+  protected PersistenceSession( ConnectionParameters connectionParameters )
   {
     identity = GlobalLongIdentityGenerator.generateIdentity();
     setConnectionParameters( connectionParameters );
   }
   
-  public void connect() throws PersistenceException
+  //return the identity of session
+  public static long connect( ConnectionParameters connectionParameters ) throws PersistenceException
+  {
+    PersistenceSession session = new PersistenceSession( connectionParameters );
+    return session.connect();
+  }
+  
+  protected long connect() throws PersistenceException
   {
     ConnectionManager connectionManager = ConnectionManagerFactory.getConnectionManager( connectionParameters );
     connection = connectionManager.newConnection();
+    return identity;
   }
   
   public void setConnectionParameters( ConnectionParameters connectionParameters )
@@ -38,12 +48,17 @@ public class PersistenceSession implements Identifiable< Long >
     this.connectionParameters = connectionParameters;
   }
   
-  public Map< String, List< Object > > executeNativeQuery( String sql, Map< Integer, Object > params ) throws Exception
+  public Map< String, List< Object > > executeNativeQuery( String sql ) throws PersistenceException
+  {
+    return executeNativeQuery( sql, null );
+  }
+  
+  public Map< String, List< Object > > executeNativeQuery( String sql, Map< Integer, Object > params ) throws PersistenceException
   {
     return convertResultSetToMap( fetchResultSet( sql, params ) );
   }
   
-  protected ResultSet fetchResultSet( String sql, Map< Integer, Object > params ) throws Exception
+  protected ResultSet fetchResultSet( String sql, Map< Integer, Object > params ) throws PersistenceException
   {
     if( connection == null )
       connect();
@@ -51,24 +66,33 @@ public class PersistenceSession implements Identifiable< Long >
     if( connection == null )  //throw exception here
       return null;
 
-    PreparedStatement ps = connection.prepareStatement( sql );
-    if( params != null && params.size() > 0 )
+    try
     {
-      for( Map.Entry< Integer, Object > entry : params.entrySet() )
+      PreparedStatement ps = connection.prepareStatement( sql );
+      if( params != null && params.size() > 0 )
       {
-        ps.setObject( entry.getKey(), entry.getValue() );
+        for( Map.Entry< Integer, Object > entry : params.entrySet() )
+        {
+          ps.setObject( entry.getKey(), entry.getValue() );
+        }
       }
+      
+      ResultSet rs = ps.executeQuery();
+      ps.close();
+      return rs;
     }
-    
-    ResultSet rs = ps.executeQuery();
-    ps.close();
-    return rs;
+    catch( SQLException e )
+    {
+      throw new PersistenceException( "fetchResultSet() failed.", e );
+    }
   }
   
-  protected Map< String, List< Object > > convertResultSetToMap( ResultSet rs ) throws Exception
+  protected Map< String, List< Object > > convertResultSetToMap( ResultSet rs ) throws PersistenceException
   {
     Map< String, List< Object > > nameColumnData = new HashMap< String, List< Object > >();
 
+    try
+    {
     ResultSetMetaData metaData = rs.getMetaData();
     int columnCount = metaData.getColumnCount();
 
@@ -89,21 +113,49 @@ public class PersistenceSession implements Identifiable< Long >
     }
     
     return nameColumnData;
+    }
+    catch( SQLException e )
+    {
+      throw new PersistenceException( "convertResultSetToMap()", e );
+    }
   }
   
-  public boolean executeUpdate( String sql ) throws Exception
+  public boolean executeUpdate( String sql ) throws PersistenceException
   {
     if( connection == null )
       connect();
     
-    if( connection == null )  //throw exception here
-      return false;
+    if( connection == null ) 
+      throw new PersistenceException( "Can NOT connect to database." );
 
+    try
+    {
     Statement statement = connection.createStatement();
     return statement.execute( sql );
+    }
+    catch( SQLException e )
+    {
+      throw new PersistenceException( "executeUpdate() failed", e );
+    }
   }
 
+  public void close()
+  {
+    if( connection == null )
+      return;
+    try
+    {
+      connection.close();
+    }
+    catch( SQLException e )
+    {
+    }
+  }
 
+  public static void close( PersistenceSession session )
+  {
+    session.close();
+  }
   @Override
   public Long getIdentity()
   {
