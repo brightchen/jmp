@@ -6,7 +6,7 @@ import java.util.Map;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-@RemoteServiceRelativePath( "sessionManagementService" )
+@RemoteServiceRelativePath( "gwtservices/sessionManagementService" )
 public interface ISessionManagementService extends RemoteService
 {
   public Object getValue( String key );
