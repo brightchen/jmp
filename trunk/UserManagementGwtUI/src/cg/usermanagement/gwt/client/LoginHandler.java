@@ -1,6 +1,7 @@
 package cg.usermanagement.gwt.client;
 
 import cg.gwt.components.client.ui.MessageDialog;
+import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -8,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class LoginHandler implements ClickHandler, KeyUpHandler
 {
@@ -43,20 +43,15 @@ public class LoginHandler implements ClickHandler, KeyUpHandler
   {
     updateData();
     
-    userService.login( userName, password, new AsyncCallback< Void >()
-    {
-      @Override
-      public void onFailure( Throwable exception )
-      {
-        (new MessageDialog()).displayMessage( "login failed due to " + exception.toString() );
-      }
-      
-      @Override
-      public void onSuccess( Void returned )
-      {
-        (new MessageDialog()).displayMessage( "login successful" );
-      }
-    } );
+    userService.login( userName, password, 
+                       new PopupFailureReasonCallback< Void >()
+                        {
+                          @Override
+                          public void onSuccess( Void returned )
+                          {
+                            (new MessageDialog()).displayMessage( "login successful" );
+                          }
+                        } );
   }
   public String getUserName()
   {
