@@ -6,9 +6,9 @@ import cg.dbmanagement.gwt.client.ui.QueryPart;
 import cg.dbmanagement.gwt.client.ui.QueryResultPart;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
 import cg.dbmanagement.gwt.shared.data.SessionAttribute;
+import cg.gwt.components.client.ui.MessageDialog;
 import cg.gwt.services.client.ISessionManagementService;
 import cg.gwt.services.client.ISessionManagementServiceAsync;
-import cg.usermanagement.gwt.client.MessageDialog;
 import cg.usermanagement.gwt.client.ui.SystemUserLoginPart;
 
 import com.google.gwt.core.client.EntryPoint;

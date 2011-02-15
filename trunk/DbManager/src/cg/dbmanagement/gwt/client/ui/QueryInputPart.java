@@ -61,39 +61,37 @@ public class QueryInputPart extends Part< QueryInputData, FlexTable >
     final String sql = getData().getSql();
 
     sessionManagementService.getStringValue( SessionAttribute.KEY.PERSISTENCE_SESSION_ID.name(), 
-       new AsyncCallback< String >()
-       {
+      new AsyncCallback< String >()
+      {
         @Override
         public void onFailure( Throwable caught )
         {
           // TODO Auto-generated method stub
         
-      }
-      
-      @Override
-      public void onSuccess( String result )
-      {
-        String sessionId = result;
-        persistenceService.executeNativeQuery( sessionId, sql, 
-           new AsyncCallback< Map< String, List< Object > > >()
-           {
-            @Override
-            public void onFailure( Throwable caught )
-            {
-              // TODO Auto-generated method stub
-              
-            }
-          
-            @Override
-            public void onSuccess( Map< String, List< Object > > result )
-            {
-              
-            }
-          
-           } );
-          
         }
       
+        @Override
+        public void onSuccess( String result )
+        {
+          String sessionId = result;
+          persistenceService.executeNativeQuery( sessionId, sql, 
+             new AsyncCallback< Map< String, List< Object > > >()
+             {
+              @Override
+              public void onFailure( Throwable caught )
+              {
+                // TODO Auto-generated method stub
+              }
+            
+              @Override
+              public void onSuccess( Map< String, List< Object > > result )
+              {
+                
+              }
+            
+             } );
+            
+          }
        } );
   }
   

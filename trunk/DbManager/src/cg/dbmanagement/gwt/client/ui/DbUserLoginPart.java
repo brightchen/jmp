@@ -6,7 +6,7 @@ import cg.dbmanagement.gwt.client.IPersistenceService;
 import cg.dbmanagement.gwt.client.IPersistenceServiceAsync;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
 import cg.gwt.components.client.ui.LazyLoadingPart;
-import cg.usermanagement.gwt.client.MessageDialog;
+import cg.gwt.components.client.ui.MessageDialog;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
