@@ -6,7 +6,7 @@ import cg.dbmanagement.gwt.client.ui.QueryPart;
 import cg.dbmanagement.gwt.client.ui.QueryResultPart;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
 import cg.dbmanagement.gwt.shared.data.SessionAttribute;
-import cg.gwt.components.client.ui.MessageDialog;
+import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.gwt.services.client.ISessionManagementService;
 import cg.gwt.services.client.ISessionManagementServiceAsync;
 import cg.usermanagement.gwt.client.ui.SystemUserLoginPart;
@@ -15,7 +15,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -87,19 +86,7 @@ public class DbManager implements EntryPoint
                       //
                       sessionService.setStringValue( SessionAttribute.KEY.PERSISTENCE_SESSION_ID.name(),
                                                      sessionIdentity,
-                                                     new AsyncCallback< Void >()
-                                                     {
-                                                      @Override
-                                                      public void onFailure( Throwable exception )
-                                                      {
-                                                        (new MessageDialog()).displayMessage( "login failed due to " + exception.toString() );
-                                                      }
-
-                                                      @Override
-                                                      public void onSuccess( Void result )
-                                                      {
-                                                      }
-                                                     } );
+                                                     new PopupFailureReasonCallback< Void >() );
 
                       QueryInputPart input = new QueryInputPart();
                       QueryResultPart result = new QueryResultPart();
@@ -140,8 +127,6 @@ public class DbManager implements EntryPoint
     p.add(new HTML("details"));
     RootLayoutPanel rp = RootLayoutPanel.get();
     rp.add(p);
-
-
   }
 
 }
