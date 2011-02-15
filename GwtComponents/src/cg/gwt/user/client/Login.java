@@ -1,5 +1,7 @@
 package cg.gwt.user.client;
 
+import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -7,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -97,20 +98,15 @@ public class Login implements EntryPoint
     {
       String userName = tbUserName.getText();
       String password = tbPassword.getText();
-      userService.login( userName, password, new AsyncCallback< Void >()
-      {
-        @Override
-        public void onFailure( Throwable exception )
-        {
-          displayMessage( "login failed due to " + exception.toString() );
-        }
-        
-        @Override
-        public void onSuccess( Void returned )
-        {
-          displayMessage( "login successful" );
-        }
-      } );
+      userService.login( userName, password, 
+                         new PopupFailureReasonCallback< Void >()
+                          {
+                            @Override
+                            public void onSuccess( Void returned )
+                            {
+                              displayMessage( "login successful" );
+                            }
+                          } );
     }
     
     protected void displayMessage( String message )
