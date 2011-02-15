@@ -7,13 +7,10 @@ import cg.dbmanagement.config.DatabaseType;
 import cg.dbmanagement.gwt.client.IPersistenceService;
 import cg.dbmanagement.gwt.shared.data.DbException;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
-import cg.gwt.services.client.ISessionManagementService;
-import cg.gwt.services.client.ISessionManagementServiceAsync;
 import cg.persistence.api.PersistenceException;
 import cg.persistence.jdbc.ConnectionParameters;
 import cg.persistence.jdbc.PersistenceManager;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class PersistenceServiceServlet extends RemoteServiceServlet implements IPersistenceService
