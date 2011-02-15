@@ -41,6 +41,15 @@
   </servlet-mapping>
 
 
+  <servlet>
+    <servlet-name>dbManagerSessionManagementService</servlet-name>
+    <servlet-class>cg.gwt.services.server.SessionManagementServiceServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dbManagerSessionManagementService</servlet-name>
+    <url-pattern>/gwtservices/sessionManagementService</url-pattern>
+  </servlet-mapping>
+
 
   <!-- the parameter required by org.springframework.web.context.ContextLoaderListener -->  
   <context-param>
