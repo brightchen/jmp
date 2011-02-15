@@ -1,5 +1,7 @@
 package cg.usermanagement.gwt.client;
 
+import cg.gwt.components.client.ui.MessageDialog;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
