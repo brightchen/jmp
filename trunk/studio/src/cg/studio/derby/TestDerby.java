@@ -15,7 +15,7 @@ public class TestDerby
   public static final String derbyEmbededDriver = "org.apache.derby.jdbc.EmbeddedDriver";
 
   // derby connection: jdbc:derby:[subsubprotocol:][databaseName][;attribute=value]*
-  public static final String derbyDatabase      = "testdb";
+  public static final String derbyDatabase      = "user1";
   public static final String derbyProtocol      = "jdbc:derby:";
   public static final String derbyConnection    = derbyProtocol + derbyDatabase;
 
