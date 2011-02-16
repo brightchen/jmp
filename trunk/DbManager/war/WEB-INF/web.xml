@@ -47,7 +47,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>dbManagerSessionManagementService</servlet-name>
-    <url-pattern>/gwtservices/sessionManagementService</url-pattern>
+    <url-pattern>/dbmanager/gwtservices/sessionManagementService</url-pattern>  <!-- this service should contain the module base URL -->
   </servlet-mapping>
 
 

@@ -17,6 +17,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 
 public class QueryInputPart extends Part< QueryInputData, FlexTable >
@@ -30,16 +32,8 @@ public class QueryInputPart extends Part< QueryInputData, FlexTable >
   public FlexTable build()
   {
     FlexTable table = new FlexTable();
-    QueryInputData data = getData();
     
-    table.setText( 0, 0, "sql: " );
-
-    sqlField = new TextArea();
-    sqlField.setWidth( "800px" );
-    sqlField.setHeight( "400px" );
-    sqlField.setText( data == null ? "" : data.getSql() );
-    table.setWidget( 0, 1, sqlField );
-
+    Panel actionPanel = new SimplePanel();
     Button executeButton = new Button( "execute" );
     executeButton.addClickHandler( new ClickHandler()
                                   {
@@ -50,7 +44,17 @@ public class QueryInputPart extends Part< QueryInputData, FlexTable >
                                     }
                               
                                   } );
-    table.setWidget( 0, 2, executeButton );
+    actionPanel.add( executeButton );
+    
+    table.setWidget( 0, 0, actionPanel );
+
+    QueryInputData data = getData();
+    sqlField = new TextArea();
+    sqlField.setWidth( "800px" );
+    sqlField.setHeight( "400px" );
+    sqlField.setText( data == null ? "" : data.getSql() );
+    table.setWidget( 1, 0, sqlField );
+
 
     return table;
   }
