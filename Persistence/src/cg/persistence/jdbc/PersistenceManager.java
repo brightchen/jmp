@@ -20,6 +20,17 @@ public class PersistenceManager
     return String.valueOf( sessionId );
   }
   
+  public int executeNativeUpdate( String sessionId, String sql ) throws PersistenceException
+  {
+    PersistenceSession session = getSessionById( sessionId );
+    return executeNativeUpdate( session, sql );
+  }
+  
+  public int executeNativeUpdate( PersistenceSession session, String sql ) throws PersistenceException
+  {
+    return session.executeNativeUpdate( sql );
+  }
+  
   //this method provides a shortcut to execute a native sql query.
   //it connect to database, execute sql and then release the connection.
   public static Map< String, List< Object > > executeNativeQuery( ConnectionParameters connectionParameters, 
@@ -40,7 +51,7 @@ public class PersistenceManager
 
   public static Map< String, List< Object > > executeNativeQuery( String sessionId, String sql ) throws PersistenceException
   {
-    return executeNativeQuery( sessionId, sql );
+    return executeNativeQuery( sessionId, sql, null );
   }
 
   public static Map< String, List< Object > > executeNativeQuery( String sessionId, 
