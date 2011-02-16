@@ -15,29 +15,9 @@ public class SessionManagementServiceServlet extends RemoteServiceServlet implem
   private static final long serialVersionUID = -6250448657072026615L;
 
   @Override
-  public Object getValue( String key )
-  {
-    return getSession().getAttribute( key ); 
-  }
-  
-  @Override
   public String getStringValue( String key )
   {
-    return (String)getValue( key );
-  }
-  
-  @Override
-  public Map< String, Object > getValues( List< String > keys )
-  {
-    if( keys == null )
-      return null;
-    
-    Map< String, Object > values = new HashMap< String, Object >();
-    for( String key : keys )
-    {
-      values.put( key, getValue( key ) );
-    }
-    return values;
+    return (String)getSession().getAttribute( key );
   }
   
   public Map< String, String > getStringValues( List< String > keys )
@@ -53,23 +33,9 @@ public class SessionManagementServiceServlet extends RemoteServiceServlet implem
     return values;
   }
 
-  public void setValue( String key, Object value )
-  {
-    getSession().setAttribute( key, value );
-  }
-  
   public void setStringValue( String key, String value )
   {
     getSession().setAttribute( key, value );
-  }
-  
-  public void setValues( Map< String, Object > keyValues )
-  {
-    HttpSession session = getSession();
-    for( Map.Entry< String, Object > entry : keyValues.entrySet() )
-    {
-      session.setAttribute( entry.getKey(), entry.getValue() );
-    }
   }
   
   public void setStringValues( Map< String, String > keyValues )
