@@ -1,8 +1,5 @@
 package cg.dbmanagement.gwt.client.ui;
 
-import java.util.List;
-import java.util.Map;
-
 import cg.dbmanagement.gwt.client.IPersistenceService;
 import cg.dbmanagement.gwt.client.IPersistenceServiceAsync;
 import cg.dbmanagement.gwt.shared.data.QueryInputData;
@@ -11,6 +8,7 @@ import cg.gwt.components.client.ui.Part;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.gwt.services.client.ISessionManagementService;
 import cg.gwt.services.client.ISessionManagementServiceAsync;
+import cg.persistence.model.SqlOutput;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -71,8 +69,8 @@ public class QueryInputPart extends Part< QueryInputData, FlexTable >
         public void onSuccess( String result )
         {
           String sessionId = result;
-          persistenceService.executeNativeQuery( sessionId, sql, 
-                                                 new PopupFailureReasonCallback< Map< String, List< Object > > >() );
+          persistenceService.executeNativeSql( sessionId, sql, 
+                                         new PopupFailureReasonCallback< SqlOutput >() );
             
         }
       } );

@@ -1,13 +1,16 @@
 package cg.persistence.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import cg.common.converter.ConvertNotSupportException;
 import cg.common.converter.Converter;
 
-public class Column
+public class ColumnInfo implements Serializable
 {
+  private static final long serialVersionUID = 6875108251261808429L;
+
   private ColumnMetaData metaData;
   private List< Object > data;
   

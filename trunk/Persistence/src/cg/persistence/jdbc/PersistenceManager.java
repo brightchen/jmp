@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import cg.persistence.api.PersistenceException;
+import cg.persistence.model.ColumnInfo;
+import cg.persistence.model.SqlOutput;
 
 // this class is a facade of the persistence layer
 public class PersistenceManager
@@ -20,48 +22,74 @@ public class PersistenceManager
     return String.valueOf( sessionId );
   }
   
-  public int executeNativeUpdate( String sessionId, String sql ) throws PersistenceException
+  public static SqlOutput executeNativeSql( String sessionId, String sql ) throws PersistenceException
+  {
+    PersistenceSession session = getSessionById( sessionId );
+    return executeNativeSql( session, sql );
+  }
+  
+  protected static boolean isQuerySql( String sql )
+  {
+    final String select = "select";
+    sql = sql.trim();
+    return ( sql.length() > select.length() && sql.startsWith( select ) );
+  }
+  
+  public static SqlOutput executeNativeSql( PersistenceSession session, String sql ) throws PersistenceException
+  {
+    if( isQuerySql( sql ) )
+    {
+      List< ColumnInfo > columns = executeNativeQuery( session, sql, null );
+    }
+    else
+    {
+      int result = executeNativeUpdate( session, sql );
+    }
+    return null;
+  }
+  
+  public static int executeNativeUpdate( String sessionId, String sql ) throws PersistenceException
   {
     PersistenceSession session = getSessionById( sessionId );
     return executeNativeUpdate( session, sql );
   }
   
-  public int executeNativeUpdate( PersistenceSession session, String sql ) throws PersistenceException
+  public static int executeNativeUpdate( PersistenceSession session, String sql ) throws PersistenceException
   {
     return session.executeNativeUpdate( sql );
   }
   
   //this method provides a shortcut to execute a native sql query.
   //it connect to database, execute sql and then release the connection.
-  public static Map< String, List< Object > > executeNativeQuery( ConnectionParameters connectionParameters, 
+  public static List< ColumnInfo > executeNativeQuery( ConnectionParameters connectionParameters, 
                                                                   String sql ) throws PersistenceException
   {
     return executeNativeQuery( connectionParameters, sql, null );
   }
   
-  public static Map< String, List< Object > > executeNativeQuery( ConnectionParameters connectionParameters, 
+  public static List< ColumnInfo > executeNativeQuery( ConnectionParameters connectionParameters, 
                                                                   String sql, Map< Integer, Object > queryParams ) throws PersistenceException
   {
     PersistenceSession session = new PersistenceSession( connectionParameters );
     session.connect();
-    Map< String, List< Object > > result = executeNativeQuery( session, sql, queryParams );
+    List< ColumnInfo > result = executeNativeQuery( session, sql, queryParams );
     session.close();
     return result;
   }
 
-  public static Map< String, List< Object > > executeNativeQuery( String sessionId, String sql ) throws PersistenceException
+  public static List< ColumnInfo > executeNativeQuery( String sessionId, String sql ) throws PersistenceException
   {
     return executeNativeQuery( sessionId, sql, null );
   }
 
-  public static Map< String, List< Object > > executeNativeQuery( String sessionId, 
+  public static List< ColumnInfo > executeNativeQuery( String sessionId, 
                                                                   String sql, Map< Integer, Object > queryParams ) throws PersistenceException
   {
     PersistenceSession session = getSessionById( sessionId );
     return executeNativeQuery( session, sql, queryParams );
   }
   
-  protected static Map< String, List< Object > > executeNativeQuery( PersistenceSession session, 
+  protected static List< ColumnInfo > executeNativeQuery( PersistenceSession session, 
                                                                   String sql, Map< Integer, Object > queryParams ) throws PersistenceException
   {
     return session.executeNativeQuery( sql, queryParams );
