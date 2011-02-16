@@ -1,15 +1,14 @@
 package cg.dbmanagement.gwt.server;
 
-import java.util.List;
-import java.util.Map;
-
 import cg.dbmanagement.config.DatabaseType;
 import cg.dbmanagement.gwt.client.IPersistenceService;
 import cg.dbmanagement.gwt.shared.data.DbException;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
+import cg.dbmanagement.gwt.shared.data.SqlOutputData;
 import cg.persistence.api.PersistenceException;
 import cg.persistence.jdbc.ConnectionParameters;
 import cg.persistence.jdbc.PersistenceManager;
+import cg.persistence.model.SqlOutput;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -42,11 +41,11 @@ public class PersistenceServiceServlet extends RemoteServiceServlet implements I
   }
 
   @Override
-  public Map< String, List< Object > > executeNativeQuery( String persistenceSessionId, String sql ) throws DbException
+  public SqlOutputData executeNativeSql( String persistenceSessionId, String sql ) throws DbException
   {
     try
     {
-      return PersistenceManager.executeNativeQuery( persistenceSessionId, sql );
+      SqlOutput output = PersistenceManager.executeNativeSql( persistenceSessionId, sql );
     }
     catch( PersistenceException e )
     {

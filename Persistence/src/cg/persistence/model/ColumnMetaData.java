@@ -1,12 +1,15 @@
 package cg.persistence.model;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-public class ColumnMetaData
+public class ColumnMetaData implements Serializable
 {
+  private static final long serialVersionUID = -459714645217262638L;
+
   //the fully class name of the java class
   private String className;
   private int sqlType;   //the SQL type see java.sql.Types
