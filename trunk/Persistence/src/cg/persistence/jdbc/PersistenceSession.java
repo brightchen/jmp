@@ -43,9 +43,33 @@ public class PersistenceSession implements Identifiable< Long >
     return identity;
   }
   
+  protected void ensureConnected() throws PersistenceException
+  {
+    if( connection == null )
+      connect();
+  }
+  
   public void setConnectionParameters( ConnectionParameters connectionParameters )
   {
     this.connectionParameters = connectionParameters;
+  }
+  
+  public int executeNativeUpdate( String sql ) throws PersistenceException
+  {
+    ensureConnected();
+    
+    try
+    {
+      Statement statement = connection.prepareStatement( sql );
+      
+      int rows = statement.executeUpdate( sql );     //should judge the sql is query or update/create etc
+      return rows;
+    }
+    catch( SQLException e )
+    {
+      throw new PersistenceException( "fetchResultSet() failed.", e );
+    }
+
   }
   
   public Map< String, List< Object > > executeNativeQuery( String sql ) throws PersistenceException
@@ -60,12 +84,8 @@ public class PersistenceSession implements Identifiable< Long >
   
   protected ResultSet fetchResultSet( String sql, Map< Integer, Object > params ) throws PersistenceException
   {
-    if( connection == null )
-      connect();
+    ensureConnected();
     
-    if( connection == null )  //throw exception here
-      return null;
-
     try
     {
       PreparedStatement ps = connection.prepareStatement( sql );
@@ -77,7 +97,7 @@ public class PersistenceSession implements Identifiable< Long >
         }
       }
       
-      ResultSet rs = ps.executeQuery();
+      ResultSet rs = ps.executeQuery();     //should judge the sql is query or update/create etc
       ps.close();
       return rs;
     }
