@@ -80,7 +80,18 @@ public class PersistenceSession implements Identifiable< Long >
   public List< ColumnInfo > executeNativeQuery( String sql, Map< Integer, Object > params )
       throws PersistenceException
   {
-    return convertOutput( fetchResultSet( sql, params ) );
+    ResultSet rs = fetchResultSet( sql, params );
+    List< ColumnInfo > columns = convertOutput( rs );
+
+    try
+    {
+      //close the result set here
+      rs.close();
+    }
+    catch( SQLException e )
+    {
+    }
+    return columns;
   }
 
   protected ResultSet fetchResultSet( String sql, Map< Integer, Object > params ) throws PersistenceException
@@ -99,7 +110,6 @@ public class PersistenceSession implements Identifiable< Long >
       }
 
       ResultSet rs = ps.executeQuery(); // should judge the sql is query or update/create etc
-      ps.close();
       return rs;
     }
     catch ( SQLException e )
@@ -150,7 +160,7 @@ public class PersistenceSession implements Identifiable< Long >
     }
     catch ( SQLException e )
     {
-      throw new PersistenceException( "convertResultSetToMap()", e );
+      throw new PersistenceException( "convertOutput()", e );
     }
   }
 

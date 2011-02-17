@@ -31,7 +31,7 @@ public class MessageDialog
     
     dlg.add( okButton );
     
-    dlg.show();
+    dlg.center();
   }
   
   public void setTitle( String title )
