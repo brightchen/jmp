@@ -4,11 +4,11 @@ import cg.dbmanagement.gwt.client.IPersistenceService;
 import cg.dbmanagement.gwt.client.IPersistenceServiceAsync;
 import cg.dbmanagement.gwt.shared.data.QueryInputData;
 import cg.dbmanagement.gwt.shared.data.SessionAttribute;
+import cg.dbmanagement.gwt.shared.data.SqlOutputData;
 import cg.gwt.components.client.ui.Part;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.gwt.services.client.ISessionManagementService;
 import cg.gwt.services.client.ISessionManagementServiceAsync;
-import cg.persistence.model.SqlOutput;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,7 +23,8 @@ public class QueryInputPart extends Part< QueryInputData, FlexTable >
 {
   private ISessionManagementServiceAsync sessionManagementService = GWT.create( ISessionManagementService.class );
   private IPersistenceServiceAsync persistenceService = GWT.create( IPersistenceService.class );
-
+  private ISqlOutputHandler sqlOutputHandler;
+  
   private TextArea sqlField;
   
   @Override
@@ -70,7 +71,14 @@ public class QueryInputPart extends Part< QueryInputData, FlexTable >
         {
           String sessionId = result;
           persistenceService.executeNativeSql( sessionId, sql, 
-                                         new PopupFailureReasonCallback< SqlOutput >() );
+                                               new PopupFailureReasonCallback< SqlOutputData >()
+                                               {
+                                                @Override
+                                                public void onSuccess( SqlOutputData outputData )
+                                                {
+                                                  handleSqlOutputData( outputData );
+                                                }
+                                               } );
             
         }
       } );
@@ -88,4 +96,21 @@ public class QueryInputPart extends Part< QueryInputData, FlexTable >
     return new QueryInputData();
   }
 
+  protected void handleSqlOutputData( SqlOutputData outputData )
+  {
+    if( sqlOutputHandler == null )
+      return;
+    sqlOutputHandler.handleSqlOutput( outputData );
+  }
+
+  public ISqlOutputHandler getSqlOutputHandler()
+  {
+    return sqlOutputHandler;
+  }
+  public void setSqlOutputHandler( ISqlOutputHandler sqlOutputHandler )
+  {
+    this.sqlOutputHandler = sqlOutputHandler;
+  }
+  
+  
 }

@@ -60,7 +60,7 @@ public class PersistenceSession implements Identifiable< Long >
 
     try
     {
-      Statement statement = connection.prepareStatement( sql );
+      Statement statement = connection.createStatement();
 
       int rows = statement.executeUpdate( sql ); // should judge the sql is query or update/create etc
       return rows;

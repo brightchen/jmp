@@ -6,15 +6,15 @@ public abstract class SqlOutput implements Serializable
 {
   private static final long serialVersionUID = 7378927579548678003L;
   
-  protected SqlOutputDesc outputDesc;
+  protected SqlOutputType outputType;
 
-  public SqlOutputDesc getOutputDesc()
+  public SqlOutputType getOutputType()
   {
-    return outputDesc;
+    return outputType;
   }
-  public void setOutputDesc( SqlOutputDesc outputDesc )
+  public void setOutputType( SqlOutputType outputType )
   {
-    this.outputDesc = outputDesc;
+    this.outputType = outputType;
   }
 
   public abstract <T> T getOutput();

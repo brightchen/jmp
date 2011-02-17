@@ -46,6 +46,7 @@ public class PersistenceServiceServlet extends RemoteServiceServlet implements I
     try
     {
       SqlOutput output = PersistenceManager.executeNativeSql( persistenceSessionId, sql );
+      return SqlOutputConverter.convertSqlOutput( output );
     }
     catch( PersistenceException e )
     {

@@ -9,6 +9,7 @@ public class QueryOutput extends SqlOutput
   private List< ColumnInfo > columnInfos;
   public QueryOutput( List< ColumnInfo > columnInfos )
   {
+    setOutputType( SqlOutputType.QUERY );
     setColumnInfos( columnInfos );
   }
   
