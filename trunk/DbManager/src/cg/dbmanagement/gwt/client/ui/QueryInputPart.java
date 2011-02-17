@@ -32,28 +32,31 @@ public class QueryInputPart extends Part< QueryInputData, FlexTable >
   {
     FlexTable table = new FlexTable();
     
-    Panel actionPanel = new SimplePanel();
-    Button executeButton = new Button( "execute" );
-    executeButton.addClickHandler( new ClickHandler()
-                                  {
-                                    @Override
-                                    public void onClick( ClickEvent event )
+    {
+      QueryInputData data = getData();
+      sqlField = new TextArea();
+      sqlField.setWidth( "800px" );
+      sqlField.setHeight( "400px" );
+      sqlField.setText( data == null ? "" : data.getSql() );
+      table.setWidget( 0, 0, sqlField );
+    }
+
+    {
+      Panel actionPanel = new SimplePanel();
+      Button executeButton = new Button( "execute" );
+      executeButton.addClickHandler( new ClickHandler()
                                     {
-                                      doExecuteSql();
-                                    }
-                              
-                                  } );
-    actionPanel.add( executeButton );
-    
-    table.setWidget( 0, 0, actionPanel );
-
-    QueryInputData data = getData();
-    sqlField = new TextArea();
-    sqlField.setWidth( "800px" );
-    sqlField.setHeight( "400px" );
-    sqlField.setText( data == null ? "" : data.getSql() );
-    table.setWidget( 1, 0, sqlField );
-
+                                      @Override
+                                      public void onClick( ClickEvent event )
+                                      {
+                                        doExecuteSql();
+                                      }
+                                
+                                    } );
+      actionPanel.add( executeButton );
+      
+      table.setWidget( 1, 0, actionPanel );
+    }
 
     return table;
   }
