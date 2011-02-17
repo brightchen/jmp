@@ -97,7 +97,15 @@ public class DbManager implements EntryPoint
 //                      queryPanel.addWest(new HTML("navigation"), 128);
 //                      queryPanel.addNorth(new HTML("list"), 384);
 //                      queryPanel.add(new HTML("details"));
-                      QueryPart queryPart = new QueryPart( input, result );
+                      QueryPart queryPart = new QueryPart( input, result )
+                      {
+                        @Override
+                        protected void doClose()
+                        {
+                          tabPanel.remove( 2 );
+                        }
+                      };
+                      
                       VerticalPanel queryPanel = new VerticalPanel();
                       queryPart.setContainer( queryPanel );
 //                      queryPanel.add( input.build() );
