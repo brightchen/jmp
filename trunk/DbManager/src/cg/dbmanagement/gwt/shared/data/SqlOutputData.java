@@ -21,6 +21,7 @@ public abstract class SqlOutputData implements Serializable
 
   public OutputType getOutputType()
   {
+    assert( outputType != null );
     return outputType;
   }
   public void setOutputType( OutputType outputType )

@@ -9,6 +9,11 @@ public class QueryOutputData extends SqlOutputData
   
   private List< ColumnData > columnDatas;
   
+  public QueryOutputData()
+  {
+    setOutputType( OutputType.QUERY );
+  }
+  
   @Override
   public List< ColumnData > getOutput()
   {
