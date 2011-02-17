@@ -6,7 +6,9 @@ import java.util.Map;
 
 import cg.persistence.api.PersistenceException;
 import cg.persistence.model.ColumnInfo;
+import cg.persistence.model.QueryOutput;
 import cg.persistence.model.SqlOutput;
+import cg.persistence.model.UpdateOutput;
 
 // this class is a facade of the persistence layer
 public class PersistenceManager
@@ -37,15 +39,18 @@ public class PersistenceManager
   
   public static SqlOutput executeNativeSql( PersistenceSession session, String sql ) throws PersistenceException
   {
+    SqlOutput output;
     if( isQuerySql( sql ) )
     {
       List< ColumnInfo > columns = executeNativeQuery( session, sql, null );
+      output = new QueryOutput( columns );
     }
     else
     {
       int result = executeNativeUpdate( session, sql );
+      output = new UpdateOutput( result );
     }
-    return null;
+    return output;
   }
   
   public static int executeNativeUpdate( String sessionId, String sql ) throws PersistenceException

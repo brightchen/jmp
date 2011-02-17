@@ -12,5 +12,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/GwtComponents"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Persistence"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GwtServices"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

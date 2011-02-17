@@ -9,21 +9,21 @@ public abstract class SqlOutputData implements Serializable
 {
   private static final long serialVersionUID = -2826602840973139864L;
   
-  public static enum OUTPUT_TYPE
+  public static enum OutputType
   {
-    UPDATE_OUTPUT,
-    QUERY_OUTPUT
+    QUERY,
+    UPDATE
   }
 
-  private OUTPUT_TYPE outputType;
+  private OutputType outputType;
   
   public abstract <T> T getOutput();
 
-  public OUTPUT_TYPE getOutputType()
+  public OutputType getOutputType()
   {
     return outputType;
   }
-  public void setOutputType( OUTPUT_TYPE outputType )
+  public void setOutputType( OutputType outputType )
   {
     this.outputType = outputType;
   }

@@ -13,5 +13,6 @@ public class QueryPart extends TypicalCompositePart< QueryInputData, FlexTable, 
   public QueryPart( QueryInputPart part1, QueryResultPart part2 )
   {
     super( part1, part2 );
+    part1.setSqlOutputHandler( part2 );
   }
 }

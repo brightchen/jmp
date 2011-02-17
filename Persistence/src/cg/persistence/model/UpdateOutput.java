@@ -7,8 +7,19 @@ public class UpdateOutput extends SqlOutput
 
   //number of records which affected by update
   private int numOfRecords;
+
+  public UpdateOutput()
+  {
+    this( 0 );
+  }
   
   public UpdateOutput( int numOfRecords )
+  {
+    setOutputType( SqlOutputType.UPDATE );
+    this.numOfRecords = numOfRecords;
+  }
+  
+  public void setNumOfRecords( int numOfRecords )
   {
     this.numOfRecords = numOfRecords;
   }
