@@ -25,14 +25,14 @@ public class ColumnInfo implements Serializable
   
   public <T> void addRow( T row )
   {
-    if( data == null )
-      data = new ArrayList<Object>();
+    ensureData();
     data.add( row );
   }
   
   //convert the object to type T and add to the data list
   public void addObject( Object obj )
   {
+    ensureData();
     data.add( obj );
   }
   
@@ -61,5 +61,12 @@ public class ColumnInfo implements Serializable
       e.printStackTrace();
     }
     return null;
+  }
+  
+  protected List< Object > ensureData()
+  {
+    if( data == null )
+      data = new ArrayList<Object>();
+    return data;
   }
 }
