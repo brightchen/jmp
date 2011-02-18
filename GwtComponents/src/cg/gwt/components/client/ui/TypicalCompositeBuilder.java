@@ -1,23 +1,23 @@
 package cg.gwt.components.client.ui;
 
-import cg.gwt.components.shared.data.PartData;
+import cg.gwt.components.shared.data.WidgetData;
 
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class TypicalCompositePart< D1 extends PartData, W1 extends Widget, P1 extends Part< D1, W1 >,
-                                   D2 extends PartData, W2 extends Widget, P2 extends Part< D2, W2 >, 
-                                   P extends Panel >  extends CompositePart< D1, W1, P1, D2, W2, P2, P >
+public class TypicalCompositeBuilder< D1 extends WidgetData, W1 extends Widget, P1 extends Builder< D1, W1 >,
+                                   D2 extends WidgetData, W2 extends Widget, P2 extends Builder< D2, W2 >, 
+                                   P extends Panel >  extends CompositeBuilder< D1, W1, P1, D2, W2, P2, P >
 {
   private ICompositeBuilder< P > compositeBuilder;
   private P container;
   
-  public TypicalCompositePart( P1 part1, P2 part2 )
+  public TypicalCompositeBuilder( P1 part1, P2 part2 )
   {
     this( part1, part2, null );
   }
   
-  public TypicalCompositePart( P1 part1, P2 part2, ICompositeBuilder< P > compositeBuilder )
+  public TypicalCompositeBuilder( P1 part1, P2 part2, ICompositeBuilder< P > compositeBuilder )
   {
     setPart1( part1 );
     setPart2( part2 );

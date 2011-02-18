@@ -1,6 +1,6 @@
 package cg.usermanagement.gwt.client.ui;
 
-import cg.gwt.components.client.ui.Part;
+import cg.gwt.components.client.ui.Builder;
 import cg.usermanagement.gwt.client.LoginHandler;
 import cg.usermanagement.gwt.shared.data.SystemUserLoginData;
 
@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class SystemUserLoginPart extends Part< SystemUserLoginData, FlexTable >
+public class SystemUserLoginPart extends Builder< SystemUserLoginData, FlexTable >
 {
   private TextBox nameField;
   private TextBox passwordField;

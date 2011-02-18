@@ -3,9 +3,9 @@ package cg.dbmanagement.gwt.shared.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import cg.gwt.components.shared.data.PartData;
+import cg.gwt.components.shared.data.WidgetData;
 
-public class QueryResultData implements PartData
+public class QueryResultData implements WidgetData
 {
   private static final long serialVersionUID = -5604057943654882297L;
 

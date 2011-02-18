@@ -1,9 +1,9 @@
 package cg.dbmanagement.gwt.client;
 
-import cg.dbmanagement.gwt.client.ui.DbUserLoginPart;
-import cg.dbmanagement.gwt.client.ui.QueryInputPart;
+import cg.dbmanagement.gwt.client.ui.DbUserLoginBuilder;
+import cg.dbmanagement.gwt.client.ui.QueryInputWidgetBuilder;
 import cg.dbmanagement.gwt.client.ui.QueryPart;
-import cg.dbmanagement.gwt.client.ui.QueryResultPart;
+import cg.dbmanagement.gwt.client.ui.QueryResultWidgetBuilder;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
 import cg.dbmanagement.gwt.shared.data.SessionAttribute;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class DbManager implements EntryPoint
 {
-  private DbUserLoginPart dbLoginPart;
+  private DbUserLoginBuilder dbLoginPart;
   private TabPanel tabPanel;
   private SplitLayoutPanel queryPanel;
 
@@ -78,7 +78,7 @@ public class DbManager implements EntryPoint
 
   protected Widget buildDatabaseLogin()
   {
-    dbLoginPart = new DbUserLoginPart()
+    dbLoginPart = new DbUserLoginBuilder()
                   {
                     @Override
                     protected void onconnectToDBSuccess( String sessionIdentity )
@@ -88,8 +88,8 @@ public class DbManager implements EntryPoint
                                                      sessionIdentity,
                                                      new PopupFailureReasonCallback< Void >() );
 
-                      QueryInputPart input = new QueryInputPart();
-                      QueryResultPart result = new QueryResultPart();
+                      QueryInputWidgetBuilder input = new QueryInputWidgetBuilder();
+                      QueryResultWidgetBuilder result = new QueryResultWidgetBuilder();
 // the SplitLayoutPanel doesn't work properly     
 //                      SplitLayoutPanel queryPanel = new SplitLayoutPanel();
 //                      input.build();
