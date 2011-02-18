@@ -9,10 +9,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class QueryPart extends TypicalCompositePart< QueryInputData, FlexTable, QueryInputPart,
-                                                     QueryResultData, FlexTable, QueryResultPart, VerticalPanel >
+                                                     QueryResultData, ScrollPanel, QueryResultPart, VerticalPanel >
 {
   public QueryPart( QueryInputPart part1, QueryResultPart part2 )
   {
