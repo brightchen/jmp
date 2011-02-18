@@ -24,13 +24,6 @@ public class QueryResultWidgetBuilder extends Builder< QueryResultData, ScrollPa
   }
 
   @Override
-  public void updateData()
-  {
-    // TODO Auto-generated method stub
-    
-  }
-
-  @Override
   protected QueryResultData createData()
   {
     // TODO Auto-generated method stub
