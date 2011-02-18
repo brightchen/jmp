@@ -5,7 +5,7 @@ import cg.dbmanagement.gwt.client.IPersistenceServiceAsync;
 import cg.dbmanagement.gwt.shared.data.QueryInputData;
 import cg.dbmanagement.gwt.shared.data.SessionAttribute;
 import cg.dbmanagement.gwt.shared.data.SqlOutputData;
-import cg.gwt.components.client.ui.Part;
+import cg.gwt.components.client.ui.Builder;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.gwt.services.client.ISessionManagementService;
 import cg.gwt.services.client.ISessionManagementServiceAsync;
@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 
-public class QueryInputPart extends Part< QueryInputData, FlexTable >
+public class QueryInputWidgetBuilder extends Builder< QueryInputData, FlexTable >
 {
   private ISessionManagementServiceAsync sessionManagementService = GWT.create( ISessionManagementService.class );
   private IPersistenceServiceAsync persistenceService = GWT.create( IPersistenceService.class );

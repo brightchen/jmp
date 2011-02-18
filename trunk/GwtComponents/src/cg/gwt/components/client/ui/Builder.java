@@ -1,19 +1,21 @@
 package cg.gwt.components.client.ui;
 
-import cg.gwt.components.shared.data.PartData;
+import cg.gwt.components.shared.data.WidgetData;
 
 import com.google.gwt.user.client.ui.Widget;
 
 
-//Part is a kind of UI Widget/Composite which represent a part of UI. which should be larger component than Widget.
-//It should be combined by Widgets and can build itself.
-public abstract class Part< T extends PartData, W extends Widget >
+//In fact, the original concept Part is really a builder.
+//it build the widget use the data.
+//So, refactor the Part to Builder.
+//another concept is digest the data from the widget, the class for this processing is digester
+public abstract class Builder< T extends WidgetData, W extends Widget >
 {
   private T data;
   
-  public Part(){}
+  public Builder(){}
   
-  public Part( T data )
+  public Builder( T data )
   {
     setData( data );
   }

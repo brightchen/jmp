@@ -1,8 +1,8 @@
 package cg.dbmanagement.gwt.shared.data;
 
-import cg.gwt.components.shared.data.PartData;
+import cg.gwt.components.shared.data.WidgetData;
 
-public class DbUserLoginData implements PartData
+public class DbUserLoginData implements WidgetData
 {
   private static final long serialVersionUID = 2427711317296226011L;
   

@@ -1,8 +1,8 @@
 package cg.usermanagement.gwt.shared.data;
 
-import cg.gwt.components.shared.data.PartData;
+import cg.gwt.components.shared.data.WidgetData;
 
-public class SystemUserLoginData implements PartData
+public class SystemUserLoginData implements WidgetData
 {
   private static final long serialVersionUID = 665267442451753317L;
   

@@ -5,7 +5,7 @@ import cg.dbmanagement.gwt.client.IConfigServiceAsync;
 import cg.dbmanagement.gwt.client.IPersistenceService;
 import cg.dbmanagement.gwt.client.IPersistenceServiceAsync;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
-import cg.gwt.components.client.ui.LazyLoadingPart;
+import cg.gwt.components.client.ui.LazyLoadingBuilder;
 import cg.gwt.components.client.ui.MessageDialog;
 
 import com.google.gwt.core.client.GWT;
@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class DbUserLoginPart extends LazyLoadingPart< DbUserLoginData, FlexTable >
+public class DbUserLoginBuilder extends LazyLoadingBuilder< DbUserLoginData, FlexTable >
 {
   private ListBox databaseList = new ListBox();
   private TextBox urlField;
