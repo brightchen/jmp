@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 //it build the widget use the data.
 //So, refactor the Part to Builder.
 //another concept is digest the data from the widget, the class for this processing is digester
-public abstract class Builder< T extends WidgetData, W extends Widget >
+public abstract class Builder< T extends WidgetData, W extends Widget > implements IBuilder< T, W >
 {
   private T data;
   
