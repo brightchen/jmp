@@ -10,15 +10,16 @@ import cg.dbmanagement.gwt.shared.data.UpdateOutputData;
 import cg.gwt.components.client.ui.Part;
 
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class QueryResultPart extends Part< QueryResultData, FlexTable > implements ISqlOutputHandler
+public class QueryResultPart extends Part< QueryResultData, ScrollPanel > implements ISqlOutputHandler
 {
-  private FlexTable container;
+  private ScrollPanel container;
   
   @Override
-  public FlexTable build()
+  public ScrollPanel build()
   {
-    container = new FlexTable();
+    container = new ScrollPanel();
     return container;
   }
 
@@ -39,10 +40,13 @@ public class QueryResultPart extends Part< QueryResultData, FlexTable > implemen
   @Override
   public void handleSqlOutput( SqlOutputData outputData )
   {
+    container.clear();
+    
+    FlexTable table = new FlexTable();
     if( SqlOutputData.OutputType.UPDATE.equals( outputData.getOutputType() ) )
     {
       UpdateOutputData data = (UpdateOutputData)outputData;
-      container.setText( 0, 0, String.valueOf( data.getOutput() ) );
+      table.setText( 0, 0, String.valueOf( data.getOutput() ) );
     }
     else
     {
@@ -54,7 +58,7 @@ public class QueryResultPart extends Part< QueryResultData, FlexTable > implemen
       for( ColumnData column : columns )
       {
         String label = column.getLabel();
-        container.setText( 0, columnIndex, label );
+        table.setText( 0, columnIndex, label );
         
         List< String > rows = column.getData();
         if( rows != null && rows.size() > 0 )
@@ -62,13 +66,14 @@ public class QueryResultPart extends Part< QueryResultData, FlexTable > implemen
           int rowIndex = 0;
           for( String row : rows )
           {
-            container.setText( rowIndex+1, columnIndex, row );
+            table.setText( rowIndex+1, columnIndex, row );
+            ++rowIndex;
           }
-          ++rowIndex;
         }
         ++columnIndex;
       }
     }
+    container.add( table );
   }
 
 }
