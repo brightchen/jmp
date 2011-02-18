@@ -5,48 +5,58 @@ import cg.gwt.components.shared.data.WidgetData;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class TypicalCompositeBuilder< D1 extends WidgetData, W1 extends Widget, P1 extends Builder< D1, W1 >,
-                                   D2 extends WidgetData, W2 extends Widget, P2 extends Builder< D2, W2 >, 
-                                   P extends Panel >  extends CompositeBuilder< D1, W1, P1, D2, W2, P2, P >
+public class TypicalCompositeBuilder< D1 extends WidgetData, W1 extends Widget, B1 extends Builder< D1, W1 >,
+                                   D2 extends WidgetData, W2 extends Widget, B2 extends Builder< D2, W2 >, 
+                                   C extends Panel >  extends CompositeBuilder< D1, W1, B1, D2, W2, B2, C >
 {
-  private ICompositeBuilder< P > compositeBuilder;
-  private P container;
+  private ICompositeBuilder< C > compositeBuilder;
+  private C container;
   
-  public TypicalCompositeBuilder( P1 part1, P2 part2 )
+  public TypicalCompositeBuilder( B1 builder1, B2 builder2 )
   {
-    this( part1, part2, null );
+    this( builder1, builder2, null );
   }
   
-  public TypicalCompositeBuilder( P1 part1, P2 part2, ICompositeBuilder< P > compositeBuilder )
+  public TypicalCompositeBuilder( B1 builder1, B2 builder2, ICompositeBuilder< C > compositeBuilder )
   {
-    setPart1( part1 );
-    setPart2( part2 );
+    setBuilder1( builder1 );
+    setBuilder2( builder2 );
     setCompositeBuilder( compositeBuilder );
   }
   
   @Override
-  public P build()
+  public C build()
   {
-    ICompositeBuilder< P > theBuilder = ( compositeBuilder == null ? new SimpleCompositeBuilder<P>() : compositeBuilder );
-    return theBuilder.build( container, getPart1().build(), getPart2().build() );
+    ICompositeBuilder< C > theBuilder = ( compositeBuilder == null ? new SimpleCompositeBuilder<C>() : compositeBuilder );
+    return theBuilder.build( container, getBuilder1().build(), getBuilder2().build() );
   }
 
-  public ICompositeBuilder<P> getCompositeBuilder()
+  //simplly refresh the sub widgets
+  @Override
+  public void refreshWidget()
+  {
+    if( getBuilder1() != null )
+      getBuilder1().refreshWidget();
+    if( getBuilder2() != null )
+      getBuilder2().refreshWidget();
+  }
+  
+  public ICompositeBuilder<C> getCompositeBuilder()
   {
     return compositeBuilder;
   }
 
-  public void setCompositeBuilder( ICompositeBuilder<P> compositeBuilder )
+  public void setCompositeBuilder( ICompositeBuilder<C> compositeBuilder )
   {
     this.compositeBuilder = compositeBuilder;
   }
 
-  public P getContainer()
+  public C getContainer()
   {
     return container;
   }
 
-  public void setContainer( P container )
+  public void setContainer( C container )
   {
     this.container = container;
   }

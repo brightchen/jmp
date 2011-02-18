@@ -5,7 +5,8 @@ import cg.dbmanagement.gwt.client.IConfigServiceAsync;
 import cg.dbmanagement.gwt.client.IPersistenceService;
 import cg.dbmanagement.gwt.client.IPersistenceServiceAsync;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
-import cg.gwt.components.client.ui.LazyLoadingBuilder;
+import cg.gwt.components.client.ui.Builder;
+import cg.gwt.components.client.ui.IWidgetDigester;
 import cg.gwt.components.client.ui.MessageDialog;
 
 import com.google.gwt.core.client.GWT;
@@ -20,7 +21,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class DbUserLoginBuilder extends LazyLoadingBuilder< DbUserLoginData, FlexTable >
+public class DbUserLoginBuilder extends Builder< DbUserLoginData, FlexTable > implements IWidgetDigester
 {
   private ListBox databaseList = new ListBox();
   private TextBox urlField;
@@ -106,7 +107,7 @@ public class DbUserLoginBuilder extends LazyLoadingBuilder< DbUserLoginData, Fle
   
   protected void doConnectDbButtonClicked()
   {
-    updateData();
+    digest();
     connectToDB();
   }
 
@@ -130,14 +131,14 @@ public class DbUserLoginBuilder extends LazyLoadingBuilder< DbUserLoginData, Fle
   }
   
   @Override
-  public void load()
+  public void refreshWidget()
   {
     //this method need to call the service, put it into the lazy loading
     refreshDatabases();
   }
   
   @Override
-  public void updateData()
+  public void digest()
   {
     DbUserLoginData data = getData();
     data.setSelectedDatabaseIndex( databaseList.getSelectedIndex() );

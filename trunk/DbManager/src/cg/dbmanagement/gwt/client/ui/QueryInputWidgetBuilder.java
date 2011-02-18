@@ -6,6 +6,7 @@ import cg.dbmanagement.gwt.shared.data.QueryInputData;
 import cg.dbmanagement.gwt.shared.data.SessionAttribute;
 import cg.dbmanagement.gwt.shared.data.SqlOutputData;
 import cg.gwt.components.client.ui.Builder;
+import cg.gwt.components.client.ui.IWidgetDigester;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.gwt.services.client.ISessionManagementService;
 import cg.gwt.services.client.ISessionManagementServiceAsync;
@@ -19,7 +20,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 
-public class QueryInputWidgetBuilder extends Builder< QueryInputData, FlexTable >
+public class QueryInputWidgetBuilder extends Builder< QueryInputData, FlexTable > implements IWidgetDigester
 {
   private ISessionManagementServiceAsync sessionManagementService = GWT.create( ISessionManagementService.class );
   private IPersistenceServiceAsync persistenceService = GWT.create( IPersistenceService.class );
@@ -63,7 +64,7 @@ public class QueryInputWidgetBuilder extends Builder< QueryInputData, FlexTable 
 
   protected void doExecuteSql()
   {
-    updateData();
+    digest();
     final String sql = getData().getSql();
 
     sessionManagementService.getStringValue( SessionAttribute.KEY.PERSISTENCE_SESSION_ID.name(), 
@@ -88,7 +89,7 @@ public class QueryInputWidgetBuilder extends Builder< QueryInputData, FlexTable 
   }
   
   @Override
-  public void updateData()
+  public void digest()
   {
     getData().setSql( sqlField.getText() );
   }

@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class DbManager implements EntryPoint
 {
-  private DbUserLoginBuilder dbLoginPart;
+  private DbUserLoginBuilder dbLoginBuilder;
   private TabPanel tabPanel;
   private SplitLayoutPanel queryPanel;
 
@@ -53,7 +53,7 @@ public class DbManager implements EntryPoint
                                 if( selectItemIndex == 1 )
                                 {
                                   //the database login tab is selected
-                                  dbLoginPart.load();
+                                  dbLoginBuilder.refreshWidget();
                                 }
                               }
                             } );
@@ -78,7 +78,7 @@ public class DbManager implements EntryPoint
 
   protected Widget buildDatabaseLogin()
   {
-    dbLoginPart = new DbUserLoginBuilder()
+    dbLoginBuilder = new DbUserLoginBuilder()
                   {
                     @Override
                     protected void onconnectToDBSuccess( String sessionIdentity )
@@ -120,9 +120,9 @@ public class DbManager implements EntryPoint
     data.setJdbcUrl( "jdbc:derby:userdb;create=true" );
     data.setUserName( "user1" );
     data.setPassword( "user1" );
-    dbLoginPart.setData( data );
+    dbLoginBuilder.setData( data );
     
-    return dbLoginPart.build();
+    return dbLoginBuilder.build();
 
   }
   
