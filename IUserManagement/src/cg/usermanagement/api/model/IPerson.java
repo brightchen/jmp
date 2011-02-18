@@ -10,10 +10,4 @@ public interface IPerson extends INamedEntity
   public void setMiddle( String middleName );
   public String getLastName();
   public void setLastName( String lastName );
-  
-  public String getPassword();
-  public void setPassword( String password );
-  
-  public IAddress getAddress();
-  public void setAddress( IAddress address );
 }

@@ -1,15 +1,17 @@
 package cg.usermanagement.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import cg.usermanagement.api.model.IAddress;
+import cg.usermanagement.api.model.IAccount;
 import cg.usermanagement.api.model.IUser;
 
 
 @Entity
 @Table(name="TUSER")
-public class UserBean implements IUser
+public class User implements IUser
 {
   @javax.persistence.SequenceGenerator(name="TUSER_SEQ",sequenceName="TUSER_SEQ")
   @javax.persistence.Id 
@@ -99,35 +101,17 @@ public class UserBean implements IUser
   @Override
   public void setMiddle( String middleName )
   {
-    // TODO Auto-generated method stub
-    
+    this.middleName = middleName;
   }
 
   @Override
-  public IAddress getAddress()
+  public List< ? extends IAccount > getAccounts()
   {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public void setAddress( IAddress address )
+  public void setAccounts( List< ? extends IAccount > accounts )
   {
-    // TODO Auto-generated method stub
-    
-  }
-
-  @Override
-  public String getUesrId()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public void setUserId( String userId )
-  {
-    // TODO Auto-generated method stub
-    
   }
 }

@@ -39,7 +39,7 @@ public class PersistenceManager
     return entityManager;
   }
 
-  @PersistenceContext(unitName="app")
+  @PersistenceContext
   public void setEntityManager( EntityManager entityManager )
   {
     if( instance == null )

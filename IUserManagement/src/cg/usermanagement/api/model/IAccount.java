@@ -10,6 +10,9 @@ public interface IAccount extends IEntity
   public String getAccountId();
   public void setAccountId( String accountId );
 
+  public String getPassword();
+  public void setPassword();
+  
   public boolean isExpired();
   public void setExpired( boolean expired );
   
