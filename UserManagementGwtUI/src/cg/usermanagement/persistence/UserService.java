@@ -5,6 +5,7 @@ import javax.persistence.NoResultException;
 import cg.usermanagement.api.model.IAccount;
 import cg.usermanagement.api.model.IUser;
 import cg.usermanagement.api.service.IUserService;
+import cg.usermanagement.model.Account;
 import cg.usermanagement.model.User;
 
 public class UserService implements IUserService
@@ -26,8 +27,15 @@ public class UserService implements IUserService
   @Override
   public IAccount findAccountByAccountId( String accountId )
   {
-    // TODO Auto-generated method stub
-    return null;
+    String hsql = String.format( "select a from %s a where a.accountId = \'%s\'", Account.class.getName(), accountId );
+    try
+    {
+      return (Account)PersistenceManager.getPersistenceEntityManager().createQuery( hsql  ).getSingleResult();
+    }
+    catch( NoResultException noResult )
+    {
+      return null;
+    }
   }
 
 }
