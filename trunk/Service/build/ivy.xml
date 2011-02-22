@@ -5,7 +5,9 @@
   </configurations>
    
   <dependencies>
-    <dependency org="net.java.dev.glassfish" name="glassfish-persistence-api" rev="b32g" >
-    </dependency>
+    <dependency org="net.java.dev.glassfish" name="glassfish-persistence-api" rev="b32g" />
+    
+    <!-- reflections -->
+    <dependency org="org.reflections" name="reflections" rev="0.9.5-RC2" />
   </dependencies>
 </ivy-module>
