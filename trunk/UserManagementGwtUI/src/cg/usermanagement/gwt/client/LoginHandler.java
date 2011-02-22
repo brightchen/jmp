@@ -14,7 +14,7 @@ public class LoginHandler implements ClickHandler, KeyUpHandler
 {
   private IAuthenticateServiceAsync userService = GWT.create( IAuthenticateService.class );
   
-  private String userName;
+  private String accountId;
   private String password;
   
   public LoginHandler()
@@ -43,7 +43,7 @@ public class LoginHandler implements ClickHandler, KeyUpHandler
   {
     updateData();
     
-    userService.login( userName, password, 
+    userService.login( accountId, password, 
                        new PopupFailureReasonCallback< Void >()
                         {
                           @Override
@@ -53,13 +53,13 @@ public class LoginHandler implements ClickHandler, KeyUpHandler
                           }
                         } );
   }
-  public String getUserName()
+  public String getAccountId()
   {
-    return userName;
+    return accountId;
   }
-  public void setUserName( String userName )
+  public void setAccountId( String accountId )
   {
-    this.userName = userName;
+    this.accountId = accountId;
   }
   public String getPassword()
   {

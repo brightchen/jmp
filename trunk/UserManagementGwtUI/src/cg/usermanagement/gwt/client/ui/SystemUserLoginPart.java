@@ -28,9 +28,9 @@ public class SystemUserLoginPart extends Builder< SystemUserLoginData, FlexTable
     
     FlexTable table = new FlexTable();
 
-    table.setText( 0, 0, "system user name" );
+    table.setText( 0, 0, "system account name/id:" );
     nameField = new TextBox();
-    nameField.setText( data == null ? "" : data.getUserName() );
+    nameField.setText( data == null ? "" : data.getAccountId() );
     nameField.setFocus( true );
     nameField.selectAll();
     table.setWidget( 1, 0, nameField );
@@ -51,7 +51,7 @@ public class SystemUserLoginPart extends Builder< SystemUserLoginData, FlexTable
                                 {
                                   SystemUserLoginPart.this.updateData();
                                   SystemUserLoginData data = getData();
-                                  setUserName( data.getUserName() );
+                                  setAccountId( data.getAccountId() );
                                   setPassword( data.getPassword() );
                                 }
                               };
@@ -74,7 +74,7 @@ public class SystemUserLoginPart extends Builder< SystemUserLoginData, FlexTable
       data = new SystemUserLoginData();
       setData( data );
     }
-    data.setUserName( nameField.getText() );
+    data.setAccountId( nameField.getText() );
     data.setPassword( passwordField.getText() );
   }
 

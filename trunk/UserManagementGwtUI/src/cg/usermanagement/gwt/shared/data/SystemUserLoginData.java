@@ -2,20 +2,22 @@ package cg.usermanagement.gwt.shared.data;
 
 import cg.gwt.components.shared.data.WidgetData;
 
+//we need user's account in order to login
 public class SystemUserLoginData implements WidgetData
 {
   private static final long serialVersionUID = 665267442451753317L;
   
-  private String userName;
+  private String accountId;
   private String password;
+
   
-  public String getUserName()
+  public String getAccountId()
   {
-    return userName;
+    return accountId;
   }
-  public void setUserName( String userName )
+  public void setAccountId( String accountId )
   {
-    this.userName = userName;
+    this.accountId = accountId;
   }
   public String getPassword()
   {

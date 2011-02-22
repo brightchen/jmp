@@ -22,13 +22,13 @@ public class User implements IUser
   @javax.persistence.Column(name="NAME")
   private String name;
 
-  @javax.persistence.Column(name="FIRSTNAME")
+  @javax.persistence.Column(name="FIRST_NAME")
   private String firstName;
 
-  @javax.persistence.Column(name="MIDDLENAME")
+  @javax.persistence.Column(name="MIDDLE_NAME")
   private String middleName;
 
-  @javax.persistence.Column(name="LASTNAME")
+  @javax.persistence.Column(name="LAST_NAME")
   private String lastName;
 
   @javax.persistence.Column(name="PASSWORD")
