@@ -63,11 +63,6 @@
    
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>Login.html</welcome-file>
-  </welcome-file-list>
-
-  <!-- Default page to serve -->
-  <welcome-file-list>
     <welcome-file>DbManager.html</welcome-file>
   </welcome-file-list>
 

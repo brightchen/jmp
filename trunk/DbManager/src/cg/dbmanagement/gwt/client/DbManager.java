@@ -61,11 +61,11 @@ public class DbManager implements EntryPoint
     tabPanel.selectTab( 0 );
 
     //this module using UserManagementGwtUI, remove the widget added by UserManagementGwtUI
-    RootPanel.get().remove( 0 );
+//    RootPanel.get().remove( 0 );
 
     // Add it to the root panel.
-    RootLayoutPanel.get().add( tabPanel );
-//    RootPanel.get().add( tabPanel );
+//    RootLayoutPanel.get().add( tabPanel );
+    RootPanel.get().add( tabPanel );
 //    addSplitLayoutPanel();
   }
 
