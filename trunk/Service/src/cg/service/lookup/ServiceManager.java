@@ -5,7 +5,7 @@ package cg.service.lookup;
 public class ServiceManager
 {
   //TODO: handle the remote service lookup
-  public <T, I extends T> I findService( Class<T> service ) throws ServiceNotFoundException
+  public static <T> T findService( Class<T> service ) throws ServiceNotFoundException
   {
     return LocalServiceLookup.getServiceLookup().findService( service );
   }

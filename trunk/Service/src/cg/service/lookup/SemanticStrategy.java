@@ -35,13 +35,19 @@ public class SemanticStrategy implements IServiceLookupStrategy
   }
   
   @Override
-  public < T, I extends T > I findService( Class< T > service ) throws ServiceNotFoundException
+  public < T > T findService( Class< T > service ) throws ServiceNotFoundException
   {
     Set< Class< ? extends T > > subTypes = getSubTypeReflections().getSubTypesOf( service );
     for( Class< ? extends T > subType : subTypes )
     {
-      if( ServiceUtil.isImplementor( service, subType ) )
-        return (I)subType;
+      try
+      {
+        if( ServiceUtil.isImplementor( service, subType ) )
+          return subType.newInstance();
+      }
+      catch( Exception e )
+      {
+      }
     }
     return null;
   }

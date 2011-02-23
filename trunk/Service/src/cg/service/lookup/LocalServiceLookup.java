@@ -72,15 +72,18 @@ public class LocalServiceLookup implements IServiceLookup
   
   protected IServiceLookupStrategy getDefaultChainStrategy()
   {
-    IServiceLookupStrategy strategy = new StrategyChainStrategy();
+    StrategyChainStrategy chainStrategy = new StrategyChainStrategy();
+    chainStrategy.addStrategy( new CacheStrategy() );
+    chainStrategy.addStrategy( new SemanticStrategy() );
     //setup the chain here;
-    return strategy;
+    return chainStrategy;
   }
   
   @Override
-  public <T, I extends T> I findService( Class<T> service ) throws ServiceNotFoundException
+  public <T> T findService( Class<T> service ) throws ServiceNotFoundException
   {
-    return lookupStrategy.findService( service );
+    T serviceImplementor = lookupStrategy.findService( service );
+    return serviceImplementor;
   }
 
   public IServiceLookupStrategy getLookupStrategy()
