@@ -1,10 +1,11 @@
 package cg.usermanagement.gwt.server;
 
+import cg.service.lookup.ServiceManager;
+import cg.service.lookup.ServiceNotFoundException;
 import cg.usermanagement.api.model.IAccount;
 import cg.usermanagement.api.service.IUserService;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.shared.LoginException;
-import cg.usermanagement.persistence.UserService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -19,7 +20,16 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
     if( password == null || password.isEmpty() )
       throw new LoginException( LoginException.LOGIN_ERROR.PASSWORD_EMTPY );
     
-    IUserService service = new UserService();
+    IUserService service = null;
+    try
+    {
+      service = ServiceManager.findService( IUserService.class );
+    }
+    catch( ServiceNotFoundException snfe )
+    {
+      throw new RuntimeException( "can't find service: " + IUserService.class.getName(), snfe );
+    }
+   
     IAccount account = service.findAccountByAccountId( accountId );
     if( account == null )
       throw new LoginException( LoginException.LOGIN_ERROR.INVALID_ACCOUNT_ID );

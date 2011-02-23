@@ -55,13 +55,14 @@ public class LocalServiceLookup implements IServiceLookup
   
   protected IServiceLookupStrategy getServiceLookupStrategy( ServiceLookupEnum serviceLookupEnum )
   {
-    Class< ? extends IServiceLookupStrategy > strategyClass = serviceLookupEnum.getStrategyClass();
-    if( ServiceLookupEnum.DEFAULT_CHAIN.equals( strategyClass ) )
+    if( ServiceLookupEnum.DEFAULT_CHAIN.equals( serviceLookupEnum ) )
     {
       return getDefaultChainStrategy();
     }
+
     try
     {
+      Class< ? extends IServiceLookupStrategy > strategyClass = serviceLookupEnum.getStrategyClass();
       return strategyClass.newInstance();
     }
     catch( Exception e )
