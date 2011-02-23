@@ -1,0 +1,13 @@
+<ivy-module version="1.0" xmlns:e="http://ant.apache.org/ivy/extra" xmlns:m="http://ant.apache.org/ivy/maven">
+  <info organisation="cg" module="studio"/>
+  <configurations>
+    <conf name="dev" description="Includes the libraries/sources/docs required to build/test/debug this module."/>
+  </configurations>
+   
+  <dependencies>
+    <dependency org="org.apache.derby" name="derby" rev="10.7.1.1"/>
+    
+    <!-- reflections -->
+    <dependency org="org.reflections" name="reflections" rev="0.9.5-RC2" />
+  </dependencies>
+</ivy-module>
