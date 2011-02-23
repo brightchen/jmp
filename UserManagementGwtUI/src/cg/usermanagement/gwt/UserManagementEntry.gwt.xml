@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='usermanagement'>
+  <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
   <inherits name='com.google.gwt.user.theme.standard.Standard'/>
-  
+
   <inherits name='cg.gwt.components.GwtComponents'/>
 
-  <!-- this configuration don't have entry, it used by other module(s). -->
-  <!-- <entry-point class='cg.usermanagement.gwt.client.Login'/>        -->
+  <!-- Specify the app entry point class.                         -->
+  <entry-point class='cg.usermanagement.gwt.client.Login'/>
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
