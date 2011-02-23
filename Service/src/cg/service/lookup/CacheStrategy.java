@@ -7,25 +7,25 @@ import java.util.Map;
 //the cache map was built when founded the mapped service interface and implement
 public class CacheStrategy implements IServiceLookupStrategy
 {
-  private Map< Class<?>, Class<?> > serviceImplementMap = new HashMap< Class<?>, Class<?> >();
-  
+  //keep the interface type and implement instance(instead of type)
+  private Map< Class<?>, Object > serviceImplementMap = new HashMap< Class<?>, Object >();
   
   @Override
   @SuppressWarnings( "unchecked" )
-  public < T, I extends T > I findService( Class< T > service ) throws ServiceNotFoundException
+  public < T > T findService( Class< T > service ) throws ServiceNotFoundException
   {
     for( Class<?> key : serviceImplementMap.keySet() )
     {
       if( key.equals( service ) )
-        return (I)serviceImplementMap.get( key );
+        return (T)serviceImplementMap.get( key );
     }
     return null;
   }
 
-  public void addEntry( Class<?> service, Class<?> serviceImplementor )
+  public <T> void addEntry( Class<T> service,  T serviceImplementor )
   {
     //make sure serviceImplement implement the service
-    ServiceUtil.ensureImplementor( service, serviceImplementor );
+    ServiceUtil.ensureImplementor( service, serviceImplementor.getClass() );
     serviceImplementMap.put( service, serviceImplementor );
   }
 }

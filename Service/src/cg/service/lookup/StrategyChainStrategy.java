@@ -11,13 +11,13 @@ public class StrategyChainStrategy implements IServiceLookupStrategy
   private List< IServiceLookupStrategy > strategyChain;
   
   @Override
-  public <T, I extends T> I findService( Class<T> service ) throws ServiceNotFoundException
+  public <T> T findService( Class<T> service ) throws ServiceNotFoundException
   {
     if( strategyChain == null || strategyChain.size() == 0 )
       throw new ServiceNotFoundException( "strategy chain is empty" );
     for( IServiceLookupStrategy strategy : strategyChain )
     {
-      I implement = strategy.findService( service );
+      T implement = strategy.findService( service );
       if( implement != null )
         return implement;
     }
