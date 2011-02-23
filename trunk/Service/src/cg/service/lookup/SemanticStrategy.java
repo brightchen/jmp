@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
@@ -21,7 +22,8 @@ public class SemanticStrategy implements IServiceLookupStrategy
       {
         if( subTypeReflections == null )
         {
-          subTypeReflections = new Reflections( new ConfigurationBuilder().filterInputsBy( getFilterBuilder() ).setScanners( new SubTypesScanner() ) );
+          //the urls must be set or use the empty urls and not package searched
+          subTypeReflections = new Reflections( new ConfigurationBuilder().filterInputsBy( getFilterBuilder() ).setUrls( ClasspathHelper.getUrlsForCurrentClasspath() ).setScanners( new SubTypesScanner() ) );
         }
       }
     }
@@ -31,7 +33,7 @@ public class SemanticStrategy implements IServiceLookupStrategy
   //TODO: add the package configuration limitation to increase the performance
   private static FilterBuilder getFilterBuilder()
   {
-    return new FilterBuilder().include( "cg.*" );
+    return new FilterBuilder().include( "cg.*" );   //not "cg*" or "cg."
   }
   
   @Override
