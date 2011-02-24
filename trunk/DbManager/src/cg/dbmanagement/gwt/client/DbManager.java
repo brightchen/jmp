@@ -17,7 +17,6 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -64,8 +63,8 @@ public class DbManager implements EntryPoint
 //    RootPanel.get().remove( 0 );
 
     // Add it to the root panel.
-//    RootLayoutPanel.get().add( tabPanel );
-    RootPanel.get().add( tabPanel );
+    RootLayoutPanel.get().add( tabPanel );
+//    RootPanel.get().add( tabPanel );
 //    addSplitLayoutPanel();
   }
 
