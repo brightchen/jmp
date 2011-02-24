@@ -1,16 +1,20 @@
 package cg.service.lookup;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 //find service
+//there only need one instance for each strategy
 public class LocalServiceLookup implements IServiceLookup
 {
-  public static enum ServiceLookupEnum
+  public static enum ServiceLookupStrategyEnum
   {
     DEFAULT_CHAIN( StrategyChainStrategy.class ),
     CACHE( CacheStrategy.class ),
     SEMANTIC( SemanticStrategy.class );
     
     private Class< ? extends IServiceLookupStrategy > strategyClass;
-    private ServiceLookupEnum( Class< ? extends IServiceLookupStrategy > strategyClass )
+    private ServiceLookupStrategyEnum( Class< ? extends IServiceLookupStrategy > strategyClass )
     {
       this.strategyClass = strategyClass;
     }
@@ -21,12 +25,25 @@ public class LocalServiceLookup implements IServiceLookup
     }
   }
   
-  private static ServiceLookupEnum DEFAULT_LOOKUP_ENUM = ServiceLookupEnum.DEFAULT_CHAIN;
-
-  //TODO: only need one instance for each strategy
-  public static LocalServiceLookup getServiceLookup( ServiceLookupEnum serviceLookupEnum )
+  private static ServiceLookupStrategyEnum DEFAULT_LOOKUP_ENUM = ServiceLookupStrategyEnum.DEFAULT_CHAIN;
+  private static Map< ServiceLookupStrategyEnum, LocalServiceLookup > serviceLookupMap = new EnumMap< ServiceLookupStrategyEnum, LocalServiceLookup >( ServiceLookupStrategyEnum.class );
+  
+  public static LocalServiceLookup getServiceLookup( ServiceLookupStrategyEnum serviceLookupEnum )
   {
-    return new LocalServiceLookup( serviceLookupEnum );
+    LocalServiceLookup lookup = serviceLookupMap.get( serviceLookupEnum );
+    if( lookup == null )
+    {
+      synchronized( LocalServiceLookup.class )
+      {
+        lookup = serviceLookupMap.get( serviceLookupEnum );
+        if( lookup == null )
+        {
+          lookup = new LocalServiceLookup( serviceLookupEnum );
+          serviceLookupMap.put( serviceLookupEnum, lookup );
+        }
+      }
+    }
+    return lookup;
   }
   
   //get the service lookup using the default strategy
@@ -41,7 +58,7 @@ public class LocalServiceLookup implements IServiceLookup
   {
   }
   
-  public LocalServiceLookup( ServiceLookupEnum serviceLookupEnum )
+  public LocalServiceLookup( ServiceLookupStrategyEnum serviceLookupEnum )
   {
     this( );
     setLookupStrategy( getServiceLookupStrategy( serviceLookupEnum ) );
@@ -53,9 +70,9 @@ public class LocalServiceLookup implements IServiceLookup
   }
   
   
-  protected IServiceLookupStrategy getServiceLookupStrategy( ServiceLookupEnum serviceLookupEnum )
+  protected IServiceLookupStrategy getServiceLookupStrategy( ServiceLookupStrategyEnum serviceLookupEnum )
   {
-    if( ServiceLookupEnum.DEFAULT_CHAIN.equals( serviceLookupEnum ) )
+    if( ServiceLookupStrategyEnum.DEFAULT_CHAIN.equals( serviceLookupEnum ) )
     {
       return getDefaultChainStrategy();
     }
@@ -84,6 +101,12 @@ public class LocalServiceLookup implements IServiceLookup
   public <T> T findService( Class<T> service ) throws ServiceNotFoundException
   {
     T serviceImplementor = lookupStrategy.findService( service );
+    LocalServiceLookup cacheLookup = serviceLookupMap.get( ServiceLookupStrategyEnum.CACHE );
+    if( cacheLookup != null )
+    {
+      CacheStrategy cacheStrategy = (CacheStrategy)cacheLookup.getLookupStrategy();
+      cacheStrategy.addEntry( service, serviceImplementor );
+    }
     return serviceImplementor;
   }
 
