@@ -1,6 +1,16 @@
 package cg.services.session;
 
-public enum SessionKey
+import cg.services.session.api.ISessionKey;
+
+public enum SessionKey implements ISessionKey
 {
-  sessionId
+  sessionId;
+
+  @Override
+  public long getNumberOfKeys()
+  {
+    return SessionKey.values().length;
+  }
+  
+  
 }
