@@ -54,6 +54,12 @@ public class SystemUserLoginPart extends Builder< SystemUserLoginData, FlexTable
                                   setAccountId( data.getAccountId() );
                                   setPassword( data.getPassword() );
                                 }
+
+                                @Override
+                                protected void onLoginSuccess()
+                                {
+                                  SystemUserLoginPart.this.onLoginSuccess();
+                                }
                               };
       
       loginButton.addClickHandler( handler );
@@ -78,4 +84,7 @@ public class SystemUserLoginPart extends Builder< SystemUserLoginData, FlexTable
     data.setPassword( passwordField.getText() );
   }
 
+  public void onLoginSuccess()
+  {
+  }
 }

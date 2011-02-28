@@ -49,7 +49,7 @@ public class LoginHandler implements ClickHandler, KeyUpHandler
                           @Override
                           public void onSuccess( Void returned )
                           {
-                            (new MessageDialog()).displayMessage( "login successful" );
+                            onLoginSuccess();
                           }
                         } );
   }
@@ -69,6 +69,9 @@ public class LoginHandler implements ClickHandler, KeyUpHandler
   {
     this.password = password;
   }
-  
-  
+
+  protected void onLoginSuccess()
+  {
+    (new MessageDialog()).displayMessage( "login successful" );
+  }
 }
