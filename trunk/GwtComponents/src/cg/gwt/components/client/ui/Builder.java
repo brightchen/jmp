@@ -2,9 +2,9 @@ package cg.gwt.components.client.ui;
 
 import cg.gwt.components.shared.data.WidgetData;
 
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.UIObject;
 
-public abstract class Builder< T extends WidgetData, W extends Widget > implements IWidgetBuilder< W >
+public abstract class Builder< T extends WidgetData, W extends UIObject > implements IWidgetBuilder< W >
 {
   private T data;
   

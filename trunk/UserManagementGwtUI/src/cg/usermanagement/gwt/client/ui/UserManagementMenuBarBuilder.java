@@ -1,17 +1,21 @@
 package cg.usermanagement.gwt.client.ui;
 
-import com.google.gwt.user.client.ui.MenuBar;
-
-import cg.gwt.components.client.ui.Builder;
 import cg.usermanagement.gwt.shared.data.UserManagementMenuBarData;
 
-public class UserManagementMenuBarBuilder extends Builder< UserManagementMenuBarData, MenuBar >
+import com.google.gwt.user.client.ui.MenuBar;
+
+public class UserManagementMenuBarBuilder extends MenuBarBuilder
 {
+  public UserManagementMenuBarBuilder()
+  {
+    //set default data
+    setData( UserManagementMenuBarData.getTypicalData() );
+  }
+  
   @Override
   public MenuBar build()
   {
-    // TODO Auto-generated method stub
-    return null;
+    return super.build();
   }
 
   @Override
@@ -19,5 +23,5 @@ public class UserManagementMenuBarBuilder extends Builder< UserManagementMenuBar
   {
     return new UserManagementMenuBarData();
   }
-
+  
 }

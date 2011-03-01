@@ -9,13 +9,19 @@ public class NormalMenuItemData extends MenuItemData
   
   public NormalMenuItemData()
   {
-    super( MenuItemType.NORMAL );
+    this( null );
   }
   
   public NormalMenuItemData( String title )
   {
-    this();
+    this( null, null );
+  }
+
+  public NormalMenuItemData( String title, String commandKey )
+  {
+    super( MenuItemType.NORMAL );
     setTitle( title );
+    setCommandKey( commandKey );
   }
 
   public String getTitle()
