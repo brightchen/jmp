@@ -11,6 +11,17 @@ public class TypicalCommand implements Command
   private String key;
   private List< String > parameters;
   
+  public TypicalCommand()
+  {
+    this( null );
+  }
+
+  public TypicalCommand( String key )
+  {
+    setKey( key );
+  }
+
+
   @Override
   public void execute()
   {

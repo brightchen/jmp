@@ -3,14 +3,15 @@ package cg.usermanagement.gwt.shared.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import cg.gwt.components.shared.data.WidgetData;
-
-public class MenuBarData implements WidgetData
+//MenuBar is a collection of menuitems
+//MenuBar can contain sub-MenuBar(s)
+//Although the MenuBar don't have to fire a command, but we can look the open of sub-menuitem as the behavior of a command,
+//so, the menubar can be looked as normal menu-item
+public class MenuBarData extends NormalMenuItemData
 {
   private static final long serialVersionUID = 718570757853564304L;
 
   private List< MenuItemData > menuItemDatas;
-
   
   public List< MenuItemData > getMenuItemDatas()
   {
