@@ -1,7 +1,7 @@
 package cg.gwt.components.shared.data;
 
 //CompositePartData is a kind of data which composed by two PartData
-public class CompositeWidgetData< I extends WidgetData, K extends WidgetData > implements WidgetData
+public class CompositeWidgetData< I extends UIObjectData, K extends UIObjectData > implements UIObjectData
 {
   private static final long serialVersionUID = 914411604596879321L;
 

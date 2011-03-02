@@ -1,16 +1,16 @@
 package cg.gwt.components.client.ui;
 
-import cg.gwt.components.shared.data.WidgetData;
+import cg.gwt.components.shared.data.UIObjectData;
 
 import com.google.gwt.user.client.ui.UIObject;
 
-public abstract class Builder< T extends WidgetData, W extends UIObject > implements IWidgetBuilder< W >
+public abstract class UIObjectBuilder< T extends UIObjectData, W extends UIObject > implements IUIObjectBuilder< W >
 {
   private T data;
   
-  public Builder(){}
+  public UIObjectBuilder(){}
   
-  public Builder( T data )
+  public UIObjectBuilder( T data )
   {
     setData( data );
   }

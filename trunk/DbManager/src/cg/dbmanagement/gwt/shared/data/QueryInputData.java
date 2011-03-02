@@ -1,8 +1,8 @@
 package cg.dbmanagement.gwt.shared.data;
 
-import cg.gwt.components.shared.data.WidgetData;
+import cg.gwt.components.shared.data.UIObjectData;
 
-public class QueryInputData implements WidgetData
+public class QueryInputData implements UIObjectData
 {
   private static final long serialVersionUID = -1101696804527521868L;
 

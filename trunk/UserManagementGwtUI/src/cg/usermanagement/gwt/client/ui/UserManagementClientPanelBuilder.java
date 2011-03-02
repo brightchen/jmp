@@ -2,10 +2,10 @@ package cg.usermanagement.gwt.client.ui;
 
 import com.google.gwt.user.client.ui.Panel;
 
-import cg.gwt.components.client.ui.Builder;
+import cg.gwt.components.client.ui.UIObjectBuilder;
 import cg.usermanagement.gwt.shared.data.UserManagementClientPanelData;
 
-public class UserManagementClientPanelBuilder extends Builder< UserManagementClientPanelData, Panel >
+public class UserManagementClientPanelBuilder extends UIObjectBuilder< UserManagementClientPanelData, Panel >
 {
 
   @Override
