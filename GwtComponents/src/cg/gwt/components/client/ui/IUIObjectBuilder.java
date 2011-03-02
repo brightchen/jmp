@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.UIObject;
 //it build the widget use the data.
 //So, refactor the Part to Builder.
 //another concept is digest the data from the widget, the class for this processing is digester
-public interface IWidgetBuilder< W extends UIObject >
+public interface IUIObjectBuilder< W extends UIObject >
 {
   //build the widget using data
   public W build();

@@ -1,7 +1,7 @@
 package cg.gwt.components.client.ui;
 
 import cg.gwt.components.shared.data.CompositeWidgetData;
-import cg.gwt.components.shared.data.WidgetData;
+import cg.gwt.components.shared.data.UIObjectData;
 
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
@@ -11,10 +11,10 @@ import com.google.gwt.user.client.ui.Widget;
 //the Composite in GWT API is more likely a decorator, a widget can attach/detach to/from it
 //CompositePart is a kind of part which composed by two parts
 //in GWT, Panel the widget which can contain other widget
-public abstract class CompositeBuilder< D1 extends WidgetData, W1 extends Widget, B1 extends Builder< D1, W1 >,
-                                        D2 extends WidgetData, W2 extends Widget, B2 extends Builder< D2, W2 >, 
+public abstract class CompositeBuilder< D1 extends UIObjectData, W1 extends Widget, B1 extends UIObjectBuilder< D1, W1 >,
+                                        D2 extends UIObjectData, W2 extends Widget, B2 extends UIObjectBuilder< D2, W2 >, 
                                         C extends Panel > 
-      extends Builder< CompositeWidgetData< D1, D2>, C >
+      extends UIObjectBuilder< CompositeWidgetData< D1, D2>, C >
 {
   private B1 builder1;
   private B2 builder2;

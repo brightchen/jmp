@@ -7,12 +7,12 @@ import cg.dbmanagement.gwt.shared.data.QueryOutputData;
 import cg.dbmanagement.gwt.shared.data.QueryResultData;
 import cg.dbmanagement.gwt.shared.data.SqlOutputData;
 import cg.dbmanagement.gwt.shared.data.UpdateOutputData;
-import cg.gwt.components.client.ui.Builder;
+import cg.gwt.components.client.ui.UIObjectBuilder;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class QueryResultWidgetBuilder extends Builder< QueryResultData, ScrollPanel > implements ISqlOutputHandler
+public class QueryResultWidgetBuilder extends UIObjectBuilder< QueryResultData, ScrollPanel > implements ISqlOutputHandler
 {
   private ScrollPanel container;
   

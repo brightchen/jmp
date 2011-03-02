@@ -1,9 +1,9 @@
 package cg.usermanagement.gwt.shared.data;
 
-import cg.gwt.components.shared.data.WidgetData;
+import cg.gwt.components.shared.data.UIObjectData;
 
 //we need user's account in order to login
-public class SystemUserLoginData implements WidgetData
+public class SystemUserLoginData implements UIObjectData
 {
   private static final long serialVersionUID = 665267442451753317L;
   

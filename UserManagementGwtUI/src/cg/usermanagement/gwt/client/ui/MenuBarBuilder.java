@@ -2,7 +2,7 @@ package cg.usermanagement.gwt.client.ui;
 
 import java.util.List;
 
-import cg.gwt.components.client.ui.Builder;
+import cg.gwt.components.client.ui.UIObjectBuilder;
 import cg.usermanagement.gwt.shared.data.MenuBarData;
 import cg.usermanagement.gwt.shared.data.MenuItemData;
 import cg.usermanagement.gwt.shared.data.MenuItemType;
@@ -10,7 +10,7 @@ import cg.usermanagement.gwt.shared.data.NormalMenuItemData;
 
 import com.google.gwt.user.client.ui.MenuBar;
 
-public class MenuBarBuilder extends Builder< MenuBarData, MenuBar >
+public class MenuBarBuilder extends UIObjectBuilder< MenuBarData, MenuBar >
 {
   @Override
   public MenuBar build()

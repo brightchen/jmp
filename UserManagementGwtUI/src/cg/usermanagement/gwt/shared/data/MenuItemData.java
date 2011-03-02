@@ -1,8 +1,8 @@
 package cg.usermanagement.gwt.shared.data;
 
-import cg.gwt.components.shared.data.WidgetData;
+import cg.gwt.components.shared.data.UIObjectData;
 
-public class MenuItemData implements WidgetData
+public class MenuItemData implements UIObjectData
 {
   private static final long serialVersionUID = -6887503661899518808L;
   
