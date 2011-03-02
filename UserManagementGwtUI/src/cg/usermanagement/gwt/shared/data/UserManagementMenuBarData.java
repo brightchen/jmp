@@ -19,6 +19,15 @@ public class UserManagementMenuBarData extends MenuBarData
     userManagementData.addMenuItemData( new NormalMenuItemData( "Remove User", CK_REMOVE_USER ) );
     //add a separator
     userManagementData.addMenuItemData( new MenuItemData( MenuItemType.SEPARATOR ) );
+    
+    //account
+    MenuBarData accountMenuBar = new MenuBarData();
+    accountMenuBar.setTitle( "Account" );
+    accountMenuBar.addMenuItemData( new NormalMenuItemData( "Add Account", CK_ADD_USER ) );
+    accountMenuBar.addMenuItemData( new NormalMenuItemData( "Edit Account", CK_EDIT_USER ) );
+    accountMenuBar.addMenuItemData( new NormalMenuItemData( "Remove Account", CK_REMOVE_USER ) );
+    userManagementData.addMenuItemData( accountMenuBar );
+    
     return userManagementData;
   }
   

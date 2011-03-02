@@ -1,6 +1,7 @@
 package cg.usermanagement.gwt.client.ui;
 
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 import cg.gwt.components.client.ui.UIObjectBuilder;
 import cg.usermanagement.gwt.shared.data.UserManagementClientPanelData;
@@ -11,8 +12,7 @@ public class UserManagementClientPanelBuilder extends UIObjectBuilder< UserManag
   @Override
   public Panel build()
   {
-    // TODO Auto-generated method stub
-    return null;
+    return new SimplePanel();
   }
 
   @Override

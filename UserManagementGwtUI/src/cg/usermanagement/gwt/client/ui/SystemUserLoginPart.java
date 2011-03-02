@@ -7,7 +7,9 @@ import cg.usermanagement.gwt.shared.data.SystemUserLoginData;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SystemUserLoginPart extends UIObjectBuilder< SystemUserLoginData, FlexTable >
 {
@@ -86,5 +88,13 @@ public class SystemUserLoginPart extends UIObjectBuilder< SystemUserLoginData, F
 
   public void onLoginSuccess()
   {
+    RootPanel rp = RootPanel.get();
+    rp.remove( 0 );
+    
+    UserManagementMenuBarBuilder menuBuilder = new UserManagementMenuBarBuilder();
+    UserManagementClientPanelBuilder clientBuilder = new UserManagementClientPanelBuilder();
+    UserManagementPanelBuilder panelBuilder = new UserManagementPanelBuilder( menuBuilder, clientBuilder );
+    panelBuilder.setContainer( new VerticalPanel() );
+    rp.add( panelBuilder.build() );
   }
 }

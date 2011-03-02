@@ -1,9 +1,9 @@
 package cg.usermanagement.gwt.shared.data;
 
-import cg.gwt.components.shared.data.UIObjectData;
+import cg.gwt.components.shared.data.IUIObjectData;
 
 //we need user's account in order to login
-public class SystemUserLoginData implements UIObjectData
+public class SystemUserLoginData implements IUIObjectData
 {
   private static final long serialVersionUID = 665267442451753317L;
   

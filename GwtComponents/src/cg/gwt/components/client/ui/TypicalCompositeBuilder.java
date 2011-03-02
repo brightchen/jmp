@@ -1,12 +1,12 @@
 package cg.gwt.components.client.ui;
 
-import cg.gwt.components.shared.data.UIObjectData;
+import cg.gwt.components.shared.data.IUIObjectData;
 
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class TypicalCompositeBuilder< D1 extends UIObjectData, W1 extends Widget, B1 extends UIObjectBuilder< D1, W1 >,
-                                   D2 extends UIObjectData, W2 extends Widget, B2 extends UIObjectBuilder< D2, W2 >, 
+public class TypicalCompositeBuilder< D1 extends IUIObjectData, W1 extends Widget, B1 extends UIObjectBuilder< D1, W1 >,
+                                   D2 extends IUIObjectData, W2 extends Widget, B2 extends UIObjectBuilder< D2, W2 >, 
                                    C extends Panel >  extends CompositeBuilder< D1, W1, B1, D2, W2, B2, C >
 {
   private ICompositeBuilder< C > compositeBuilder;
