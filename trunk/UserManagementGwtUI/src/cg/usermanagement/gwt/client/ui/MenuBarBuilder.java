@@ -15,13 +15,23 @@ public class MenuBarBuilder extends UIObjectBuilder< MenuBarData, MenuBar >
   @Override
   public MenuBar build()
   {
-    MenuBar menuBar = new MenuBar();
+    return build( true );
+  }
+  
+  protected MenuBar build( MenuBarData data, boolean isRootMenuBar )
+  {
+    setData( data );
+    return build( isRootMenuBar );
+  }
+  
+  protected MenuBar build( boolean isRootMenuBar )
+  {
+    //this is the vertical menuBar
+    MenuBar menuBar = new MenuBar( true );
     MenuBarData data = getData();
     if( data == null )
       return menuBar;
-    if( data.getTitle() != null )
-      menuBar.setTitle( data.getTitle() );
-    
+
     List< MenuItemData > menuItemDatas = data.getMenuItemDatas();
     if( menuItemDatas == null || menuItemDatas.isEmpty() )
       return menuBar;
@@ -30,7 +40,21 @@ public class MenuBarBuilder extends UIObjectBuilder< MenuBarData, MenuBar >
       appendMenuItem( menuBar, miData );
     }
     
-    return menuBar;
+    
+    if( !isRootMenuBar )
+      return menuBar;
+    
+    // the rootMenuBar have to add a horizontal menu bar wrapper
+    {
+      String title = data.getTitle();
+      if( title == null )
+        title = "";
+      
+      MenuBar containerMenuBar = new MenuBar( false );
+      containerMenuBar.addItem( title, menuBar );
+
+      return containerMenuBar;
+    }
   }
 
   @Override
@@ -50,8 +74,9 @@ public class MenuBarBuilder extends UIObjectBuilder< MenuBarData, MenuBar >
     //menu bar
     if( miData instanceof MenuBarData )
     {
+      MenuBarData mbData = ( MenuBarData)miData;
       MenuBarBuilder menuBarBuilder = new MenuBarBuilder();
-      menuBar.addItem( "", menuBarBuilder.build( (MenuBarData)miData ) );
+      menuBar.addItem( mbData.getTitle(), menuBarBuilder.build( mbData, false ) );
       return;
     }
     
