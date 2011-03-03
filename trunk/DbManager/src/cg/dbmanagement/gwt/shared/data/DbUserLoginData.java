@@ -1,8 +1,8 @@
 package cg.dbmanagement.gwt.shared.data;
 
-import cg.gwt.components.shared.data.IUIObjectData;
+import java.io.Serializable;
 
-public class DbUserLoginData implements IUIObjectData
+public class DbUserLoginData implements Serializable
 {
   private static final long serialVersionUID = 2427711317296226011L;
   

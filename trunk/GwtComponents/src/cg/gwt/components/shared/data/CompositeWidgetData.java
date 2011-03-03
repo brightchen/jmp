@@ -1,7 +1,9 @@
 package cg.gwt.components.shared.data;
 
+import java.io.Serializable;
+
 //CompositePartData is a kind of data which composed by two PartData
-public class CompositeWidgetData< I extends IUIObjectData, K extends IUIObjectData > implements IUIObjectData
+public class CompositeWidgetData< I, K > implements Serializable
 {
   private static final long serialVersionUID = 914411604596879321L;
 

@@ -1,8 +1,8 @@
 package cg.usermanagement.gwt.shared.data;
 
-import cg.gwt.components.shared.data.IUIObjectData;
+import java.io.Serializable;
 
-public class MenuItemData implements IUIObjectData
+public class MenuItemData implements Serializable
 {
   private static final long serialVersionUID = -6887503661899518808L;
   

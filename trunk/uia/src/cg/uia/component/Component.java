@@ -52,7 +52,7 @@ public class Component< D extends IComponentData > implements IComponent< D >, S
       return true;
     if( !( other instanceof Component ) )
       return false;
-    return getId().equals( ( (Component)other ).getId() );
+    return getId().equals( ( (Component<?>)other ).getId() );
   }
 
 }

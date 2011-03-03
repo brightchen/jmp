@@ -1,10 +1,8 @@
 package cg.gwt.components.client.ui;
 
-import cg.gwt.components.shared.data.IUIObjectData;
-
 import com.google.gwt.user.client.ui.UIObject;
 
-public abstract class UIObjectBuilder< T extends IUIObjectData, W extends UIObject > implements IUIObjectBuilder< W >
+public abstract class UIObjectBuilder< T, W extends UIObject > implements IUIObjectBuilder< W >
 {
   private T data;
   
