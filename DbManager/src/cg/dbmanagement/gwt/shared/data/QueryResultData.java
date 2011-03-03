@@ -1,11 +1,10 @@
 package cg.dbmanagement.gwt.shared.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import cg.gwt.components.shared.data.IUIObjectData;
-
-public class QueryResultData implements IUIObjectData
+public class QueryResultData implements Serializable
 {
   private static final long serialVersionUID = -5604057943654882297L;
 
