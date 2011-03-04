@@ -1,9 +1,15 @@
 package cg.usermanagement.gwt.client;
 
-import cg.usermanagement.gwt.client.ui.SystemUserLoginPart;
+import java.util.ArrayList;
+import java.util.List;
+
+import cg.usermanagement.gwt.client.ui.MenuPanelBuilder;
+import cg.usermanagement.gwt.client.ui.SystemUserLoginTransformer;
 import cg.usermanagement.gwt.client.ui.UserManagementClientPanelBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementMenuBarBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementPanelBuilder;
+import cg.usermanagement.gwt.shared.data.MenuBarData;
+import cg.usermanagement.gwt.shared.data.UserManagementMenuBarData;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Command;
@@ -13,16 +19,17 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class Login implements EntryPoint
+public class TestPage implements EntryPoint
 {
   public void onModuleLoad()
   {
-    addTestMenuBarBuilder();
+//    addTestMenuBarBuilder();
+    addTestMenuPanelBuilder();
   }    
 
   protected void normalFlow()
   {
-    SystemUserLoginPart loginPart = new SystemUserLoginPart();
+    SystemUserLoginTransformer loginPart = new SystemUserLoginTransformer();
     
     FlexTable table = loginPart.build();
     
@@ -30,6 +37,19 @@ public class Login implements EntryPoint
     rp.add( table );
   }
 
+  protected void addTestMenuPanelBuilder()
+  {
+    MenuBarData menuBarData = UserManagementMenuBarData.getTypicalData();
+    List< MenuBarData > menuPanelData = new ArrayList< MenuBarData >();
+    for( int i = 0; i < 4; ++i )
+    {
+      menuPanelData.add( menuBarData );
+    }
+    
+    MenuPanelBuilder menuPanelBuilder = new MenuPanelBuilder();
+    RootPanel.get().add( menuPanelBuilder.build( menuPanelData ) );
+  }
+  
   protected void addTestMenuBarBuilder()
   {
     UserManagementMenuBarBuilder menuBuilder = new UserManagementMenuBarBuilder();

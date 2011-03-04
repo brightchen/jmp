@@ -9,7 +9,7 @@ import cg.dbmanagement.gwt.shared.data.SessionAttribute;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.gwt.services.client.ISessionManagementService;
 import cg.gwt.services.client.ISessionManagementServiceAsync;
-import cg.usermanagement.gwt.client.ui.SystemUserLoginPart;
+import cg.usermanagement.gwt.client.ui.SystemUserLoginTransformer;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -70,7 +70,7 @@ public class DbManager implements EntryPoint
 
   protected Widget buildSystemLogin()
   {
-    SystemUserLoginPart systemLoginPart = new SystemUserLoginPart();
+    SystemUserLoginTransformer systemLoginPart = new SystemUserLoginTransformer();
     
     return systemLoginPart.build();
   }
