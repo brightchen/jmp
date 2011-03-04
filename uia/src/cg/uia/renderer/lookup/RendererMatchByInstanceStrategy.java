@@ -12,7 +12,7 @@ public class RendererMatchByInstanceStrategy implements IRendererMatchStrategy
 {
   private static RendererMatchByInstanceStrategy instance;
   
-  private Map< IComponent, IComponentRenderer > componentsRenderersMap = new HashMap< IComponent, IComponentRenderer >();
+  private Map< IComponent<?>, IComponentRenderer<?> > componentsRenderersMap = new HashMap< IComponent<?>, IComponentRenderer<?> >();
   
   public static RendererMatchByInstanceStrategy getInstance()
   {
@@ -34,13 +34,17 @@ public class RendererMatchByInstanceStrategy implements IRendererMatchStrategy
   {
   }
 
+  //the map definition itself can't make the restriction of component type and render type,
+  @SuppressWarnings( "unchecked" )
   @Override
   public < T extends IComponent< ? >> IComponentRenderer< T > findMatchedRenderer( T component )
   {
-    return componentsRenderersMap.get( component );
+    return (IComponentRenderer< T >)componentsRenderersMap.get( component );
   }
   
-  public void addComponentRenderer( IComponent component, IComponentRenderer renderer )
+  //the map definition itself can't make the restriction of component type and render type,
+  //the method which add the entry to the map should be type-safe
+  public < T extends IComponent< ? >> void addComponentRenderer( T component, IComponentRenderer<T> renderer )
   {
     componentsRenderersMap.put( component, renderer );
   }

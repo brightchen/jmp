@@ -13,6 +13,7 @@ public class QueryOutput extends SqlOutput
     setColumnInfos( columnInfos );
   }
   
+  @SuppressWarnings( "unchecked" )
   @Override
   public List< ColumnInfo > getOutput()
   {

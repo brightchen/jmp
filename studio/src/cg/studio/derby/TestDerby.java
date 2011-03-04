@@ -42,7 +42,7 @@ public class TestDerby
         Statement s = conn.createStatement();
         try
         {
-          ResultSet rs = s.executeQuery( "SELECT count(*) from userTable" );
+          s.executeQuery( "SELECT count(*) from userTable" );
         }
         catch( SQLException e )
         {

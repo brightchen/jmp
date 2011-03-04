@@ -22,6 +22,7 @@ public class UpdateOutputData extends SqlOutputData
     setOutputType( OutputType.UPDATE );
   }
   
+  @SuppressWarnings( "unchecked" )
   @Override
   public Integer getOutput()
   {

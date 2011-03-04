@@ -24,6 +24,7 @@ public class UpdateOutput extends SqlOutput
     this.numOfRecords = numOfRecords;
   }
   
+  @SuppressWarnings( "unchecked" )
   @Override
   public Integer getOutput()
   {

@@ -8,7 +8,7 @@ import cg.uia.api.IComponent;
 public class ComponenetRenderer< T extends IComponent< ? > > implements IComponentRenderer< T >
 {
   @Override
-  public void render( Writer writer, IComponent component )
+  public void render( Writer writer, T component )
   {
     // do nothing
   }

@@ -2,6 +2,7 @@ package cg.common.converter;
 
 public class ToStringStrategy implements IConvertStrategy
 {
+  @SuppressWarnings( "unchecked" )
   public <T> T convert( Object origin, Class<T> convertToType ) throws ConvertNotSupportException
   {
     if( !convertToType.equals( String.class ) )
