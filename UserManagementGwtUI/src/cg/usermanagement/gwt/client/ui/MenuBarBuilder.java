@@ -26,11 +26,12 @@ public class MenuBarBuilder extends UIObjectBuilder< MenuBarData, MenuBar >
   
   protected MenuBar build( boolean isRootMenuBar )
   {
-    //this is the vertical menuBar
-    MenuBar menuBar = new MenuBar( true );
     MenuBarData data = getData();
     if( data == null )
-      return menuBar;
+      return null;
+
+    //this is the vertical menuBar
+    MenuBar menuBar = new MenuBar( true );
 
     List< MenuItemData > menuItemDatas = data.getMenuItemDatas();
     if( menuItemDatas == null || menuItemDatas.isEmpty() )
@@ -45,16 +46,19 @@ public class MenuBarBuilder extends UIObjectBuilder< MenuBarData, MenuBar >
       return menuBar;
     
     // the rootMenuBar have to add a horizontal menu bar wrapper
-    {
-      String title = data.getTitle();
-      if( title == null )
-        title = "";
-      
-      MenuBar containerMenuBar = new MenuBar( false );
-      containerMenuBar.addItem( title, menuBar );
-
-      return containerMenuBar;
-    }
+    return addToRootMenu( data.getTitle(), menuBar );
+  }
+  
+  //add the menuBar to the root menu
+  //return the root MenuBar
+  protected MenuBar addToRootMenu( String title, MenuBar menuBar )
+  {
+    if( title == null )
+      title = "";
+    
+    MenuBar rootMenuBar = new MenuBar( false );
+    rootMenuBar.addItem( title, menuBar );
+    return rootMenuBar;
   }
 
   @Override

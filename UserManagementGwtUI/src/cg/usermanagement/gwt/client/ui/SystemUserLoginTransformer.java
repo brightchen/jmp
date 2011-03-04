@@ -1,5 +1,6 @@
 package cg.usermanagement.gwt.client.ui;
 
+import cg.gwt.components.client.ui.IUIObjectDigester;
 import cg.gwt.components.client.ui.UIObjectBuilder;
 import cg.usermanagement.gwt.client.LoginHandler;
 import cg.usermanagement.gwt.shared.data.SystemUserLoginData;
@@ -11,7 +12,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SystemUserLoginPart extends UIObjectBuilder< SystemUserLoginData, FlexTable >
+public class SystemUserLoginTransformer extends UIObjectBuilder< SystemUserLoginData, FlexTable > implements IUIObjectDigester
 {
   private TextBox nameField;
   private TextBox passwordField;
@@ -51,7 +52,7 @@ public class SystemUserLoginPart extends UIObjectBuilder< SystemUserLoginData, F
                                 @Override
                                 protected void updateData()
                                 {
-                                  SystemUserLoginPart.this.updateData();
+                                  SystemUserLoginTransformer.this.digest();
                                   SystemUserLoginData data = getData();
                                   setAccountId( data.getAccountId() );
                                   setPassword( data.getPassword() );
@@ -60,7 +61,7 @@ public class SystemUserLoginPart extends UIObjectBuilder< SystemUserLoginData, F
                                 @Override
                                 protected void onLoginSuccess()
                                 {
-                                  SystemUserLoginPart.this.onLoginSuccess();
+                                  SystemUserLoginTransformer.this.onLoginSuccess();
                                 }
                               };
       
@@ -74,7 +75,8 @@ public class SystemUserLoginPart extends UIObjectBuilder< SystemUserLoginData, F
   }
   
   //get the data from UI
-  public void updateData()
+  @Override
+  public void digest()
   {
     SystemUserLoginData data = getData();
     if( data == null )

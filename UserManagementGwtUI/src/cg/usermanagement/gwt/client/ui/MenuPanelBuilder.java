@@ -12,13 +12,41 @@ import com.google.gwt.user.client.ui.MenuBar;
 //this builder build menu bar with one or multiple roots
 public class MenuPanelBuilder extends UIObjectBuilder< List< MenuBarData >, MenuBar >
 {
+  private MenuBar rootMenuBar;
   @Override
   public MenuBar build()
   {
-    // TODO Auto-generated method stub
-    return null;
+    List< MenuBarData > menuPanelData = getData();
+    if( menuPanelData == null || menuPanelData.isEmpty() )
+      return null;
+    
+    for( MenuBarData menuBarData : menuPanelData )
+    {
+      MenuBarBuilder builder = new MenuBarBuilder()
+                                {
+                                  @Override
+                                  protected MenuBar addToRootMenu( String title, MenuBar menuBar )
+                                  {
+                                    //all the vertical menu bar shared the same root menu bar;
+                                    MenuBar rootMenuBar = MenuPanelBuilder.this.getRootMenuBar();
+                                    rootMenuBar.addItem( title, menuBar );
+                                    return rootMenuBar;
+                                  }
+                                };
+      
+      builder.build( menuBarData );
+    }
+    
+    return getRootMenuBar();
   }
 
+  protected MenuBar getRootMenuBar()
+  {
+    if( rootMenuBar == null )
+      rootMenuBar = new MenuBar( false );
+    return rootMenuBar;
+  }
+  
   @Override
   protected List< MenuBarData > createData()
   {

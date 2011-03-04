@@ -7,7 +7,7 @@
   <inherits name='cg.gwt.components.GwtComponents'/>
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='cg.usermanagement.gwt.client.Login'/>
+  <entry-point class='cg.usermanagement.gwt.client.UserManagementPage'/>
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
