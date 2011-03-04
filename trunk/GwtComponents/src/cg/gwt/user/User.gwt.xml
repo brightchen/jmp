@@ -5,7 +5,7 @@
   <inherits name='com.google.gwt.user.theme.standard.Standard'/>
 
   <!--  <inherits name='cg.gwt.components.GwtComponents'/>  -->
-  <entry-point class='cg.gwt.user.client.Login'/>
+  <!-- <entry-point class='cg.gwt.user.client.Login'/>      -->
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>

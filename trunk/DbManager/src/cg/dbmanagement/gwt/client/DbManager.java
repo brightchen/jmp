@@ -29,7 +29,7 @@ public class DbManager implements EntryPoint
 {
   private DbUserLoginBuilder dbLoginBuilder;
   private TabPanel tabPanel;
-  private SplitLayoutPanel queryPanel;
+//  private SplitLayoutPanel queryPanel;
 
   //services
   private ISessionManagementServiceAsync sessionService = GWT.create( ISessionManagementService.class );

@@ -22,6 +22,7 @@ public class PersistenceServiceCmpImpl implements IPersistenceService
   }
 
   @Override
+  @SuppressWarnings( "unchecked" )
   public < T extends IEntity > List< T > findAll( Class< T > entityClass )
   {
     Query query = getEntityManager().createQuery( String.format( "SELECT object(a) FROM %s a", entityClass.getName() ) );

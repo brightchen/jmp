@@ -14,6 +14,7 @@ public class QueryOutputData extends SqlOutputData
     setOutputType( OutputType.QUERY );
   }
   
+  @SuppressWarnings( "unchecked" )
   @Override
   public List< ColumnData > getOutput()
   {

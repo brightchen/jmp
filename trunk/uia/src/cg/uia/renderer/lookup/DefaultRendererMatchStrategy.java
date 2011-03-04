@@ -42,6 +42,7 @@ public class DefaultRendererMatchStrategy implements IRendererMatchStrategy
   {
   }
 
+  @SuppressWarnings( "unchecked" )
   @Override
   public < T extends IComponent< ? >> IComponentRenderer< T > findMatchedRenderer( T component )
   {
@@ -54,7 +55,7 @@ public class DefaultRendererMatchStrategy implements IRendererMatchStrategy
       {
         Class<?> rendererClass = Class.forName( rendererClassName );
         Object renderer = rendererClass.newInstance();
-        return ( renderer instanceof IComponentRenderer ) ? (IComponentRenderer)renderer : null;
+        return ( renderer instanceof IComponentRenderer ) ? (IComponentRenderer<T>)renderer : null;
       }
       catch( Exception e )
       {

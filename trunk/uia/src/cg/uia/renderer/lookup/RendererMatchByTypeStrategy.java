@@ -12,8 +12,8 @@ public class RendererMatchByTypeStrategy implements IRendererMatchStrategy
 {
   private static RendererMatchByTypeStrategy instance;
   
-  private Map< Class< ? extends IComponent >, IComponentRenderer > componentTypesRenderersMap 
-      = new HashMap< Class< ? extends IComponent >, IComponentRenderer >();
+  private Map< Class< ? extends IComponent<?> >, IComponentRenderer<?> > componentTypesRenderersMap 
+      = new HashMap< Class< ? extends IComponent<?> >, IComponentRenderer<?> >();
 
   public static RendererMatchByTypeStrategy getInstance()
   {
@@ -35,13 +35,15 @@ public class RendererMatchByTypeStrategy implements IRendererMatchStrategy
   {
   }
 
+  @SuppressWarnings( "unchecked" )
   @Override
   public < T extends IComponent< ? > > IComponentRenderer< T > findMatchedRenderer( T component )
   {
-    return componentTypesRenderersMap.get( component.getClass() );
+    return (IComponentRenderer< T >)componentTypesRenderersMap.get( component.getClass() );
   }
 
-  public void addComponentRenderer( Class< ? extends IComponent > componentType, IComponentRenderer renderer )
+  //restrict the type match between compoentType and renderer
+  public < T extends IComponent< ? > > void addComponentRenderer( Class< T > componentType, IComponentRenderer<T> renderer )
   {
     componentTypesRenderersMap.put( componentType, renderer );
   }

@@ -59,7 +59,7 @@ public class Account implements IAccount
     return password;
   }
   @Override
-  public void setPassword()
+  public void setPassword( String password )
   {
     this.password = password;
   }
