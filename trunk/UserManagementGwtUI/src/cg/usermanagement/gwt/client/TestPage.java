@@ -3,8 +3,8 @@ package cg.usermanagement.gwt.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import cg.usermanagement.gwt.client.login.SystemUserLoginTransformer;
 import cg.usermanagement.gwt.client.ui.MenuPanelBuilder;
-import cg.usermanagement.gwt.client.ui.SystemUserLoginTransformer;
 import cg.usermanagement.gwt.client.ui.UserManagementClientPanelBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementMenuBarBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementPanelBuilder;

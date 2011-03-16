@@ -1,4 +1,4 @@
-package cg.usermanagement.gwt.client;
+package cg.usermanagement.gwt.client.controller;
 
 //this class as the Controller of MVC
 //the view( UI Objects ) responses for display, which are normal build by UIObjectBuilder
