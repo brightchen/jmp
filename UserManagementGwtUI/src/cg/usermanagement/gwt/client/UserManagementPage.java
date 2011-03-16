@@ -3,12 +3,13 @@ package cg.usermanagement.gwt.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import cg.usermanagement.gwt.client.login.UserLoginUI;
 import cg.usermanagement.gwt.client.ui.MenuPanelBuilder;
-import cg.usermanagement.gwt.client.ui.SystemUserLoginTransformer;
 import cg.usermanagement.gwt.client.ui.UserManagementClientPanelBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementMenuBarBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementPanelBuilder;
 import cg.usermanagement.gwt.shared.data.MenuBarData;
+import cg.usermanagement.gwt.shared.data.SystemUserLoginData;
 import cg.usermanagement.gwt.shared.data.UserManagementMenuBarData;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -30,8 +31,10 @@ public class UserManagementPage implements EntryPoint
 
   protected Panel buildNormalPage()
   {
-    SystemUserLoginTransformer loginPart = new SystemUserLoginTransformer();
-    return loginPart.build();
+    SystemUserLoginData data = new SystemUserLoginData();
+    return new UserLoginUI( data );
+//    SystemUserLoginTransformer loginPart = new SystemUserLoginTransformer();
+//    return loginPart.build();
   }
   
   protected MenuBar buildTestMenuPanel()
