@@ -1,6 +1,5 @@
 package cg.usermanagement.gwt.client.login;
 
-import cg.gwt.components.client.ui.IBuildable;
 import cg.usermanagement.gwt.shared.data.SystemUserLoginData;
 
 import com.google.gwt.user.client.ui.Button;
@@ -8,9 +7,9 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class UserLoginUI extends FlexTable implements IBuildable< SystemUserLoginData >
+public class UserLoginUI extends FlexTable
 {
-  private TextBox nameField;
+  private TextBox accountField;
   private TextBox passwordField;
   private SystemUserLoginData data;
   
@@ -24,21 +23,19 @@ public class UserLoginUI extends FlexTable implements IBuildable< SystemUserLogi
     this.data = data;
   }
 
-  @Override
   public SystemUserLoginData getData()
   {
     return data;
   }
   
-  @Override
   public void build()
   {
     setText( 0, 0, "system account name/id:" );
-    nameField = new TextBox();
-    nameField.setText( data == null ? "" : data.getAccountId() );
-    nameField.setFocus( true );
-    nameField.selectAll();
-    setWidget( 1, 0, nameField );
+    accountField = new TextBox();
+    accountField.setText( data == null ? "" : data.getAccountId() );
+    accountField.setFocus( true );
+    accountField.selectAll();
+    setWidget( 1, 0, accountField );
 
     setText( 0, 1, "password" );
     passwordField = new PasswordTextBox();
