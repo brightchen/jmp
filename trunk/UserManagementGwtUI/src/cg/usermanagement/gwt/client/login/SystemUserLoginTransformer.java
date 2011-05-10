@@ -1,7 +1,7 @@
 package cg.usermanagement.gwt.client.login;
 
-import cg.gwt.components.client.ui.IUIObjectDigester;
-import cg.gwt.components.client.ui.UIObjectBuilder;
+import cg.gwt.components.client.ui.old.IUIObjectDigester;
+import cg.gwt.components.client.ui.old.UIObjectBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementClientPanelBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementMenuBarBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementPanelBuilder;

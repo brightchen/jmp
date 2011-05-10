@@ -1,4 +1,4 @@
-package cg.gwt.components.client.ui;
+package cg.gwt.components.client.ui.old;
 
 import cg.gwt.components.shared.data.CompositeWidgetData;
 

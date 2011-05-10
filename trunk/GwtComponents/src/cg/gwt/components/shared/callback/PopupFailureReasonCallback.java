@@ -1,6 +1,6 @@
 package cg.gwt.components.shared.callback;
 
-import cg.gwt.components.client.ui.ErrorDialog;
+import cg.gwt.components.client.ui.old.ErrorDialog;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

@@ -1,6 +1,6 @@
 package cg.usermanagement.gwt.client.login;
 
-import cg.gwt.components.client.ui.MessageDialog;
+import cg.gwt.components.client.ui.old.MessageDialog;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.client.IAuthenticateServiceAsync;

@@ -2,7 +2,7 @@ package cg.dbmanagement.gwt.client.ui;
 
 import cg.dbmanagement.gwt.shared.data.QueryInputData;
 import cg.dbmanagement.gwt.shared.data.QueryResultData;
-import cg.gwt.components.client.ui.TypicalCompositeBuilder;
+import cg.gwt.components.client.ui.old.TypicalCompositeBuilder;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
