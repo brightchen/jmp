@@ -1,4 +1,5 @@
-package cg.gwt.components.client.ui;
+package cg.gwt.components.client.ui.old;
+
 
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;

@@ -1,6 +1,6 @@
 package cg.usermanagement.gwt.client.controller;
 
-import cg.gwt.components.client.ui.IUIObjectDigester;
+import cg.gwt.components.client.ui.old.IUIObjectDigester;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

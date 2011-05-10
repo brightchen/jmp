@@ -7,7 +7,7 @@ import cg.dbmanagement.gwt.shared.data.QueryOutputData;
 import cg.dbmanagement.gwt.shared.data.QueryResultData;
 import cg.dbmanagement.gwt.shared.data.SqlOutputData;
 import cg.dbmanagement.gwt.shared.data.UpdateOutputData;
-import cg.gwt.components.client.ui.UIObjectBuilder;
+import cg.gwt.components.client.ui.old.UIObjectBuilder;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ScrollPanel;

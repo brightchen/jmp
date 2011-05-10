@@ -2,7 +2,7 @@ package cg.usermanagement.gwt.client.ui;
 
 import java.util.List;
 
-import cg.gwt.components.client.ui.UIObjectBuilder;
+import cg.gwt.components.client.ui.old.UIObjectBuilder;
 import cg.usermanagement.gwt.shared.data.MenuBarData;
 import cg.usermanagement.gwt.shared.data.MenuItemData;
 import cg.usermanagement.gwt.shared.data.MenuItemType;

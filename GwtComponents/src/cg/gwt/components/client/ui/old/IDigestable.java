@@ -1,4 +1,4 @@
-package cg.gwt.components.client.ui;
+package cg.gwt.components.client.ui.old;
 
 public interface IDigestable< D >
 {
