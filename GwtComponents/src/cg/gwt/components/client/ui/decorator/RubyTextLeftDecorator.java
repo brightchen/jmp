@@ -15,7 +15,9 @@ public class RubyTextLeftDecorator< UC extends Widget > extends RubyTextDecorato
   @Override
   protected HorizontalPanel buildContainer()
   {
-    return new HorizontalPanel();
+    HorizontalPanel container = new HorizontalPanel();
+    applyDataToContainer( container );
+    return container;
   }
   
   @Override

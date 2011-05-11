@@ -16,7 +16,9 @@ public class RubyTextTopDecorator< UC extends UIComponent< ?, ? > > extends Ruby
   @Override
   protected VerticalPanel buildContainer()
   {
-    return new VerticalPanel();
+    VerticalPanel container = new VerticalPanel();
+    applyDataToContainer( container );
+    return container;
   }
   
   @Override
