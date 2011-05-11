@@ -23,6 +23,12 @@ public class UIComposite< D, U extends Panel > extends UIComponent< D, U >
     setContainer( container );
   }
   
+  public UIComposite( D data, U container )
+  {
+    this( container );
+    setData( data );
+  }
+  
   /*
    * the container can be set by the client code
    */
@@ -43,9 +49,10 @@ public class UIComposite< D, U extends Panel > extends UIComponent< D, U >
   {
     buildContainer();
     beforeAddingChildren();
+    int index = 0;
     for( Widget child : children )
     {
-      addChildComponent( child );
+      addChildComponent( child, index++ );
     }
     afterAddingChildren();
     
@@ -62,7 +69,7 @@ public class UIComposite< D, U extends Panel > extends UIComponent< D, U >
   protected void beforeAddingChildren(){}
   protected void afterAddingChildren(){}
   
-  protected void addChildComponent( Widget child )
+  protected void addChildComponent( Widget child, int index )
   {
     getContainer().add( child );
   }
