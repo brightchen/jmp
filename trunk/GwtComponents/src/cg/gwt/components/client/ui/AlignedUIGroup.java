@@ -2,7 +2,7 @@ package cg.gwt.components.client.ui;
 
 import java.util.List;
 
-import cg.utils.DataReference;
+import cg.gwt.components.shared.utils.DataReference;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
