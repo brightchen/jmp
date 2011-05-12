@@ -10,6 +10,5 @@
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=build%2Fivy.xml&amp;confs=*"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GwtComponents"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Service"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/utils"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
