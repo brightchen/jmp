@@ -1,4 +1,4 @@
-package cg.gwt.components.client.ui.old;
+package cg.gwt.components.client.ui;
 
 /*
  * support getData()/setData()

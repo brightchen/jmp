@@ -5,6 +5,9 @@ import java.util.List;
 
 import cg.gwt.components.client.ui.AlignedUIGroup;
 import cg.gwt.components.client.ui.UIComposite;
+import cg.gwt.components.client.ui.event.GwtEventDelegateHandler;
+import cg.gwt.components.client.ui.event.UIEvent;
+import cg.usermanagement.gwt.client.login.LoginEvent.LoginEventData;
 import cg.usermanagement.gwt.shared.data.SystemUserLoginData;
 
 import com.google.gwt.user.client.ui.Button;
@@ -26,7 +29,6 @@ public class UserLoginUI extends UIComposite< SystemUserLoginData, VerticalPanel
   {
     setData( data );
     
-    
     List< String > userPassData = new ArrayList< String >();
     userPassData.add( "system account name/id:" );
     userPassData.add( "name" );
@@ -39,7 +41,7 @@ public class UserLoginUI extends UIComposite< SystemUserLoginData, VerticalPanel
     userPassUI = new AlignedUIGroup< String, FlexTable >( userPassData, new FlexTable() )
     {
       @Override
-      public void buildAndAddChild( String childData, int index )
+      public Widget buildChild( String childData, int index )
       {
         Widget w = null;
         if( index == 0 || index == 2 )
@@ -54,7 +56,7 @@ public class UserLoginUI extends UIComposite< SystemUserLoginData, VerticalPanel
         {
           w = passwordField;
         }
-        addChild( w );
+        return w;
       }
     };
     
@@ -62,6 +64,7 @@ public class UserLoginUI extends UIComposite< SystemUserLoginData, VerticalPanel
     addChild( userPassUI );
     
     final Button loginButton = new Button( "Login" );
+    loginButton.addClickHandler( new GwtEventDelegateHandler< LoginEventData, LoginEvent >( new LoginEvent( new LoginEventData()) ) )
     addChild( loginButton );
   }
   

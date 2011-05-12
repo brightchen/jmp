@@ -3,6 +3,7 @@ package cg.gwt.components.client.ui;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 
 /*
  * UIGroup is a type of composite which composed by a group of same component
@@ -29,13 +30,18 @@ public abstract class UIGroup< I, U extends Panel > extends UIComposite< List<I>
     int index = 0;
     for( I childData : data )
     {
-      buildAndAddChild( childData, index++ );
+      addChild( buildChild( childData, index++ ), index );
     }
   }
   
   /*
    * build the child and add it into the children using addChild()
    */
-  public abstract void buildAndAddChild( I childData, int index );
+  public abstract Widget buildChild( I childData, int index );
+  
+  public void addChild( Widget child, int index )
+  {
+    getContainer().add( child );
+  }
 
 }
