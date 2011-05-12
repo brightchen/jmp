@@ -49,7 +49,7 @@ public class SystemUserLoginTransformer extends UIObjectBuilder< SystemUserLogin
     {
       final Button loginButton = new Button( "Login" );
       // Add a handler to send the name to the server
-      LoginHandler handler =  new LoginHandler()
+      LoginEvent handler =  new LoginEvent()
                               {
                                 @Override
                                 protected void updateData()

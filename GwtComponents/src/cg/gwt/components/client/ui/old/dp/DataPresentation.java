@@ -1,6 +1,6 @@
 package cg.gwt.components.client.ui.old.dp;
 
-import cg.gwt.components.client.ui.old.IDataSupport;
+import cg.gwt.components.client.ui.IDataSupport;
 
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;

@@ -40,7 +40,8 @@ public abstract class AlignedUIGroup < I, U extends FlexTable > extends UIGroup<
   {
     DataReference< Integer > rowIndex = new DataReference< Integer >();    
     DataReference< Integer > columnIndex = new DataReference< Integer >();
-
+    getRowColumnIndex( index, rowIndex, columnIndex );
+    
     FlexTable container = getContainer();
     container.setWidget( rowIndex.getData(), columnIndex.getData(), child );
   }

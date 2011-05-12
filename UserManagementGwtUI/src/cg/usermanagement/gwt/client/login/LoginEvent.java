@@ -1,0 +1,65 @@
+package cg.usermanagement.gwt.client.login;
+
+import java.io.Serializable;
+
+import cg.gwt.components.client.ui.event.UIEvent;
+import cg.gwt.components.client.ui.old.MessageDialog;
+import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
+import cg.usermanagement.gwt.client.IAuthenticateService;
+import cg.usermanagement.gwt.client.IAuthenticateServiceAsync;
+
+import com.google.gwt.core.client.GWT;
+
+public class LoginEvent extends UIEvent< LoginEvent.LoginEventData >
+{
+  private IAuthenticateServiceAsync userService = GWT.create( IAuthenticateService.class );
+  
+  public LoginEvent( LoginEventData data )
+  {
+    super( data );
+  }
+  
+  protected void onLogin()
+  {
+    userService.login( getData().getAccountId(), getData().getPassword(), 
+                       new PopupFailureReasonCallback< Void >()
+                        {
+                          @Override
+                          public void onSuccess( Void returned )
+                          {
+                            onLoginSuccess();
+                          }
+                        } );
+  }
+
+  protected void onLoginSuccess()
+  {
+    (new MessageDialog()).displayMessage( "login successful" );
+  }
+  
+  public static class LoginEventData implements Serializable
+  {
+    private static final long serialVersionUID = -3973984244159981528L;
+
+    private String accountId;
+    private String password;
+    
+    public String getAccountId()
+    {
+      return accountId;
+    }
+    public void setAccountId( String accountId )
+    {
+      this.accountId = accountId;
+    }
+    public String getPassword()
+    {
+      return password;
+    }
+    public void setPassword( String password )
+    {
+      this.password = password;
+    }
+
+  }
+}

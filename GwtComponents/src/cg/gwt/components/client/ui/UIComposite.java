@@ -31,6 +31,7 @@ public class UIComposite< D, U extends Panel > extends UIComponent< D, U >
   
   /*
    * the container can be set by the client code
+   * it should be override by the sub-classes if the sub-class's container does NOT set by the client code
    */
   protected U buildContainer()
   {
