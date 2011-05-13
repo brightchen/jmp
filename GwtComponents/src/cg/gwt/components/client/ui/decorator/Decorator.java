@@ -14,8 +14,15 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class Decorator< D, UC extends Widget, U extends Panel > extends UIComposite< D, U >
 {
+  public Decorator( D data, UC decoratedComponent )
+  {
+    setData( data );
+    setDecoratedComponent( decoratedComponent );
+  }
+  
   public void setDecoratedComponent( UC decoratedComponent )
   {
+    //only has one child. So clear the children in case duplicate
     clearChildren();
     addChild( decoratedComponent );
   }
@@ -24,6 +31,7 @@ public class Decorator< D, UC extends Widget, U extends Panel > extends UICompos
   public UC getDecoreatedComponent()
   {
     List< Widget > children = getChildren();
+    //only has one child
     return children == null ? null : ( (UC)children.get( 0 ) );
   }
   
