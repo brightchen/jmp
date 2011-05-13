@@ -3,16 +3,18 @@ package cg.gwt.components.client.ui.event;
 import java.util.ArrayList;
 import java.util.List;
 
-import cg.gwt.components.client.ui.IDataSupport;
+import cg.gwt.components.client.ui.IDataProvider;
 
-public abstract class UIEvent< D > implements IDataSupport< D >
+/*
+ * the data of the event is dynamic, it should be retrieve dynamically when fire the event.
+ * so, use the IDataProvider interface
+ */
+public abstract class UIEvent< D > implements IDataProvider< D >
 {
-  private D data;
   private List< UIEventHandler > handlers = new ArrayList< UIEventHandler >();
 
-  public UIEvent( D data )
+  public UIEvent()
   {
-    setData( data );
   }
   
   /*
@@ -25,20 +27,8 @@ public abstract class UIEvent< D > implements IDataSupport< D >
     {
       theHandler.handle( this );
     }
-    
   }
 
-  @Override
-  public void setData( D data )
-  {
-    this.data = data;
-  }
-
-  @Override
-  public D getData()
-  {
-    return data;
-  }
 
   public List< UIEventHandler > getHandlers()
   {

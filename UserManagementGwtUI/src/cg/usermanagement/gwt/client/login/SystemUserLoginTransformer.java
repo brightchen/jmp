@@ -7,7 +7,6 @@ import cg.usermanagement.gwt.client.ui.UserManagementMenuBarBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementPanelBuilder;
 import cg.usermanagement.gwt.shared.data.SystemUserLoginData;
 
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -46,32 +45,32 @@ public class SystemUserLoginTransformer extends UIObjectBuilder< SystemUserLogin
     table.setWidget( 1, 1, passwordField );
 
     // login button
-    {
-      final Button loginButton = new Button( "Login" );
-      // Add a handler to send the name to the server
-      LoginEvent handler =  new LoginEvent()
-                              {
-                                @Override
-                                protected void updateData()
-                                {
-                                  SystemUserLoginTransformer.this.digest();
-                                  SystemUserLoginData data = getData();
-                                  setAccountId( data.getAccountId() );
-                                  setPassword( data.getPassword() );
-                                }
-
-                                @Override
-                                protected void onLoginSuccess()
-                                {
-                                  SystemUserLoginTransformer.this.onLoginSuccess();
-                                }
-                              };
-      
-      loginButton.addClickHandler( handler );
-      loginButton.addKeyUpHandler( handler );
-
-      table.setWidget( 1, 2, loginButton );
-    }
+//    {
+//      final Button loginButton = new Button( "Login" );
+//      // Add a handler to send the name to the server
+//      LoginEvent handler =  new LoginEvent()
+//                              {
+//                                @Override
+//                                protected void updateData()
+//                                {
+//                                  SystemUserLoginTransformer.this.digest();
+//                                  SystemUserLoginData data = getData();
+//                                  setAccountId( data.getAccountId() );
+//                                  setPassword( data.getPassword() );
+//                                }
+//
+//                                @Override
+//                                protected void onLoginSuccess()
+//                                {
+//                                  SystemUserLoginTransformer.this.onLoginSuccess();
+//                                }
+//                              };
+//      
+//      loginButton.addClickHandler( handler );
+//      loginButton.addKeyUpHandler( handler );
+//
+//      table.setWidget( 1, 2, loginButton );
+//    }
     return table;
     
   }

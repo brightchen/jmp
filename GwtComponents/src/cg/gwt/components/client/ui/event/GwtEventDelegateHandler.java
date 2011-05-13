@@ -14,7 +14,7 @@ public class GwtEventDelegateHandler< D, UE extends UIEvent< D > > implements Cl
   private UE uiEvent;
   public GwtEventDelegateHandler( UE uiEvent )
   {
-    
+    this.uiEvent = uiEvent;
   }
   
   public void handle()
