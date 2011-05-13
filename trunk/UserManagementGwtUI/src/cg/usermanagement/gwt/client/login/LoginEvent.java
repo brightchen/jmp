@@ -10,13 +10,18 @@ import cg.usermanagement.gwt.client.IAuthenticateServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 
-public class LoginEvent extends UIEvent< LoginEvent.LoginEventData >
+public abstract class LoginEvent extends UIEvent< LoginEvent.LoginEventData >
 {
   private IAuthenticateServiceAsync userService = GWT.create( IAuthenticateService.class );
   
-  public LoginEvent( LoginEventData data )
+  public LoginEvent()
   {
-    super( data );
+  }
+  
+  @Override
+  public void fire()
+  {
+    onLogin();
   }
   
   protected void onLogin()
@@ -43,6 +48,12 @@ public class LoginEvent extends UIEvent< LoginEvent.LoginEventData >
 
     private String accountId;
     private String password;
+    
+    public LoginEventData( String accountId, String password )
+    {
+      this.accountId = accountId;
+      this.password = password;
+    }
     
     public String getAccountId()
     {

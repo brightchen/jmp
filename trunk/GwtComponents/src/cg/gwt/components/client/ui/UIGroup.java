@@ -15,12 +15,17 @@ public abstract class UIGroup< I, U extends Panel > extends UIComposite< List<I>
   {
     setData( data );
     setContainer( container );
-    
-    buildAndAddChildren( data );
+  }
+  
+  @Override
+  protected void beforeAddingChildren()
+  {
+    buildAndAddChildren( getData() );
   }
   
   /*
-   * build and add children
+   * build and add children component into the children list
+   * the build() method will add the component in the children list into the container
    */
   public void buildAndAddChildren( List<I> data )
   {
@@ -30,16 +35,15 @@ public abstract class UIGroup< I, U extends Panel > extends UIComposite< List<I>
     int index = 0;
     for( I childData : data )
     {
-      addChild( buildChild( childData, index++ ), index );
+      addChildComponent( buildChildComponent( childData, index ), index );
+      ++index;
     }
   }
   
-  /*
-   * build the child and add it into the children using addChild()
-   */
-  public abstract Widget buildChild( I childData, int index );
+  protected abstract Widget buildChildComponent( I childData, int index );
   
-  public void addChild( Widget child, int index )
+  @Override
+  protected void addChildComponent( Widget child, int index )
   {
     getContainer().add( child );
   }

@@ -19,12 +19,14 @@ public abstract class AlignedUIGroup < I, U extends FlexTable > extends UIGroup<
     FixColumnSize
   }
   
-  private AlignStyle alignStyle = AlignStyle.FixColumnSize;
-  private int sideSize = 2;
+  private AlignStyle alignStyle;
+  private int sideSize;
   
   public AlignedUIGroup( List<I> data, U container )
   {
     super( data, container );
+    alignStyle = AlignStyle.FixColumnSize;
+    sideSize = 2;
   }
 
   public void setAlignAttributes( AlignStyle alignStyle, int sideSize )
