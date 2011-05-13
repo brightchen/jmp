@@ -5,8 +5,8 @@ import cg.dbmanagement.gwt.client.IConfigServiceAsync;
 import cg.dbmanagement.gwt.client.IPersistenceService;
 import cg.dbmanagement.gwt.client.IPersistenceServiceAsync;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
+import cg.gwt.components.client.ui.components.MessageDialog;
 import cg.gwt.components.client.ui.old.IUIObjectDigester;
-import cg.gwt.components.client.ui.old.MessageDialog;
 import cg.gwt.components.client.ui.old.UIObjectBuilder;
 
 import com.google.gwt.core.client.GWT;

@@ -7,7 +7,6 @@ public abstract class RubyTextDecorator< UC extends Widget, U extends Panel > ex
 {
   public RubyTextDecorator( String rubyText, UC decoratedComponent )
   {
-    setData( rubyText );
-    setDecoratedComponent( decoratedComponent );
+    super( rubyText, decoratedComponent );
   }
 }

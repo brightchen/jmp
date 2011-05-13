@@ -1,4 +1,5 @@
-package cg.gwt.components.client.ui.old;
+package cg.gwt.components.client.ui.components;
+
 
 public class ErrorDialog extends MessageDialog
 {

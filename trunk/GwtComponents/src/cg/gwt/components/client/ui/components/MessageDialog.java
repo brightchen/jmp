@@ -1,4 +1,4 @@
-package cg.gwt.components.client.ui.old;
+package cg.gwt.components.client.ui.components;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
