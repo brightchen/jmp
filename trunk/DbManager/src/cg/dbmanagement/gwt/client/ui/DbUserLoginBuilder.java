@@ -5,7 +5,7 @@ import cg.dbmanagement.gwt.client.IConfigServiceAsync;
 import cg.dbmanagement.gwt.client.IPersistenceService;
 import cg.dbmanagement.gwt.client.IPersistenceServiceAsync;
 import cg.dbmanagement.gwt.shared.data.DbUserLoginData;
-import cg.gwt.components.client.ui.components.MessageDialog;
+import cg.gwt.components.client.ui.components.SimpleMessageDialogUI;
 import cg.gwt.components.client.ui.old.IUIObjectDigester;
 import cg.gwt.components.client.ui.old.UIObjectBuilder;
 
@@ -182,11 +182,13 @@ public class DbUserLoginBuilder extends UIObjectBuilder< DbUserLoginData, FlexTa
 
   protected void onconnectToDBSuccess( String sessionIdentity )
   {
-    (new MessageDialog()).displayMessage( "login success." );
+//    (new SimpleMessageDialogUI()).displayMessage( "login success." );
+    (new SimpleMessageDialogUI( "login success." )).show();
   }
   
   protected void onconnectToDBFailed( Throwable exception )
   {
-    (new MessageDialog()).displayMessage( "login failed due to " + exception.toString() );
+//    (new SimpleMessageDialogUI()).displayMessage( "login failed due to " + exception.toString() );
+    (new SimpleMessageDialogUI( "login failed due to " + exception.toString() )).show();
   }
 }
