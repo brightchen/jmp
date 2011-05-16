@@ -2,11 +2,13 @@ package cg.usermanagement.gwt.client.login;
 
 import java.io.Serializable;
 
+import cg.gwt.components.client.ui.components.SimpleErrorDialogUI;
 import cg.gwt.components.client.ui.components.SimpleMessageDialogUI;
 import cg.gwt.components.client.ui.event.UIEvent;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.client.IAuthenticateServiceAsync;
+import cg.usermanagement.gwt.shared.LoginException;
 
 import com.google.gwt.core.client.GWT;
 
@@ -29,6 +31,13 @@ public abstract class LoginEvent extends UIEvent< LoginEvent.LoginEventData >
     userService.login( getData().getAccountId(), getData().getPassword(), 
                        new PopupFailureReasonCallback< Void >()
                         {
+                          @Override
+                          public void onFailure( Throwable caught )
+                          {
+                            LoginException le = (LoginException)caught;
+                            ( new SimpleErrorDialogUI(  le.getErrorReason() ) ).centre();
+                          }
+
                           @Override
                           public void onSuccess( Void returned )
                           {
