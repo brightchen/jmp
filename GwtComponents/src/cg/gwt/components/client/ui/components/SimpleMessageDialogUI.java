@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SimpleMessageDialogUI extends PopupDecorator< String, Label >
+public class SimpleMessageDialogUI extends PopupDecorator< String, Panel >
 {
   public SimpleMessageDialogUI( String message )
   {
@@ -41,6 +41,8 @@ public class SimpleMessageDialogUI extends PopupDecorator< String, Label >
     } );
     
     messagePanel.add( okButton );
+    
+    setDecoratedComponent( messagePanel );
   }
   
   protected void setTitle()

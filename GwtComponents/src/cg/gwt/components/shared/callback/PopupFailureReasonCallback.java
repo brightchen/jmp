@@ -10,6 +10,7 @@ public class PopupFailureReasonCallback< T > implements AsyncCallback< T >
   public void onFailure( Throwable caught )
   {
     ( new SimpleErrorDialogUI(  caught.getMessage() ) ).centre();
+//    ( new MessageDialog( "Error" ) ).displayMessage( caught.getMessage() );
   }
 
   @Override

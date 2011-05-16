@@ -29,6 +29,8 @@ public class PopupDecorator< D, UC extends Widget > extends Decorator< D, UC, Po
   
   public void centre()
   {
+    //build the UI before show
+    build();
     getDecoratorComponent().center();
   }
   
@@ -39,6 +41,8 @@ public class PopupDecorator< D, UC extends Widget > extends Decorator< D, UC, Po
 
   public void show()
   {
+    //build the UI before show
+    build();
     getDecoratorComponent().show();
   }
 
