@@ -14,6 +14,10 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class Decorator< D, UC extends Widget, U extends Panel > extends UIComposite< D, U >
 {
+  public Decorator( D data )
+  {
+    setData( data );
+  }
   public Decorator( D data, UC decoratedComponent )
   {
     setData( data );

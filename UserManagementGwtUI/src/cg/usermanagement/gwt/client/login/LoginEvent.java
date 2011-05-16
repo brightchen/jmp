@@ -2,7 +2,7 @@ package cg.usermanagement.gwt.client.login;
 
 import java.io.Serializable;
 
-import cg.gwt.components.client.ui.components.MessageDialog;
+import cg.gwt.components.client.ui.components.SimpleMessageDialogUI;
 import cg.gwt.components.client.ui.event.UIEvent;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.usermanagement.gwt.client.IAuthenticateService;
@@ -39,7 +39,7 @@ public abstract class LoginEvent extends UIEvent< LoginEvent.LoginEventData >
 
   protected void onLoginSuccess()
   {
-    (new MessageDialog()).displayMessage( "login successful" );
+    (new SimpleMessageDialogUI( "login successful."  )).show( );
   }
   
   public static class LoginEventData implements Serializable

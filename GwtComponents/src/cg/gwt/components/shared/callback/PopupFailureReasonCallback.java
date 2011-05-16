@@ -1,6 +1,6 @@
 package cg.gwt.components.shared.callback;
 
-import cg.gwt.components.client.ui.components.ErrorDialog;
+import cg.gwt.components.client.ui.components.SimpleErrorDialogUI;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -9,7 +9,7 @@ public class PopupFailureReasonCallback< T > implements AsyncCallback< T >
   @Override
   public void onFailure( Throwable caught )
   {
-    ( new ErrorDialog() ).displayMessage( caught.getMessage() );
+    ( new SimpleErrorDialogUI(  caught.getMessage() ) ).centre();
   }
 
   @Override
