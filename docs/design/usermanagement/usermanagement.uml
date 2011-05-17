@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_dMhlsYCuEeC9ArNVOr8k9g" name="usermanagement">
+  <elementImport xmi:id="_dPNGQICuEeC9ArNVOr8k9g">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_dPW3QICuEeC9ArNVOr8k9g">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_dPW3QYCuEeC9ArNVOr8k9g">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <elementImport xmi:id="_dPW3QoCuEeC9ArNVOr8k9g">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_7yELoICuEeC9ArNVOr8k9g" name="User">
+    <ownedAttribute xmi:id="_9ICgEICuEeC9ArNVOr8k9g" name="TB" aggregation="composite">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_-ZZaQICuEeC9ArNVOr8k9g" value="TUSER"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_AlnaMICvEeC9ArNVOr8k9g" name="id" type="_CSZFEICvEeC9ArNVOr8k9g" aggregation="composite"/>
+    <ownedAttribute xmi:id="_FiQ6YICvEeC9ArNVOr8k9g" name="name" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_HpHSIICvEeC9ArNVOr8k9g" name="password" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_CSZFEICvEeC9ArNVOr8k9g" name="Long"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_NNQQIICvEeC9ArNVOr8k9g" name="Account">
+    <ownedAttribute xmi:id="_OT4hAICvEeC9ArNVOr8k9g" name="id" type="_CSZFEICvEeC9ArNVOr8k9g" aggregation="composite"/>
+    <ownedAttribute xmi:id="_RrNCIICvEeC9ArNVOr8k9g" name="accountId" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_TsinwICvEeC9ArNVOr8k9g" name="password" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_Jw1-MICwEeC9ArNVOr8k9g" name="AccountLockReason">
+    <ownedAttribute xmi:id="_MFHG4ICwEeC9ArNVOr8k9g" name="id" type="_CSZFEICvEeC9ArNVOr8k9g" aggregation="composite"/>
+    <ownedAttribute xmi:id="_Ps0NYICwEeC9ArNVOr8k9g" name="description" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_oYQsEICzEeC9ArNVOr8k9g" name="user" memberEnd="_oYQsEYCzEeC9ArNVOr8k9g _oYQsFICzEeC9ArNVOr8k9g">
+    <ownedEnd xmi:id="_oYQsEYCzEeC9ArNVOr8k9g" name="src" type="_NNQQIICvEeC9ArNVOr8k9g" association="_oYQsEICzEeC9ArNVOr8k9g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oYQsE4CzEeC9ArNVOr8k9g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oYQsEoCzEeC9ArNVOr8k9g" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_oYQsFICzEeC9ArNVOr8k9g" name="dst" type="_7yELoICuEeC9ArNVOr8k9g" aggregation="shared" association="_oYQsEICzEeC9ArNVOr8k9g">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oYQsFoCzEeC9ArNVOr8k9g" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oYQsFYCzEeC9ArNVOr8k9g" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Package>
