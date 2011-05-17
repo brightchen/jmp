@@ -4,7 +4,7 @@ import cg.model.api.IEntity;
 
 // the relationship between user and account should be one to many.
 // for example, one user can have one account in location A and another account in location B
-// see hotmail account or gmail account 
+// say hotmail account or gmail account 
 public interface IAccount extends IEntity
 {
   public String getAccountId();
