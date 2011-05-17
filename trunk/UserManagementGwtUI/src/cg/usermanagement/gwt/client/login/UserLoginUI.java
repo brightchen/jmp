@@ -7,7 +7,7 @@ import cg.gwt.components.client.ui.AlignedUIGroup;
 import cg.gwt.components.client.ui.UIComposite;
 import cg.gwt.components.client.ui.event.GwtEventDelegateHandler;
 import cg.usermanagement.gwt.client.login.LoginEvent.LoginEventData;
-import cg.usermanagement.gwt.shared.data.SystemUserLoginData;
+import cg.usermanagement.gwt.shared.data.UserLoginData;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -17,22 +17,22 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UserLoginUI extends UIComposite< SystemUserLoginData, VerticalPanel >
+public class UserLoginUI extends UIComposite< UserLoginData, VerticalPanel >
 {
   private TextBox accountField;
   private TextBox passwordField;
   private VerticalPanel realComponent;
   private AlignedUIGroup< String, FlexTable > userPassUI;
   
-  public UserLoginUI( SystemUserLoginData data )
+  public UserLoginUI( UserLoginData data )
   {
     setData( data );
     
     List< String > userPassData = new ArrayList< String >();
     userPassData.add( "system account name/id:" );
-    userPassData.add( "name" );
+    userPassData.add( "" );
     userPassData.add( "password:" );
-    userPassData.add( "password:" );
+    userPassData.add( "" );
     
     accountField = new TextBox();
     passwordField = new PasswordTextBox();
