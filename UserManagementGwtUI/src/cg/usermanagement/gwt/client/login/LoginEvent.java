@@ -34,8 +34,15 @@ public abstract class LoginEvent extends UIEvent< LoginEvent.LoginEventData >
                           @Override
                           public void onFailure( Throwable caught )
                           {
-                            LoginException le = (LoginException)caught;
-                            ( new SimpleErrorDialogUI(  le.getErrorReason() ) ).centre();
+                            if( !( caught instanceof LoginException ) )
+                            {
+                              ( new SimpleErrorDialogUI( caught.getMessage() ) ).centre();
+                            }
+                            else
+                            {
+                              LoginException le = (LoginException)caught;
+                              ( new SimpleErrorDialogUI(  le.getErrorReason() ) ).centre();
+                            }
                           }
 
                           @Override

@@ -1,6 +1,9 @@
 package cg.usermanagement.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import cg.usermanagement.api.model.IAccount;
@@ -22,6 +25,11 @@ public class Account implements IAccount
   @javax.persistence.Column(name="PASSWORD")
   private String password;
 
+  @ManyToOne(fetch=FetchType.LAZY) 
+  @JoinColumn(name="USER_ID") 
+  private User user;
+ 
+  
   @javax.persistence.Column(name="EXPIRED")
   private Boolean expired;
 
@@ -64,6 +72,15 @@ public class Account implements IAccount
     this.password = password;
   }
 
+  public User getUser()
+  {
+    return user;
+  }
+  public void setUser( User user )
+  {
+    this.user = user;
+  }
+  
   @Override
   public boolean isExpired()
   {
