@@ -3,7 +3,7 @@ package cg.usermanagement.gwt.shared.data;
 import java.io.Serializable;
 
 //we need user's account in order to login
-public class SystemUserLoginData implements Serializable
+public class UserLoginData implements Serializable
 {
   private static final long serialVersionUID = 665267442451753317L;
   

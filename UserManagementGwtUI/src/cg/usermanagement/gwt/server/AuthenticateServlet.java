@@ -6,6 +6,8 @@ import cg.usermanagement.api.model.IAccount;
 import cg.usermanagement.api.service.IUserService;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.shared.LoginException;
+import cg.usermanagement.gwt.shared.RegisterUserException;
+import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -35,5 +37,10 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
       throw new LoginException( LoginException.LOGIN_ERROR.INVALID_ACCOUNT_ID );
     if( !password.equals( account.getPassword() ) )
       throw new LoginException( LoginException.LOGIN_ERROR.ACCOUNT_PASSWORD_NOT_MATCH );
+  }
+  
+  public void registerUser( UserRegisterData data ) throws RegisterUserException
+  {
+    //TODO
   }
 }

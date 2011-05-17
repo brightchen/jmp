@@ -5,7 +5,7 @@ import cg.gwt.components.client.ui.old.UIObjectBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementClientPanelBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementMenuBarBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementPanelBuilder;
-import cg.usermanagement.gwt.shared.data.SystemUserLoginData;
+import cg.usermanagement.gwt.shared.data.UserLoginData;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -13,22 +13,22 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SystemUserLoginTransformer extends UIObjectBuilder< SystemUserLoginData, FlexTable > implements IUIObjectDigester
+public class SystemUserLoginTransformer extends UIObjectBuilder< UserLoginData, FlexTable > implements IUIObjectDigester
 {
   private TextBox nameField;
   private TextBox passwordField;
   
   //create an empty data instance
   @Override
-  protected SystemUserLoginData createData()
+  protected UserLoginData createData()
   {
-    return new SystemUserLoginData();
+    return new UserLoginData();
   }
 
   @Override
   public FlexTable build()
   {
-    SystemUserLoginData data = getData();
+    UserLoginData data = getData();
     
     FlexTable table = new FlexTable();
 
@@ -79,10 +79,10 @@ public class SystemUserLoginTransformer extends UIObjectBuilder< SystemUserLogin
   @Override
   public void digest()
   {
-    SystemUserLoginData data = getData();
+    UserLoginData data = getData();
     if( data == null )
     {
-      data = new SystemUserLoginData();
+      data = new UserLoginData();
       setData( data );
     }
     data.setAccountId( nameField.getText() );
