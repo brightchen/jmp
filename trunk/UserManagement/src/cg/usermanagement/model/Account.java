@@ -6,12 +6,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import cg.usermanagement.api.model.IAccount;
-import cg.usermanagement.api.model.IAccountLockReason;
-
 @Entity
 @Table(name="ACCOUNT")
-public class Account implements IAccount
+public class Account
 {
   @javax.persistence.SequenceGenerator(name="ACCOUNT_SEQ",sequenceName="ACCOUNT_SEQ")
   @javax.persistence.Id 
@@ -39,34 +36,28 @@ public class Account implements IAccount
   @javax.persistence.Column(name="LOCK_REASON_ID")
   private Long lockReasonId;
 
-  @Override
   public Long getId()
   {
     return id;
   }
-  @Override
   public void setId( Long id )
   {
     this.id = id;
   }
 
-  @Override
   public String getAccountId()
   {
     return accountId;
   }
-  @Override
   public void setAccountId( String accountId )
   {
     this.accountId = accountId;
   }
 
-  @Override
   public String getPassword()
   {
     return password;
   }
-  @Override
   public void setPassword( String password )
   {
     this.password = password;
@@ -81,36 +72,30 @@ public class Account implements IAccount
     this.user = user;
   }
   
-  @Override
   public boolean isExpired()
   {
     return expired;
   }
-  @Override
   public void setExpired( boolean expired )
   {
     this.expired = expired;
   }
 
-  @Override
   public boolean isLocked()
   {
     return locked;
   }
-  @Override
   public void setLocked( boolean locked )
   {
     this.locked = locked;
   }
 
-  @Override
-  public IAccountLockReason getLockReason()
+  public AccountLockReason getLockReason()
   {
     return AccountLockReason.fromId( lockReasonId );
   }
 
-  @Override
-  public void setLockReason( IAccountLockReason lockReason )
+  public void setLockReason( AccountLockReason lockReason )
   {
     lockReasonId = lockReason.getId();
   }

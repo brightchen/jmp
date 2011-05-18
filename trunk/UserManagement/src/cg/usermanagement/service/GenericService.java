@@ -1,4 +1,4 @@
-package cg.usermanagement.persistence;
+package cg.usermanagement.service;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import javax.persistence.NoResultException;
 
 import cg.model.api.IEntity;
 import cg.model.api.INamedEntity;
-import cg.usermanagement.api.service.IGenericService;
+import cg.usermanagement.api.IGenericService;
 
 public class GenericService implements IGenericService
 {

@@ -1,8 +1,7 @@
 package cg.usermanagement.model;
 
-import cg.usermanagement.api.model.IAccountLockReason;
 
-public enum AccountLockReason implements IAccountLockReason
+public enum AccountLockReason
 {
   // the id should not be modified
   OTHER( 10, "other reason" );
@@ -16,19 +15,15 @@ public enum AccountLockReason implements IAccountLockReason
     this.description = description;
   }
   
-  @Override
   public Long getId()
   {
     return id;
   }
-
-  @Override
   public void setId( Long id )
   {
     this.id = id;
   }
 
-  @Override
   public String getDescription()
   {
     return description;
