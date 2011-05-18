@@ -41,6 +41,28 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
   
   public void registerUser( UserRegisterData data ) throws RegisterUserException
   {
-    //TODO
+    String accountId = data.getAccountId();
+    if( accountId == null || accountId.isEmpty() )
+      throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.ACCOUNT_ID_EMTPY );
+    String password = data.getPassword();
+    if( accountId == null || accountId.isEmpty() )
+      throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.PASSWORD_EMTPY );
+    
+    IUserService service = null;
+    try
+    {
+      service = ServiceManager.findService( IUserService.class );
+    }
+    catch( ServiceNotFoundException snfe )
+    {
+      throw new RuntimeException( "can't find service: " + IUserService.class.getName(), snfe );
+    }
+   
+    IAccount account = service.findAccountByAccountId( accountId );
+    if( account != null )
+      throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.ACCOUNT_ID_EXISTED );
+    service
+    if( !password.equals( account.getPassword() ) )
+      throw new LoginException( LoginException.LOGIN_ERROR.ACCOUNT_PASSWORD_NOT_MATCH );
   }
 }

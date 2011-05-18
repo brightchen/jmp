@@ -7,4 +7,5 @@ public interface IUserService
 {
   public IUser findUserByName( String name );
   public IAccount findAccountByAccountId( String accountId );
+  public boolean registerUser( UserRegisterData data );
 }
