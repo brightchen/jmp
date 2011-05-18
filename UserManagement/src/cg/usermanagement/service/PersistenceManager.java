@@ -1,4 +1,4 @@
-package cg.usermanagement.persistence;
+package cg.usermanagement.service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

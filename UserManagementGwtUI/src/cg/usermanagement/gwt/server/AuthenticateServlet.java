@@ -2,12 +2,12 @@ package cg.usermanagement.gwt.server;
 
 import cg.service.lookup.ServiceManager;
 import cg.service.lookup.ServiceNotFoundException;
-import cg.usermanagement.api.model.IAccount;
-import cg.usermanagement.api.service.IUserService;
+import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.shared.LoginException;
 import cg.usermanagement.gwt.shared.RegisterUserException;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
+import cg.usermanagement.model.Account;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -32,7 +32,7 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
       throw new RuntimeException( "can't find service: " + IUserService.class.getName(), snfe );
     }
    
-    IAccount account = service.findAccountByAccountId( accountId );
+    Account account = service.findAccountByAccountId( accountId );
     if( account == null )
       throw new LoginException( LoginException.LOGIN_ERROR.INVALID_ACCOUNT_ID );
     if( !password.equals( account.getPassword() ) )
@@ -58,11 +58,9 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
       throw new RuntimeException( "can't find service: " + IUserService.class.getName(), snfe );
     }
    
-    IAccount account = service.findAccountByAccountId( accountId );
+    Account account = service.findAccountByAccountId( accountId );
     if( account != null )
       throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.ACCOUNT_ID_EXISTED );
-    service
-    if( !password.equals( account.getPassword() ) )
-      throw new LoginException( LoginException.LOGIN_ERROR.ACCOUNT_PASSWORD_NOT_MATCH );
+    service.registerUser( null );
   }
 }

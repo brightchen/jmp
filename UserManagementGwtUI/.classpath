@@ -3,12 +3,11 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/IUserManagement"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/IModel"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/tomcat6.0.29-bin"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/tomcat6.0.29-lib"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=build%2Fivy.xml&amp;confs=*"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GwtComponents"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Service"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/UserManagement"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -1,19 +1,45 @@
 package cg.usermanagement.service;
 
-import javax.persistence.Query;
+import javax.persistence.NoResultException;
 
-import cg.service.dao.JpaDaoService;
-import cg.usermanagement.api.model.IUser;
-import cg.usermanagement.api.service.IUserService;
+import cg.usermanagement.api.IUserService;
+import cg.usermanagement.model.Account;
+import cg.usermanagement.model.User;
+import cg.usermanagement.model.view.UserRegisterView;
 
-public class UserService extends JpaDaoService implements IUserService
+public class UserService implements IUserService
 {
   @Override
-  public IUser findUserByName( String userId )
+  public User findUserByName( String name )
   {
-    Query query = createQuery( "select u from User u where u.userId = :userId" );
-    query.setParameter( "userId", userId );
-    return (IUser)query.getSingleResult();
+    String hsql = String.format( "select u from %s u where u.name = \'%s\'", User.class.getName(), name );
+    try
+    {
+      return (User)PersistenceManager.getPersistenceEntityManager().createQuery( hsql  ).getSingleResult();
+    }
+    catch( NoResultException noResult )
+    {
+      return null;
+    }
   }
 
+  @Override
+  public Account findAccountByAccountId( String accountId )
+  {
+    String hsql = String.format( "select a from %s a where a.accountId = \'%s\'", Account.class.getName(), accountId );
+    try
+    {
+      return (Account)PersistenceManager.getPersistenceEntityManager().createQuery( hsql  ).getSingleResult();
+    }
+    catch( NoResultException noResult )
+    {
+      return null;
+    }
+  }
+
+  @Override
+  public boolean registerUser( UserRegisterView userRegisterView )
+  {
+    return false;
+  }
 }

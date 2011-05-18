@@ -8,7 +8,7 @@
   <!-- the EntityManager is injected by this processor -->
   <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
   
-  <bean id="persistenceManager" class="cg.usermanagement.persistence.PersistenceManager" />
+  <bean id="persistenceManager" class="cg.usermanagement.service.PersistenceManager" />
   
   <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
