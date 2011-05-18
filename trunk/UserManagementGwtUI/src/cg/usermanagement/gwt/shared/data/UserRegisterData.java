@@ -14,6 +14,7 @@ public class UserRegisterData implements Serializable
   
   // account information
   private String accountId;
+  private String password;
 
   public String getUserName()
   {
@@ -63,6 +64,16 @@ public class UserRegisterData implements Serializable
   public void setAccountId( String accountId )
   {
     this.accountId = accountId;
+  }
+
+  public String getPassword()
+  {
+    return password;
+  }
+
+  public void setPassword( String password )
+  {
+    this.password = password;
   }
   
   
