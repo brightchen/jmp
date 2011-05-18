@@ -1,6 +1,6 @@
 package cg.gwt.components.client.ui.old;
 
-import cg.gwt.components.shared.data.CompositeWidgetData;
+import cg.gwt.components.shared.data.UIPairData;
 
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class CompositeBuilder< D1, W1 extends Widget, B1 extends UIObjectBuilder< D1, W1 >,
                                         D2, W2 extends Widget, B2 extends UIObjectBuilder< D2, W2 >, 
                                         C extends Panel > 
-      extends UIObjectBuilder< CompositeWidgetData< D1, D2>, C >
+      extends UIObjectBuilder< UIPairData< D1, D2>, C >
 {
   private B1 builder1;
   private B2 builder2;
@@ -21,7 +21,7 @@ public abstract class CompositeBuilder< D1, W1 extends Widget, B1 extends UIObje
   //as each part include its data, the composite itself don't have to keep the data
   //just reference to each part's data
   @Override
-  public void setData( CompositeWidgetData<D1, D2> data )
+  public void setData( UIPairData<D1, D2> data )
   {
     if( builder1 != null )
     {
@@ -35,9 +35,9 @@ public abstract class CompositeBuilder< D1, W1 extends Widget, B1 extends UIObje
 
   //get data from each part and compose for output
   @Override 
-  public CompositeWidgetData<D1, D2> getData()
+  public UIPairData<D1, D2> getData()
   {
-    CompositeWidgetData<D1, D2> data = createData();
+    UIPairData<D1, D2> data = createData();
     if( builder1 != null )
       data.setData1( builder1.getData() );
     if( builder2 != null )
@@ -55,9 +55,10 @@ public abstract class CompositeBuilder< D1, W1 extends Widget, B1 extends UIObje
 //  }
 
   @Override
-  protected CompositeWidgetData<D1, D2> createData()
+  protected UIPairData<D1, D2> createData()
   {
-    return new CompositeWidgetData<D1, D2>();
+//    return new UIPairData<D1, D2>();
+    return null;
   }
 
   public B1 getBuilder1()

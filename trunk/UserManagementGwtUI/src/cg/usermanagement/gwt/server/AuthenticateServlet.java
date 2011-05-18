@@ -8,6 +8,8 @@ import cg.usermanagement.gwt.shared.LoginException;
 import cg.usermanagement.gwt.shared.RegisterUserException;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.Account;
+import cg.usermanagement.model.view.UserRegisterView;
+import cg.utils.DataConverter;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -39,6 +41,7 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
       throw new LoginException( LoginException.LOGIN_ERROR.ACCOUNT_PASSWORD_NOT_MATCH );
   }
   
+  @Override
   public void registerUser( UserRegisterData data ) throws RegisterUserException
   {
     String accountId = data.getAccountId();
@@ -61,6 +64,9 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
     Account account = service.findAccountByAccountId( accountId );
     if( account != null )
       throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.ACCOUNT_ID_EXISTED );
-    service.registerUser( null );
+    
+    UserRegisterView view = new UserRegisterView();
+    DataConverter.shallowCopyConvert( data, view );
+    service.registerUser( view );
   }
 }
