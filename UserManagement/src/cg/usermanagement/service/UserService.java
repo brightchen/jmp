@@ -1,5 +1,6 @@
 package cg.usermanagement.service;
 
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import cg.usermanagement.api.IUserService;
@@ -40,7 +41,14 @@ public class UserService implements IUserService
   @Override
   public boolean registerUser( UserRegisterView userRegisterView )
   {
-    User user = new User();
-    return false;
+    userRegisterView.setValuesToEntity();
+    User user = userRegisterView.getEntity();
+    Account account = userRegisterView.getAccount();
+    
+    EntityManager em = PersistenceManager.getPersistenceEntityManager();
+    em.merge( account );
+    em.merge( user );
+    em.flush();
+    return true;
   }
 }

@@ -48,7 +48,7 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
     if( accountId == null || accountId.isEmpty() )
       throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.ACCOUNT_ID_EMTPY );
     String password = data.getPassword();
-    if( accountId == null || accountId.isEmpty() )
+    if( password == null || password.isEmpty() )
       throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.PASSWORD_EMTPY );
     
     IUserService service = null;

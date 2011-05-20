@@ -2,77 +2,122 @@ package cg.usermanagement.model.view;
 
 import java.io.Serializable;
 
-public class UserRegisterView implements Serializable
+import cg.model.api.IModleUpdatableView;
+import cg.usermanagement.model.Account;
+import cg.usermanagement.model.User;
+
+public class UserRegisterView implements IModleUpdatableView< User >, Serializable
 {
   private static final long serialVersionUID = -2365141091863629354L;
 
-  // user information;
-  private String userName;
-  private String firstName;
-  private String middleName;
-  private String lastName;
+  private User entity;
+  private Account account;
   
-  // account information
-  private String accountId;
-  private String password;
+  public UserRegisterView(){}
+  
+  public UserRegisterView( User entity, Account account )
+  {
+    setEntity( entity );
+    setAccount( account );
+  }
+  
+  @Override
+  public User getEntity()
+  {
+    if( entity == null )
+      entity = new User();
+    return entity;
+  }
+  
+  public Account getAccount()
+  {
+    if( account == null )
+      account = new Account();
+    return account;
+  }
+
+  @Override
+  public void getValuesFromEntity()
+  {
+  }
+
+  @Override
+  public void setValuesToEntity()
+  {
+    // create the relationship between user and account;
+    getAccount().setUser( getEntity() );
+  }
+
+  
+  public void setEntity( User entity )
+  {
+    this.entity = entity;
+  }
+
+  public void setAccount( Account account )
+  {
+    this.account = account;
+  }
 
   public String getUserName()
   {
-    return userName;
+    return getEntity().getName();
   }
 
   public void setUserName( String userName )
   {
-    this.userName = userName;
+    getEntity().setName( userName );
   }
 
   public String getFirstName()
   {
-    return firstName;
+    return getEntity().getFirstName();
   }
 
   public void setFirstName( String firstName )
   {
-    this.firstName = firstName;
+    getEntity().setFirstName( firstName );
   }
 
   public String getMiddleName()
   {
-    return middleName;
+    return getEntity().getMiddleName();
   }
 
   public void setMiddleName( String middleName )
   {
-    this.middleName = middleName;
+    getEntity().setMiddle( middleName );
   }
 
   public String getLastName()
   {
-    return lastName;
+    return getEntity().getLastName();
   }
 
   public void setLastName( String lastName )
   {
-    this.lastName = lastName;
+    getEntity().setLastName( lastName );
   }
 
   public String getAccountId()
   {
-    return accountId;
+    return getAccount().getAccountId();
   }
 
   public void setAccountId( String accountId )
   {
-    this.accountId = accountId;
+    getAccount().setAccountId( accountId );
   }
 
   public String getPassword()
   {
-    return password;
+    return getAccount().getPassword();
   }
 
   public void setPassword( String password )
   {
-    this.password = password;
+    getAccount().setPassword( password );
   }
+
+
 }
