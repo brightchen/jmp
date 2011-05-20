@@ -40,6 +40,7 @@ public class UserService implements IUserService
   @Override
   public boolean registerUser( UserRegisterView userRegisterView )
   {
+    User user = new User();
     return false;
   }
 }

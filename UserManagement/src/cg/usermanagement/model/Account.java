@@ -6,9 +6,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import cg.model.api.INamedEntity;
+
 @Entity
 @Table(name="ACCOUNT")
-public class Account
+public class Account implements INamedEntity
 {
   @javax.persistence.SequenceGenerator(name="ACCOUNT_SEQ",sequenceName="ACCOUNT_SEQ")
   @javax.persistence.Id 
@@ -36,15 +38,28 @@ public class Account
   @javax.persistence.Column(name="LOCK_REASON_ID")
   private Long lockReasonId;
 
+  @Override
   public Long getId()
   {
     return id;
   }
+  @Override
   public void setId( Long id )
   {
     this.id = id;
   }
 
+  @Override
+  public String getName()
+  {
+    return getAccountId();
+  }
+  @Override
+  public void setName( String name )
+  {
+    setAccountId( name );
+  }
+  
   public String getAccountId()
   {
     return accountId;

@@ -3,7 +3,6 @@ package cg.gwt.components.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /*
@@ -11,7 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
  * U is the Widget we want to build
  * D is the data which required for building container
  */
-public class UIComposite< D, U extends Panel > extends UIComponent< D, U >
+public abstract class UIComposite< D, U extends Widget > extends UIComponent< D, U >
 {
   private List< Widget > children = new ArrayList<Widget>();
   private U container;
@@ -72,8 +71,14 @@ public class UIComposite< D, U extends Panel > extends UIComponent< D, U >
   
   protected void addChildComponent( Widget child, int index )
   {
-    getContainer().add( child );
+    U theContainer = getContainer();
+    if( theContainer == null )
+      throw new IllegalStateException( "Container is null, please use setContainer() or override buildContainer()/getContainer." );
+    addChildToContainer( theContainer, child, index );
   }
+  
+  
+  protected abstract void addChildToContainer( U theContainer, Widget child, int index );
 
   public void clearChildren()
   {
