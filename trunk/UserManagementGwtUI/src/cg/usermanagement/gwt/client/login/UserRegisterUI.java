@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cg.gwt.components.client.ui.AlignedUIGroup;
-import cg.gwt.components.client.ui.UIComposite;
+import cg.gwt.components.client.ui.UIPanelComposite;
+import cg.gwt.components.client.ui.event.GwtEventDelegateHandler;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -14,7 +16,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UserRegisterUI extends UIComposite< UserRegisterData, VerticalPanel >
+public class UserRegisterUI extends UIPanelComposite< UserRegisterData, VerticalPanel >
 {
   private TextBox accountField;
   private TextBox passwordField;
@@ -90,5 +92,36 @@ public class UserRegisterUI extends UIComposite< UserRegisterData, VerticalPanel
     };
     
     addChild( accountInfoUI );
+
+    
+    UserRegisterEvent registerEvent = new UserRegisterEvent()
+    {
+      @Override
+      public UserRegisterData getData()
+      {
+        // get data from component when event trigger
+        UserRegisterData registerData = new UserRegisterData();
+        registerData.setAccountId( accountField.getText() );
+        registerData.setPassword( passwordField.getText() );
+        registerData.setUserName( userNameField.getText() );
+        registerData.setFirstName( firstNameField.getText() );
+        registerData.setMiddleName( middleNameField.getText() );
+        registerData.setLastName( lastNameField.getText() );
+        
+        return registerData;
+      }
+    };
+    
+    final Button registerButton = new Button( "Register Account" );
+    registerButton.addClickHandler( new GwtEventDelegateHandler< UserRegisterData, UserRegisterEvent >( registerEvent ) );
+    addChild( registerButton );
+
+  }
+  
+  
+  @Override
+  protected VerticalPanel buildContainer()
+  {
+    return new VerticalPanel();
   }
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cg.gwt.components.client.ui.AlignedUIGroup;
-import cg.gwt.components.client.ui.UIComposite;
+import cg.gwt.components.client.ui.UIPanelComposite;
 import cg.gwt.components.client.ui.event.GwtEventDelegateHandler;
 import cg.usermanagement.gwt.client.login.LoginEvent.LoginEventData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
@@ -17,11 +17,10 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UserLoginUI extends UIComposite< UserLoginData, VerticalPanel >
+public class UserLoginUI extends UIPanelComposite< UserLoginData, VerticalPanel >
 {
   private TextBox accountField;
   private TextBox passwordField;
-  private VerticalPanel realComponent;
   private AlignedUIGroup< String, FlexTable > userPassUI;
   
   public UserLoginUI( UserLoginData data )
@@ -59,8 +58,8 @@ public class UserLoginUI extends UIComposite< UserLoginData, VerticalPanel >
       }
     };
     
-    
     addChild( userPassUI );
+
     
     LoginEvent loginEvent = new LoginEvent()
     {
@@ -76,12 +75,6 @@ public class UserLoginUI extends UIComposite< UserLoginData, VerticalPanel >
     
     loginButton.addClickHandler( new GwtEventDelegateHandler< LoginEventData, LoginEvent >( loginEvent ) );
     addChild( loginButton );
-  }
-  
-  @Override
-  public VerticalPanel getRealComponent()
-  {
-    return realComponent;
   }
   
   @Override

@@ -20,8 +20,8 @@ public class SqlOutputConverter
   {
     if( SqlOutputType.QUERY.equals( output.getOutputType() ) )
       return convertQueryOutput( (QueryOutput) output );
-    else
-      return convertUpdateOutput( (UpdateOutput)output );
+
+    return convertUpdateOutput( (UpdateOutput)output );
   }
   
   public static QueryOutputData convertQueryOutput( QueryOutput output )
