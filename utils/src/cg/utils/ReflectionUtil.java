@@ -34,7 +34,7 @@ public class ReflectionUtil
         Method setMethod = getMethod( destClass, setMethodName, new Object[]{ data } ); //destClass.getMethod( setMethodName, (Class<?>[])null );
         if( setMethod == null )
           continue;
-        setMethod.invoke( destClass, data );
+        setMethod.invoke( dest, data );
       }
       catch( Exception e )
       {
