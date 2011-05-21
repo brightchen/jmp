@@ -46,9 +46,10 @@ public class UserService implements IUserService
     Account account = userRegisterView.getAccount();
     
     EntityManager em = PersistenceManager.getPersistenceEntityManager();
-    em.merge( account );
-    em.merge( user );
-    em.flush();
+    em.persist( account );
+    em.persist( user );
+
+    //TODO: CMP transaction control
     return true;
   }
 }
