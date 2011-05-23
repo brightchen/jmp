@@ -9,5 +9,7 @@
     
     <!-- reflections -->
     <dependency org="org.reflections" name="reflections" rev="0.9.5-RC2" />
+    
+    <dependency org="mysql" name="mysql-connector-java" rev="5.1.16"/>
   </dependencies>
 </ivy-module>

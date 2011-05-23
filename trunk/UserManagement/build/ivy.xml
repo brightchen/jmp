@@ -24,6 +24,8 @@
     <dependency org="org.eclipse.persistence" name="org.eclipse.persistence.core" rev="2.2.0-SNAPSHOT"/>
     
     <dependency org="org.apache.derby" name="derby" rev="10.7.1.1"/>
+    
+    <dependency org="mysql" name="mysql-connector-java" rev="5.1.16"/>
       
   </dependencies>
 </ivy-module>
