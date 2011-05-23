@@ -1,6 +1,7 @@
 package cg.usermanagement.service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
 
 import cg.usermanagement.api.IUserService;
@@ -46,9 +47,9 @@ public class UserService implements IUserService
     Account account = userRegisterView.getAccount();
     
     EntityManager em = PersistenceManager.getPersistenceEntityManager();
+    em.setFlushMode( FlushModeType.COMMIT );
     em.persist( account );
     em.persist( user );
-
     //TODO: CMP transaction control
     return true;
   }

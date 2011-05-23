@@ -15,7 +15,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <!--  <property name="database" value="ORACLE" />  -->
-                <property name="database" value="MYSQL" />
+                <property name="database" value="DEFAULT" />
                 <property name="showSql" value="true" />
             </bean>
         </property>
@@ -26,8 +26,8 @@
     </bean>
   
   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-            <property name="driverClassName"><value>com.mysql.jdbc.Driver</value></property>
-            <property name="url"><value>jdbc:mysql://localhost:3306/userdb</value></property>
+            <property name="driverClassName"><value>org.apache.derby.jdbc.EmbeddedDriver</value></property>
+            <property name="url"><value>jdbc:derby:../../databases/derby/userdb;create=true</value></property>
             <property name="username"><value>user1</value></property>
             <property name="password"><value>user1</value></property>
             <property name="validationQuery"><value></value></property>

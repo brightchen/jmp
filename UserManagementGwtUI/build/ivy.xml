@@ -25,6 +25,9 @@
     
     <dependency org="org.apache.derby" name="derby" rev="10.7.1.1"/>
     
+    <dependency org="mysql" name="mysql-connector-java" rev="5.1.16"/>
+    
+    
     <!-- gwt: should  
     <dependency org="com.google.gwt" name="gwt-user" rev="2.1.1"/>
     <dependency org="com.google.gwt" name="gwt-dev" rev="2.1.1"/>
