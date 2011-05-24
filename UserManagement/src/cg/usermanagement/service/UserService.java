@@ -9,7 +9,7 @@ import cg.usermanagement.model.Account;
 import cg.usermanagement.model.User;
 import cg.usermanagement.model.view.UserRegisterView;
 
-public class UserService implements IUserService
+public class UserService extends GenericJpaDaoService implements IUserService
 {
   @Override
   public User findUserByName( String name )
@@ -17,7 +17,7 @@ public class UserService implements IUserService
     String hsql = String.format( "select u from %s u where u.name = \'%s\'", User.class.getName(), name );
     try
     {
-      return (User)PersistenceManager.getPersistenceEntityManager().createQuery( hsql  ).getSingleResult();
+      return (User)getEntityManager().createQuery( hsql  ).getSingleResult();
     }
     catch( NoResultException noResult )
     {
@@ -31,7 +31,7 @@ public class UserService implements IUserService
     String hsql = String.format( "select a from %s a where a.accountId = \'%s\'", Account.class.getName(), accountId );
     try
     {
-      return (Account)PersistenceManager.getPersistenceEntityManager().createQuery( hsql  ).getSingleResult();
+      return (Account)getEntityManager().createQuery( hsql  ).getSingleResult();
     }
     catch( NoResultException noResult )
     {
@@ -46,7 +46,7 @@ public class UserService implements IUserService
     User user = userRegisterView.getEntity();
     Account account = userRegisterView.getAccount();
     
-    EntityManager em = PersistenceManager.getPersistenceEntityManager();
+    EntityManager em = getEntityManager();
     em.setFlushMode( FlushModeType.COMMIT );
     em.persist( account );
     em.persist( user );
