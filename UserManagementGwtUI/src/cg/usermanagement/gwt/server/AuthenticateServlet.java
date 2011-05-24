@@ -1,7 +1,10 @@
 package cg.usermanagement.gwt.server;
 
-import cg.service.lookup.ServiceManager;
-import cg.service.lookup.ServiceNotFoundException;
+import javax.servlet.ServletException;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.shared.LoginException;
@@ -18,6 +21,15 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
   private static final long serialVersionUID = -8926280156981738193L;
   
   private IUserService userService;
+  
+  public void init() throws ServletException 
+  {
+    ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+    // Get the value of an initialization parameter
+    String userServiceName = getServletConfig().getInitParameter( "userService" );
+    setUserService( context.getBean( userServiceName, IUserService.class ) ); 
+  }
+
   public void setUserService( IUserService userService )
   {
     this.userService = userService;
@@ -26,6 +38,7 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
   {
     return userService;
   }
+  
   //it should be account instead of user login
   @Override
   public void login( String accountId, String password ) throws LoginException
@@ -33,16 +46,16 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
     if( password == null || password.isEmpty() )
       throw new LoginException( LoginException.LOGIN_ERROR.PASSWORD_EMTPY );
     
-    IUserService service = null;
-    try
-    {
-      service = ServiceManager.findService( IUserService.class );
-    }
-    catch( ServiceNotFoundException snfe )
-    {
-      throw new RuntimeException( "can't find service: " + IUserService.class.getName(), snfe );
-    }
-   
+//    IUserService service = null;
+//    try
+//    {
+//      service = ServiceManager.findService( IUserService.class );
+//    }
+//    catch( ServiceNotFoundException snfe )
+//    {
+//      throw new RuntimeException( "can't find service: " + IUserService.class.getName(), snfe );
+//    }
+    IUserService service = getUserService();
     Account account = service.findAccountByAccountId( accountId );
     if( account == null )
       throw new LoginException( LoginException.LOGIN_ERROR.INVALID_ACCOUNT_ID );
@@ -60,16 +73,16 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
     if( password == null || password.isEmpty() )
       throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.PASSWORD_EMTPY );
     
-    IUserService service = null;
-    try
-    {
-      service = ServiceManager.findService( IUserService.class );
-    }
-    catch( ServiceNotFoundException snfe )
-    {
-      throw new RuntimeException( "can't find service: " + IUserService.class.getName(), snfe );
-    }
-   
+//    IUserService service = null;
+//    try
+//    {
+//      service = ServiceManager.findService( IUserService.class );
+//    }
+//    catch( ServiceNotFoundException snfe )
+//    {
+//      throw new RuntimeException( "can't find service: " + IUserService.class.getName(), snfe );
+//    }
+    IUserService service = getUserService();   
     Account account = service.findAccountByAccountId( accountId );
     if( account != null )
       throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.ACCOUNT_ID_EXISTED );

@@ -5,8 +5,8 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	
-	<display-name>publisher web</display-name>
-	<description>iseemedia Publishing Platform</description>
+	<display-name>web</display-name>
+	<description>Platform</description>
 	
 	<distributable/>  
 
