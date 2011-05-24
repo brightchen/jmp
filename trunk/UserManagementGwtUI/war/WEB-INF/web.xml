@@ -13,6 +13,10 @@
   <servlet>
     <servlet-name>authenticateServlet</servlet-name>
     <servlet-class>cg.usermanagement.gwt.server.AuthenticateServlet</servlet-class>
+    <init-param>
+	    <param-name>userService</param-name>
+	    <param-value>userService</param-value>
+    </init-param>
   </servlet>
   
   <servlet-mapping>
@@ -23,7 +27,7 @@
   <!-- the parameter required by org.springframework.web.context.ContextLoaderListener -->  
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/context-persistence.xml</param-value>
+		<param-value>/WEB-INF/context-*.xml</param-value>
 	</context-param>
   
   <listener>

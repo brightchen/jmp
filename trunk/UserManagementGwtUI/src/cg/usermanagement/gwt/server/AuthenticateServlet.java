@@ -16,7 +16,16 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class AuthenticateServlet extends RemoteServiceServlet implements IAuthenticateService
 {
   private static final long serialVersionUID = -8926280156981738193L;
-
+  
+  private IUserService userService;
+  public void setUserService( IUserService userService )
+  {
+    this.userService = userService;
+  }
+  public IUserService getUserService()
+  {
+    return userService;
+  }
   //it should be account instead of user login
   @Override
   public void login( String accountId, String password ) throws LoginException
