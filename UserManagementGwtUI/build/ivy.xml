@@ -6,12 +6,15 @@
    
   <dependencies>
     <dependency org="net.java.dev.glassfish" name="glassfish-persistence-api" rev="b32g" />
+    <!-- have problem to download this package, download it manually 
+    <dependency org="javax.resource" name="connector-api" rev="1.5"/>  -->
     
     <!-- required by runtime -->
     <!-- http://mvnrepository.com/artifact/org.springframework -->
     <dependency org="org.springframework" name="spring-core" rev="3.0.5.RELEASE"/>
     <dependency org="org.springframework" name="spring-web" rev="3.0.5.RELEASE"/>
     <dependency org="org.springframework" name="spring-orm" rev="3.0.5.RELEASE"/>
+    <!--  <dependency org="org.springframework" name="spring-tx" rev="3.0.5.RELEASE"/>  -->
     
     <dependency org="org.hibernate" name="hibernate-core" rev="3.6.0.Final" />
     <dependency org="org.hibernate" name="hibernate-entitymanager" rev="3.6.0.Final" />
