@@ -1,13 +1,15 @@
 package cg.usermanagement.service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.model.Account;
 import cg.usermanagement.model.User;
 import cg.usermanagement.model.view.UserRegisterView;
+
 
 public class UserService extends GenericJpaDaoService implements IUserService
 {
@@ -39,6 +41,7 @@ public class UserService extends GenericJpaDaoService implements IUserService
     }
   }
 
+  @Transactional
   @Override
   public boolean registerUser( UserRegisterView userRegisterView )
   {
@@ -47,9 +50,13 @@ public class UserService extends GenericJpaDaoService implements IUserService
     Account account = userRegisterView.getAccount();
     
     EntityManager em = getEntityManager();
-    em.setFlushMode( FlushModeType.COMMIT );
+
+//    em.setFlushMode( FlushModeType.COMMIT );
+//    em.setFlushMode( FlushModeType.AUTO );    //default flush type
     em.persist( account );
-    em.persist( user );
+//    em.persist( user );
+//    
+//    Account account1 = findAccountByAccountId( account.getAccountId() );
     //TODO: CMP transaction control
     return true;
   }

@@ -1,0 +1,50 @@
+
+- the Servlet init parameters ( see AuthenticateServlet as an example
+  - the servlet class should implement the init() method
+  - the value of init parameter is String, we can use ApplicationContext.getBean to get the bean
+
+- the entity bean persistence with no error but the ejb didn't saved ( see UserService.registerUser() as an example )
+  - the problem should be the ejb didn't flushed/committed 
+  - manually call transaction as following, 
+    throw java.lang.IllegalStateException: Not allowed to create transaction on shared EntityManager - use Spring transactions or EJB CMT instead    
+    em.getTransaction().begin();
+    em.persist( account );
+    em.flush();
+    em.getTransaction().commit();
+  - add @Transactional annotation for the class or for the method, still does NOT work
+  - check the @Transactional interceptor 
+  - try following 
+    Add: @TransactionManagement(TransactionManagementType.BEAN)
+    public class AccountManager implements IAccountManager {
+    and manage your entity persistance adding:
+    
+    @Resource
+    private SessionContext sessionContext;
+    
+    public Account storeAccount(Account ac) {
+    sessionContext.getUserTransaction().begin();
+    ac = em.merge(ac);
+    em.persist(ac);
+    sessionContext.getUserTransaction().commit();
+    return ac;
+    }
+    
+  -try configure the session factory
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate.LocalSessionFactoryBean">
+      <property name="dataSource" ref="dataSource"/>
+      <property name="mappingResources">
+        <list>
+          <value>org/springframework/samples/petclinic/hibernate/petclinic.hbm.xml</value>
+        </list>
+      </property>
+      <property name="hibernateProperties">
+        <props>
+          <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+        </props>
+      </property>
+    </bean>
+    
+    <bean id="txManager" class="org.springframework.orm.hibernate.HibernateTransactionManager">
+      <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+  
