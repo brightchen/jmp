@@ -1,14 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"> 
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:aop="http://www.springframework.org/schema/aop"
+     xmlns:tx="http://www.springframework.org/schema/tx"
+     xsi:schemaLocation="
+     http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+     http://www.springframework.org/schema/aop 
+     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+  
 
+  <!-- enable @Transactional Annotations -->
+  <!-- transaction-manager="transactionManager" is not required as it is the default value -->
+  <tx:annotation-driven transaction-manager="transactionManager"/>
+  
   <!-- the bean of persistence annotation post processor -->
   <!-- the EntityManager is injected by this processor -->
   <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-  
-  <bean id="persistenceManager" class="cg.usermanagement.service.PersistenceManager" />
   
   <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
     <property name="dataSource" ref="dataSource" />

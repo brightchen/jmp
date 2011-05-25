@@ -47,4 +47,13 @@
     <bean id="txManager" class="org.springframework.orm.hibernate.HibernateTransactionManager">
       <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+  - should enable @Transactional annotation <tx:annotation-driven transaction-manager="transactionManager"/>
   
+  
+- add "xmlns:tx="http://www.springframework.org/schema/tx" to the context-persistence.xml, the following exception is thrown when system startup 
+  org.springframework.beans.factory.parsing.BeanDefinitionParsingException: Configuration problem: Unable to locate Spring NamespaceHandler for XML schema namespace [http://www.springframework.org/schema/tx]
+  Offending resource: ServletContext resource [/WEB-INF/context-persistence.xml]
+  the reason is the system can't find the "http://www.springframework.org/schema/tx" entry from META-INF/spring.handlers and META-INF/spring.schemas 
+  which is inside the spring-3.0.5.RELEASE.jar, copy this jar file into WEB-INF\lib and works
+  
+ 

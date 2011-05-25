@@ -31,6 +31,8 @@
       <!-- reflections repo -->
       <ibiblio name="Reflections Maven2 Repository" m2compatible="true" root="http://reflections.googlecode.com/svn/repo" />
       
+      <ibiblio name="java.net maven 1" m2compatible="true" root="http://download.java.net/maven/1/" />
+      
     </chain>
   </resolvers>
 </ivysettings>

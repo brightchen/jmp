@@ -10,7 +10,7 @@ import cg.usermanagement.model.Account;
 import cg.usermanagement.model.User;
 import cg.usermanagement.model.view.UserRegisterView;
 
-
+@Transactional
 public class UserService extends GenericJpaDaoService implements IUserService
 {
   @Override
@@ -54,7 +54,7 @@ public class UserService extends GenericJpaDaoService implements IUserService
 //    em.setFlushMode( FlushModeType.COMMIT );
 //    em.setFlushMode( FlushModeType.AUTO );    //default flush type
     em.persist( account );
-//    em.persist( user );
+    em.persist( user );
 //    
 //    Account account1 = findAccountByAccountId( account.getAccountId() );
     //TODO: CMP transaction control
