@@ -2,7 +2,7 @@ package cg.config;
 
 import java.util.Properties;
 
-public interface IConfigMergeStrategy
+public interface IPropertiesStrategy
 {
   public Properties getProperties();
 }

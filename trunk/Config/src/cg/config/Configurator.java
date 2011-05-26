@@ -6,7 +6,8 @@ public class Configurator
 {
   private static Configurator instance;
   
-  protected IConfigMergeStrategy configStrategy;
+  protected IPropertiesStrategy configStrategy;
+  protected IPropertiesStrategy buildinPropertiesStrategy;
   
   protected Configurator(){};
   
@@ -36,7 +37,7 @@ public class Configurator
     return getProperties().getProperty( name );
   }
   
-  protected IConfigMergeStrategy getConfigStrategy()
+  protected IPropertiesStrategy getConfigStrategy()
   {
     if( configStrategy == null )
     {
@@ -47,14 +48,26 @@ public class Configurator
     return configStrategy;
   }
 
-  public void setConfigStrategy( IConfigMergeStrategy configStrategy )
+  public void setConfigStrategy( IPropertiesStrategy configStrategy )
   {
     this.configStrategy = configStrategy;
   }
   
   protected Properties getBuildinProperties()
   {
-    return new Properties();
+    return getBuildinPropertiesStrategy().getProperties();
+  }
+  
+  protected IPropertiesStrategy getBuildinPropertiesStrategy()
+  {
+    if( buildinPropertiesStrategy == null )
+      buildinPropertiesStrategy = new BuildinPropertiesTypicalLookupStrategy();
+    return buildinPropertiesStrategy;
+  }
+
+  public void setBuildinPropertiesStrategy( IPropertiesStrategy buildinPropertiesStrategy )
+  {
+    this.buildinPropertiesStrategy = buildinPropertiesStrategy;
   }
   
 }

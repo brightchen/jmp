@@ -3,11 +3,14 @@ package cg.config;
 import java.io.File;
 import java.net.URL;
 
-// 1. file name
-// 1.1 propertiesFileNameProperty
-// 1.2 default properties file name
-// 2. file path: class path
-// 
+/*
+ * the typical strategy for lookup properties file
+ * The properties file is locate as following logic
+ * 1. if the propertiesFilePathProperty ( path = directory + fileName ) is set and the file is valid properties file, return this file
+ * 2.1. if propertiesFileNameProperty is set, get the properties file name; else use the defaultPropertiesFileName as file name
+ * 2.2. search in the class path and find the first valid properties file which name is same as 2.1
+ */
+ 
 public class PropertiesFileLookupTypicalStrategy implements IPropertiesFileLookupStrategy
 {
   // the property with keep the information of properties file path
