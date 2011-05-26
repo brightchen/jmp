@@ -17,4 +17,5 @@
     - deployment configured properties: specific for one deployment
     - default configured properties: for each project, same to different deployment
     - build-in properties: properties written in source code
-      
+  
+  - support Placeholder replacement, see spring framework PropertyPlaceholderConfigurer/PropertyOverrideConfigurer    
