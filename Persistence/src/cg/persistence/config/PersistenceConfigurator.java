@@ -34,7 +34,7 @@ public class PersistenceConfigurator extends Configurator
   
   protected Properties getBuildinProperties()
   {
-    return BuildinProperties.getProperties();
+    return PersistenceBuildinProperties.getProperties();
   }
 
   

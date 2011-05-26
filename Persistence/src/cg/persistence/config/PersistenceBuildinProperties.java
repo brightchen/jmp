@@ -2,7 +2,7 @@ package cg.persistence.config;
 
 import java.util.Properties;
 
-public class BuildinProperties
+public class PersistenceBuildinProperties
 {
   private static Properties props;
   

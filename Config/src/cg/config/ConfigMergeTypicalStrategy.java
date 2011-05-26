@@ -3,12 +3,14 @@ package cg.config;
 import java.util.Properties;
 
 
-// this strategy get the properties with following sequence
-// - command line properties
-// - deployment configured properties: specific for one deployment
-// - default configured properties: for each project, same to different deployment
-// - build-in properties: properties written in source code
-public class ConfigMergeTypicalStrategy implements IConfigMergeStrategy 
+/*
+ * this strategy get the properties with following sequence
+ * - command line properties
+ * - deployment configured properties: specific for one deployment
+ * - default configured properties: for each project, same to different deployment
+ * - build-in properties: properties written in source code
+ */
+public class ConfigMergeTypicalStrategy implements IPropertiesStrategy 
 {
   protected String defaultPropertiesDefaultFileName = "defaultProperties.properties";
   protected String defaultPropertiesFileNameProperty = "defaultPropertiesFileName";

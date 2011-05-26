@@ -1,0 +1,20 @@
+
+- aim
+  the config project provides functions for management the configuration.
+  - supports buildin properties: 
+    this type of properties are written in the java source code. 
+    So, the product can be run even without any configuration file
+    the different project/product requires different set of buildin properties.
+  - supports property merging:
+    the same property can be defined in the different property files or buildin. 
+    Provides the merging mechanism for them. 
+    the merging strategy is defined in IConfigMergeStrategy
+  - Properties file lookup strategy: see IPropertiesFileLookupStrategy and PropertiesFileLookupTypicalStrategy
+  - Configurator: the facade of the configuration. this class delegates the getProperties() to the IPropertiesStrategy. 
+    By default, this class use ConfigMergeTypicalStrategy
+  - ConfigMergeTypicalStrategy:  this strategy get the properties with following sequence
+    - command line properties
+    - deployment configured properties: specific for one deployment
+    - default configured properties: for each project, same to different deployment
+    - build-in properties: properties written in source code
+      

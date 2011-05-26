@@ -2,7 +2,7 @@ package cg.dbmanagement.config;
 
 import java.util.Properties;
 
-public class BuildinProperties
+public class DbManagerBuildinProperties
 {
   public static String seperator = ":";
 
@@ -15,6 +15,13 @@ public class BuildinProperties
       return props;
     
     props = new Properties();
+    props.setProperty( "db.jdbc.driver_class", "org.apache.derby.jdbc.EmbeddedDriver" );
+    props.setProperty( "db.jdbc.url", "jdbc:derby:test;create=true" );
+    props.setProperty( "db.username", "user1" );
+    props.setProperty( "db.password", "user1" );
+    props.setProperty( "db.validation.query", "" );
+
+    
     StringBuilder databases = new StringBuilder();
     for( DatabaseType.TYPE type : DatabaseType.TYPE.values() )
     {

@@ -2,6 +2,9 @@ package cg.config;
 
 import java.io.File;
 
+/*
+ * the strategy for lookup properties file
+ */
 public interface IPropertiesFileLookupStrategy
 {
   public static enum PropertiesFileType

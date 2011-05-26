@@ -37,13 +37,13 @@ public class DbManagerConfigurator extends Configurator
     String databases = getProperty( DbManagerPropertyName.PROPERTY_NAME.databases );
     if( databases == null || databases.isEmpty() )
       return null;
-    return databases.split( BuildinProperties.seperator );
+    return databases.split( DbManagerBuildinProperties.seperator );
   }
   
   @Override
   protected Properties getBuildinProperties()
   {
-    return BuildinProperties.getProperties();
+    return DbManagerBuildinProperties.getProperties();
   }
 
 }
