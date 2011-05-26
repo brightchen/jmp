@@ -1,18 +1,18 @@
 package cg.usermanagement.gwt.client.login;
 
-import java.io.Serializable;
-
 import cg.gwt.components.client.ui.components.SimpleErrorDialogUI;
 import cg.gwt.components.client.ui.components.SimpleMessageDialogUI;
 import cg.gwt.components.client.ui.event.UIEvent;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
+import cg.gwt.components.shared.data.ValidateException;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.client.IAuthenticateServiceAsync;
 import cg.usermanagement.gwt.shared.LoginException;
+import cg.usermanagement.gwt.shared.data.UserLoginData;
 
 import com.google.gwt.core.client.GWT;
 
-public abstract class LoginEvent extends UIEvent< LoginEvent.LoginEventData >
+public abstract class LoginEvent extends UIEvent< UserLoginData >
 {
   private IAuthenticateServiceAsync userService = GWT.create( IAuthenticateService.class );
   
@@ -28,6 +28,16 @@ public abstract class LoginEvent extends UIEvent< LoginEvent.LoginEventData >
   
   protected void onLogin()
   {
+    UserLoginData data = getData();
+    try
+    {
+      data.validate();
+    }
+    catch( ValidateException e )
+    {
+      //TODO: handle the exception
+    }
+    
     userService.login( getData().getAccountId(), getData().getPassword(), 
                        new PopupFailureReasonCallback< Void >()
                         {
@@ -57,36 +67,36 @@ public abstract class LoginEvent extends UIEvent< LoginEvent.LoginEventData >
   {
     (new SimpleMessageDialogUI( "login successful."  )).show( );
   }
-  
-  public static class LoginEventData implements Serializable
-  {
-    private static final long serialVersionUID = -3973984244159981528L;
-
-    private String accountId;
-    private String password;
-    
-    public LoginEventData( String accountId, String password )
-    {
-      this.accountId = accountId;
-      this.password = password;
-    }
-    
-    public String getAccountId()
-    {
-      return accountId;
-    }
-    public void setAccountId( String accountId )
-    {
-      this.accountId = accountId;
-    }
-    public String getPassword()
-    {
-      return password;
-    }
-    public void setPassword( String password )
-    {
-      this.password = password;
-    }
-
-  }
+//  
+//  public static class LoginEventData implements Serializable
+//  {
+//    private static final long serialVersionUID = -3973984244159981528L;
+//
+//    private String accountId;
+//    private String password;
+//    
+//    public LoginEventData( String accountId, String password )
+//    {
+//      this.accountId = accountId;
+//      this.password = password;
+//    }
+//    
+//    public String getAccountId()
+//    {
+//      return accountId;
+//    }
+//    public void setAccountId( String accountId )
+//    {
+//      this.accountId = accountId;
+//    }
+//    public String getPassword()
+//    {
+//      return password;
+//    }
+//    public void setPassword( String password )
+//    {
+//      this.password = password;
+//    }
+//
+//  }
 }

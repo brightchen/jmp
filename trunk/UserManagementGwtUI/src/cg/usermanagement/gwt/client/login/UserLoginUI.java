@@ -6,7 +6,6 @@ import java.util.List;
 import cg.gwt.components.client.ui.AlignedUIGroup;
 import cg.gwt.components.client.ui.UIPanelComposite;
 import cg.gwt.components.client.ui.event.GwtEventDelegateHandler;
-import cg.usermanagement.gwt.client.login.LoginEvent.LoginEventData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
 
 import com.google.gwt.user.client.ui.Button;
@@ -64,16 +63,16 @@ public class UserLoginUI extends UIPanelComposite< UserLoginData, VerticalPanel 
     LoginEvent loginEvent = new LoginEvent()
     {
       @Override
-      public LoginEventData getData()
+      public UserLoginData getData()
       {
         // TODO Auto-generated method stub
-        return new LoginEventData( accountField.getText(), passwordField.getText() );
+        return new UserLoginData( accountField.getText(), passwordField.getText() );
       }
     };
     
     final Button loginButton = new Button( "Login" );
     
-    loginButton.addClickHandler( new GwtEventDelegateHandler< LoginEventData, LoginEvent >( loginEvent ) );
+    loginButton.addClickHandler( new GwtEventDelegateHandler< UserLoginData, LoginEvent >( loginEvent ) );
     addChild( loginButton );
   }
   
