@@ -23,7 +23,7 @@
   <!-- the parameter required by org.springframework.web.context.ContextLoaderListener -->  
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/context-*.xml</param-value>
+		<param-value>/WEB-INF/context-setting.xml;/WEB-INF/context-*.xml</param-value>
 	</context-param>
   
   <listener>

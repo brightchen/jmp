@@ -10,5 +10,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Service"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/UserManagement"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/utils"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Config"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
