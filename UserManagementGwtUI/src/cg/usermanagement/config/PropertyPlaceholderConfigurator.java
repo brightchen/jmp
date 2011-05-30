@@ -7,8 +7,7 @@ public class PropertyPlaceholderConfigurator extends PropertyPlaceholderConfigur
   @Override
   protected String resolveSystemProperty( String key )
   {
-    String value = UserManagementConfigurator.getInstance().getProperty( key );
-    return value;
+    return UserManagementConfigurator.getInstance().getProperty( key );
   }
 
 }
