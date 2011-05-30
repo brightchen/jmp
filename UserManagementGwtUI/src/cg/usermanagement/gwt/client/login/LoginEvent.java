@@ -35,7 +35,7 @@ public abstract class LoginEvent extends UIEvent< UserLoginData >
     }
     catch( ValidateException e )
     {
-      //TODO: handle the exception
+      //TODO: handle the exception7
     }
     
     userService.login( getData().getAccountId(), getData().getPassword(), 

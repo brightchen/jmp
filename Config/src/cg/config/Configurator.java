@@ -6,6 +6,7 @@ public class Configurator
 {
   private static Configurator instance;
   
+  protected Properties buildinProperties;
   protected IPropertiesStrategy configStrategy;
   protected IPropertiesStrategy buildinPropertiesStrategy;
   
@@ -55,7 +56,11 @@ public class Configurator
   
   protected Properties getBuildinProperties()
   {
-    return getBuildinPropertiesStrategy().getProperties();
+    if( buildinProperties == null )
+    {
+      buildinProperties = getBuildinPropertiesStrategy().getProperties();
+    }
+    return buildinProperties;
   }
   
   protected IPropertiesStrategy getBuildinPropertiesStrategy()

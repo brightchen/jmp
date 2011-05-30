@@ -35,19 +35,20 @@
   </bean>
   
   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <!-- 
     <property name="driverClassName"><value>com.mysql.jdbc.Driver</value></property>
     <property name="url"><value>jdbc:mysql://localhost:3306/userdb</value></property>
     <property name="username"><value>user1</value></property>
     <property name="password"><value>user1</value></property>
     <property name="validationQuery"><value></value></property>
-  
-    <!-- 
+    -->
+
     <property name="driverClassName"><value>${db.jdbc.driver_class}</value></property>
     <property name="url"><value>${db.jdbc.url}</value></property>
     <property name="username"><value>${db.username}</value></property>
     <property name="password"><value>${db.password}</value></property>
     <property name="validationQuery"><value>${db.validation.query}</value></property>
-     -->
+
     <property name="maxActive"><value>150</value></property>
     <property name="maxIdle"><value>50</value></property>
     <property name="maxWait"><value>10000</value></property>
