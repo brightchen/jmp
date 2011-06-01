@@ -2,6 +2,7 @@ package cg.usermanagement.gwt.server;
 
 import javax.servlet.ServletException;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -19,6 +20,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class AuthenticateServlet extends RemoteServiceServlet implements IAuthenticateService
 {
   private static final long serialVersionUID = -8926280156981738193L;
+  
+  private Logger log = Logger.getLogger( AuthenticateServlet.class );
   
   private IUserService userService;
   
@@ -43,6 +46,7 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
   @Override
   public void login( String accountId, String password ) throws LoginException
   {
+    log.debug( "login: account=" + accountId + "; password=" + password );
     if( password == null || password.isEmpty() )
       throw new LoginException( LoginException.LOGIN_ERROR.PASSWORD_EMTPY );
     
@@ -66,6 +70,7 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
   @Override
   public void registerUser( UserRegisterData data ) throws RegisterUserException
   {
+    log.debug( "registerUser" );
     String accountId = data.getAccountId();
     if( accountId == null || accountId.isEmpty() )
       throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.ACCOUNT_ID_EMTPY );
