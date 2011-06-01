@@ -25,6 +25,7 @@ public class PropertiesFileLookupTypicalStrategy implements IPropertiesFileLooku
   @Override
   public File findPropertiesFile()
   {
+    // try to get properties file from propertiesFilePathProperty
     String propertiesFilePath;
     if( propertiesFilePathProperty != null && !propertiesFilePathProperty.isEmpty() )
     {
@@ -36,7 +37,7 @@ public class PropertiesFileLookupTypicalStrategy implements IPropertiesFileLooku
       }
     }
     
-    //get from property first
+    //try to get properties file from propertiesFileNameProperty
     String propertiesFileName = null;
     if( propertiesFileNameProperty != null && !propertiesFileNameProperty.isEmpty() )
     {

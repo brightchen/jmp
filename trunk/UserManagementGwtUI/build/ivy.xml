@@ -30,6 +30,7 @@
     
     <dependency org="mysql" name="mysql-connector-java" rev="5.1.16"/>
     
+    <dependency org="log4j" name="log4j" rev="1.2.16"/>
     
     <!-- gwt: should  
     <dependency org="com.google.gwt" name="gwt-user" rev="2.1.1"/>
