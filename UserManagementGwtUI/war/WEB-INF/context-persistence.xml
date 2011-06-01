@@ -24,7 +24,7 @@
     <property name="jpaVendorAdapter">
       <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
         <!-- for derby, treat as default database <property name="database" value="ORACLE" />  -->
-        <property name="database" value="MYSQL" />
+        <property name="database"> <value>${db.jpa.type}</value> </property>
         <property name="showSql" value="true" />
       </bean>
     </property>

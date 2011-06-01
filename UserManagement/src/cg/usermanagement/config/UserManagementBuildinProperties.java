@@ -29,7 +29,7 @@ public class UserManagementBuildinProperties implements IBuildinProperties
     
     //derby
     setProperty( props, PropertyKey.derby$jdbc$driver_class, "org.apache.derby.jdbc.EmbeddedDriver" );
-    setProperty( props, PropertyKey.derby$jdbc$url, "jdbc:derby:test;create=true" );
+    setProperty( props, PropertyKey.derby$jdbc$url, "jdbc:derby:../../databases/derby/userdb;create=true" );
     setProperty( props, PropertyKey.derby$jpa$type, "DEFAULT" );
 
     return props;
