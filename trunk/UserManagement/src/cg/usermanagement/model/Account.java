@@ -9,17 +9,17 @@ import javax.persistence.Table;
 import cg.model.api.INamedEntity;
 
 @Entity
-@Table(name="ACCOUNT")
+@Table(name="TACCOUNT")
 public class Account implements INamedEntity
 {
-  @javax.persistence.SequenceGenerator(name="ACCOUNT_SEQ",sequenceName="ACCOUNT_SEQ")
+  @javax.persistence.SequenceGenerator(name="TACCOUNT_SEQ",sequenceName="TACCOUNT_SEQ")
   @javax.persistence.Id 
-  @javax.persistence.GeneratedValue(strategy=javax.persistence.GenerationType.AUTO,generator="ACCOUNT_SEQ")
+  @javax.persistence.GeneratedValue(strategy=javax.persistence.GenerationType.AUTO,generator="TACCOUNT_SEQ")
   @javax.persistence.Column(name="ID")
   private Long id;
 
-  @javax.persistence.Column(name="ACCOUNT_ID")
-  private String accountId;
+  @javax.persistence.Column(name="NAME")
+  private String name;
 
   @javax.persistence.Column(name="PASSWORD")
   private String password;
@@ -52,21 +52,12 @@ public class Account implements INamedEntity
   @Override
   public String getName()
   {
-    return getAccountId();
+    return name;
   }
   @Override
   public void setName( String name )
   {
-    setAccountId( name );
-  }
-  
-  public String getAccountId()
-  {
-    return accountId;
-  }
-  public void setAccountId( String accountId )
-  {
-    this.accountId = accountId;
+    this.name = name;
   }
 
   public String getPassword()
