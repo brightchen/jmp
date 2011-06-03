@@ -99,14 +99,14 @@ public class UserRegisterView implements IModleUpdatableView< User >, Serializab
     getEntity().setLastName( lastName );
   }
 
-  public String getAccountId()
+  public String getName()
   {
-    return getAccount().getAccountId();
+    return getAccount().getName();
   }
 
-  public void setAccountId( String accountId )
+  public void setName( String accountId )
   {
-    getAccount().setAccountId( accountId );
+    getAccount().setName( accountId );
   }
 
   public String getPassword()
