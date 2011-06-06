@@ -1,6 +1,11 @@
 package cg.usermanagement.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import cg.model.api.INamedEntity;
@@ -13,31 +18,35 @@ import cg.model.api.INamedEntity;
 @Table(name="TUSER")
 public class User implements INamedEntity
 {
-  @javax.persistence.SequenceGenerator(name="TUSER_SEQ",sequenceName="TUSER_SEQ")
-  @javax.persistence.Id 
-  @javax.persistence.GeneratedValue(strategy=javax.persistence.GenerationType.AUTO,generator="TUSER_SEQ")
-  @javax.persistence.Column(name="ID")
+  @SequenceGenerator(name="TUSER_SEQ",sequenceName="TUSER_SEQ")
+  @Id 
+  @GeneratedValue(strategy=javax.persistence.GenerationType.AUTO,generator="TUSER_SEQ")
+  @Column(name="ID")
   private Long id;
   
-  @javax.persistence.Column( name="NAME", length = 50, nullable = false, unique = true, updatable = false )
+  @Column( name="NAME", length = 50, nullable = false, unique = true, updatable = false )
   private String name;
 
-  @javax.persistence.Column( name="PASSWORD", length = 50 )
+  @Column( name="PASSWORD", length = 50 )
   private String password;
 
-  @javax.persistence.Column( name="FIRST_NAME", length = 50 )
+  @Column( name = "STATUS" )
+  @Enumerated
+  private UserStatus status;
+
+  @Column( name="FIRST_NAME", length = 50 )
   private String firstName;
 
-  @javax.persistence.Column( name="MIDDLE_NAME", length = 50 )
+  @Column( name="MIDDLE_NAME", length = 50 )
   private String middleName;
 
-  @javax.persistence.Column( name="LAST_NAME", length = 50 )
+  @Column( name="LAST_NAME", length = 50 )
   private String lastName;
 
-  @javax.persistence.Column( name="EMAIL", length = 50 )
+  @Column( name="EMAIL", length = 50 )
   private String email;
 
-  @javax.persistence.Column( name="PHONE", length = 20 )
+  @Column( name="PHONE", length = 20 )
   private String phone;
 
   @Override
@@ -121,6 +130,14 @@ public class User implements INamedEntity
   public void setPhone( String phone )
   {
     this.phone = phone;
+  }
+  public UserStatus getStatus()
+  {
+    return status;
+  }
+  public void setStatus( UserStatus status )
+  {
+    this.status = status;
   }
   
   

@@ -1,9 +1,19 @@
 package cg.usermanagement.model;
 
+import java.util.Set;
+
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import cg.model.api.INamedEntity;
@@ -12,32 +22,30 @@ import cg.model.api.INamedEntity;
 @Table(name="TACCOUNT")
 public class Account implements INamedEntity
 {
-  @javax.persistence.SequenceGenerator(name="TACCOUNT_SEQ",sequenceName="TACCOUNT_SEQ")
-  @javax.persistence.Id 
-  @javax.persistence.GeneratedValue(strategy=javax.persistence.GenerationType.AUTO,generator="TACCOUNT_SEQ")
-  @javax.persistence.Column(name="ID")
+  @SequenceGenerator(name="TACCOUNT_SEQ",sequenceName="TACCOUNT_SEQ")
+  @Id 
+  @GeneratedValue(strategy=javax.persistence.GenerationType.AUTO,generator="TACCOUNT_SEQ")
+  @Column(name="ID")
   private Long id;
 
-  @javax.persistence.Column( name="NAME", length = 50, nullable = false, unique = true, updatable = false )
+  @Column( name="NAME", length = 50, nullable = false, unique = true, updatable = false )
   private String name;
 
-  @javax.persistence.Column( name="PASSWORD", length = 50 )
+  @Column( name="PASSWORD", length = 50 )
   private String password;
 
-  @ManyToOne(fetch=FetchType.LAZY) 
-  @JoinColumn(name="USER_ID") 
+  @ManyToOne( fetch=FetchType.LAZY ) 
+  @JoinColumn( name="USER_ID" ) 
   private User user;
  
+  @Column( name = "STATUS", nullable = false )
+  @Enumerated
+  private AccountStatus status;
   
-  @javax.persistence.Column(name="EXPIRED")
-  private Boolean expired;
-
-  @javax.persistence.Column(name="LOCKED")
-  private Boolean locked;
-
-  @javax.persistence.Column(name="LOCK_REASON_ID")
-  private Long lockReasonId;
-
+  @ManyToMany
+  @JoinTable( name="TACCOUNT_ROLE" )
+  private Set< Role > roles;
+  
   @Override
   public Long getId()
   {
@@ -77,33 +85,22 @@ public class Account implements INamedEntity
   {
     this.user = user;
   }
-  
-  public boolean isExpired()
-  {
-    return expired;
-  }
-  public void setExpired( boolean expired )
-  {
-    this.expired = expired;
-  }
 
-  public boolean isLocked()
+  public Set< Role > getRoles()
   {
-    return locked;
+    return roles;
   }
-  public void setLocked( boolean locked )
+  public void setRoles( Set< Role > roles )
   {
-    this.locked = locked;
+    this.roles = roles;
   }
-
-  public AccountLockReason getLockReason()
+  public AccountStatus getStatus()
   {
-    return AccountLockReason.fromId( lockReasonId );
+    return status;
   }
-
-  public void setLockReason( AccountLockReason lockReason )
+  public void setStatus( AccountStatus status )
   {
-    lockReasonId = lockReason.getId();
+    this.status = status;
   }
 
 }
