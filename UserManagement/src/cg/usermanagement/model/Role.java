@@ -1,6 +1,14 @@
 package cg.usermanagement.model;
 
+import java.util.Set;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import cg.model.api.INamedEntity;
@@ -9,15 +17,22 @@ import cg.model.api.INamedEntity;
 @Table( name = "TRole")
 public class Role implements INamedEntity
 {
-  @javax.persistence.SequenceGenerator( name = "TROLE_SEQ" , sequenceName = "TROLE_SEQ")
-  @javax.persistence.Id
-  @javax.persistence.GeneratedValue( strategy = javax.persistence.GenerationType.AUTO , generator = "TACCOUNT_SEQ")
-  @javax.persistence.Column( name = "ID")
+  @SequenceGenerator( name = "TROLE_SEQ" , sequenceName = "TROLE_SEQ")
+  @Id
+  @GeneratedValue( strategy = javax.persistence.GenerationType.AUTO , generator = "TACCOUNT_SEQ")
+  @Column( name = "ID" )
   private Long   id;
 
-  @javax.persistence.Column( name = "NAME")
+  @Column( name = "NAME", length = 50, nullable = false, unique = true, updatable = true )
   private String name;
 
+  @ManyToMany( mappedBy="roles" )
+  private Set< Account > accounts;
+  
+  @ManyToMany
+  @JoinTable( name="TROLE_PERMISSION" )
+  private Set< Permission > permissions;
+  
   @Override
   public Long getId()
   {
@@ -41,4 +56,25 @@ public class Role implements INamedEntity
   {
     this.name = name;
   }
+
+  public Set< Account > getAccounts()
+  {
+    return accounts;
+  }
+
+  public void setAccounts( Set< Account > accounts )
+  {
+    this.accounts = accounts;
+  }
+
+  public Set< Permission > getPermissions()
+  {
+    return permissions;
+  }
+
+  public void setPermissions( Set< Permission > permissions )
+  {
+    this.permissions = permissions;
+  }
+  
 }
