@@ -18,10 +18,10 @@ public class Account implements INamedEntity
   @javax.persistence.Column(name="ID")
   private Long id;
 
-  @javax.persistence.Column(name="NAME")
+  @javax.persistence.Column( name="NAME", length = 50, nullable = false, unique = true, updatable = false )
   private String name;
 
-  @javax.persistence.Column(name="PASSWORD")
+  @javax.persistence.Column( name="PASSWORD", length = 50 )
   private String password;
 
   @ManyToOne(fetch=FetchType.LAZY) 
