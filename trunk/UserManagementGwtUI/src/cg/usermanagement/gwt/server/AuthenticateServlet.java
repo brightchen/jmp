@@ -60,7 +60,7 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
 //      throw new RuntimeException( "can't find service: " + IUserService.class.getName(), snfe );
 //    }
     IUserService service = getUserService();
-    Account account = service.findAccountByAccountId( accountId );
+    Account account = service.findAccountByName( accountId );
     if( account == null )
       throw new LoginException( LoginException.LOGIN_ERROR.INVALID_ACCOUNT_ID );
     if( !password.equals( account.getPassword() ) )
@@ -71,27 +71,14 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
   public void registerUser( UserRegisterData data ) throws RegisterUserException
   {
     log.debug( "registerUser" );
-    String accountId = data.getAccountId();
-    if( accountId == null || accountId.isEmpty() )
-      throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.ACCOUNT_ID_EMTPY );
+    String userName = data.getUserName();
+    if( userName == null || userName.isEmpty() )
+      throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.USERNAME_EMTPY );
     String password = data.getPassword();
     if( password == null || password.isEmpty() )
       throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.PASSWORD_EMTPY );
     
-//    IUserService service = null;
-//    try
-//    {
-//      service = ServiceManager.findService( IUserService.class );
-//    }
-//    catch( ServiceNotFoundException snfe )
-//    {
-//      throw new RuntimeException( "can't find service: " + IUserService.class.getName(), snfe );
-//    }
     IUserService service = getUserService();   
-    Account account = service.findAccountByAccountId( accountId );
-    if( account != null )
-      throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.ACCOUNT_ID_EXISTED );
-    
     UserRegisterView view = new UserRegisterView();
     DataConverter.shallowCopyConvert( data, view );
     service.registerUser( view );

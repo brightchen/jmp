@@ -3,7 +3,6 @@ package cg.usermanagement.model.view;
 import java.io.Serializable;
 
 import cg.model.api.IModleUpdatableView;
-import cg.usermanagement.model.Account;
 import cg.usermanagement.model.User;
 
 public class UserRegisterView implements IModleUpdatableView< User >, Serializable
@@ -11,14 +10,12 @@ public class UserRegisterView implements IModleUpdatableView< User >, Serializab
   private static final long serialVersionUID = -2365141091863629354L;
 
   private User entity;
-  private Account account;
   
   public UserRegisterView(){}
   
-  public UserRegisterView( User entity, Account account )
+  public UserRegisterView( User entity )
   {
     setEntity( entity );
-    setAccount( account );
   }
   
   @Override
@@ -29,13 +26,6 @@ public class UserRegisterView implements IModleUpdatableView< User >, Serializab
     return entity;
   }
   
-  public Account getAccount()
-  {
-    if( account == null )
-      account = new Account();
-    return account;
-  }
-
   @Override
   public void getValuesFromEntity()
   {
@@ -44,8 +34,6 @@ public class UserRegisterView implements IModleUpdatableView< User >, Serializab
   @Override
   public void setValuesToEntity()
   {
-    // create the relationship between user and account;
-    getAccount().setUser( getEntity() );
   }
 
   
@@ -54,10 +42,6 @@ public class UserRegisterView implements IModleUpdatableView< User >, Serializab
     this.entity = entity;
   }
 
-  public void setAccount( Account account )
-  {
-    this.account = account;
-  }
 
   public String getUserName()
   {
@@ -101,22 +85,22 @@ public class UserRegisterView implements IModleUpdatableView< User >, Serializab
 
   public String getName()
   {
-    return getAccount().getName();
+    return getEntity().getName();
   }
 
   public void setName( String accountId )
   {
-    getAccount().setName( accountId );
+    getEntity().setName( accountId );
   }
 
   public String getPassword()
   {
-    return getAccount().getPassword();
+    return getEntity().getPassword();
   }
 
   public void setPassword( String password )
   {
-    getAccount().setPassword( password );
+    getEntity().setPassword( password );
   }
 
 

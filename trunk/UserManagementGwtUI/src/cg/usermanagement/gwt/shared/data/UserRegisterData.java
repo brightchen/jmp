@@ -8,13 +8,12 @@ public class UserRegisterData implements Serializable
 
   // user information;
   private String userName;
+  private String password;
+
   private String firstName;
   private String middleName;
   private String lastName;
   
-  // account information
-  private String accountId;
-  private String password;
 
   public String getUserName()
   {
@@ -56,16 +55,6 @@ public class UserRegisterData implements Serializable
     this.lastName = lastName;
   }
 
-  public String getAccountId()
-  {
-    return accountId;
-  }
-
-  public void setAccountId( String accountId )
-  {
-    this.accountId = accountId;
-  }
-
   public String getPassword()
   {
     return password;
@@ -75,6 +64,4 @@ public class UserRegisterData implements Serializable
   {
     this.password = password;
   }
-  
-  
 }

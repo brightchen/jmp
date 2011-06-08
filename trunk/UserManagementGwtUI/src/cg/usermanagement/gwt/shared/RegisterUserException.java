@@ -8,8 +8,8 @@ public class RegisterUserException extends Exception
   public static enum REGISTER_USER_ERROR
   {
     PASSWORD_EMTPY( "Password is empty." ),
-    ACCOUNT_ID_EMTPY( "Account is emtpy." ),
-    ACCOUNT_ID_EXISTED( "The account id already existed." );
+    USERNAME_EMTPY( "User Name is emtpy." ),
+    USERNAME_EXISTED( "The user name already existed." );
     
     private String reason;
     private REGISTER_USER_ERROR( String reason )

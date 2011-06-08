@@ -28,9 +28,9 @@ public class UserService extends GenericJpaDaoService implements IUserService
   }
 
   @Override
-  public Account findAccountByAccountId( String accountId )
+  public Account findAccountByName( String name )
   {
-    String hsql = String.format( "select a from %s a where a.accountId = \'%s\'", Account.class.getName(), accountId );
+    String hsql = String.format( "select a from %s a where a.name = \'%s\'", Account.class.getName(), name );
     try
     {
       return (Account)getEntityManager().createQuery( hsql  ).getSingleResult();
@@ -47,17 +47,8 @@ public class UserService extends GenericJpaDaoService implements IUserService
   {
     userRegisterView.setValuesToEntity();
     User user = userRegisterView.getEntity();
-    Account account = userRegisterView.getAccount();
-    
     EntityManager em = getEntityManager();
-
-//    em.setFlushMode( FlushModeType.COMMIT );
-//    em.setFlushMode( FlushModeType.AUTO );    //default flush type
-    em.persist( account );
     em.persist( user );
-//    
-//    Account account1 = findAccountByAccountId( account.getAccountId() );
-    //TODO: CMP transaction control
     return true;
   }
 }
