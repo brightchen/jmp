@@ -34,7 +34,7 @@ public class SystemUserLoginTransformer extends UIObjectBuilder< UserLoginData, 
 
     table.setText( 0, 0, "system account name/id:" );
     nameField = new TextBox();
-    nameField.setText( data == null ? "" : data.getAccountId() );
+    nameField.setText( data == null ? "" : data.getUserName() );
     nameField.setFocus( true );
     nameField.selectAll();
     table.setWidget( 1, 0, nameField );
@@ -85,7 +85,7 @@ public class SystemUserLoginTransformer extends UIObjectBuilder< UserLoginData, 
       data = new UserLoginData();
       setData( data );
     }
-    data.setAccountId( nameField.getText() );
+    data.setUserName( nameField.getText() );
     data.setPassword( passwordField.getText() );
   }
 

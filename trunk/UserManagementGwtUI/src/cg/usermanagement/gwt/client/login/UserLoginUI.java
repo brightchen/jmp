@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class UserLoginUI extends UIPanelComposite< UserLoginData, VerticalPanel >
 {
-  private TextBox accountField;
+  private TextBox userNameField;
   private TextBox passwordField;
   private AlignedUIGroup< String, FlexTable > userPassUI;
   
@@ -27,12 +27,12 @@ public class UserLoginUI extends UIPanelComposite< UserLoginData, VerticalPanel 
     setData( data );
     
     List< String > userPassData = new ArrayList< String >();
-    userPassData.add( "system account name/id:" );
+    userPassData.add( "system user name/id:" );
     userPassData.add( "" );
     userPassData.add( "password:" );
     userPassData.add( "" );
     
-    accountField = new TextBox();
+    userNameField = new TextBox();
     passwordField = new PasswordTextBox();
     
     userPassUI = new AlignedUIGroup< String, FlexTable >( userPassData, new FlexTable() )
@@ -47,7 +47,7 @@ public class UserLoginUI extends UIPanelComposite< UserLoginData, VerticalPanel 
         }
         else if( index == 1 )
         {
-          w = accountField;
+          w = userNameField;
         }
         else if( index == 3 )
         {
@@ -66,7 +66,7 @@ public class UserLoginUI extends UIPanelComposite< UserLoginData, VerticalPanel 
       public UserLoginData getData()
       {
         // TODO Auto-generated method stub
-        return new UserLoginData( accountField.getText(), passwordField.getText() );
+        return new UserLoginData( userNameField.getText(), passwordField.getText() );
       }
     };
     

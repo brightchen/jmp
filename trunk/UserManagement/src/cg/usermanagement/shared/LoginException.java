@@ -7,7 +7,11 @@ public class LoginException extends Exception
   public static enum LOGIN_ERROR
   {
     PASSWORD_EMTPY( "Password is empty" ),
-    INVALID_ACCOUNT_ID( "Invalid account id" ),
+
+    INVALID_USER( "Invalid account" ),
+    USER_PASSWORD_NOT_MATCH( "The user and password does not match" ),
+
+    INVALID_ACCOUNT( "Invalid account" ),
     ACCOUNT_PASSWORD_NOT_MATCH( "The account and password does not match" );
     
     private String reason;

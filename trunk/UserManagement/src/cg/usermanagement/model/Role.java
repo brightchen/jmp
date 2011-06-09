@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -28,10 +27,6 @@ public class Role implements INamedEntity
 
   @ManyToMany( mappedBy="roles" )
   private Set< Account > accounts;
-  
-  @ManyToMany
-  @JoinTable( name="TROLE_PERMISSION" )
-  private Set< Permission > permissions;
   
   @Override
   public Long getId()
@@ -66,15 +61,4 @@ public class Role implements INamedEntity
   {
     this.accounts = accounts;
   }
-
-  public Set< Permission > getPermissions()
-  {
-    return permissions;
-  }
-
-  public void setPermissions( Set< Permission > permissions )
-  {
-    this.permissions = permissions;
-  }
-  
 }

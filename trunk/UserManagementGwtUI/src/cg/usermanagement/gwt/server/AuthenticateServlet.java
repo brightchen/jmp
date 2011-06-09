@@ -10,6 +10,7 @@ import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.Account;
+import cg.usermanagement.model.User;
 import cg.usermanagement.model.view.UserRegisterView;
 import cg.usermanagement.shared.LoginException;
 import cg.usermanagement.shared.RegisterUserException;
@@ -42,27 +43,32 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
     return userService;
   }
   
-  //it should be account instead of user login
-  @Override
-  public void login( String accountId, String password ) throws LoginException
+  public void userlogin( String userName, String password ) throws LoginException
   {
-    log.debug( "login: account=" + accountId + "; password=" + password );
+    log.debug( "login: user=" + userName + "; password=" + password );
     if( password == null || password.isEmpty() )
       throw new LoginException( LoginException.LOGIN_ERROR.PASSWORD_EMTPY );
     
-//    IUserService service = null;
-//    try
-//    {
-//      service = ServiceManager.findService( IUserService.class );
-//    }
-//    catch( ServiceNotFoundException snfe )
-//    {
-//      throw new RuntimeException( "can't find service: " + IUserService.class.getName(), snfe );
-//    }
     IUserService service = getUserService();
-    Account account = service.findAccountByName( accountId );
+    User user = service.findUserByName( userName );
+    if( user == null )
+      throw new LoginException( LoginException.LOGIN_ERROR.INVALID_ACCOUNT );
+    if( !password.equals( user.getPassword() ) )
+      throw new LoginException( LoginException.LOGIN_ERROR.ACCOUNT_PASSWORD_NOT_MATCH );
+  }
+
+  //it should be account instead of user login
+  @Override
+  public void accountlogin( String accountName, String password ) throws LoginException
+  {
+    log.debug( "login: account=" + accountName + "; password=" + password );
+    if( password == null || password.isEmpty() )
+      throw new LoginException( LoginException.LOGIN_ERROR.PASSWORD_EMTPY );
+    
+    IUserService service = getUserService();
+    Account account = service.findAccountByName( accountName );
     if( account == null )
-      throw new LoginException( LoginException.LOGIN_ERROR.INVALID_ACCOUNT_ID );
+      throw new LoginException( LoginException.LOGIN_ERROR.INVALID_ACCOUNT );
     if( !password.equals( account.getPassword() ) )
       throw new LoginException( LoginException.LOGIN_ERROR.ACCOUNT_PASSWORD_NOT_MATCH );
   }
