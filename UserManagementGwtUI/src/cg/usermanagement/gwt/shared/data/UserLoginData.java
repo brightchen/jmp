@@ -10,24 +10,24 @@ public class UserLoginData implements IValidatable, Serializable
 {
   private static final long serialVersionUID = 665267442451753317L;
   
-  private String accountId;
+  private String userName;
   private String password;
 
   public UserLoginData(){}
   
-  public UserLoginData( String accountId, String password )
+  public UserLoginData( String userName, String password )
   {
-    setAccountId( accountId );
+    setUserName( userName );
     setPassword( password );
   }
   
-  public String getAccountId()
+  public String getUserName()
   {
-    return accountId;
+    return userName;
   }
-  public void setAccountId( String accountId )
+  public void setUserName( String userName )
   {
-    this.accountId = accountId;
+    this.userName = userName;
   }
   public String getPassword()
   {
@@ -41,7 +41,7 @@ public class UserLoginData implements IValidatable, Serializable
   @Override
   public void validate() throws ValidateException
   {
-    if( accountId == null || accountId.isEmpty() )
+    if( userName == null || userName.isEmpty() )
       throw new ValidateException( "Account Id is empty" );
     if( password == null || password.isEmpty() )
       throw new ValidateException( "password is empty" );

@@ -38,7 +38,7 @@ public abstract class LoginEvent extends UIEvent< UserLoginData >
       //TODO: handle the exception7
     }
     
-    userService.login( getData().getAccountId(), getData().getPassword(), 
+    userService.accountlogin( getData().getUserName(), getData().getPassword(), 
                        new PopupFailureReasonCallback< Void >()
                         {
                           @Override
