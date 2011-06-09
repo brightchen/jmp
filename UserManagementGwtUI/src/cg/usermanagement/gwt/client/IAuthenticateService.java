@@ -1,8 +1,8 @@
 package cg.usermanagement.gwt.client;
 
-import cg.usermanagement.gwt.shared.LoginException;
-import cg.usermanagement.gwt.shared.RegisterUserException;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
+import cg.usermanagement.shared.LoginException;
+import cg.usermanagement.shared.RegisterUserException;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

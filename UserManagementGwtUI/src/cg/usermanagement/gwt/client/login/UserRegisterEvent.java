@@ -6,8 +6,8 @@ import cg.gwt.components.client.ui.event.UIEvent;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.client.IAuthenticateServiceAsync;
-import cg.usermanagement.gwt.shared.RegisterUserException;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
+import cg.usermanagement.shared.RegisterUserException;
 
 import com.google.gwt.core.client.GWT;
 

@@ -1,4 +1,4 @@
-package cg.usermanagement.gwt.shared;
+package cg.usermanagement.shared;
 
 
 public class RegisterUserException extends Exception
