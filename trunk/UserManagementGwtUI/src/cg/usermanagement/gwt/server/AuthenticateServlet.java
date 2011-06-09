@@ -8,11 +8,11 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IAuthenticateService;
-import cg.usermanagement.gwt.shared.LoginException;
-import cg.usermanagement.gwt.shared.RegisterUserException;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.Account;
 import cg.usermanagement.model.view.UserRegisterView;
+import cg.usermanagement.shared.LoginException;
+import cg.usermanagement.shared.RegisterUserException;
 import cg.utils.DataConverter;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;

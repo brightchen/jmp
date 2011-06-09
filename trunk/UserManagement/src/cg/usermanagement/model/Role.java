@@ -19,7 +19,7 @@ public class Role implements INamedEntity
 {
   @SequenceGenerator( name = "TROLE_SEQ" , sequenceName = "TROLE_SEQ")
   @Id
-  @GeneratedValue( strategy = javax.persistence.GenerationType.AUTO , generator = "TACCOUNT_SEQ")
+  @GeneratedValue( strategy = javax.persistence.GenerationType.AUTO , generator = "TROLE_SEQ")
   @Column( name = "ID" )
   private Long   id;
 
