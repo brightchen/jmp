@@ -1,4 +1,4 @@
-package cg.usermanagement.gwt.client.login;
+package cg.usermanagement.gwt.client.register;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,10 +6,11 @@ import cg.gwt.components.shared.data.IValidatable;
 import cg.gwt.components.shared.data.ValidateException;
 
 //user or account login data
-public class LoginData implements IValidatable, Serializable
+public abstract class LoginData implements IValidatable, Serializable
 {
   private static final long serialVersionUID = 665267442451753317L;
   
+  private LoginType loginType;
   private String nameTitle;
   private String name;
   private String passwordTitle = "password";
@@ -63,6 +64,17 @@ public class LoginData implements IValidatable, Serializable
     this.password = password;
   }
   
+  
+  public LoginType getLoginType()
+  {
+    return loginType;
+  }
+
+  public void setLoginType( LoginType loginType )
+  {
+    this.loginType = loginType;
+  }
+
   @Override
   public void validate() throws ValidateException
   {

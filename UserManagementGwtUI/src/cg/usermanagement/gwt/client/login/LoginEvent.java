@@ -8,6 +8,7 @@ import cg.gwt.components.shared.data.ValidateException;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.client.IAuthenticateServiceAsync;
 import cg.usermanagement.gwt.shared.data.LoginData;
+import cg.usermanagement.gwt.shared.data.LoginType;
 import cg.usermanagement.shared.LoginException;
 
 import com.google.gwt.core.client.GWT;
@@ -37,30 +38,64 @@ public abstract class LoginEvent extends UIEvent< LoginData >
     {
       //TODO: handle the exception7
     }
-    
-    userService.accountlogin( getData().getName(), getData().getPassword(), 
-                       new PopupFailureReasonCallback< Void >()
-                        {
-                          @Override
-                          public void onFailure( Throwable caught )
-                          {
-                            if( !( caught instanceof LoginException ) )
-                            {
-                              ( new SimpleErrorDialogUI( caught.getMessage() ) ).centre();
-                            }
-                            else
-                            {
-                              LoginException le = (LoginException)caught;
-                              ( new SimpleErrorDialogUI(  le.getErrorReason() ) ).centre();
-                            }
-                          }
 
-                          @Override
-                          public void onSuccess( Void returned )
+    LoginType loginType = data.getLoginType();
+    if( LoginType.USER_LOGIN.equals( loginType ) )
+    {
+      userService.userlogin( getData().getName(), getData().getPassword(), 
+                                new PopupFailureReasonCallback< Void >()
+                                 {
+                                   @Override
+                                   public void onFailure( Throwable caught )
+                                   {
+                                     if( !( caught instanceof LoginException ) )
+                                     {
+                                       ( new SimpleErrorDialogUI( caught.getMessage() ) ).centre();
+                                     }
+                                     else
+                                     {
+                                       LoginException le = (LoginException)caught;
+                                       ( new SimpleErrorDialogUI(  le.getErrorReason() ) ).centre();
+                                     }
+                                   }
+         
+                                   @Override
+                                   public void onSuccess( Void returned )
+                                   {
+                                     onLoginSuccess();
+                                   }
+                                 } );
+    }
+    else if( LoginType.ACCOUNT_LOGIN.equals( loginType ) ) 
+    {
+      userService.accountlogin( getData().getName(), getData().getPassword(), 
+                         new PopupFailureReasonCallback< Void >()
                           {
-                            onLoginSuccess();
-                          }
-                        } );
+                            @Override
+                            public void onFailure( Throwable caught )
+                            {
+                              if( !( caught instanceof LoginException ) )
+                              {
+                                ( new SimpleErrorDialogUI( caught.getMessage() ) ).centre();
+                              }
+                              else
+                              {
+                                LoginException le = (LoginException)caught;
+                                ( new SimpleErrorDialogUI(  le.getErrorReason() ) ).centre();
+                              }
+                            }
+  
+                            @Override
+                            public void onSuccess( Void returned )
+                            {
+                              onLoginSuccess();
+                            }
+                          } );
+    }
+    else
+    {
+      // exception
+    }
   }
 
   protected void onLoginSuccess()

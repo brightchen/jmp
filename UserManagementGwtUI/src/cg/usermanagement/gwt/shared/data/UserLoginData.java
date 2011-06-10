@@ -7,6 +7,7 @@ public class UserLoginData extends LoginData
   public UserLoginData()
   {
     setNameTitle( "User Name" );
+    setLoginType( LoginType.USER_LOGIN );
   }
   
   public UserLoginData( String name, String password )
