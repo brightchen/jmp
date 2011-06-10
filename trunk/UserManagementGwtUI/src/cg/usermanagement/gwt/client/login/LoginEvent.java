@@ -7,12 +7,12 @@ import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.gwt.components.shared.data.ValidateException;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.client.IAuthenticateServiceAsync;
-import cg.usermanagement.gwt.shared.data.UserLoginData;
+import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.shared.LoginException;
 
 import com.google.gwt.core.client.GWT;
 
-public abstract class LoginEvent extends UIEvent< UserLoginData >
+public abstract class LoginEvent extends UIEvent< LoginData >
 {
   private IAuthenticateServiceAsync userService = GWT.create( IAuthenticateService.class );
   
@@ -28,7 +28,7 @@ public abstract class LoginEvent extends UIEvent< UserLoginData >
   
   protected void onLogin()
   {
-    UserLoginData data = getData();
+    LoginData data = getData();
     try
     {
       data.validate();
@@ -38,7 +38,7 @@ public abstract class LoginEvent extends UIEvent< UserLoginData >
       //TODO: handle the exception7
     }
     
-    userService.accountlogin( getData().getUserName(), getData().getPassword(), 
+    userService.accountlogin( getData().getName(), getData().getPassword(), 
                        new PopupFailureReasonCallback< Void >()
                         {
                           @Override

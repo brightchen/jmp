@@ -9,7 +9,7 @@ import cg.usermanagement.gwt.client.ui.UserManagementClientPanelBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementMenuBarBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementPanelBuilder;
 import cg.usermanagement.gwt.shared.data.MenuBarData;
-import cg.usermanagement.gwt.shared.data.UserLoginData;
+import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.UserManagementMenuBarData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
@@ -32,7 +32,7 @@ public class UserManagementPage implements EntryPoint
 
   protected Panel buildNormalPage()
   {
-    UserLoginData loginData = new UserLoginData();
+    LoginData loginData = new LoginData();
     UserRegisterData registerData = new UserRegisterData();
     return new UserManagementUI( loginData, registerData );
 //    SystemUserLoginTransformer loginPart = new SystemUserLoginTransformer();
