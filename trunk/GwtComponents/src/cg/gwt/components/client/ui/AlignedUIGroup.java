@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class AlignedUIGroup < I, U extends FlexTable > extends UIGroup< I, U >
 {
+  public static final int DEFAULT_SIDE_SIZE = 2;
   public static enum AlignStyle
   {
     FixRowSize,
@@ -26,7 +27,7 @@ public abstract class AlignedUIGroup < I, U extends FlexTable > extends UIGroup<
   {
     super( data, container );
     alignStyle = AlignStyle.FixColumnSize;
-    sideSize = 2;
+    sideSize = DEFAULT_SIDE_SIZE;
   }
 
   public void setAlignAttributes( AlignStyle alignStyle, int sideSize )

@@ -27,13 +27,15 @@ public class LoginUI extends UIPanelComposite< LoginData, VerticalPanel >
     setData( data );
     
     List< String > userPassData = new ArrayList< String >();
-    userPassData.add( "system user name/id:" );
-    userPassData.add( "" );
-    userPassData.add( "password:" );
-    userPassData.add( "" );
+    userPassData.add( data.getNameTitle() );
+    userPassData.add( data.getName() );
+    userPassData.add( data.getPasswordTitle() );
+    userPassData.add( data.getPassword() );
     
     userNameField = new TextBox();
+    userNameField.setText( data.getName() );
     passwordField = new PasswordTextBox();
+    passwordField.setText( data.getPassword() );
     
     userPassUI = new AlignedUIGroup< String, FlexTable >( userPassData, new FlexTable() )
     {
@@ -65,8 +67,10 @@ public class LoginUI extends UIPanelComposite< LoginData, VerticalPanel >
       @Override
       public LoginData getData()
       {
-        // TODO Auto-generated method stub
-        return new LoginData( userNameField.getText(), passwordField.getText() );
+        LoginData loginData = getData();
+        loginData.setName( userNameField.getText() );
+        loginData.setPassword( passwordField.getText() );
+        return loginData;
       }
     };
     

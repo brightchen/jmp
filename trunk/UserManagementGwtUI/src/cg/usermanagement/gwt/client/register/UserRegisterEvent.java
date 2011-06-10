@@ -1,4 +1,4 @@
-package cg.usermanagement.gwt.client.login;
+package cg.usermanagement.gwt.client.register;
 
 import cg.gwt.components.client.ui.components.SimpleErrorDialogUI;
 import cg.gwt.components.client.ui.components.SimpleMessageDialogUI;

@@ -6,6 +6,7 @@ import cg.usermanagement.gwt.client.ui.UserManagementClientPanelBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementMenuBarBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementPanelBuilder;
 import cg.usermanagement.gwt.shared.data.LoginData;
+import cg.usermanagement.gwt.shared.data.UserLoginData;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -22,7 +23,7 @@ public class SystemUserLoginTransformer extends UIObjectBuilder< LoginData, Flex
   @Override
   protected LoginData createData()
   {
-    return new LoginData();
+    return new UserLoginData();
   }
 
   @Override
@@ -82,7 +83,7 @@ public class SystemUserLoginTransformer extends UIObjectBuilder< LoginData, Flex
     LoginData data = getData();
     if( data == null )
     {
-      data = new LoginData();
+      data = new UserLoginData();
       setData( data );
     }
     data.setName( nameField.getText() );
