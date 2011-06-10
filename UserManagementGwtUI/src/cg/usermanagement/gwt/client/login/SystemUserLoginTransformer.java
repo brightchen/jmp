@@ -5,7 +5,7 @@ import cg.gwt.components.client.ui.old.UIObjectBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementClientPanelBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementMenuBarBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementPanelBuilder;
-import cg.usermanagement.gwt.shared.data.UserLoginData;
+import cg.usermanagement.gwt.shared.data.LoginData;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -13,28 +13,28 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SystemUserLoginTransformer extends UIObjectBuilder< UserLoginData, FlexTable > implements IUIObjectDigester
+public class SystemUserLoginTransformer extends UIObjectBuilder< LoginData, FlexTable > implements IUIObjectDigester
 {
   private TextBox nameField;
   private TextBox passwordField;
   
   //create an empty data instance
   @Override
-  protected UserLoginData createData()
+  protected LoginData createData()
   {
-    return new UserLoginData();
+    return new LoginData();
   }
 
   @Override
   public FlexTable build()
   {
-    UserLoginData data = getData();
+    LoginData data = getData();
     
     FlexTable table = new FlexTable();
 
     table.setText( 0, 0, "system account name/id:" );
     nameField = new TextBox();
-    nameField.setText( data == null ? "" : data.getUserName() );
+    nameField.setText( data == null ? "" : data.getName() );
     nameField.setFocus( true );
     nameField.selectAll();
     table.setWidget( 1, 0, nameField );
@@ -79,13 +79,13 @@ public class SystemUserLoginTransformer extends UIObjectBuilder< UserLoginData, 
   @Override
   public void digest()
   {
-    UserLoginData data = getData();
+    LoginData data = getData();
     if( data == null )
     {
-      data = new UserLoginData();
+      data = new LoginData();
       setData( data );
     }
-    data.setUserName( nameField.getText() );
+    data.setName( nameField.getText() );
     data.setPassword( passwordField.getText() );
   }
 

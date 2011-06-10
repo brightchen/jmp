@@ -12,7 +12,7 @@ public class UserManagementUI< UserLoginData, UserRegisterData > extends UICompo
   public UserManagementUI( UserLoginData loginData, UserRegisterData registerData )
   {
     setData( new UIPairData< UserLoginData, UserRegisterData >( loginData, registerData ) );
-    UserLoginUI loginUI = new UserLoginUI( (cg.usermanagement.gwt.shared.data.UserLoginData) loginData );
+    LoginUI loginUI = new LoginUI( (cg.usermanagement.gwt.shared.data.LoginData) loginData );
     UserRegisterUI registerUI = new UserRegisterUI( (cg.usermanagement.gwt.shared.data.UserRegisterData) registerData );
     addChild( loginUI );
     addChild( registerUI );

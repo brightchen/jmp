@@ -6,7 +6,7 @@ import java.util.List;
 import cg.gwt.components.client.ui.AlignedUIGroup;
 import cg.gwt.components.client.ui.UIPanelComposite;
 import cg.gwt.components.client.ui.event.GwtEventDelegateHandler;
-import cg.usermanagement.gwt.shared.data.UserLoginData;
+import cg.usermanagement.gwt.shared.data.LoginData;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -16,13 +16,13 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UserLoginUI extends UIPanelComposite< UserLoginData, VerticalPanel >
+public class LoginUI extends UIPanelComposite< LoginData, VerticalPanel >
 {
   private TextBox userNameField;
   private TextBox passwordField;
   private AlignedUIGroup< String, FlexTable > userPassUI;
   
-  public UserLoginUI( UserLoginData data )
+  public LoginUI( LoginData data )
   {
     setData( data );
     
@@ -63,16 +63,16 @@ public class UserLoginUI extends UIPanelComposite< UserLoginData, VerticalPanel 
     LoginEvent loginEvent = new LoginEvent()
     {
       @Override
-      public UserLoginData getData()
+      public LoginData getData()
       {
         // TODO Auto-generated method stub
-        return new UserLoginData( userNameField.getText(), passwordField.getText() );
+        return new LoginData( userNameField.getText(), passwordField.getText() );
       }
     };
     
     final Button loginButton = new Button( "Login" );
     
-    loginButton.addClickHandler( new GwtEventDelegateHandler< UserLoginData, LoginEvent >( loginEvent ) );
+    loginButton.addClickHandler( new GwtEventDelegateHandler< LoginData, LoginEvent >( loginEvent ) );
     addChild( loginButton );
   }
   
