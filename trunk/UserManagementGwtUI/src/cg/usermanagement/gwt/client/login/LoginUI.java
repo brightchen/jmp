@@ -67,7 +67,7 @@ public class LoginUI extends UIPanelComposite< LoginData, VerticalPanel >
       @Override
       public LoginData getData()
       {
-        LoginData loginData = getData();
+        LoginData loginData = LoginUI.this.getData();
         loginData.setName( userNameField.getText() );
         loginData.setPassword( passwordField.getText() );
         return loginData;
