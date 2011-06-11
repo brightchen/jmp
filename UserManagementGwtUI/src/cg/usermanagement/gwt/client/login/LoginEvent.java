@@ -42,7 +42,7 @@ public abstract class LoginEvent extends UIEvent< LoginData >
     LoginType loginType = data.getLoginType();
     if( LoginType.USER_LOGIN.equals( loginType ) )
     {
-      userService.userlogin( getData().getName(), getData().getPassword(), 
+      userService.userlogin( data.getName(), data.getPassword(), 
                                 new PopupFailureReasonCallback< Void >()
                                  {
                                    @Override
@@ -68,7 +68,7 @@ public abstract class LoginEvent extends UIEvent< LoginData >
     }
     else if( LoginType.ACCOUNT_LOGIN.equals( loginType ) ) 
     {
-      userService.accountlogin( getData().getName(), getData().getPassword(), 
+      userService.accountlogin( data.getName(), data.getPassword(), 
                          new PopupFailureReasonCallback< Void >()
                           {
                             @Override
