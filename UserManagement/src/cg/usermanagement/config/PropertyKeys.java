@@ -19,7 +19,11 @@ public class PropertyKeys
 
     derby$jdbc$driver_class,
     derby$jdbc$url,
-    derby$jpa$type
+    derby$jpa$type,
+    
+    backdoor$enabled,
+    backdoor$accountname,
+    backdoor$password,
   }
   
   public static String getPropertyStringKey( PropertyKey propertyKey )

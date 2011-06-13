@@ -41,6 +41,10 @@ public class UserManagementConfigurator extends Configurator
     return instance;
   }
   
+  public String getProperty( PropertyKeys.PropertyKey propertyKey )
+  {
+    return getProperty( PropertyKeys.getPropertyStringKey( propertyKey ) );
+  }
   /*
    * the database related property value is depended on the selected database
    * for example, the db$jdbc$driver_class should be set to the mysql$jdbc$driver_class if database is mysql;

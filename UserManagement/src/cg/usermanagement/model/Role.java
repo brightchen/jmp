@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import cg.model.api.INamedEntity;
 
 @Entity
-@Table( name = "TRole")
+@Table( name = "TROLE")
 public class Role implements INamedEntity
 {
   @SequenceGenerator( name = "TROLE_SEQ" , sequenceName = "TROLE_SEQ")

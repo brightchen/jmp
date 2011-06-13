@@ -5,7 +5,9 @@ import cg.services.session.api.ISessionKey;
 public enum UserManagementSessionKey implements ISessionKey
 {
   userName,
-  accountName;
+  accountName,
+  userPermissions,
+  accountPermissions;
   
   @Override
   public long getNumberOfKeys()

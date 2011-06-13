@@ -18,12 +18,12 @@ import cg.model.api.IEntity;
  */
 
 @Entity
-@Table( name = "TRole")
+@Table( name = "ROLE_PERMISSION")
 public class RolePermission implements IEntity
 {
-  @SequenceGenerator( name = "TROLEPERMISSION_SEQ" , sequenceName = "TROLEPERMISSION_SEQ")
+  @SequenceGenerator( name = "ROLE_PERMISSION_SEQ" , sequenceName = "ROLE_PERMISSION_SEQ")
   @Id
-  @GeneratedValue( strategy = javax.persistence.GenerationType.AUTO , generator = "TROLEPERMISSION_SEQ")
+  @GeneratedValue( strategy = javax.persistence.GenerationType.AUTO , generator = "ROLE_PERMISSION_SEQ")
   @Column( name = "ID" )
   private Long   id;
   
@@ -77,5 +77,10 @@ public class RolePermission implements IEntity
   public void setOperation( Operation operation )
   {
     this.operation = operation;
+  }
+  
+  public Permission getPermission()
+  {
+    return new Permission( getFeature(), getOperation() );
   }
 }
