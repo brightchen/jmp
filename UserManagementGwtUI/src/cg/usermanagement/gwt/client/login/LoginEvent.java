@@ -1,7 +1,6 @@
 package cg.usermanagement.gwt.client.login;
 
 import cg.gwt.components.client.ui.components.SimpleErrorDialogUI;
-import cg.gwt.components.client.ui.components.SimpleMessageDialogUI;
 import cg.gwt.components.client.ui.event.UIEvent;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.gwt.components.shared.data.ValidateException;
@@ -29,7 +28,7 @@ public abstract class LoginEvent extends UIEvent< LoginData >
   
   protected void onLogin()
   {
-    LoginData data = getData();
+    final LoginData data = getData();
     try
     {
       data.validate();
@@ -62,7 +61,7 @@ public abstract class LoginEvent extends UIEvent< LoginData >
                                    @Override
                                    public void onSuccess( Void returned )
                                    {
-                                     onLoginSuccess();
+                                     onLoginSuccess( data );
                                    }
                                  } );
     }
@@ -88,7 +87,7 @@ public abstract class LoginEvent extends UIEvent< LoginData >
                             @Override
                             public void onSuccess( Void returned )
                             {
-                              onLoginSuccess();
+                              onLoginSuccess( data );
                             }
                           } );
     }
@@ -98,40 +97,9 @@ public abstract class LoginEvent extends UIEvent< LoginData >
     }
   }
 
-  protected void onLoginSuccess()
+  protected void onLoginSuccess( LoginData data )
   {
-    (new SimpleMessageDialogUI( "login successful."  )).show( );
+    LoginWorkflow.onLoginSuccess( data );
   }
-//  
-//  public static class LoginEventData implements Serializable
-//  {
-//    private static final long serialVersionUID = -3973984244159981528L;
-//
-//    private String accountId;
-//    private String password;
-//    
-//    public LoginEventData( String accountId, String password )
-//    {
-//      this.accountId = accountId;
-//      this.password = password;
-//    }
-//    
-//    public String getAccountId()
-//    {
-//      return accountId;
-//    }
-//    public void setAccountId( String accountId )
-//    {
-//      this.accountId = accountId;
-//    }
-//    public String getPassword()
-//    {
-//      return password;
-//    }
-//    public void setPassword( String password )
-//    {
-//      this.password = password;
-//    }
-//
-//  }
+
 }

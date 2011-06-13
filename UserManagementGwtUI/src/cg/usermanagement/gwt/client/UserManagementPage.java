@@ -34,7 +34,7 @@ public class UserManagementPage implements EntryPoint
   {
     LoginData loginData = new UserLoginData();
     UserRegisterData registerData = new UserRegisterData();
-    return ( new UserManagementWorkflow() ).getStartUI();
+    return UserManagementWorkflow.getStartUI();
 //    SystemUserLoginTransformer loginPart = new SystemUserLoginTransformer();
 //    return loginPart.build();
   }

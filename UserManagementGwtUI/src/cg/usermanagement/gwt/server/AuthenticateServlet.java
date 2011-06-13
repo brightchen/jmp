@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
@@ -55,6 +56,10 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
       throw new LoginException( LoginException.LOGIN_ERROR.INVALID_ACCOUNT );
     if( !password.equals( user.getPassword() ) )
       throw new LoginException( LoginException.LOGIN_ERROR.ACCOUNT_PASSWORD_NOT_MATCH );
+    
+    SessionManager.startSession();
+    SessionManager.putAttribute( UserManagementSessionKey.userName, userName );
+
   }
 
   //it should be account instead of user login
@@ -71,6 +76,10 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
       throw new LoginException( LoginException.LOGIN_ERROR.INVALID_ACCOUNT );
     if( !password.equals( account.getPassword() ) )
       throw new LoginException( LoginException.LOGIN_ERROR.ACCOUNT_PASSWORD_NOT_MATCH );
+
+    SessionManager.startSession();
+    SessionManager.putAttribute( UserManagementSessionKey.accountName, accountName );
+
   }
   
   @Override
