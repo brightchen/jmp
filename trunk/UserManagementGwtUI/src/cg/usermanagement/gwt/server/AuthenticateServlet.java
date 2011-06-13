@@ -1,5 +1,7 @@
 package cg.usermanagement.gwt.server;
 
+import java.util.Set;
+
 import javax.servlet.ServletException;
 
 import org.apache.log4j.Logger;
@@ -10,8 +12,7 @@ import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IAuthenticateService;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
-import cg.usermanagement.model.Account;
-import cg.usermanagement.model.User;
+import cg.usermanagement.model.view.PermissionView;
 import cg.usermanagement.model.view.UserRegisterView;
 import cg.usermanagement.shared.LoginException;
 import cg.usermanagement.shared.RegisterUserException;
@@ -51,15 +52,13 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
       throw new LoginException( LoginException.LOGIN_ERROR.PASSWORD_EMTPY );
     
     IUserService service = getUserService();
-    User user = service.findUserByName( userName );
-    if( user == null )
-      throw new LoginException( LoginException.LOGIN_ERROR.INVALID_ACCOUNT );
-    if( !password.equals( user.getPassword() ) )
-      throw new LoginException( LoginException.LOGIN_ERROR.ACCOUNT_PASSWORD_NOT_MATCH );
-    
+    Set< PermissionView > permissions = service.userLogin( userName, password );
+
     SessionManager.startSession();
     SessionManager.putAttribute( UserManagementSessionKey.userName, userName );
 
+    // cache the user permissions in the session as it is a very frequently used 
+    SessionManager.putAttribute( UserManagementSessionKey.userPermissions, permissions );
   }
 
   //it should be account instead of user login
@@ -71,15 +70,13 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
       throw new LoginException( LoginException.LOGIN_ERROR.PASSWORD_EMTPY );
     
     IUserService service = getUserService();
-    Account account = service.findAccountByName( accountName );
-    if( account == null )
-      throw new LoginException( LoginException.LOGIN_ERROR.INVALID_ACCOUNT );
-    if( !password.equals( account.getPassword() ) )
-      throw new LoginException( LoginException.LOGIN_ERROR.ACCOUNT_PASSWORD_NOT_MATCH );
+    Set< PermissionView > permissions = service.accountLogin( accountName, password );
 
     SessionManager.startSession();
     SessionManager.putAttribute( UserManagementSessionKey.accountName, accountName );
-
+    
+    // cache the role permissions in the session as it is a very frequently used 
+    SessionManager.putAttribute( UserManagementSessionKey.accountPermissions, permissions );
   }
   
   @Override

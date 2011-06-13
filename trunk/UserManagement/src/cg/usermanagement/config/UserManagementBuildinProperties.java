@@ -31,6 +31,11 @@ public class UserManagementBuildinProperties implements IBuildinProperties
     setProperty( props, PropertyKey.derby$jdbc$driver_class, "org.apache.derby.jdbc.EmbeddedDriver" );
     setProperty( props, PropertyKey.derby$jdbc$url, "jdbc:derby:../../databases/derby/userdb;create=true" );
     setProperty( props, PropertyKey.derby$jpa$type, "DEFAULT" );
+    
+    //backdoor
+    setProperty( props, PropertyKey.backdoor$enabled, "true" );
+    setProperty( props, PropertyKey.backdoor$accountname, "backdoor_account" );
+    setProperty( props, PropertyKey.backdoor$password, "backdoor_password" );
 
     return props;
   }

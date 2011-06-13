@@ -2,10 +2,10 @@ package cg.usermanagement.model.view;
 
 import java.io.Serializable;
 
-import cg.model.api.IModleUpdatableView;
+import cg.model.api.IWritableModelView;
 import cg.usermanagement.model.User;
 
-public class UserRegisterView implements IModleUpdatableView< User >, Serializable
+public class UserRegisterView implements IWritableModelView< User >, Serializable
 {
   private static final long serialVersionUID = -2365141091863629354L;
 
@@ -24,11 +24,6 @@ public class UserRegisterView implements IModleUpdatableView< User >, Serializab
     if( entity == null )
       entity = new User();
     return entity;
-  }
-  
-  @Override
-  public void getValuesFromEntity()
-  {
   }
 
   @Override
