@@ -7,7 +7,7 @@ import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
 public class UserManagementWorkflow
 {
-  public UIComponent< ?, ? > getStartUI()
+  public static UIComponent< ?, ? > getStartUI()
   {
     UserManagementUI userManagementUI = new UserManagementUI( new UserLoginData(), new AccountLoginData(), new UserRegisterData() );
     return userManagementUI;
