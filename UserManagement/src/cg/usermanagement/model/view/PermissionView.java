@@ -3,7 +3,7 @@ package cg.usermanagement.model.view;
 import java.io.Serializable;
 
 import cg.model.api.IReadableModelView;
-import cg.usermanagement.model.Permission;
+import cg.model.common.Permission;
 
 public class PermissionView implements IReadableModelView< Permission >, Serializable
 {

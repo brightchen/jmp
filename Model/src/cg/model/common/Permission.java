@@ -1,4 +1,4 @@
-package cg.usermanagement.model;
+package cg.model.common;
 
 import cg.model.api.IEntity;
 

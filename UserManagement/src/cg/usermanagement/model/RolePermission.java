@@ -2,16 +2,19 @@ package cg.usermanagement.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import cg.model.api.IEntity;
+import cg.model.common.Feature;
+import cg.model.common.Operation;
+import cg.model.common.Permission;
 
 /*
  * This is a relationship table between Role and Permission( Feature, Operation )
@@ -31,12 +34,11 @@ public class RolePermission implements IEntity
   @JoinColumn( name="ROLE_ID" ) 
   private Role role;
   
-  @OneToOne(optional=false)
-  @JoinColumn( name="FEATURE_ID", unique=true, nullable=false, updatable=false )
+  @Column( name="FEATURE_ID", nullable=false )
   private Feature feature;
 
-  @OneToOne(optional=false)
-  @JoinColumn( name="OPERATION_ID", unique=true, nullable=false, updatable=false )
+  @Column( name="OPERATION_ID", nullable=false )
+  @Enumerated
   private Operation operation;
 
   public Long getId()
