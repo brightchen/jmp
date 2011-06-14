@@ -4,23 +4,21 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
-import org.reflections.util.FilterBuilder;
+
+import cg.common.reflect.ReflectionsBuilder;
 
 public class BuildinPropertiesTypicalLookupStrategy implements IPropertiesStrategy
 {
-  private String includeRegex;
-  private String excludeRegex;
+  private ReflectionsBuilder reflectionsBuilder;
   private Reflections buildinPropertiesReflections;
   
   public BuildinPropertiesTypicalLookupStrategy(){}
   
   public BuildinPropertiesTypicalLookupStrategy( String includeRegex, String excludeRegex )
   {
-    setIncludeRegex( includeRegex );
-    setExcludeRegex( excludeRegex );
+    reflectionsBuilder = new ReflectionsBuilder();
+    reflectionsBuilder.setIncludeRegex( includeRegex );
+    reflectionsBuilder.setExcludeRegex( excludeRegex );
   }
   
   @Override
@@ -59,51 +57,16 @@ public class BuildinPropertiesTypicalLookupStrategy implements IPropertiesStrate
   {
     if( buildinPropertiesReflections == null )
     {
-      synchronized( BuildinPropertiesTypicalLookupStrategy.class )
+      synchronized( this )
       {
         if( buildinPropertiesReflections == null )
         {
           //the urls must be set or use the empty urls and not package searched
-          buildinPropertiesReflections = new Reflections( new ConfigurationBuilder().filterInputsBy( getFilterBuilder() ).setUrls( ClasspathHelper.getUrlsForCurrentClasspath() ).setScanners( new SubTypesScanner() ) );
+          buildinPropertiesReflections = reflectionsBuilder.buildSubTypeReflections();
         }
       }
     }
     return buildinPropertiesReflections;
   }
 
-  protected FilterBuilder getFilterBuilder()
-  {
-    FilterBuilder fb = new FilterBuilder();
-    fb.include( getIncludeRegex() );
-    String er = getExcludeRegex();
-    if( er != null && !er.isEmpty() )
-      fb.exclude( er );
-    return fb;
-  }
-
-  protected String getDefaultIncludeRegex()
-  {
-    return "cg.*";   //not "cg*" or "cg."
-  }
-  public String getIncludeRegex()
-  {
-    return ( includeRegex == null ) ? getDefaultIncludeRegex() : includeRegex;
-  }
-
-  public void setIncludeRegex( String includeRegex )
-  {
-    this.includeRegex = includeRegex;
-  }
-
-  public String getExcludeRegex()
-  {
-    return excludeRegex;
-  }
-
-  public void setExcludeRegex( String excludeRegex )
-  {
-    this.excludeRegex = excludeRegex;
-  }
-
-  
 }

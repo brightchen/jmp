@@ -1,6 +1,6 @@
 package cg.usermanagement.permission;
 
-public enum Feature
+public enum UserManagementFeature
 {
   USER,
   ACCOUNT,
