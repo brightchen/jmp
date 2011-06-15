@@ -36,12 +36,12 @@ public class FeatureManager
     return instance;
   }
   
-  public static void addFeature( Feature feature )
+  protected static void addFeature( Feature feature )
   {
     getInstance().features.add( feature );
   }
 
-  public static void addFeatures( Set< Feature > theFeatures )
+  protected static void addFeatures( Set< Feature > theFeatures )
   {
     getInstance().features.addAll( theFeatures );
   }

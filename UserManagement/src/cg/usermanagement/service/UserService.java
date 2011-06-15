@@ -20,6 +20,7 @@ import cg.usermanagement.model.RolePermission;
 import cg.usermanagement.model.User;
 import cg.usermanagement.model.view.PermissionView;
 import cg.usermanagement.model.view.UserRegisterView;
+import cg.usermanagement.permission.UserManagementPermission;
 import cg.usermanagement.shared.LoginException;
 
 @Transactional
@@ -143,6 +144,8 @@ public class UserService extends GenericJpaDaoService implements IUserService
   protected Set< PermissionView > getBackdoorAccountPermissions()
   {
     Set< PermissionView > permissions = new HashSet< PermissionView >();
+    permissions.add( new PermissionView( UserManagementPermission.USER_READ.toPermission() ) );
+    permissions.add( new PermissionView( UserManagementPermission.USER_CREATE.toPermission() ) );
     return permissions;
   }
 

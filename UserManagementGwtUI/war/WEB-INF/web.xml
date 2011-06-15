@@ -7,8 +7,8 @@
   
   <!-- Servlets -->
   <servlet>
-    <servlet-name>authenticateServlet</servlet-name>
-    <servlet-class>cg.usermanagement.gwt.server.AuthenticateServlet</servlet-class>
+    <servlet-name>userManagementServlet</servlet-name>
+    <servlet-class>cg.usermanagement.gwt.server.UserManagementServlet</servlet-class>
     <init-param>
 	    <param-name>userService</param-name>
 	    <param-value>userService</param-value>
@@ -16,8 +16,8 @@
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>authenticateServlet</servlet-name>
-    <url-pattern>/usermanagement/authenticate</url-pattern>
+    <servlet-name>userManagementServlet</servlet-name>
+    <url-pattern>/usermanagement/UserManagement</url-pattern>
   </servlet-mapping>
 
   <!-- the parameter required by org.springframework.web.context.ContextLoaderListener -->  
