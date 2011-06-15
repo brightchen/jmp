@@ -11,8 +11,8 @@ import cg.model.api.IEntity;
  */
 public class Permission implements IEntity
 {
+  private Long id;
   private Feature feature;
-
   private Operation operation;
 
   public Permission( Feature feature, Operation operation )
@@ -50,14 +50,12 @@ public class Permission implements IEntity
   @Override
   public Long getId()
   {
-    return feature.getId() << 8 + operation.getId();
+    return id;
   }
   @Override
   public void setId( Long id )
   {
-    // this method should not be called
-    throw new RuntimeException( "Permission.setId() should not be called" );
-    
+    this.id = id;
   }
 
 }

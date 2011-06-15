@@ -10,21 +10,22 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
-import cg.usermanagement.gwt.client.IAuthenticateService;
+import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
 import cg.usermanagement.model.view.UserRegisterView;
 import cg.usermanagement.shared.LoginException;
 import cg.usermanagement.shared.RegisterUserException;
+import cg.usermanagement.shared.SaveRoleException;
 import cg.utils.DataConverter;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class AuthenticateServlet extends RemoteServiceServlet implements IAuthenticateService
+public class UserManagementServlet extends RemoteServiceServlet implements IUserManagement
 {
   private static final long serialVersionUID = -8926280156981738193L;
   
-  private Logger log = Logger.getLogger( AuthenticateServlet.class );
+  private Logger log = Logger.getLogger( UserManagementServlet.class );
   
   private IUserService userService;
   
@@ -94,5 +95,11 @@ public class AuthenticateServlet extends RemoteServiceServlet implements IAuthen
     UserRegisterView view = new UserRegisterView();
     DataConverter.shallowCopyConvert( data, view );
     service.registerUser( view );
+  }
+  
+  @Override
+  public void saveRole( Long roleId, String roleName ) throws SaveRoleException
+  {
+    
   }
 }

@@ -1,5 +1,6 @@
 package cg.common.uid;
 
+
 public class UidGenerator
 {
   private static final int DEF_MODULE_SECTION_CAPACITY = 10;
@@ -12,6 +13,24 @@ public class UidGenerator
   private int sectionEntryCapacity = DEF_SECTION_ENTRY_CAPACITY;
   
   private int moduleEntryCapacity = moduleSectionCapacity * sectionEntryCapacity;
+  
+  private static UidGenerator defaultInstance;
+  public static UidGenerator getDefaultInstance()
+  {
+    if( defaultInstance == null )
+    {
+      synchronized( UidGenerator.class )
+      {
+        if( defaultInstance == null )
+        {
+          defaultInstance = new UidGenerator();
+        }
+      }
+    }
+    
+    return defaultInstance;
+  }
+  
   public long getUid( IUidData uidData, int localIndex )
   {
     if( localIndex >= sectionEntryCapacity )

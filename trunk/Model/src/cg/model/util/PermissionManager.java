@@ -27,6 +27,7 @@ public class PermissionManager
         if ( instance == null )
         {
           instance = new PermissionManager();
+          instance.registerPermissions();
         }
       }
     }
@@ -34,12 +35,12 @@ public class PermissionManager
     return instance;
   }
 
-  public static void addPermission( Permission permission )
+  protected static void addPermission( Permission permission )
   {
     getInstance().permissions.add( permission );
   }
 
-  public static void addPermissions( Set< Permission > thePermission )
+  protected static void addPermissions( Set< Permission > thePermission )
   {
     getInstance().permissions.addAll( thePermission );
   }
