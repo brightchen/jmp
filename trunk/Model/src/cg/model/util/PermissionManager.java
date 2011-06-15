@@ -3,6 +3,8 @@ package cg.model.util;
 import java.util.HashSet;
 import java.util.Set;
 
+import cg.common.reflect.ReflectionsBuilder;
+import cg.model.common.IPermissionEntries;
 import cg.model.common.Permission;
 
 public class PermissionManager
@@ -20,7 +22,7 @@ public class PermissionManager
   {
     if ( instance == null )
     {
-      synchronized ( FeatureManager.class )
+      synchronized ( PermissionManager.class )
       {
         if ( instance == null )
         {
@@ -35,6 +37,43 @@ public class PermissionManager
   public static void addPermission( Permission permission )
   {
     getInstance().permissions.add( permission );
+  }
+
+  public static void addPermissions( Set< Permission > thePermission )
+  {
+    getInstance().permissions.addAll( thePermission );
+  }
+
+
+  /*
+   * find features and register them
+   */
+  protected void registerPermissions()
+  {
+    Set< Class< ? extends IPermissionEntries > > permissionEntriesClasses = (new ReflectionsBuilder()).buildSubTypeReflections().getSubTypesOf( IPermissionEntries.class );
+    if( permissionEntriesClasses == null || permissionEntriesClasses.size() == 0 )
+    {
+      return;
+    }
+    
+    for( Class< ? extends IPermissionEntries > entriesClass : permissionEntriesClasses )
+    {
+      registerPermissions( entriesClass );
+    }
+  }
+  
+
+  protected void registerPermissions( Class< ? extends IPermissionEntries > entriesClass )
+  {
+    try
+    {
+      IPermissionEntries entries = entriesClass.newInstance();
+      addPermissions( entries.getPermissions() );
+    }
+    catch( Exception e )
+    {
+      throw new RuntimeException( "Permission Entries class " + entriesClass + " do not support default constructor.", e );
+    }
   }
 
 }
