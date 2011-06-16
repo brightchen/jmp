@@ -24,7 +24,20 @@ public class RoleDetailUI extends UIPanelComposite< RoleData, VerticalPanel >
     addChild( roleNameField );
     
     //button
-    ButtonUI saveButton = new ButtonUI( data.getSaveButtonData() );
+    SaveRoleEvent saveRoleEvent = new SaveRoleEvent()
+    {
+      @Override
+      public RoleData getData()
+      {
+        RoleData roleData = RoleDetailUI.this.getData();
+        roleData.setName( roleNameField.getText() );
+        return roleData;
+      }
+    };
+
+    ButtonUI< RoleData > saveButton = new ButtonUI< RoleData >( data.getSaveButtonData() );
+    saveButton.addClickEvent( saveRoleEvent );
+    
     addChild( saveButton );
   }
 }
