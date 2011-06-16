@@ -6,6 +6,7 @@ import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.gwt.components.shared.data.ValidateException;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.client.IUserManagementAsync;
+import cg.usermanagement.gwt.client.UserManagementUIFlow;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.LoginType;
 import cg.usermanagement.shared.LoginException;
@@ -99,7 +100,7 @@ public abstract class LoginEvent extends UIEvent< LoginData >
 
   protected void onLoginSuccess( LoginData data )
   {
-    LoginWorkflow.onLoginSuccess( data );
+    UserManagementUIFlow.onLoginSuccess( data );
   }
 
 }

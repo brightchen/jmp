@@ -19,7 +19,7 @@ public class RoleData implements Serializable
   public RoleData()
   {
     saveButtonData = new ButtonData();
-    saveButtonData.setTitle( "Save" );
+    saveButtonData.setText( "Save" );
     saveButtonData.setEnabled( true );
   }
   

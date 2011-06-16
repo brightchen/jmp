@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Widget;
 /*
  * UIGroup is a type of composite which composed by a group of same component
  * The data of the group is a list, I is the type of data of each item
+ * I - the type of item's data
  */
 public abstract class UIGroup< I, U extends Panel > extends UIPanelComposite< List<I>, U >
 {
