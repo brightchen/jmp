@@ -25,7 +25,7 @@ public class ButtonUI< ED > extends UIComponent< ButtonData, Button >
   {
     ButtonData data = getData();
     button = new Button();
-    button.setText( data.getTitle() );
+    button.setText( data.getText() );
     button.setEnabled( data.isEnabled() );
 
     if( clickEvent != null )
