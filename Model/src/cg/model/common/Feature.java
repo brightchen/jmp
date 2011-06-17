@@ -10,6 +10,7 @@ import cg.model.api.INamedEntity;
  * 
  * feature is a common model, it can be used by all modules
  */
+
 public class Feature implements INamedEntity
 {
   private Long id;

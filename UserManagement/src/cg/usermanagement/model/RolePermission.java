@@ -34,8 +34,9 @@ public class RolePermission implements IEntity
   @JoinColumn( name="ROLE_ID" ) 
   private Role role;
   
+  //Feature is not a typical entity yet. change Feature into entity or use featureId
   @Column( name="FEATURE_ID", nullable=false )
-  private Feature feature;
+  private Long featureId;
 
   @Column( name="OPERATION_ID", nullable=false )
   @Enumerated
@@ -63,12 +64,24 @@ public class RolePermission implements IEntity
 
   public Feature getFeature()
   {
+    Feature feature = new Feature();
+    feature.setId( getFeatureId() );
     return feature;
   }
 
   public void setFeature( Feature feature )
   {
-    this.feature = feature;
+    setFeatureId( feature.getId() );
+  }
+
+  public Long getFeatureId()
+  {
+    return featureId;
+  }
+
+  public void setFeatureId( Long featureId )
+  {
+    this.featureId = featureId;
   }
 
   public Operation getOperation()
