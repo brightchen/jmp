@@ -14,7 +14,7 @@ public class SessionManager
   //use Long instead of ISessionKey as the key to increase the performance
   //the value in the ThreadLocal must be remove at the same thread.
   //but the session maybe removed by other thread, so, don't use ThreadLocal
-//  private static ThreadLocal< Map< Long, Object > > threadSessions = new ThreadLocal< Map< Long, Object > >();
+  //  private static ThreadLocal< Map< Long, Object > > threadSessions = new ThreadLocal< Map< Long, Object > >();
   
   //sessionId ==> session attributes
   private static Map< String, Map< Long, Object > > sessionIdAttrbutesMap = new ConcurrentHashMap< String, Map< Long, Object > >();
@@ -23,14 +23,15 @@ public class SessionManager
   private static Map< Long, String > threadSessionIdMap = new ConcurrentHashMap< Long, String >();
   
   //generate a session-id and put into the session
-  public static void startSession()
+  public synchronized static void startSession()
   {
     String sessionId = generateSessionId();
+    Map< Long, Object > attributes = new HashMap< Long, Object >();
     threadSessionIdMap.put( getCurrentThreadId(), sessionId );
-    putAttribute( SessionKey.sessionId, sessionId );
+    sessionIdAttrbutesMap.put( sessionId, attributes );
   }
   
-  public static void endSession()
+  public synchronized static void endSession()
   {
     long threadId = getCurrentThreadId();
     String sessionId = threadSessionIdMap.get( threadId );
@@ -69,9 +70,8 @@ public class SessionManager
     String sessionId = threadSessionIdMap.get( getCurrentThreadId() );
     if( sessionId == null )
     {
-      Map< Long, Object > attributes = new HashMap< Long, Object >();
-      sessionIdAttrbutesMap.put( sessionId, attributes );
-      return attributes;
+      //create a new session
+      startSession();
     }
 
     return sessionIdAttrbutesMap.get( sessionId );
