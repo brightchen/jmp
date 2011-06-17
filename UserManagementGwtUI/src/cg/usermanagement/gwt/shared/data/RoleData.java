@@ -12,7 +12,7 @@ public class RoleData implements Serializable
 
   private Long id;
   private String roleNameTitle = "Role Name: ";
-  private String name;
+  private String name;    //role name
   private ButtonData saveButtonData;  // add or update
   private Set< PermissionData > permissionDatas = new HashSet< PermissionData >();
   
@@ -20,6 +20,7 @@ public class RoleData implements Serializable
   {
     saveButtonData = new ButtonData();
     saveButtonData.setText( "Save" );
+    saveButtonData.setTitle( "Save the role" );
     saveButtonData.setEnabled( true );
   }
   

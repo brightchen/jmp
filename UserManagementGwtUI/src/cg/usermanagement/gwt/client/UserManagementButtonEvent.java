@@ -9,7 +9,15 @@ public class UserManagementButtonEvent extends UIEvent< UserManagementButtonMeta
   @Override
   public void fire()
   {
-    
+    if( UserManagementButtonMeta.ADD_ROLE.equals( data ) )
+    {
+      UserManagementUIFlow.doAddRole();
+      return;
+    }
+    if( UserManagementButtonMeta.ADD_PERMISSION.equals( data ) )
+    {
+      return;
+    }
   }
   
   @Override
