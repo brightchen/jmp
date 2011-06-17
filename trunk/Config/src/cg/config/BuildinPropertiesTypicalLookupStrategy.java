@@ -12,11 +12,14 @@ public class BuildinPropertiesTypicalLookupStrategy implements IPropertiesStrate
   private ReflectionsBuilder reflectionsBuilder;
   private Reflections buildinPropertiesReflections;
   
-  public BuildinPropertiesTypicalLookupStrategy(){}
+  public BuildinPropertiesTypicalLookupStrategy()
+  {
+    reflectionsBuilder = new ReflectionsBuilder();
+  }
   
   public BuildinPropertiesTypicalLookupStrategy( String includeRegex, String excludeRegex )
   {
-    reflectionsBuilder = new ReflectionsBuilder();
+    this();
     reflectionsBuilder.setIncludeRegex( includeRegex );
     reflectionsBuilder.setExcludeRegex( excludeRegex );
   }
