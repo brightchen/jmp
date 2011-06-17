@@ -1,8 +1,5 @@
 package cg.usermanagement.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -10,13 +7,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import cg.model.api.INamedEntity;
+
+/*
+ * don't define the Account role relationship here as the AccountRole is explicitly defined to keep the relationship 
+ */
 
 @Entity
 @Table(name="TACCOUNT")
@@ -37,10 +36,6 @@ public class Account implements INamedEntity
   @ManyToOne( fetch=FetchType.LAZY ) 
   @JoinColumn( name="USER_ID" ) 
   private User user;
- 
-  @ManyToMany
-  @JoinTable( name="ACCOUNT_ROLE" )
-  private Set< Role > roles;
 
   @Column( name = "STATUS", nullable = false )
   @Enumerated
@@ -86,20 +81,6 @@ public class Account implements INamedEntity
     this.user = user;
   }
 
-  public Set< Role > getRoles()
-  {
-    return roles;
-  }
-  public void setRoles( Set< Role > roles )
-  {
-    this.roles = roles;
-  }
-  public void addRole( Role role )
-  {
-    if( roles == null )
-      roles = new HashSet< Role >();
-    roles.add( role );
-  }
   public AccountStatus getStatus()
   {
     return status;

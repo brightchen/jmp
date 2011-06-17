@@ -45,4 +45,24 @@ public class AccountRole implements IEntity
     this.id = id;
   }
 
+  public Account getAccount()
+  {
+    return account;
+  }
+
+  public void setAccount( Account account )
+  {
+    this.account = account;
+  }
+
+  public Role getRole()
+  {
+    return role;
+  }
+
+  public void setRole( Role role )
+  {
+    this.role = role;
+  }
+
 }

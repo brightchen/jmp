@@ -24,9 +24,17 @@ public class UserManagementUIFlow
   
   public static void onLoginSuccess( LoginData data )
   {
-    (new SimpleMessageDialogUI( "login successful."  )).centre();
-    RootPanel.get().clear();
-    RootPanel.get().add( getUserManagementPanelUI() );
+    (new SimpleMessageDialogUI( "login successful."  )
+    {
+      @Override
+      protected void onOkButtonClick()
+      {
+        super.onOkButtonClick();
+        RootPanel.get().clear();
+        RootPanel.get().add( getUserManagementPanelUI() );
+      }
+    } ).centre();
+    
   }
 
 

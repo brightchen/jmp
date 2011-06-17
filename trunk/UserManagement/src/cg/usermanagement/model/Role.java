@@ -1,16 +1,17 @@
 package cg.usermanagement.model;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import cg.model.api.INamedEntity;
+
+/*
+ * don't define the Account role relationship here as the AccountRole is explicitly defined to keep the relationship 
+ */
 
 @Entity
 @Table( name = "TROLE")
@@ -25,9 +26,6 @@ public class Role implements INamedEntity
   @Column( name = "NAME", length = 50, nullable = false, unique = true, updatable = true )
   private String name;
 
-  @ManyToMany( mappedBy="roles" )
-  private Set< Account > accounts;
-  
   @Override
   public Long getId()
   {
@@ -50,15 +48,5 @@ public class Role implements INamedEntity
   public void setName( String name )
   {
     this.name = name;
-  }
-
-  public Set< Account > getAccounts()
-  {
-    return accounts;
-  }
-
-  public void setAccounts( Set< Account > accounts )
-  {
-    this.accounts = accounts;
   }
 }

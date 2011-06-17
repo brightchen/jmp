@@ -99,7 +99,7 @@ public class UserService extends GenericJpaDaoService implements IUserService
   public Set< PermissionView > getPermissionsByUser( long userId )
   {
     String hsql = String.format( "select rolePermission from %s account, %s accountRole, %s role, %s rolePermission " +
-                                 " where accountRole.account_id = account.id and role.id = accountRole.role_id and rolePermission.role_id = role.id and role.user_id = %d", 
+                                 " where accountRole.account = account.id and role.id = accountRole.role and rolePermission.role = role.id and account.user = %d", 
                                  Account.class.getName(), AccountRole.class.getName(), Role.class.getName(), RolePermission.class.getName(), userId  );
     List<RolePermission> rolePermissions = (List<RolePermission>)getEntityManager().createQuery( hsql  ).getResultList();
     return convertToPermissions( rolePermissions );
@@ -109,7 +109,7 @@ public class UserService extends GenericJpaDaoService implements IUserService
   public Set< PermissionView > getPermissionsByAccount( long accountId )
   {
     String hsql = String.format( "select rolePermission from %s accountRole, %s role, %s rolePermission " +
-                                 " where role.id = accountRole.role_id and rolePermission.role_id = role.id and accountRole.role_id = %d", 
+                                 " where role.id = accountRole.role and rolePermission.role = role.id and accountRole.role = %d", 
                                  AccountRole.class.getName(), Role.class.getName(), RolePermission.class.getName(), accountId  );
     List<RolePermission> rolePermissions = (List<RolePermission>)getEntityManager().createQuery( hsql  ).getResultList();
     return convertToPermissions( rolePermissions );

@@ -36,7 +36,7 @@ public class SimpleMessageDialogUI extends PopupDecorator< String, Panel >
       @Override
       public void onClick( ClickEvent event )
       {
-        hide( true );
+        onOkButtonClick();
       }
     } );
     
@@ -55,5 +55,10 @@ public class SimpleMessageDialogUI extends PopupDecorator< String, Panel >
   {
     return new DialogBox( false );
   }
-  
+
+  protected void onOkButtonClick()
+  {
+    hide( true );
+  }
+
 }
