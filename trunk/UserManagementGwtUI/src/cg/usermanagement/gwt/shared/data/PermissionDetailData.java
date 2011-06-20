@@ -1,6 +1,9 @@
 package cg.usermanagement.gwt.shared.data;
 
-public class PermissionDetailData
+import java.io.Serializable;
+
+public class PermissionDetailData extends PermissionData implements Serializable
 {
+  private static final long serialVersionUID = 8512016320612900219L;
 
 }
