@@ -32,7 +32,7 @@ public class UserManagementPanelUI extends UIComponent< UserManagementPanelData,
         event.setData( UserManagementButtonMeta.toMeta( childData ) );
         ButtonUI<UserManagementButtonMeta> buttonUI = new ButtonUI<UserManagementButtonMeta>( childData );
         buttonUI.addClickEvent( event );
-        return buttonUI.getRealComponent();
+        return buttonUI;
       }
     };
     

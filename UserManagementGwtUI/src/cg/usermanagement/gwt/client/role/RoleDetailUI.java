@@ -40,4 +40,11 @@ public class RoleDetailUI extends UIPanelComposite< RoleData, VerticalPanel >
     
     addChild( saveButton );
   }
+  
+  @Override
+  protected VerticalPanel buildContainer()
+  {
+    return new VerticalPanel();
+  }
+
 }
