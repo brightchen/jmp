@@ -1,9 +1,6 @@
 package cg.usermanagement.gwt.client;
 
-import com.google.gwt.user.client.ui.RootPanel;
-
 import cg.gwt.components.client.ui.UIComponent;
-import cg.gwt.components.client.ui.components.SimpleMessageDialogUI;
 import cg.gwt.components.shared.data.ButtonData;
 import cg.usermanagement.gwt.client.role.RoleDetailUI;
 import cg.usermanagement.gwt.shared.data.AccountLoginData;
@@ -12,6 +9,8 @@ import cg.usermanagement.gwt.shared.data.RoleData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
+
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class UserManagementUIFlow
 {
@@ -27,17 +26,8 @@ public class UserManagementUIFlow
   
   public static void onLoginSuccess( LoginData data )
   {
-    (new SimpleMessageDialogUI( "login successful."  )
-    {
-      @Override
-      protected void onOkButtonClick()
-      {
-        super.onOkButtonClick();
-        RootPanel.get().clear();
-        RootPanel.get().add( buildUserManagementPanelUI() );
-      }
-    } ).centre();
-    
+    RootPanel.get().clear();
+    RootPanel.get().add( buildUserManagementPanelUI() );
   }
 
 
