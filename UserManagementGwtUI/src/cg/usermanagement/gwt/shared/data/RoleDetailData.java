@@ -13,6 +13,7 @@ public class RoleDetailData implements Serializable
   private String roleNameTitle = "Role Name: ";
   private String name;    //role name
 
+  private Set< PermissionData > permissionDatas = new HashSet< PermissionData >();
   
   public String getRoleIdTitle()
   {
@@ -46,8 +47,6 @@ public class RoleDetailData implements Serializable
   {
     this.name = name;
   }
-  private Set< PermissionData > permissionDatas = new HashSet< PermissionData >();
-
   public Set< PermissionData > getPermissionDatas()
   {
     return permissionDatas;
