@@ -1,12 +1,10 @@
 package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import cg.gwt.components.shared.data.ButtonData;
 
-public class RoleData implements Serializable
+public class AddRoleData implements Serializable
 {
   private static final long serialVersionUID = -6940977542611194133L;
 
@@ -14,9 +12,8 @@ public class RoleData implements Serializable
   private String roleNameTitle = "Role Name: ";
   private String name;    //role name
   private ButtonData saveButtonData;  // add or update
-  private Set< PermissionData > permissionDatas = new HashSet< PermissionData >();
   
-  public RoleData()
+  public AddRoleData()
   {
     saveButtonData = new ButtonData();
     saveButtonData.setText( "Save" );
@@ -57,17 +54,4 @@ public class RoleData implements Serializable
   {
     this.saveButtonData = saveButtonData;
   }
-  public Set< PermissionData > getPermissionDatas()
-  {
-    return permissionDatas;
-  }
-  public void setPermissionDatas( Set< PermissionData > permissionDatas )
-  {
-    this.permissionDatas = permissionDatas;
-  }
-  public void addPermissionData( PermissionData permissionData )
-  {
-    permissionDatas.add( permissionData );
-  }
-  
 }

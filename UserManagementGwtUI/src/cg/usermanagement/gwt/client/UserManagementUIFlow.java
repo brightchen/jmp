@@ -2,10 +2,12 @@ package cg.usermanagement.gwt.client;
 
 import cg.gwt.components.client.ui.UIComponent;
 import cg.gwt.components.shared.data.ButtonData;
+import cg.usermanagement.gwt.client.role.AddRoleUI;
 import cg.usermanagement.gwt.client.role.RoleDetailUI;
 import cg.usermanagement.gwt.shared.data.AccountLoginData;
+import cg.usermanagement.gwt.shared.data.AddRoleData;
 import cg.usermanagement.gwt.shared.data.LoginData;
-import cg.usermanagement.gwt.shared.data.RoleData;
+import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
@@ -53,10 +55,27 @@ public class UserManagementUIFlow
   
   public static UIComponent< ?, ? > buildAddRoleUI()
   {
-    RoleData roleData = new RoleData();
+    AddRoleData roleData = new AddRoleData();
     ButtonData buttonData = roleData.getSaveButtonData();
     buttonData.setText( "Add Role" );
     buttonData.setTitle( "Add a new Role" );
-    return new RoleDetailUI( roleData );
+    return new AddRoleUI( roleData );
+  }
+  
+  /*
+   * switch to role detail ui to assign permissions
+   */
+  public static void onAddRoleSuccess( AddRoleData addRoleData )
+  {
+    RootPanel.get().clear();
+    RootPanel.get().add( buildRoleDetailUI() );
+    
+  }
+  
+  public static UIComponent< ?, ? > buildRoleDetailUI()
+  {
+    RoleDetailData roleDetailData = new RoleDetailData();
+    RoleDetailUI roleDetailUI = new RoleDetailUI( roleDetailData );
+    return roleDetailUI;
   }
 }
