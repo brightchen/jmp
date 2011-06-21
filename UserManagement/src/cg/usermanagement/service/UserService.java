@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +18,11 @@ import cg.usermanagement.model.Role;
 import cg.usermanagement.model.RolePermission;
 import cg.usermanagement.model.User;
 import cg.usermanagement.model.view.PermissionView;
+import cg.usermanagement.model.view.RoleView;
 import cg.usermanagement.model.view.UserRegisterView;
 import cg.usermanagement.permission.UserManagementPermission;
 import cg.usermanagement.shared.LoginException;
+import cg.usermanagement.shared.RoleException;
 
 @Transactional
 public class UserService extends GenericJpaDaoService implements IUserService
@@ -59,29 +60,13 @@ public class UserService extends GenericJpaDaoService implements IUserService
   @Override
   public User findUserByName( String name )
   {
-    String hsql = String.format( "select u from %s u where u.name = \'%s\'", User.class.getName(), name );
-    try
-    {
-      return (User)getEntityManager().createQuery( hsql  ).getSingleResult();
-    }
-    catch( NoResultException noResult )
-    {
-      return null;
-    }
+    return findEntityByName( User.class, name, false );
   }
 
   @Override
   public Account findAccountByName( String name )
   {
-    String hsql = String.format( "select a from %s a where a.name = \'%s\'", Account.class.getName(), name );
-    try
-    {
-      return (Account)getEntityManager().createQuery( hsql  ).getSingleResult();
-    }
-    catch( NoResultException noResult )
-    {
-      return null;
-    }
+    return findEntityByName( Account.class, name, false );
   }
 
   @Transactional
@@ -149,4 +134,26 @@ public class UserService extends GenericJpaDaoService implements IUserService
     return permissions;
   }
 
+  @Override
+  @Transactional
+  public RoleView addRole( String roleName ) throws RoleException
+  {
+    if( findRoleByName( roleName ) != null )
+    {
+      throw new RoleException( RoleException.ROLE_ERROR.ROLE_WITH_SAME_NAME_EXISTS );
+    }
+
+    Role role = new Role();
+    role.setName( roleName );
+    EntityManager em = getEntityManager();
+    em.persist( role );
+
+    return new RoleView( findRoleByName( roleName ) );
+  }
+
+  @Override
+  public Role findRoleByName( String roleName )
+  {
+    return findEntityByName( Role.class, roleName, false );
+  }
 }

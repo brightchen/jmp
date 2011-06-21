@@ -3,7 +3,7 @@ package cg.usermanagement.gwt.client;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.shared.LoginException;
 import cg.usermanagement.shared.RegisterUserException;
-import cg.usermanagement.shared.SaveRoleException;
+import cg.usermanagement.shared.RoleException;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -16,5 +16,5 @@ public interface IUserManagement extends RemoteService
   
   public void registerUser( UserRegisterData data ) throws RegisterUserException;
   
-  public void saveRole( Long roleId, String roleName ) throws SaveRoleException;
+  public void addRole( String roleName ) throws RoleException;
 }

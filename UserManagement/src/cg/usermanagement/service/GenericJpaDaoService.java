@@ -1,7 +1,5 @@
 package cg.usermanagement.service;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -40,17 +38,26 @@ public class GenericJpaDaoService implements IGenericDaoService
     }
   }
 
+  public <T extends INamedEntity> T findEntityByName( Class<T> entityClass, String name )
+  {
+    return findEntityByName( entityClass, name, false );
+  }
+  
   //precondition: the entity's name field is name
   @Override
   @SuppressWarnings( "unchecked" )
-  public < T extends INamedEntity > List< T > findEntityByName( Class< T > entityClass, String name )
+  public <T extends INamedEntity> T findEntityByName( Class<T> entityClass, String name, boolean caseSensitive )
   {
-    String hsql = String.format( "select o from %s o where o.name = \'%s\'", entityClass.getName(), name );
     try
     {
-      return (List<T>)getEntityManager().createQuery( hsql  ).getResultList();
+      String hsql;
+      if( caseSensitive )
+        hsql = String.format( "select o from %s o where o.name = \'%s\'", entityClass.getName(), name );
+      else
+        hsql = String.format( "select o from %s o where upper( o.name ) = \'%s\'", entityClass.getName(), name.toUpperCase() );
+      return (T)getEntityManager().createQuery( hsql  ).getSingleResult();
     }
-    catch( NoResultException noResult )
+    catch( NoResultException e )
     {
       return null;
     }
