@@ -47,4 +47,9 @@ public class RoleException extends Exception
     this.error = error;
   }
   
+  @Override
+  public String getMessage()
+  {
+    return getErrorReason();
+  }
 }

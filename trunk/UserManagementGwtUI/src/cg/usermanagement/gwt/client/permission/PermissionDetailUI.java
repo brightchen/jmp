@@ -58,8 +58,6 @@ public class PermissionDetailUI extends UIPanelComposite< PermissionDetailData, 
   protected Panel buildContainer()
   {
     return new VerticalPanel();
-    
-    
   }
 
 }
