@@ -12,5 +12,5 @@ public interface IUserManagementAsync
   
   public void registerUser( UserRegisterData data, AsyncCallback< Void > callback );
   
-  public void saveRole( Long roleId, String roleName, AsyncCallback< Void > callback  );
+  public void addRole( String roleName, AsyncCallback< Void > callback );
 }

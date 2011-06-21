@@ -3,10 +3,13 @@ package cg.usermanagement.api;
 import java.util.Set;
 
 import cg.usermanagement.model.Account;
+import cg.usermanagement.model.Role;
 import cg.usermanagement.model.User;
 import cg.usermanagement.model.view.PermissionView;
+import cg.usermanagement.model.view.RoleView;
 import cg.usermanagement.model.view.UserRegisterView;
 import cg.usermanagement.shared.LoginException;
+import cg.usermanagement.shared.RoleException;
 
 public interface IUserService
 {
@@ -19,4 +22,7 @@ public interface IUserService
   
   public Set< PermissionView > getPermissionsByUser( long userId );
   public Set< PermissionView > getPermissionsByAccount( long accountId );
+  
+  public RoleView addRole( String roleName ) throws RoleException;
+  public Role findRoleByName( String roleName );
 }

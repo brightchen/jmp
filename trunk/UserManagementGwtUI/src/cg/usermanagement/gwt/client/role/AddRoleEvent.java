@@ -16,13 +16,13 @@ public abstract class AddRoleEvent extends UIEvent< AddRoleData >
   @Override
   public void fire()
   {
-    onSaveRole();
+    onAddRole();
   }
 
-  protected void onSaveRole()
+  protected void onAddRole()
   {
     final AddRoleData data = getData();
-    userManagement.saveRole( data.getId(), data.getName(),
+    userManagement.addRole( data.getName(),
                              new PopupFailureReasonCallback< Void >()
                              {
                                @Override

@@ -13,10 +13,11 @@ import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
+import cg.usermanagement.model.view.RoleView;
 import cg.usermanagement.model.view.UserRegisterView;
 import cg.usermanagement.shared.LoginException;
 import cg.usermanagement.shared.RegisterUserException;
-import cg.usermanagement.shared.SaveRoleException;
+import cg.usermanagement.shared.RoleException;
 import cg.utils.DataConverter;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -98,8 +99,9 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   }
   
   @Override
-  public void saveRole( Long roleId, String roleName ) throws SaveRoleException
+  public void addRole( String roleName ) throws RoleException
   {
-    
+    IUserService service = getUserService();
+    RoleView roleView = service.addRole( roleName );
   }
 }
