@@ -13,6 +13,7 @@ import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class UserManagementUIFlow
 {
@@ -53,7 +54,7 @@ public class UserManagementUIFlow
     RootPanel.get().add( buildAddRoleUI() );
   }
   
-  public static UIComponent< ?, ? > buildAddRoleUI()
+  public static Widget buildAddRoleUI()
   {
     AddRoleData roleData = new AddRoleData();
     ButtonData buttonData = roleData.getSaveButtonData();

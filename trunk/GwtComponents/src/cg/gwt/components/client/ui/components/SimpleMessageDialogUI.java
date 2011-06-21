@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SimpleMessageDialogUI extends PopupDecorator< String, Panel >
 {
+  private String title = "Message";
   public SimpleMessageDialogUI( String message )
   {
     super( message );
@@ -47,7 +48,7 @@ public class SimpleMessageDialogUI extends PopupDecorator< String, Panel >
   
   protected void setTitle()
   {
-    getDecoratorComponent().setTitle( "Message" );
+    getDecoratorComponent().setTitle( title );
   }
   
   @Override
@@ -59,6 +60,16 @@ public class SimpleMessageDialogUI extends PopupDecorator< String, Panel >
   protected void onOkButtonClick()
   {
     hide( true );
+  }
+
+  public String getTitle()
+  {
+    return title;
+  }
+
+  public void setTitle( String title )
+  {
+    this.title = title;
   }
 
 }
