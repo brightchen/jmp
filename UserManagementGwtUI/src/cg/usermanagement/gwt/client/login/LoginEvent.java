@@ -46,20 +46,6 @@ public abstract class LoginEvent extends UIEvent< LoginData >
                                 new PopupFailureReasonCallback< Void >()
                                  {
                                    @Override
-                                   public void onFailure( Throwable caught )
-                                   {
-                                     if( !( caught instanceof LoginException ) )
-                                     {
-                                       ( new SimpleErrorDialogUI( caught.getMessage() ) ).centre();
-                                     }
-                                     else
-                                     {
-                                       LoginException le = (LoginException)caught;
-                                       ( new SimpleErrorDialogUI(  le.getErrorReason() ) ).centre();
-                                     }
-                                   }
-         
-                                   @Override
                                    public void onSuccess( Void returned )
                                    {
                                      onLoginSuccess( data );

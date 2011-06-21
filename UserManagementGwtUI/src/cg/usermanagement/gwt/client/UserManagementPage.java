@@ -15,23 +15,21 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class UserManagementPage implements EntryPoint
 {
   public void onModuleLoad()
   {
-    RootPanel rp = RootPanel.get();
-    rp.add( buildNormalPage() );
-
+    UserManagementUIFlow.start();
   }    
 
   protected Panel buildNormalPage()
   {
+    return null;
 //    LoginData loginData = new UserLoginData();
 //    UserRegisterData registerData = new UserRegisterData();
-    return UserManagementUIFlow.buildStartUI();
+//    return UserManagementUIFlow.buildStartUI();
 //    SystemUserLoginTransformer loginPart = new SystemUserLoginTransformer();
 //    return loginPart.build();
   }

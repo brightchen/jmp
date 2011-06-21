@@ -51,4 +51,9 @@ public class LoginException extends Exception
     this.error = error;
   }
   
+  @Override
+  public String getMessage()
+  {
+    return getErrorReason();
+  }
 }
