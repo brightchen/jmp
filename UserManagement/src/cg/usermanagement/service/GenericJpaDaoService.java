@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import cg.model.api.IEntity;
 import cg.model.api.INamedEntity;
 import cg.usermanagement.api.IGenericDaoService;
@@ -63,17 +65,32 @@ public class GenericJpaDaoService implements IGenericDaoService
     }
   }
 
+  /*
+   * when called by client code, saveEntity() is transactional
+   * @see cg.usermanagement.api.IGenericDaoService#saveEntity(cg.model.api.IEntity)
+   */
   @Override
-  public < T extends IEntity > void saveEntity( T entity )
+  @Transactional
+  public < T extends IEntity > T saveEntity( T entity )
   {
-    Long id = entity.getId();
-    if (id == null || findEntityById(entity.getClass(), id) == null) 
-      getEntityManager().persist(entity);
-    else getEntityManager().merge(entity);
+    return saveEntityInternal( entity );
+  }
+
+  public < T extends IEntity > T saveEntityInternal( T entity )
+  {
+    entity = getEntityManager().merge( entity );
+    getEntityManager().persist( entity );
+    return entity;
   }
 
   @Override
+  @Transactional
   public <T extends IEntity > void removeEntityById( Class< T > entityClass, Long id )
+  {
+    removeEntityByIdInternal( entityClass, id );
+  }
+  
+  public <T extends IEntity > void removeEntityByIdInternal( Class< T > entityClass, Long id )
   {
     T entity = findEntityById( entityClass, id );
     if( entity == null )

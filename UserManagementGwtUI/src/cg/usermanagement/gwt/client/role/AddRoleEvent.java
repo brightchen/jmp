@@ -23,11 +23,12 @@ public abstract class AddRoleEvent extends UIEvent< AddRoleData >
   {
     final AddRoleData data = getData();
     userManagement.addRole( data.getName(),
-                             new PopupFailureReasonCallback< Void >()
+                             new PopupFailureReasonCallback< Long >()
                              {
                                @Override
-                               public void onSuccess( Void returned )
+                               public void onSuccess( Long roleId )
                                {
+                                 data.setId( roleId );
                                  onAddRoleSuccess( data );
                                }
                              } );

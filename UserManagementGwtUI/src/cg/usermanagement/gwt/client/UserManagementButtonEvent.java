@@ -9,6 +9,27 @@ public class UserManagementButtonEvent extends UIEvent< UserManagementButtonMeta
   @Override
   public void fire()
   {
+    if( UserManagementButtonMeta.SEARCH_USER.equals( data ) )
+    {
+      UserManagementUIFlow.doSearchUser();
+      return;
+    }
+    if( UserManagementButtonMeta.SEARCH_ACCOUNT.equals( data ) )
+    {
+      UserManagementUIFlow.doSearchAccount();
+      return;
+    }
+    if( UserManagementButtonMeta.ADD_ACCOUNT.equals( data ) )
+    {
+      UserManagementUIFlow.doAddAccount();
+      return;
+    }
+    if( UserManagementButtonMeta.SEARCH_ROLE.equals( data ) )
+    {
+      UserManagementUIFlow.doSearchRole();
+      return;
+    }
+
     if( UserManagementButtonMeta.ADD_ROLE.equals( data ) )
     {
       UserManagementUIFlow.doAddRole();

@@ -34,20 +34,12 @@ public abstract class UIComposite< D, U extends Widget > extends UIComponent< D,
    */
   protected U buildContainer()
   {
-    if( container != null )  
-      return applyDataToContainer( container );
     return null;
-  }
-  
-  protected U applyDataToContainer( U theContainer )
-  {
-    return theContainer;
   }
   
   @Override
   public U build()
   {
-    buildContainer();
     beforeAddingChildren();
     int index = 0;
     for( Widget child : children )
@@ -100,6 +92,9 @@ public abstract class UIComposite< D, U extends Widget > extends UIComponent< D,
     children.add( child );
   }
 
+  /*
+   * the container set from the client is over the internal build container;
+   */
   public U getContainer()
   {
     if( container == null )
