@@ -1,7 +1,8 @@
 package cg.usermanagement.gwt.client;
 
 import cg.gwt.components.client.ui.UIComponent;
-import cg.gwt.components.client.ui.decorator.SimplePopupDecorator;
+import cg.gwt.components.client.ui.decorator.PopupDecorator;
+import cg.gwt.components.client.ui.decorator.PopupWithCancelButtonDecorator;
 import cg.gwt.components.shared.data.ButtonData;
 import cg.usermanagement.gwt.client.role.AddRoleUI;
 import cg.usermanagement.gwt.client.role.RoleDetailUI;
@@ -18,9 +19,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class UserManagementUIFlow
 {
-  //the system is using ajax, one static addRolePopup is enough. 
-  //when creating, addRolePopup is same for all users. when operation on this popup, it's the client side use the javascript to operate the popup
-  private static SimplePopupDecorator<?> addRolePopup;
+  //the static attribute is safe as this is client code and run in the web browser.
+  //the static is only static for one client web browser.
+  private static PopupDecorator<?,?> addRolePopup;
+  private static PopupDecorator<?,?> roleDetailPopup;
+  
   /*
    * this is the UI to allow user/account login and register
    * no permission required for this UI
@@ -63,14 +66,14 @@ public class UserManagementUIFlow
    */
   public static void doAddRole()
   {
-    if( addRolePopup == null )
-    {
-      AddRoleData roleData = new AddRoleData();
-      ButtonData buttonData = roleData.getSaveButtonData();
-      buttonData.setText( "Add Role" );
-      buttonData.setTitle( "Add a new Role" );
-      addRolePopup = ( new SimplePopupDecorator< AddRoleUI >( "Add Role", new AddRoleUI( roleData ) ) );
-    }
+    //the addRolePopup should be recreate even if addRolePopup is not null, 
+    //as addRolePopup can be already closed( for example, one user create two roles ),
+    //which made any operation to addRolePopup is invalid
+    AddRoleData roleData = new AddRoleData();
+    ButtonData buttonData = roleData.getSaveButtonData();
+    buttonData.setText( "Add Role" );
+    buttonData.setTitle( "Add a new Role" );
+    addRolePopup = new PopupWithCancelButtonDecorator< AddRoleUI >( "Add Role", new AddRoleUI( roleData ) );
     addRolePopup.centre();
   }
   
@@ -80,11 +83,16 @@ public class UserManagementUIFlow
   public static void onAddRoleSuccess( AddRoleData addRoleData )
   {
     addRolePopup.hide( true );
+    
+    roleDetailPopup = new PopupWithCancelButtonDecorator< Widget >( "Role Detail", buildRoleDetailUI( addRoleData.getId(), addRoleData.getName() ) );
+    roleDetailPopup.centre();
   }
   
-  public static UIComponent< ?, ? > buildRoleDetailUI()
+  public static Widget buildRoleDetailUI( long roleId, String roleName )
   {
     RoleDetailData roleDetailData = new RoleDetailData();
+    roleDetailData.setId( roleId );
+    roleDetailData.setName( roleName );
     RoleDetailUI roleDetailUI = new RoleDetailUI( roleDetailData );
     return roleDetailUI;
   }
