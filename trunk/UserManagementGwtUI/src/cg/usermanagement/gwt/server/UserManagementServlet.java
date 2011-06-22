@@ -99,9 +99,10 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   }
   
   @Override
-  public void addRole( String roleName ) throws RoleException
+  public long addRole( String roleName ) throws RoleException
   {
     IUserService service = getUserService();
     RoleView roleView = service.addRole( roleName );
+    return roleView.getId();
   }
 }

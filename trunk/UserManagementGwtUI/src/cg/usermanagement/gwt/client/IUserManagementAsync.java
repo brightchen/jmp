@@ -12,5 +12,8 @@ public interface IUserManagementAsync
   
   public void registerUser( UserRegisterData data, AsyncCallback< Void > callback );
   
-  public void addRole( String roleName, AsyncCallback< Void > callback );
+  /*
+   * the add entity need return the id of the entity
+   */
+  public void addRole( String roleName, AsyncCallback< Long > callback );
 }

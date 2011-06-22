@@ -145,10 +145,8 @@ public class UserService extends GenericJpaDaoService implements IUserService
 
     Role role = new Role();
     role.setName( roleName );
-    EntityManager em = getEntityManager();
-    em.persist( role );
-
-    return new RoleView( findRoleByName( roleName ) );
+    role = saveEntityInternal( role );
+    return new RoleView( role );
   }
 
   @Override

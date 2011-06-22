@@ -4,10 +4,22 @@ import cg.gwt.components.shared.data.ButtonData;
 
 public enum UserManagementButtonMeta
 {
-  ADD_ROLE( "add role", "add a role to the system" ),
-  ADD_PERMISSION( "add permission", "add a permission to the system" );
+  SEARCH_USER( "Search User" ),
+  
+  SEARCH_ACCOUNT( "Search Account" ),
+  ADD_ACCOUNT( "Add Account", "Add an account for this user" ),
+  
+  SEARCH_ROLE( "Search Role" ),
+  ADD_ROLE( "Add Role", "add a role to the system" ),
+  
+  ADD_PERMISSION( "Add Permission", "add a permission to the system" );
   
   private ButtonData buttonData;
+  private UserManagementButtonMeta( String text )
+  {
+    this( text, text );
+  }
+  
   private UserManagementButtonMeta( String text, String title )
   {
     buttonData = new ButtonData();

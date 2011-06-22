@@ -1,45 +1,21 @@
-package cg.usermanagement.gwt.client.role;
+package cg.usermanagement.gwt.client.user;
 
 import cg.gwt.components.client.ui.UIPanelComposite;
 import cg.gwt.components.shared.utils.DataReference;
-import cg.usermanagement.gwt.shared.data.RoleDetailData;
+import cg.usermanagement.gwt.shared.data.SearchUserData;
 
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class RoleDetailUI extends UIPanelComposite< RoleDetailData, FlexTable >
+public class SearchUserUI extends UIPanelComposite< SearchUserData, FlexTable >
 {
   private static final int ROW_SIZE = 2;    // how many rows in each line
-
-  private TextBox roleIdField;
-  private TextBox roleNameField;
-
-  public RoleDetailUI( RoleDetailData data )
+  
+  public SearchUserUI( SearchUserData data )
   {
     setData( data );
-
-    //id
-    Label roleIdLabel = new Label( data.getRoleIdTitle() );
-    addChild( roleIdLabel );
-
-    roleIdField = new TextBox();
-    roleIdField.setText( String.valueOf( data.getId() ) );
-    roleIdField.setReadOnly( true );
-    addChild( roleIdField );
-
-    //name
-    Label roleNameLabel = new Label( data.getRoleNameTitle() );
-    addChild( roleNameLabel );
-
-    roleNameField = new TextBox();
-    roleNameField.setText( data.getName() );
-    addChild( roleNameField );
-
-    //permissions, use permissions ui
-    
   }
+  
 
   @Override
   protected void addChildComponent( Widget child, int index )
@@ -65,5 +41,4 @@ public class RoleDetailUI extends UIPanelComposite< RoleDetailData, FlexTable >
   {
     return new FlexTable();
   }
-
 }

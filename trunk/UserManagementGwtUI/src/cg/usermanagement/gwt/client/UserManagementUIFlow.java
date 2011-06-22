@@ -61,6 +61,26 @@ public class UserManagementUIFlow
     return new UserManagementPanelUI( data );
   }
   
+  public static void doSearchUser()
+  {
+    
+  }
+  
+  public static void doSearchAccount()
+  {
+    
+  }
+
+  public static void doAddAccount()
+  {
+    
+  }
+
+  public static void doSearchRole()
+  {
+    
+  }
+
   /*
    * the system behavior when user clicking the add role button
    */
@@ -88,7 +108,7 @@ public class UserManagementUIFlow
     roleDetailPopup.centre();
   }
   
-  public static Widget buildRoleDetailUI( long roleId, String roleName )
+  public static Widget buildRoleDetailUI( Long roleId, String roleName )
   {
     RoleDetailData roleDetailData = new RoleDetailData();
     roleDetailData.setId( roleId );

@@ -4,27 +4,18 @@ import cg.gwt.components.client.ui.components.ButtonUI;
 import cg.gwt.components.client.ui.event.UIEvent;
 import cg.gwt.components.shared.data.ButtonData;
 
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class PopupWithCancelButtonDecorator< UC extends Widget > extends PopupDecorator< String, UC >
+public class PopupWithCancelButtonDecorator< UC extends Widget > extends PopupWithButtonBarDecorator< Widget, UC >
 {
-  public PopupWithCancelButtonDecorator( String data, UC decoratedComponent )
+  public PopupWithCancelButtonDecorator( String title, UC decoratedComponent )
   {
-    super( data, decoratedComponent );
+    super( title, decoratedComponent );
+    setButtonBar( buildButtonBar() ); 
   }
-
-  @Override
-  protected PopupPanel buildDecoratorComponent()
-  {
-    PopupPanel popup = new PopupPanel();
-    popup.setTitle( getData() );
-    return popup;
-  }
-
-  //add the cancel button after being added the decorated component
-  @Override
-  protected void afterAddingChildren()
+  
+  
+  protected Widget buildButtonBar()
   {
     ButtonUI<Void> cancelButton = new ButtonUI<Void>( getCancelButtonData() );
     cancelButton.addClickEvent( new UIEvent<Void>()
@@ -38,12 +29,11 @@ public class PopupWithCancelButtonDecorator< UC extends Widget > extends PopupDe
                                   @Override
                                   public Void getData()
                                   {
-                                    // TODO Auto-generated method stub
                                     return null;
                                   }
       
                                 });
-    getDecoratorComponent().add( cancelButton );
+    return cancelButton;
   }
   
   protected ButtonData getCancelButtonData()
@@ -58,4 +48,6 @@ public class PopupWithCancelButtonDecorator< UC extends Widget > extends PopupDe
   {
     hide( true );
   }
+  
+
 }

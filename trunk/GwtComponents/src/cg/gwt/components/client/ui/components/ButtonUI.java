@@ -19,7 +19,6 @@ public class ButtonUI< ED > extends UIComponent< ButtonData, Button >
   {
     setData( data );
     
-    //new Button().setText("xx") 
     button = new Button( data.getText() );
     button.setTitle( data.getTitle() );
   }
@@ -27,10 +26,6 @@ public class ButtonUI< ED > extends UIComponent< ButtonData, Button >
   @Override
   public Button build()
   {
-//    ButtonData data = getData();
-//    button.setText( data.getText() );
-//    button.setEnabled( data.isEnabled() );
-
     if( clickEvent != null )
       button.addClickHandler( new GwtEventDelegateHandler< ED, UIEvent<ED> >( clickEvent ) );
 

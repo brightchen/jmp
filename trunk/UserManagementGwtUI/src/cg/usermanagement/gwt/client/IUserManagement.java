@@ -16,5 +16,5 @@ public interface IUserManagement extends RemoteService
   
   public void registerUser( UserRegisterData data ) throws RegisterUserException;
   
-  public void addRole( String roleName ) throws RoleException;
+  public long addRole( String roleName ) throws RoleException;
 }
