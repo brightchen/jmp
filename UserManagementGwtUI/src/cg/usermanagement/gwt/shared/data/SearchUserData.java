@@ -19,6 +19,7 @@ public class SearchUserData
   
   private String emailTitle = "Email:";
   private String email;
+
   public String getNameTitle()
   {
     return nameTitle;

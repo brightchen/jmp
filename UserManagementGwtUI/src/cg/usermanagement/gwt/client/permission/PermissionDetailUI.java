@@ -7,7 +7,6 @@ import cg.gwt.components.client.ui.AlignedUIGroup;
 import cg.gwt.components.client.ui.UIPanelComposite;
 import cg.usermanagement.gwt.shared.data.PermissionDetailData;
 
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -32,7 +31,7 @@ public class PermissionDetailUI extends UIPanelComposite< PermissionDetailData, 
     alignData.add( data.getOperationNameTitle() );
     alignData.add( data.getOperationName() );
     
-    AlignedUIGroup permissionUI = new AlignedUIGroup< String, FlexTable >( alignData, new FlexTable() )
+    AlignedUIGroup permissionUI = new AlignedUIGroup< String >( alignData )
     {
       @Override
       public Widget buildChildComponent( String childData, int index )

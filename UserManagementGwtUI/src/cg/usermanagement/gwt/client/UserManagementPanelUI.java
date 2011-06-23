@@ -23,7 +23,7 @@ public class UserManagementPanelUI extends UIComponent< UserManagementPanelData,
   @Override
   public VerticalPanel build()
   {
-    AlignedUIGroup< ButtonData, FlexTable > buttonGroup = new AlignedUIGroup< ButtonData, FlexTable >( getData().getButtonDatas(), new FlexTable() )
+    AlignedUIGroup< ButtonData > buttonGroup = new AlignedUIGroup< ButtonData >( getData().getButtonDatas(), new FlexTable() )
     {
       @Override
       protected Widget buildChildComponent( ButtonData childData, int index )
