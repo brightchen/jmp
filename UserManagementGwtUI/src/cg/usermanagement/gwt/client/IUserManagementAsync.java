@@ -1,5 +1,9 @@
 package cg.usermanagement.gwt.client;
 
+import java.util.List;
+
+import cg.usermanagement.gwt.shared.data.SearchUserData;
+import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -16,4 +20,6 @@ public interface IUserManagementAsync
    * the add entity need return the id of the entity
    */
   public void addRole( String roleName, AsyncCallback< Long > callback );
+  
+  public void searchUser( SearchUserData searchUserData, AsyncCallback< List< UserListData > > userListDatas );
 }

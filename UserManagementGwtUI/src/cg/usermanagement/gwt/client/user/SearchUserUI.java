@@ -2,7 +2,6 @@ package cg.usermanagement.gwt.client.user;
 
 import cg.gwt.components.client.ui.UIFlexTableComposite;
 import cg.gwt.components.client.ui.components.ButtonUI;
-import cg.gwt.components.shared.data.ButtonData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 
 import com.google.gwt.user.client.ui.Label;
@@ -10,8 +9,6 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class SearchUserUI extends UIFlexTableComposite< SearchUserData >
 {
-  private static final int ROW_SIZE = 2;    // how many rows in each line
-  
   private TextBox nameField;
   private TextBox firstNameField;
   private TextBox lastNameField;
@@ -53,13 +50,35 @@ public class SearchUserUI extends UIFlexTableComposite< SearchUserData >
     emailField.setText( data.getEmail() );
     addChild( emailField );
     
-    ButtonData buttonData = new ButtonData();
-    buttonData.setText( data.getSearchButtonText() );
-    buttonData.setTitle( data.getSearchButtonTitle() );
+    ButtonUI<SearchUserData> searchButton = new ButtonUI<SearchUserData>( data.getSearchButtonData() );
+
+    SearchUserEvent event = new SearchUserEvent()
+    {
+      private static final long serialVersionUID = 8531693903689658870L;
+
+      @Override
+      public SearchUserData getData()
+      {
+        updateData();
+        return SearchUserUI.this.getData();
+      }
+    };
     
-    ButtonUI searchButton = new ButtonUI( data.getSearchButtonData() );
-    searchButton.addClickEvent( event )
+    searchButton.addClickEvent( event );
   }
   
+  /*
+   * get the data from UI
+   */
+  protected void updateData()
+  {
+    SearchUserData theData = getData();
+    theData.setName( nameField.getText() );
+    theData.setFirstName( firstNameField.getText() );
+    theData.setLastName( lastNameField.getText() );
+    theData.setStatus( statusField.getText() );
+    theData.setPhone( phoneField.getText() );
+    theData.setEmail( emailField.getText() );
+  }
   
 }

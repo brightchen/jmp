@@ -15,6 +15,18 @@ public class ButtonData implements Serializable
   private String title;
   private boolean enabled = true;
   
+  public ButtonData(){}
+  
+  public ButtonData( String text )
+  {
+    this( text, text );
+  }
+  public ButtonData( String text, String title )
+  {
+    setText( text );
+    setTitle( title );
+  }
+  
   public String getText()
   {
     return text;
