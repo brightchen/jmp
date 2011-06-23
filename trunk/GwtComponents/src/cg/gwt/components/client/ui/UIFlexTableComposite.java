@@ -1,12 +1,11 @@
 package cg.gwt.components.client.ui;
 
-import cg.gwt.components.client.ui.AlignedUIGroup.AlignStyle;
 import cg.gwt.components.shared.utils.DataReference;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UIFlexTableComposite< D, U extends FlexTable > extends UIPanelComposite< D, U >
+public class UIFlexTableComposite< D > extends UIPanelComposite< D, FlexTable >
 {
   public static final int DEFAULT_SIDE_SIZE = 2;
   public static enum AlignStyle
@@ -17,6 +16,14 @@ public class UIFlexTableComposite< D, U extends FlexTable > extends UIPanelCompo
   
   private AlignStyle alignStyle;
   private int sideSize;
+  
+  public UIFlexTableComposite( D data )
+  {
+    alignStyle = AlignStyle.FixColumnSize;
+    sideSize = DEFAULT_SIDE_SIZE;
+
+    setData( data );
+  }
 
   public void setAlignAttributes( AlignStyle alignStyle, int sideSize )
   {
@@ -52,4 +59,10 @@ public class UIFlexTableComposite< D, U extends FlexTable > extends UIPanelCompo
       rowIndex.setData( i2 );
     }
   }
+  
+  protected FlexTable buildContainer()
+  {
+    return new FlexTable();
+  }
+
 }

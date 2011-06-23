@@ -2,8 +2,6 @@ package cg.gwt.components.client.ui;
 
 import java.util.List;
 
-import cg.gwt.components.shared.utils.DataReference;
-
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -11,57 +9,42 @@ import com.google.gwt.user.client.ui.Widget;
  * AlignedUIGroup is a type of UIGroup which items are aligned by column or row
  * use HTMLTable or its sub-classes as the container 
  */
-public abstract class AlignedUIGroup < I, U extends FlexTable > extends UIGroup< I, U >
+public abstract class AlignedUIGroup < I > extends UIFlexTableComposite< List<I> >
 {
-  public static final int DEFAULT_SIDE_SIZE = 2;
-  public static enum AlignStyle
+  public AlignedUIGroup( List<I> data )
   {
-    FixRowSize,
-    FixColumnSize
+    super( data );
   }
   
-  private AlignStyle alignStyle;
-  private int sideSize;
-  
-  public AlignedUIGroup( List<I> data, U container )
+  public AlignedUIGroup( List<I> data, FlexTable container )
   {
-    super( data, container );
-    alignStyle = AlignStyle.FixColumnSize;
-    sideSize = DEFAULT_SIDE_SIZE;
-  }
-
-  public void setAlignAttributes( AlignStyle alignStyle, int sideSize )
-  {
-    if( sideSize <= 0 )
-      throw new IllegalArgumentException( "Side Size must great than 0" );
-    this.alignStyle = alignStyle;
-    this.sideSize = sideSize;
+    this( data );
+    setContainer( container );
   }
   
   @Override
-  protected void addChildComponent( Widget child, int index )
+  protected void beforeAddingChildren()
   {
-    DataReference< Integer > rowIndex = new DataReference< Integer >();    
-    DataReference< Integer > columnIndex = new DataReference< Integer >();
-    getRowColumnIndex( index, rowIndex, columnIndex );
+    buildAndAddChildren( getData() );
+  }
+  
+  /*
+   * build and add children component into the children list
+   * the build() method will add the component in the children list into the container
+   */
+  public void buildAndAddChildren( List<I> data )
+  {
+    if( data == null || data.isEmpty() )
+      return;
     
-    FlexTable container = getContainer();
-    container.setWidget( rowIndex.getData(), columnIndex.getData(), child );
+    int index = 0;
+    for( I childData : data )
+    {
+      addChildComponent( buildChildComponent( childData, index ), index );
+      ++index;
+    }
   }
 
-  protected void getRowColumnIndex( int index, DataReference< Integer > rowIndex, DataReference< Integer > columnIndex )
-  {
-    int i1 = index / sideSize;
-    int i2 = index % sideSize;
-    if( AlignStyle.FixColumnSize.equals( alignStyle ) )
-    {
-      rowIndex.setData( i1 );
-      columnIndex.setData( i2 );
-    }
-    else
-    {
-      columnIndex.setData( i1 );
-      rowIndex.setData( i2 );
-    }
-  }
+  protected abstract Widget buildChildComponent( I childData, int index );
+
 }

@@ -9,7 +9,6 @@ import cg.gwt.components.client.ui.event.GwtEventDelegateHandler;
 import cg.usermanagement.gwt.shared.data.LoginData;
 
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -20,7 +19,7 @@ public class LoginUI extends UIPanelComposite< LoginData, VerticalPanel >
 {
   private TextBox userNameField;
   private TextBox passwordField;
-  private AlignedUIGroup< String, FlexTable > userPassUI;
+  private AlignedUIGroup< String > userPassUI;
   
   public LoginUI( LoginData data )
   {
@@ -37,7 +36,7 @@ public class LoginUI extends UIPanelComposite< LoginData, VerticalPanel >
     passwordField = new PasswordTextBox();
     passwordField.setText( data.getPassword() );
     
-    userPassUI = new AlignedUIGroup< String, FlexTable >( userPassData, new FlexTable() )
+    userPassUI = new AlignedUIGroup< String >( userPassData )
     {
       @Override
       public Widget buildChildComponent( String childData, int index )

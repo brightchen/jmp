@@ -9,7 +9,6 @@ import cg.gwt.components.client.ui.event.GwtEventDelegateHandler;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -24,7 +23,7 @@ public class UserRegisterUI extends UIPanelComposite< UserRegisterData, Vertical
   private TextBox middleNameField;
   private TextBox lastNameField;
   
-  private AlignedUIGroup< String, FlexTable > userInfoUI;
+  private AlignedUIGroup< String > userInfoUI;
   
   public UserRegisterUI( UserRegisterData data )
   {
@@ -47,7 +46,7 @@ public class UserRegisterUI extends UIPanelComposite< UserRegisterData, Vertical
     userInfo.add( "last name" );
     userInfo.add( "" );
     
-    userInfoUI = new AlignedUIGroup< String, FlexTable >( userInfo, new FlexTable() )
+    userInfoUI = new AlignedUIGroup< String >( userInfo )
     {
       @Override
       public Widget buildChildComponent( String childData, int index )

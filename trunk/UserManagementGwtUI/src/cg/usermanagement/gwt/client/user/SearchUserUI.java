@@ -1,44 +1,65 @@
 package cg.usermanagement.gwt.client.user;
 
-import cg.gwt.components.client.ui.UIPanelComposite;
-import cg.gwt.components.shared.utils.DataReference;
+import cg.gwt.components.client.ui.UIFlexTableComposite;
+import cg.gwt.components.client.ui.components.ButtonUI;
+import cg.gwt.components.shared.data.ButtonData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 
-public class SearchUserUI extends UIPanelComposite< SearchUserData, FlexTable >
+public class SearchUserUI extends UIFlexTableComposite< SearchUserData >
 {
   private static final int ROW_SIZE = 2;    // how many rows in each line
   
+  private TextBox nameField;
+  private TextBox firstNameField;
+  private TextBox lastNameField;
+  private TextBox statusField;
+  private TextBox phoneField;
+  private TextBox emailField;
+  
   public SearchUserUI( SearchUserData data )
   {
-    setData( data );
+    super( data );
+    
+    addChild( new Label( data.getNameTitle() ) );
+    nameField = new TextBox();
+    nameField.setText( data.getName() );
+    addChild( nameField );
+    
+    addChild( new Label( data.getFirstNameTitle() ) );
+    firstNameField = new TextBox();
+    firstNameField.setText( data.getFirstName() );
+    addChild( firstNameField );
+
+    addChild( new Label( data.getLastNameTitle() ) );
+    lastNameField = new TextBox();
+    lastNameField.setText( data.getLastName() );
+    addChild( lastNameField );
+
+    addChild( new Label( data.getStatusTitle() ) );
+    statusField = new TextBox();
+    statusField.setText( data.getStatus() );
+    addChild( statusField );
+
+    addChild( new Label( data.getPhoneTitle() ) );
+    phoneField = new TextBox();
+    phoneField.setText( data.getPhone() );
+    addChild( phoneField );
+
+    addChild( new Label( data.getEmailTitle() ) );
+    emailField = new TextBox();
+    emailField.setText( data.getEmail() );
+    addChild( emailField );
+    
+    ButtonData buttonData = new ButtonData();
+    buttonData.setText( data.getSearchButtonText() );
+    buttonData.setTitle( data.getSearchButtonTitle() );
+    
+    ButtonUI searchButton = new ButtonUI( data.getSearchButtonData() );
+    searchButton.addClickEvent( event )
   }
   
-
-  @Override
-  protected void addChildComponent( Widget child, int index )
-  {
-    DataReference< Integer > rowIndex = new DataReference< Integer >();    
-    DataReference< Integer > columnIndex = new DataReference< Integer >();
-    getRowColumnIndex( index, rowIndex, columnIndex );
-    
-    FlexTable container = getContainer();
-    container.setWidget( rowIndex.getData(), columnIndex.getData(), child );
-  }
-
-  protected void getRowColumnIndex( int index, DataReference< Integer > rowIndex, DataReference< Integer > columnIndex )
-  {
-    int i1 = index / ROW_SIZE;
-    int i2 = index % ROW_SIZE;
-    rowIndex.setData( i1 );
-    columnIndex.setData( i2 );
-  }
-
-  @Override
-  protected FlexTable buildContainer()
-  {
-    return new FlexTable();
-  }
+  
 }
