@@ -1,5 +1,6 @@
 package cg.usermanagement.gwt.server;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IUserManagement;
+import cg.usermanagement.gwt.shared.data.SearchUserData;
+import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
 import cg.usermanagement.model.view.RoleView;
@@ -104,5 +107,10 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     IUserService service = getUserService();
     RoleView roleView = service.addRole( roleName );
     return roleView.getId();
+  }
+  
+  public List< UserListData > searchUser( SearchUserData searchUserData )
+  {
+    return null;
   }
 }

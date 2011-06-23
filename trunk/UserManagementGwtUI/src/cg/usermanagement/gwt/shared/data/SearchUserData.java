@@ -1,7 +1,13 @@
 package cg.usermanagement.gwt.shared.data;
 
-public class SearchUserData
+import java.io.Serializable;
+
+import cg.gwt.components.shared.data.ButtonData;
+
+public class SearchUserData implements Serializable
 {
+  private static final long serialVersionUID = 1831023655018104109L;
+
   private String nameTitle = "User Name:";
   private String name;
   
@@ -20,6 +26,8 @@ public class SearchUserData
   private String emailTitle = "Email:";
   private String email;
 
+  private ButtonData searchButtonData = new ButtonData( "Search User" );
+  
   public String getNameTitle()
   {
     return nameTitle;
@@ -117,6 +125,9 @@ public class SearchUserData
     this.email = email;
   }
     
-  
+  public ButtonData getSearchButtonData()
+  {
+    return searchButtonData;
+  }
   
 }
