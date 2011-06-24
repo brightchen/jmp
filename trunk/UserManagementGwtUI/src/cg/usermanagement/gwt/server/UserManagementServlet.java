@@ -13,6 +13,8 @@ import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
+import cg.usermanagement.gwt.shared.data.UIFlowData;
+import cg.usermanagement.gwt.shared.data.UIIdentity;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
@@ -32,6 +34,11 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   private Logger log = Logger.getLogger( UserManagementServlet.class );
   
   private IUserService userService;
+  
+  public UIFlowData getStartUI()
+  {
+    return new UIFlowData( UIIdentity.UM_START );
+  }
   
   public void init() throws ServletException 
   {
