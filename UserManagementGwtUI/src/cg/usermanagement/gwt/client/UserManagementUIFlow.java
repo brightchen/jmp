@@ -10,6 +10,7 @@ import cg.usermanagement.gwt.shared.data.AccountLoginData;
 import cg.usermanagement.gwt.shared.data.AddRoleData;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
+import cg.usermanagement.gwt.shared.data.UIFlowData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
@@ -17,6 +18,11 @@ import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/*
+ * the web server side will control the UI flow instead the client side.
+ * for the first page, the UIFlow from the client will send a ajax call to the server side to get the startPage
+ * for every request send to the web server, the response will contain the information of next UI ( include the required data )
+ */
 public class UserManagementUIFlow
 {
   //the static attribute is safe as this is client code and run in the web browser.
@@ -24,17 +30,24 @@ public class UserManagementUIFlow
   private static PopupDecorator<?,?> addRolePopup;
   private static PopupDecorator<?,?> roleDetailPopup;
   
+  public static void start()
+  {
+    UserManagementStartEvent event = new UserManagementStartEvent();
+    event.fire();
+  }
+  
+  public static void doGetStartUISuccess( UIFlowData uiFlowData )
+  {
+    RootPanel rp = RootPanel.get();
+    rp.add( buildStartUI( uiFlowData ) );
+    
+  }
+
   /*
    * this is the UI to allow user/account login and register
    * no permission required for this UI
    */
-  public static void start()
-  {
-    RootPanel rp = RootPanel.get();
-    rp.add( buildStartUI() );
-
-  }
-  public static Widget buildStartUI()
+  public static Widget buildStartUI( UIFlowData uiFlowData )
   {
     UserManagementUI userManagementUI = new UserManagementUI( new UserLoginData(), new AccountLoginData(), new UserRegisterData() );
     return userManagementUI;

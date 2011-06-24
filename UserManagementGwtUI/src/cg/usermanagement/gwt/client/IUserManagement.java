@@ -3,6 +3,7 @@ package cg.usermanagement.gwt.client;
 import java.util.List;
 
 import cg.usermanagement.gwt.shared.data.SearchUserData;
+import cg.usermanagement.gwt.shared.data.UIFlowData;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.shared.LoginException;
@@ -15,6 +16,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath( "UserManagement")
 public interface IUserManagement extends RemoteService
 {
+  public UIFlowData getStartUI();
+  
   public void userlogin( String userName, String password ) throws LoginException;
   public void accountlogin( String accountName, String password ) throws LoginException;
   
