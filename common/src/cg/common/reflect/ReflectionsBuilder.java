@@ -1,6 +1,7 @@
 package cg.common.reflect;
 
 import org.reflections.Reflections;
+import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
@@ -11,10 +12,20 @@ public class ReflectionsBuilder
   private String includeRegex;
   private String excludeRegex;
 
+  public ConfigurationBuilder getTypicalConfigurationBuilder()
+  {
+    return new ConfigurationBuilder().filterInputsBy( getFilterBuilder() ).setUrls( ClasspathHelper.getUrlsForCurrentClasspath() );
+  }
+  
   public Reflections buildSubTypeReflections()
   {
     //the urls must be set or use the empty urls and not package searched
-    return new Reflections( new ConfigurationBuilder().filterInputsBy( getFilterBuilder() ).setUrls( ClasspathHelper.getUrlsForCurrentClasspath() ).setScanners( new SubTypesScanner() ) );
+    return new Reflections( getTypicalConfigurationBuilder().setScanners( new SubTypesScanner() ) );
+  }
+  
+  public Reflections buildResourcesReflections()
+  {
+    return new Reflections( getTypicalConfigurationBuilder().setScanners( new ResourcesScanner() ) );
   }
 
   protected FilterBuilder getFilterBuilder()
