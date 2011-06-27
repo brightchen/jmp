@@ -1,8 +1,12 @@
 package cg.resourcemanagement;
 
-import java.io.File;
+import java.util.Set;
+
 
 public interface IResourceFileLookupStrategy
 {
-  public File[] getResourceFiles();
+  /*
+   * return the file path which required for ResourceBundle
+   */
+  public Set<String> getResourceFiles();
 }
