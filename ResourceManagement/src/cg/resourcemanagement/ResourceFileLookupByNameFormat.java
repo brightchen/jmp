@@ -1,6 +1,5 @@
 package cg.resourcemanagement;
 
-import java.io.File;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -18,28 +17,22 @@ import cg.common.reflect.ReflectionsBuilder;
 public class ResourceFileLookupByNameFormat implements IResourceFileLookupStrategy
 {
   @Override
-  public File[] getResourceFiles()
+  public Set< String > getResourceFiles()
   {
-    Reflections resouceReflections = new Reflections( ( new ReflectionsBuilder() ).getTypicalConfigurationBuilder().setScanners( new ResourceNameFormatScanner() ) );
-    Set< String > fileNames = resouceReflections.getResources( (Pattern)null );//( Pattern.compile( "{\\w}*Resource.properties" ) );
-    if( fileNames == null || fileNames.size() == 0 )
-      return null;
-    File[] files = new File[ fileNames.size() ];
-    int index = 0;
-    for( String fileName : fileNames )
-    {
-      files[ index ] = new File( fileName );
-      ++index;
-    }
-    return files;
+    //use ResourceNameFormatScanner does not work when getResources(), why???
+    Reflections resouceReflections = new Reflections( ( new ReflectionsBuilder() ).getTypicalConfigurationBuilder().setScanners( new ResourcesScanner() ) );
+    return resouceReflections.getResources( Pattern.compile( ".*Resource.*\\.properties" ) ); //"Resource.properties$"
   }
   
+  /*
+   * interesting, why use ResourceNameFormatScanner does not work when getResources()?
+   */
   static class ResourceNameFormatScanner extends ResourcesScanner
   {
     @Override
     public boolean acceptsInput( String fileName ) 
     {
-      return fileName.length() > "Resource.properties".length() && fileName.endsWith( "Resource.properties" ); //not a class
+      return fileName.length() >= "Resource.properties".length() && fileName.endsWith( "Resource.properties" ); //not a class
     }
   }
 }

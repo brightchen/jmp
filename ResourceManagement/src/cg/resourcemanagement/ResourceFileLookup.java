@@ -1,6 +1,6 @@
 package cg.resourcemanagement;
 
-import java.io.File;
+import java.util.Set;
 
 public class ResourceFileLookup
 {
@@ -13,7 +13,7 @@ public class ResourceFileLookup
     setLookupStrategy( lookupStrategy );
   }
   
-  public File[] getResourceFiles()
+  public Set< String > getResourceFiles()
   {
     return getLookupStrategy().getResourceFiles();
   }
