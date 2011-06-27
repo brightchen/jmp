@@ -31,7 +31,7 @@ public class PermissionDetailUI extends UIPanelComposite< PermissionDetailData, 
     alignData.add( data.getOperationNameTitle() );
     alignData.add( data.getOperationName() );
     
-    AlignedUIGroup permissionUI = new AlignedUIGroup< String >( alignData )
+    AlignedUIGroup< String > permissionUI = new AlignedUIGroup< String >( alignData )
     {
       @Override
       public Widget buildChildComponent( String childData, int index )
