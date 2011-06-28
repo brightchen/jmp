@@ -2,8 +2,8 @@ package cg.usermanagement.gwt.client;
 
 import java.util.List;
 
+import cg.gwt.components.shared.data.UIFlowData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
-import cg.usermanagement.gwt.shared.data.UIFlowData;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.shared.LoginException;

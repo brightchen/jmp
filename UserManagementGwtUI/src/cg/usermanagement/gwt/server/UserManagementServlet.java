@@ -9,12 +9,12 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import cg.gwt.components.shared.data.UIFlowData;
+import cg.gwt.components.shared.data.UIIdentity;
 import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
-import cg.usermanagement.gwt.shared.data.UIFlowData;
-import cg.usermanagement.gwt.shared.data.UIIdentity;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
