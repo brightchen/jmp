@@ -86,7 +86,7 @@ public class ResourceTester
       {
         String key = keys.nextElement();
         String value = rm.getString( locale, key );
-        System.out.println( String.format( "Got resource %s = %s ", key, value ) );
+        System.out.println( String.format( "%s = %s ", key, value ) );
       }
     }
   }
