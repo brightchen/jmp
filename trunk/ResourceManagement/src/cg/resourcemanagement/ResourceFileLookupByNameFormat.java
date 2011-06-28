@@ -16,14 +16,37 @@ import cg.common.reflect.ReflectionsBuilder;
  */
 public class ResourceFileLookupByNameFormat implements IResourceFileLookupStrategy
 {
+  private String resourceFileNamePattern = ".*Resource.properties";
+  
+  public ResourceFileLookupByNameFormat(){}
+  
+  public ResourceFileLookupByNameFormat( String resourceFileNamePattern )
+  {
+    setResourceFileNamePattern( resourceFileNamePattern );
+  }
+  
   @Override
   public Set< String > getResourceFiles()
   {
     //use ResourceNameFormatScanner does not work when getResources(), why???
     Reflections resouceReflections = new Reflections( ( new ReflectionsBuilder() ).getTypicalConfigurationBuilder().setScanners( new ResourcesScanner() ) );
-    return resouceReflections.getResources( Pattern.compile( ".*Resource.*\\.properties" ) ); //"Resource.properties$"
+    return resouceReflections.getResources( Pattern.compile( resourceFileNamePattern ) ); //"Resource.properties$"
   }
   
+  
+  
+  public String getResourceFileNamePattern()
+  {
+    return resourceFileNamePattern;
+  }
+
+  public void setResourceFileNamePattern( String resourceFileNamePattern )
+  {
+    this.resourceFileNamePattern = resourceFileNamePattern;
+  }
+
+
+
   /*
    * interesting, why use ResourceNameFormatScanner does not work when getResources()?
    */
