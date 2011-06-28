@@ -2,7 +2,7 @@ package cg.usermanagement.gwt.client;
 
 import cg.gwt.components.client.ui.event.UIEvent;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
-import cg.usermanagement.gwt.shared.data.UIFlowData;
+import cg.gwt.components.shared.data.UIFlowData;
 
 import com.google.gwt.core.client.GWT;
 
