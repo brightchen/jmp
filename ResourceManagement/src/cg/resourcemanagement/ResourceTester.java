@@ -71,18 +71,23 @@ public class ResourceTester
   public static void normalTest()
   {
     ResourceManager rm = ResourceManager.getInstance();
-    Locale locale = Locale.US;
-    Enumeration<String> keys = rm.getKeys( locale );
-    if( keys == null )
+    Locale[] locales = { Locale.ENGLISH, Locale.US  };
+    
+    for( Locale locale : locales )
     {
-      return;
-    }
-
-    while( keys.hasMoreElements()  )
-    {
-      String key = keys.nextElement();
-      String value = rm.getString( locale, key );
-      System.out.println( String.format( "Got resource %s = %s ", key, value ) );
+      System.out.println( "==========Locale: " + locale.getDisplayName() + "===================" );
+      Enumeration<String> keys = rm.getKeys( locale );
+      if( keys == null )
+      {
+        continue;
+      }
+  
+      while( keys.hasMoreElements()  )
+      {
+        String key = keys.nextElement();
+        String value = rm.getString( locale, key );
+        System.out.println( String.format( "Got resource %s = %s ", key, value ) );
+      }
     }
   }
 }
