@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
+
+import cg.utils.DataReference;
 
 
 /*
@@ -16,10 +19,11 @@ import java.util.Set;
  */
 public class ResourceManager
 {
+  private static final String suffix = ".properties";
   private static ResourceManager instance;
   
-  // use one resource for one locale. merge the resources which for same locale
-  private Map< Locale, ResourceBundle > localedResource = new HashMap< Locale, ResourceBundle >();;
+  // a locale ==> ( resource bundle base name ==> resource bundle )
+  private Map< Locale, Map< String, ResourceBundle > > localedResource = new HashMap< Locale, Map< String, ResourceBundle > >();;
   
   public static ResourceManager getInstance()
   {
@@ -44,46 +48,44 @@ public class ResourceManager
   protected void init()
   {
     ResourceFileLookup lookup = getResourceFileLookup();
-    Set< String > files = new HashSet< String >();  //lookup.getResourceFiles();
-    files.clear();
-    files.add( "cg\\resourcemanagement\\TestResource.properties" );
+    Set< String > files = lookup.getResourceFiles();
+//    Set< String > files = new HashSet< String >();  //lookup.getResourceFiles();
+//    files.clear();
+//    files.add( "cg\\resourcemanagement\\TestResource.properties" );
     if( files == null || files.size() == 0 )
       return;
     
     for( String file : files )
     {
-      ResourceBundle rb = loadResourceBundle( file );
+      // convert the file into the bundle name
+      // the input file is file path, like cg/ResourceManagement/TestResource.properties
+      DataReference< Locale > locale = new DataReference< Locale >();
+      DataReference< String > baseName = new DataReference< String >();
+      lookup.getLookupStrategy().getResourceInfo( file, locale, baseName );
+
+      ResourceBundle rb = loadResourceBundle( baseName.getData(), locale.getData() );
       if( rb == null )
         continue;
 
-      Locale locale = rb.getLocale();
-      putResource( locale, rb );
+      //
+      putResource( rb.getLocale(), baseName.getData(), rb );
     }
   }
   
-  protected String getResourceBundleBaseName( String file )
+  protected ResourceBundle loadResourceBundle( String baseName, Locale locale )
   {
-    return ( file.endsWith( ".properties" ) ) ? file.substring( 0, file.length() - ".properties".length() ) : file;
-  }
-  protected ResourceBundle loadResourceBundle( String file )
-  {
-    // convert the file into the bundle name
-    // the input file is file path, like cg/ResourceManagement/TestResource.properties
-    String bundleName = getResourceBundleBaseName( file );
-    return ResourceBundle.getBundle( bundleName );
+    return locale!= null ? ResourceBundle.getBundle( baseName, locale ) : ResourceBundle.getBundle( baseName );
   }
   
-  protected void putResource( Locale locale, ResourceBundle resourceBundle )
+  protected void putResource( Locale locale, String baseName, ResourceBundle resourceBundle )
   {
-    ResourceBundle rb = localedResource.get( locale );
-    if( rb == null )
+    Map< String, ResourceBundle > bundles = localedResource.get( locale );
+    if( bundles == null )
     {
-      localedResource.put( locale, resourceBundle );
+      bundles = new HashMap< String, ResourceBundle >();
+      localedResource.put( locale, bundles );
     }
-    else
-    {
-      //merge the resource
-    }
+    bundles.put( baseName, resourceBundle );
   }
   
   protected ResourceFileLookup getResourceFileLookup()
@@ -91,33 +93,49 @@ public class ResourceManager
     return new ResourceFileLookup();
   }
 
-  public Enumeration<String> getKeys( Locale locale )
+  public Set<String> getKeys( Locale locale )
   {
-    ResourceBundle rb = getResourceBundle( locale );
-    if( rb == null )
-      return null;
-    return rb.getKeys();
-    
+    Map< String, ResourceBundle > bundles = localedResource.get( locale );
+    Set< String > keys = new HashSet< String >();
+    for( Map.Entry< String, ResourceBundle > entry : bundles.entrySet() )
+    {
+      ResourceBundle bundle = entry.getValue();
+      Enumeration< String > theKeys = bundle.getKeys();
+      while( theKeys.hasMoreElements() )
+      {
+        keys.add( theKeys.nextElement() );
+      }
+    }
+    return keys;
   }
   
   public String getString( Locale locale, String key )
   {
-    ResourceBundle rb = getResourceBundle( locale );
-    if( rb == null )
-      return null;
-    return rb.getString( key );
+    Map< String, ResourceBundle > bundles = localedResource.get( locale );
+    for( Map.Entry< String, ResourceBundle > entry : bundles.entrySet() )
+    {
+      ResourceBundle bundle = entry.getValue();
+      try
+      {
+        return bundle.getString( key );
+      }
+      catch( MissingResourceException e )
+      {
+      }
+    }
+    throw new MissingResourceException( "", "", key );
   }
 
-  public String[] getStringArray( Locale locale, String key )
-  {
-    ResourceBundle rb = getResourceBundle( locale );
-    if( rb == null )
-      return null;
-    return rb.getStringArray( key );
-  }
+//  public String[] getStringArray( Locale locale, String key )
+//  {
+//    ResourceBundle rb = getResourceBundle( locale );
+//    if( rb == null )
+//      return null;
+//    return rb.getStringArray( key );
+//  }
 
-  public ResourceBundle getResourceBundle( Locale locale )
-  {
-    return localedResource.get( locale );
-  }
+//  public ResourceBundle getResourceBundles( Locale locale )
+//  {
+//    return localedResource.get( locale ).;
+//  }
 }

@@ -2,7 +2,7 @@ package cg.usermanagement.gwt.client;
 
 import cg.gwt.components.client.ui.event.UIEvent;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
-import cg.gwt.components.shared.data.UIFlowData;
+import cg.gwt.components.shared.data.ResponseData;
 
 import com.google.gwt.core.client.GWT;
 
@@ -13,12 +13,12 @@ public class UserManagementStartEvent extends UIEvent< Void >
   @Override
   public void fire()
   {
-    userManagement.getStartUI( new PopupFailureReasonCallback< UIFlowData >()
+    userManagement.getStartUI( new PopupFailureReasonCallback< ResponseData<?> >()
                                 {
                                   @Override
-                                  public void onSuccess( UIFlowData uiFlowData )
+                                  public void onSuccess( ResponseData<?> responseData )
                                   {
-                                    onGetStartUISuccess( uiFlowData );
+                                    onGetStartUISuccess( responseData );
                                   }
                                 } );
   }
@@ -29,8 +29,8 @@ public class UserManagementStartEvent extends UIEvent< Void >
     return null;
   }
 
-  protected void onGetStartUISuccess( UIFlowData uiFlowData )
+  protected void onGetStartUISuccess( ResponseData<?> responseData )
   {
-    UserManagementUIFlow.doGetStartUISuccess( uiFlowData );
+    UserManagementUIFlow.doGetStartUISuccess( responseData );
   }
 }

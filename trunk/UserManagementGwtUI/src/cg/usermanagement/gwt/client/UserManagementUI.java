@@ -1,26 +1,22 @@
 package cg.usermanagement.gwt.client;
 
 import cg.gwt.components.client.ui.UIComposite;
-import cg.gwt.components.shared.data.UIPairData;
 import cg.usermanagement.gwt.client.login.LoginStartUI;
 import cg.usermanagement.gwt.client.register.UserRegisterUI;
-import cg.usermanagement.gwt.shared.data.AccountLoginData;
-import cg.usermanagement.gwt.shared.data.UserLoginData;
-import cg.usermanagement.gwt.shared.data.UserRegisterData;
+import cg.usermanagement.gwt.shared.data.UserManagementData;
 
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UserManagementUI extends UIComposite< UIPairData< UIPairData< UserLoginData, AccountLoginData >, UserRegisterData >, TabPanel >
+public class UserManagementUI extends UIComposite< UserManagementData, TabPanel >
 {
   private static final String[] TAB_TITLE = { "Login", "User Register" }; 
-  public UserManagementUI( UserLoginData userLoginData, AccountLoginData accountLoginData, UserRegisterData registerData )
+  
+  public UserManagementUI( UserManagementData data )
   {
-    UIPairData< UserLoginData, AccountLoginData > loginPairData = new UIPairData< UserLoginData, AccountLoginData >( userLoginData, accountLoginData );
-    setData( new UIPairData< UIPairData< UserLoginData, AccountLoginData >, UserRegisterData >( loginPairData, registerData ) );
-    
-    LoginStartUI loginStartUI = new LoginStartUI( userLoginData, accountLoginData );
-    UserRegisterUI registerUI = new UserRegisterUI( registerData );
+    setData( data );
+    LoginStartUI loginStartUI = new LoginStartUI( data.getUserLoginData(), data.getAccountLoginData() );
+    UserRegisterUI registerUI = new UserRegisterUI( data.getUserRegisterData() );
     addChild( loginStartUI );
     addChild( registerUI );
     setContainer( new TabPanel() );

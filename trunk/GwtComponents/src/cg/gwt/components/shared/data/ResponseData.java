@@ -7,7 +7,7 @@ import java.io.Serializable;
  *   - the content data: the data required to build the next content UI
  *   - the flow data: the data required to control the UI flow, namely, what's the next UI should be
  */
-public class ResponseData< D > implements Serializable
+public class ResponseData< D extends UIContentData > implements Serializable
 {
   private static final long serialVersionUID = 1062504170687810293L;
 

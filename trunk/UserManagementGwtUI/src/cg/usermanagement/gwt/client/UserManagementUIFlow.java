@@ -4,16 +4,16 @@ import cg.gwt.components.client.ui.UIComponent;
 import cg.gwt.components.client.ui.decorator.PopupDecorator;
 import cg.gwt.components.client.ui.decorator.PopupWithCancelButtonDecorator;
 import cg.gwt.components.shared.data.ButtonData;
+import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIFlowData;
+import cg.gwt.components.shared.data.UIIdentity;
 import cg.usermanagement.gwt.client.role.AddRoleUI;
 import cg.usermanagement.gwt.client.role.RoleDetailUI;
-import cg.usermanagement.gwt.shared.data.AccountLoginData;
 import cg.usermanagement.gwt.shared.data.AddRoleData;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
-import cg.usermanagement.gwt.shared.data.UserLoginData;
+import cg.usermanagement.gwt.shared.data.UserManagementData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
-import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -36,21 +36,22 @@ public class UserManagementUIFlow
     event.fire();
   }
   
-  public static void doGetStartUISuccess( UIFlowData uiFlowData )
+  public static void doGetStartUISuccess( ResponseData<?> responseData )
   {
     RootPanel rp = RootPanel.get();
-    rp.add( buildStartUI( uiFlowData ) );
-    
+    rp.add( buildUI( responseData ) );
   }
-
-  /*
-   * this is the UI to allow user/account login and register
-   * no permission required for this UI
-   */
-  public static Widget buildStartUI( UIFlowData uiFlowData )
+  
+  public static Widget buildUI( ResponseData<?> responseData )
   {
-    UserManagementUI userManagementUI = new UserManagementUI( new UserLoginData(), new AccountLoginData(), new UserRegisterData() );
-    return userManagementUI;
+    UIFlowData flowData = responseData.getFlowData();
+    UIIdentity identity = flowData.getUiIdentity();
+    if( UIIdentity.UM_START.equals( identity ) )
+    {
+      return new UserManagementUI( (UserManagementData)responseData.getContentData() );   
+    }
+    
+    throw new IllegalStateException( "Invalid UIIdentity. " );
   }
   
   public static void onLoginSuccess( LoginData data )

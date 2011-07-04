@@ -8,7 +8,6 @@ public class AccountLoginData extends LoginData implements Serializable
 
   public AccountLoginData()
   {
-    setNameTitle( "Account Name" );
     setLoginType( LoginType.ACCOUNT_LOGIN );
   }
   

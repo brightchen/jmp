@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class ResourceTester
 {
@@ -71,20 +71,19 @@ public class ResourceTester
   public static void normalTest()
   {
     ResourceManager rm = ResourceManager.getInstance();
-    Locale[] locales = { Locale.ENGLISH, Locale.US  };
+    Locale[] locales = { Locale.ENGLISH, Locale.US, Locale.CHINA, Locale.CHINESE  };
     
     for( Locale locale : locales )
     {
       System.out.println( "==========Locale: " + locale.getDisplayName() + "===================" );
-      Enumeration<String> keys = rm.getKeys( locale );
+      Set<String> keys = rm.getKeys( locale );
       if( keys == null )
       {
         continue;
       }
   
-      while( keys.hasMoreElements()  )
+      for( String key : keys )
       {
-        String key = keys.nextElement();
         String value = rm.getString( locale, key );
         System.out.println( String.format( "%s = %s ", key, value ) );
       }
