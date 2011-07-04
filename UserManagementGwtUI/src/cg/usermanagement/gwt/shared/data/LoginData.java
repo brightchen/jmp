@@ -11,11 +11,11 @@ public abstract class LoginData implements IValidatable, Serializable
   private static final long serialVersionUID = 665267442451753317L;
   
   private LoginType loginType;
-  private String nameTitle;
   private String name;
-  private String passwordTitle = "password";
   private String password;
 
+  private LoginResourceData resourceData;
+  
   public LoginData()
   {
   }
@@ -26,25 +26,15 @@ public abstract class LoginData implements IValidatable, Serializable
     setName( name );
     setPassword( password );
   }
-  
-  public String getNameTitle()
+
+  public LoginResourceData getResourceData()
   {
-    return nameTitle;
+    return resourceData;
   }
 
-  public void setNameTitle( String nameTitle )
+  public void setResourceData( LoginResourceData resourceData )
   {
-    this.nameTitle = nameTitle;
-  }
-
-  public String getPasswordTitle()
-  {
-    return passwordTitle;
-  }
-
-  public void setPasswordTitle( String passwordTitle )
-  {
-    this.passwordTitle = passwordTitle;
+    this.resourceData = resourceData;
   }
 
   public String getName()

@@ -26,9 +26,9 @@ public class LoginUI extends UIPanelComposite< LoginData, VerticalPanel >
     setData( data );
     
     List< String > userPassData = new ArrayList< String >();
-    userPassData.add( data.getNameTitle() );
+    userPassData.add( data.getResourceData().getName() );
     userPassData.add( data.getName() );
-    userPassData.add( data.getPasswordTitle() );
+    userPassData.add( data.getResourceData().getPassword() );
     userPassData.add( data.getPassword() );
     
     userNameField = new TextBox();

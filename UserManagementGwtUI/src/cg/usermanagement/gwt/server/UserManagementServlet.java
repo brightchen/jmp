@@ -9,13 +9,18 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIFlowData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IUserManagement;
+import cg.usermanagement.gwt.server.resource.UserManagementResourceDataBuilder;
+import cg.usermanagement.gwt.shared.data.AccountLoginData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
+import cg.usermanagement.gwt.shared.data.UserLoginData;
+import cg.usermanagement.gwt.shared.data.UserManagementData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
 import cg.usermanagement.model.view.RoleView;
@@ -35,10 +40,6 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   
   private IUserService userService;
   
-  public UIFlowData getStartUI()
-  {
-    return new UIFlowData( UIIdentity.UM_START );
-  }
   
   public void init() throws ServletException 
   {
@@ -56,6 +57,25 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   {
     return userService;
   }
+
+  
+  public ResponseData<?> getStartUI()
+  {
+    ResponseData< UserManagementData > rd = new ResponseData< UserManagementData >();
+    rd.setFlowData( new UIFlowData( UIIdentity.UM_START ) );
+    UserLoginData userLoginData = new UserLoginData();
+    
+    AccountLoginData accountLoginData = new AccountLoginData();
+    accountLoginData.setResourceData( UserManagementResourceDataBuilder.buildAccountLoginResourceData() );
+    
+    UserRegisterData userRegisterData = new UserRegisterData();
+    accountLoginData.setResourceData( UserManagementResourceDataBuilder.buildUserLoginResourceData() );
+    
+    UserManagementData data = new UserManagementData( userLoginData, accountLoginData, userRegisterData );
+    rd.setContentData( data );
+    return rd;
+  }
+
   
   public void userlogin( String userName, String password ) throws LoginException
   {
