@@ -1,7 +1,7 @@
 package cg.usermanagement.gwt.client;
 
 import cg.gwt.components.client.ui.AlignedUIGroup;
-import cg.gwt.components.client.ui.UIComponent;
+import cg.gwt.components.client.ui.ComponentUI;
 import cg.gwt.components.client.ui.components.ButtonUI;
 import cg.gwt.components.shared.data.ButtonData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
-public class UserManagementPanelUI extends UIComponent< UserManagementPanelData, VerticalPanel >
+public class UserManagementPanelUI extends ComponentUI< UserManagementPanelData, VerticalPanel >
 {
   private VerticalPanel realComponent = new VerticalPanel();
   

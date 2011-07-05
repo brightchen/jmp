@@ -2,7 +2,7 @@ package cg.gwt.components.client.ui.decorator;
 
 import java.util.List;
 
-import cg.gwt.components.client.ui.UIPanelComposite;
+import cg.gwt.components.client.ui.PanelCompositeUI;
 
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
  * UC is the UIComponent which decorated by the decorator
  * 
  */
-public class Decorator< D, UC extends Widget, U extends Panel > extends UIPanelComposite< D, U >
+public class Decorator< D, UC extends Widget, U extends Panel > extends PanelCompositeUI< D, U >
 {
   public Decorator( D data )
   {

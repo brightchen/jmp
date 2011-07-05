@@ -23,7 +23,7 @@ public class UserManagementStartEvent extends UIEvent< String >
   @Override
   public void fire()
   {
-    userManagement.getStartUI( new PopupFailureReasonCallback< ResponseData<?> >()
+    userManagement.getStartUI( getLocale(), new PopupFailureReasonCallback< ResponseData<?> >()
                                 {
                                   @Override
                                   public void onSuccess( ResponseData<?> responseData )
@@ -43,10 +43,15 @@ public class UserManagementStartEvent extends UIEvent< String >
     setLocale( locale.name() );
   }
   
+  public String getLocale()
+  {
+    return localeName;
+  }
+  
   @Override
   public String getData()
   {
-    return LOCALE.en_US.name();
+    return getLocale();
   }
 
   protected void onGetStartUISuccess( ResponseData<?> responseData )

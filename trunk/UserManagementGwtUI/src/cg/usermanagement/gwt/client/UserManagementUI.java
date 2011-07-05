@@ -1,6 +1,6 @@
 package cg.usermanagement.gwt.client;
 
-import cg.gwt.components.client.ui.UIComposite;
+import cg.gwt.components.client.ui.CompositeUI;
 import cg.usermanagement.gwt.client.login.LoginStartUI;
 import cg.usermanagement.gwt.client.register.UserRegisterUI;
 import cg.usermanagement.gwt.shared.data.UserManagementData;
@@ -8,7 +8,7 @@ import cg.usermanagement.gwt.shared.data.UserManagementData;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UserManagementUI extends UIComposite< UserManagementData, TabPanel >
+public class UserManagementUI extends CompositeUI< UserManagementData, TabPanel >
 {
   private static final String[] TAB_TITLE = { "Login", "User Register" }; 
   

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cg.gwt.components.client.ui.AlignedUIGroup;
-import cg.gwt.components.client.ui.UIPanelComposite;
+import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.usermanagement.gwt.shared.data.PermissionDetailData;
 
 import com.google.gwt.user.client.ui.Label;
@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class PermissionDetailUI extends UIPanelComposite< PermissionDetailData, Panel >
+public class PermissionDetailUI extends PanelCompositeUI< PermissionDetailData, Panel >
 {
   public PermissionDetailUI( PermissionDetailData data )
   {

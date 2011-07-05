@@ -5,7 +5,7 @@ import cg.gwt.components.shared.utils.DataReference;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UIFlexTableComposite< D > extends UIPanelComposite< D, FlexTable >
+public class UIFlexTableComposite< D > extends PanelCompositeUI< D, FlexTable >
 {
   public static final int DEFAULT_SIDE_SIZE = 2;
   public static enum AlignStyle

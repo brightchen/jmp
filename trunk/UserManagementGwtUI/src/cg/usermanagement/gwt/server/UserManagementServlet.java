@@ -1,6 +1,7 @@
 package cg.usermanagement.gwt.server;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIFlowData;
 import cg.gwt.components.shared.data.UIIdentity;
+import cg.resourcemanagement.util.LocaleUtil;
 import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IUserManagement;
@@ -59,15 +61,18 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   }
 
   
-  public ResponseData<?> getStartUI()
+  public ResponseData<?> getStartUI( String localeName )
   {
+    Locale locale = LocaleUtil.getLocale( localeName );
+    if( locale == null )
+      locale = LocaleUtil.TOP_LOCALE;
     ResponseData< UserManagementData > rd = new ResponseData< UserManagementData >();
     rd.setFlowData( new UIFlowData( UIIdentity.UM_START ) );
     UserLoginData userLoginData = new UserLoginData();
-    userLoginData.setResourceData( UserManagementResourceDataBuilder.buildUserLoginResourceData() );
+    userLoginData.setResourceData( UserManagementResourceDataBuilder.buildUserLoginResourceData( locale ) );
     
     AccountLoginData accountLoginData = new AccountLoginData();
-    accountLoginData.setResourceData( UserManagementResourceDataBuilder.buildAccountLoginResourceData() );
+    accountLoginData.setResourceData( UserManagementResourceDataBuilder.buildAccountLoginResourceData( locale ) );
     
     UserRegisterData userRegisterData = new UserRegisterData();
     //set resource data later

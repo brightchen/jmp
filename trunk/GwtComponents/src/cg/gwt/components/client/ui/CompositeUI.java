@@ -10,19 +10,19 @@ import com.google.gwt.user.client.ui.Widget;
  * U is the Widget we want to build
  * D is the data which required for building container
  */
-public abstract class UIComposite< D, U extends Widget > extends UIComponent< D, U >
+public abstract class CompositeUI< D, U extends Widget > extends ComponentUI< D, U >
 {
   private List< Widget > children = new ArrayList<Widget>();
   private U container;
   
-  public UIComposite(){}
+  public CompositeUI(){}
   
-  public UIComposite( U container )
+  public CompositeUI( U container )
   {
     setContainer( container );
   }
   
-  public UIComposite( D data, U container )
+  public CompositeUI( D data, U container )
   {
     this( container );
     setData( data );
