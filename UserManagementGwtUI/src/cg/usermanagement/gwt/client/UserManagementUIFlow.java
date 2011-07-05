@@ -1,6 +1,6 @@
 package cg.usermanagement.gwt.client;
 
-import cg.gwt.components.client.ui.UIComponent;
+import cg.gwt.components.client.ui.ComponentUI;
 import cg.gwt.components.client.ui.decorator.PopupDecorator;
 import cg.gwt.components.client.ui.decorator.PopupWithCancelButtonDecorator;
 import cg.gwt.components.shared.data.ButtonData;
@@ -28,10 +28,14 @@ public class UserManagementUIFlow
 {
   //the static attribute is safe as this is client code and run in the web browser.
   //the static is only static for one client web browser.
+  private static ControlSectionUI controlSectionUI = new ControlSectionUI();
+  private static ClientSectionUI clientSectionUI = new ClientSectionUI();
+  
   private static PopupDecorator<?,?> addRolePopup;
   private static PopupDecorator<?,?> roleDetailPopup;
   
   private static final String cookieLocale = "locale";
+
   public static void start()
   {
     String localeName = Cookies.getCookie( cookieLocale );
@@ -48,8 +52,11 @@ public class UserManagementUIFlow
   
   public static void doGetStartUISuccess( ResponseData<?> responseData )
   {
+    clientSectionUI.setComponent( buildUI( responseData ) );
+   
     RootPanel rp = RootPanel.get();
-    rp.add( buildUI( responseData ) );
+    rp.add( controlSectionUI );
+    rp.add( clientSectionUI );
   }
   
   public static Widget buildUI( ResponseData<?> responseData )
@@ -75,7 +82,7 @@ public class UserManagementUIFlow
    * this is the UI allow user the manage users,
    * such as user account management; account role management; role permission management etc
    */
-  public static UIComponent< ?, ? > buildUserManagementPanelUI()
+  public static ComponentUI< ?, ? > buildUserManagementPanelUI()
   {
     UserManagementPanelData data = new UserManagementPanelData();
     for( UserManagementButtonMeta meta : UserManagementButtonMeta.values() )

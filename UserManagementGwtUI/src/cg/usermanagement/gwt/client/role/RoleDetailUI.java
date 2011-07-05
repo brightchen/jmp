@@ -1,6 +1,6 @@
 package cg.usermanagement.gwt.client.role;
 
-import cg.gwt.components.client.ui.UIPanelComposite;
+import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.shared.utils.DataReference;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
 
@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class RoleDetailUI extends UIPanelComposite< RoleDetailData, FlexTable >
+public class RoleDetailUI extends PanelCompositeUI< RoleDetailData, FlexTable >
 {
   private static final int ROW_SIZE = 2;    // how many rows in each line
 

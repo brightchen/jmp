@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
  * U is the Widget we want to build
  * in order to load U, we wrapper U by SimplePanel and load SimplePanel
  */
-public abstract class UIComponent< D, U extends Widget > extends SimplePanel implements IDataSupport< D >
+public abstract class ComponentUI< D, U extends Widget > extends SimplePanel implements IDataSupport< D >
 {
   private D data;
   

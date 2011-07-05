@@ -11,7 +11,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface IUserManagementAsync
 {
-  public void getStartUI( AsyncCallback< ResponseData<?> > callback );
+  public void getStartUI( String localeName, AsyncCallback< ResponseData<?> > callback );
   
   //the async version should not throw any exception
   public void userlogin( String userName, String password, AsyncCallback< Void > callback );

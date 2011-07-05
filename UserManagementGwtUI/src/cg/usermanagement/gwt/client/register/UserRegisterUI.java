@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cg.gwt.components.client.ui.AlignedUIGroup;
-import cg.gwt.components.client.ui.UIPanelComposite;
+import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.client.ui.event.GwtEventDelegateHandler;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UserRegisterUI extends UIPanelComposite< UserRegisterData, VerticalPanel >
+public class UserRegisterUI extends PanelCompositeUI< UserRegisterData, VerticalPanel >
 {
   private TextBox userNameField;
   private TextBox passwordField;

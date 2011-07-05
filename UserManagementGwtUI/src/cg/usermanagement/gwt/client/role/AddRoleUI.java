@@ -1,6 +1,6 @@
 package cg.usermanagement.gwt.client.role;
 
-import cg.gwt.components.client.ui.UIPanelComposite;
+import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.client.ui.components.ButtonUI;
 import cg.usermanagement.gwt.shared.data.AddRoleData;
 
@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class AddRoleUI extends UIPanelComposite< AddRoleData, HorizontalPanel >
+public class AddRoleUI extends PanelCompositeUI< AddRoleData, HorizontalPanel >
 {
   private TextBox roleNameField;
 

@@ -1,6 +1,6 @@
 package cg.gwt.components.client.ui.components;
 
-import cg.gwt.components.client.ui.UIComponent;
+import cg.gwt.components.client.ui.ComponentUI;
 import cg.gwt.components.client.ui.event.GwtEventDelegateHandler;
 import cg.gwt.components.client.ui.event.UIEvent;
 import cg.gwt.components.shared.data.ButtonData;
@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Button;
 /*
  * ED - Event Data type
  */
-public class ButtonUI< ED > extends UIComponent< ButtonData, Button >
+public class ButtonUI< ED > extends ComponentUI< ButtonData, Button >
 {
   private Button button;
   private UIEvent<ED> clickEvent;
