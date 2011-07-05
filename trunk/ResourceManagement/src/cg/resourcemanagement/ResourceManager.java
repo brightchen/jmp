@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -19,11 +18,11 @@ import cg.utils.DataReference;
  */
 public class ResourceManager
 {
-  private static final String suffix = ".properties";
   private static ResourceManager instance;
+  private static final Locale TOP_LOCALE = new Locale( "" );   // a locale without language and country, it's the top locale 
   
-  // a locale ==> ( resource bundle base name ==> resource bundle )
-  private Map< Locale, Map< String, ResourceBundle > > localedResource = new HashMap< Locale, Map< String, ResourceBundle > >();;
+  //  resource bundle base name ==> ( locale ==> resource bundle )
+  private Map< String, Map< Locale, ResourceBundle > > resourcesGroups = new HashMap< String, Map< Locale, ResourceBundle > >();;
   
   public static ResourceManager getInstance()
   {
@@ -67,7 +66,7 @@ public class ResourceManager
       if( rb == null )
         continue;
 
-      //
+      // use rb.getLocale() instead of locale as locale can be null
       putResource( rb.getLocale(), baseName.getData(), rb );
     }
   }
@@ -79,13 +78,13 @@ public class ResourceManager
   
   protected void putResource( Locale locale, String baseName, ResourceBundle resourceBundle )
   {
-    Map< String, ResourceBundle > bundles = localedResource.get( locale );
+    Map< Locale, ResourceBundle > bundles = resourcesGroups.get( baseName );
     if( bundles == null )
     {
-      bundles = new HashMap< String, ResourceBundle >();
-      localedResource.put( locale, bundles );
+      bundles = new HashMap< Locale, ResourceBundle >();
+      resourcesGroups.put( baseName, bundles );
     }
-    bundles.put( baseName, resourceBundle );
+    bundles.put( locale, resourceBundle );
   }
   
   protected ResourceFileLookup getResourceFileLookup()
@@ -95,11 +94,11 @@ public class ResourceManager
 
   public Set<String> getKeys( Locale locale )
   {
-    Map< String, ResourceBundle > bundles = localedResource.get( locale );
     Set< String > keys = new HashSet< String >();
-    for( Map.Entry< String, ResourceBundle > entry : bundles.entrySet() )
+
+    for( Map.Entry< String, Map< Locale, ResourceBundle > >group : resourcesGroups.entrySet() )
     {
-      ResourceBundle bundle = entry.getValue();
+      ResourceBundle bundle = group.getValue().get( locale );
       Enumeration< String > theKeys = bundle.getKeys();
       while( theKeys.hasMoreElements() )
       {
@@ -109,21 +108,38 @@ public class ResourceManager
     return keys;
   }
   
+  public String getString( String resourceBaseName, Locale locale, String key )
+  {
+    Map< Locale, ResourceBundle > group = resourcesGroups.get( resourceBaseName );
+    if( group == null )
+      return null;
+    
+    for( ; locale != null; locale = getParentLocale( locale ) )
+    {
+      ResourceBundle bundle = group.get( locale );
+      if( bundle != null )
+        return bundle.getString( key );
+    }
+    return null;
+  }
+
+  protected Locale getParentLocale( Locale locale )
+  {
+    if( TOP_LOCALE.equals( locale ) )
+      return null;
+    String country = locale.getCountry();
+    return ( country != null && !country.isEmpty() ) ? new Locale( locale.getLanguage() ) : TOP_LOCALE;
+  }
+  
   public String getString( Locale locale, String key )
   {
-    Map< String, ResourceBundle > bundles = localedResource.get( locale );
-    for( Map.Entry< String, ResourceBundle > entry : bundles.entrySet() )
+    for( String baseName : resourcesGroups.keySet() )
     {
-      ResourceBundle bundle = entry.getValue();
-      try
-      {
-        return bundle.getString( key );
-      }
-      catch( MissingResourceException e )
-      {
-      }
+      String value = getString( baseName, locale, key );
+      if( value != null )
+        return value;
     }
-    throw new MissingResourceException( "", "", key );
+    return null;
   }
 
 //  public String[] getStringArray( Locale locale, String key )

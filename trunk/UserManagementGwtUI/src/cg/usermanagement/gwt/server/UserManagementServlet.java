@@ -64,12 +64,14 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     ResponseData< UserManagementData > rd = new ResponseData< UserManagementData >();
     rd.setFlowData( new UIFlowData( UIIdentity.UM_START ) );
     UserLoginData userLoginData = new UserLoginData();
+    userLoginData.setResourceData( UserManagementResourceDataBuilder.buildUserLoginResourceData() );
     
     AccountLoginData accountLoginData = new AccountLoginData();
     accountLoginData.setResourceData( UserManagementResourceDataBuilder.buildAccountLoginResourceData() );
     
     UserRegisterData userRegisterData = new UserRegisterData();
-    accountLoginData.setResourceData( UserManagementResourceDataBuilder.buildUserLoginResourceData() );
+    //set resource data later
+    //userRegisterData.setResourceData( UserManagementResourceDataBuilder.b() );
     
     UserManagementData data = new UserManagementData( userLoginData, accountLoginData, userRegisterData );
     rd.setContentData( data );
