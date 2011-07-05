@@ -23,12 +23,13 @@ public class SessionManager
   private static Map< Long, String > threadSessionIdMap = new ConcurrentHashMap< Long, String >();
   
   //generate a session-id and put into the session
-  public synchronized static void startSession()
+  public synchronized static String startSession()
   {
     String sessionId = generateSessionId();
     Map< Long, Object > attributes = new HashMap< Long, Object >();
     threadSessionIdMap.put( getCurrentThreadId(), sessionId );
     sessionIdAttrbutesMap.put( sessionId, attributes );
+    return sessionId;
   }
   
   public synchronized static void endSession()

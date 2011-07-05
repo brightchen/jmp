@@ -6,8 +6,18 @@ import cg.gwt.components.shared.data.ResponseData;
 
 import com.google.gwt.core.client.GWT;
 
-public class UserManagementStartEvent extends UIEvent< Void >
+/*
+ * data - the locale
+ */
+public class UserManagementStartEvent extends UIEvent< String >
 {
+  public enum LOCALE
+  {
+    en_US,
+    zh_CN
+  }
+  
+  private String localeName = LOCALE.en_US.name();
   private IUserManagementAsync userManagement = GWT.create( IUserManagement.class );
   
   @Override
@@ -23,10 +33,20 @@ public class UserManagementStartEvent extends UIEvent< Void >
                                 } );
   }
   
-  @Override
-  public Void getData()
+  public void setLocale( String localeName )
   {
-    return null;
+    this.localeName = localeName;
+  }
+  
+  public void setLocale( LOCALE locale )
+  {
+    setLocale( locale.name() );
+  }
+  
+  @Override
+  public String getData()
+  {
+    return LOCALE.en_US.name();
   }
 
   protected void onGetStartUISuccess( ResponseData<?> responseData )

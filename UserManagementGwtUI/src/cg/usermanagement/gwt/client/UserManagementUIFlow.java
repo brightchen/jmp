@@ -15,6 +15,7 @@ import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.UserManagementData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -30,9 +31,18 @@ public class UserManagementUIFlow
   private static PopupDecorator<?,?> addRolePopup;
   private static PopupDecorator<?,?> roleDetailPopup;
   
+  private static final String cookieLocale = "locale";
   public static void start()
   {
+    String localeName = Cookies.getCookie( cookieLocale );
+    if( localeName == null || localeName.isEmpty() )
+    {
+      localeName = UserManagementStartEvent.LOCALE.en_US.name();
+      Cookies.setCookie( cookieLocale, localeName );
+    }
+    
     UserManagementStartEvent event = new UserManagementStartEvent();
+    event.setLocale( localeName );
     event.fire();
   }
   
