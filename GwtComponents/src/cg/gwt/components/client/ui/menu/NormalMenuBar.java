@@ -9,6 +9,9 @@ import cg.gwt.components.shared.data.NormalMenuItemData;
 
 import com.google.gwt.user.client.ui.MenuBar;
 
+/*
+ * menu bar includes menu items, but only has one root menu item
+ */
 public class NormalMenuBar extends MenuBar
 {
   private MenuBarData menuBarData;

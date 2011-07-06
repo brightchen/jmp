@@ -92,6 +92,11 @@ public class ResourceManager
     return new ResourceFileLookup();
   }
 
+  public Set< Locale > getSupportedLocales( String resourceBaseName )
+  {
+    return resourcesGroups.get( resourceBaseName ).keySet();
+  }
+  
   public Set<String> getKeys( Locale locale )
   {
     Set< String > keys = new HashSet< String >();

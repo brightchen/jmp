@@ -1,5 +1,7 @@
 package cg.usermanagement.gwt.client;
 
+import java.util.List;
+
 import cg.gwt.components.client.ui.ComponentUI;
 import cg.gwt.components.client.ui.decorator.PopupDecorator;
 import cg.gwt.components.client.ui.decorator.PopupWithCancelButtonDecorator;
@@ -50,9 +52,9 @@ public class UserManagementUIFlow
     event.fire();
   }
   
-  public static void doGetStartUISuccess( ResponseData<?> responseData )
+  public static void doGetStartUISuccess( List< ResponseData<?> > responseDatas )
   {
-    clientSectionUI.setComponent( buildUI( responseData ) );
+    clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
    
     RootPanel rp = RootPanel.get();
     rp.add( controlSectionUI );

@@ -6,6 +6,7 @@ import cg.resourcemanagement.ResourceManager;
 
 public enum UserManagementResourceKey
 {
+  localename,
   um$userloginui$title,
   um$userloginui$username,
   um$userloginui$userpassword,
@@ -27,13 +28,13 @@ public enum UserManagementResourceKey
     return name().replace( '$', '.' );
   }
 
-  public String getResourceBundleName()
+  public static String getResourceBundleBaseName()
   {
     return "cg.usermanagement.gwt.server.resource.UserManagementResource";
   }
   
   public String getString( Locale locale )
   {
-    return ResourceManager.getInstance().getString( locale, getStringKey() );
+    return ResourceManager.getInstance().getString( getResourceBundleBaseName(), locale, getStringKey() );
   }
 }

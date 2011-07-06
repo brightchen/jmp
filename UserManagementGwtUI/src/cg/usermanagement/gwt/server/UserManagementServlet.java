@@ -1,5 +1,6 @@
 package cg.usermanagement.gwt.server;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -11,7 +12,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import cg.gwt.components.shared.data.ResponseData;
-import cg.gwt.components.shared.data.UIFlowData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.resourcemanagement.util.LocaleUtil;
 import cg.services.session.SessionManager;
@@ -19,6 +19,7 @@ import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.server.resource.UserManagementResourceDataBuilder;
 import cg.usermanagement.gwt.shared.data.AccountLoginData;
+import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
@@ -61,26 +62,40 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   }
 
   
-  public ResponseData<?> getStartUI( String localeName )
+  public List< ResponseData<?> > getStartUI( String localeName )
   {
-    Locale locale = LocaleUtil.getLocale( localeName );
-    if( locale == null )
-      locale = LocaleUtil.TOP_LOCALE;
-    ResponseData< UserManagementData > rd = new ResponseData< UserManagementData >();
-    rd.setFlowData( new UIFlowData( UIIdentity.UM_START ) );
-    UserLoginData userLoginData = new UserLoginData();
-    userLoginData.setResourceData( UserManagementResourceDataBuilder.buildUserLoginResourceData( locale ) );
+    List< ResponseData<?> > rds = new ArrayList< ResponseData<?> >();
     
-    AccountLoginData accountLoginData = new AccountLoginData();
-    accountLoginData.setResourceData( UserManagementResourceDataBuilder.buildAccountLoginResourceData( locale ) );
+    // control section data
+    {
+      ResponseData< ControlSectionData > rd = new ResponseData< ControlSectionData >();
+      rd.setFlowData( UIIdentity.UM_START );
+      rds.add( rd );
+    }
     
-    UserRegisterData userRegisterData = new UserRegisterData();
-    //set resource data later
-    //userRegisterData.setResourceData( UserManagementResourceDataBuilder.b() );
-    
-    UserManagementData data = new UserManagementData( userLoginData, accountLoginData, userRegisterData );
-    rd.setContentData( data );
-    return rd;
+    // user management data
+    {
+      Locale locale = LocaleUtil.getLocale( localeName );
+      if( locale == null )
+        locale = LocaleUtil.TOP_LOCALE;
+      ResponseData< UserManagementData > rd = new ResponseData< UserManagementData >();
+      rd.setFlowData( UIIdentity.UM_START );
+      UserLoginData userLoginData = new UserLoginData();
+      userLoginData.setResourceData( UserManagementResourceDataBuilder.buildUserLoginResourceData( locale ) );
+      
+      AccountLoginData accountLoginData = new AccountLoginData();
+      accountLoginData.setResourceData( UserManagementResourceDataBuilder.buildAccountLoginResourceData( locale ) );
+      
+      UserRegisterData userRegisterData = new UserRegisterData();
+      //set resource data later
+      //userRegisterData.setResourceData( UserManagementResourceDataBuilder.b() );
+      
+      UserManagementData data = new UserManagementData( userLoginData, accountLoginData, userRegisterData );
+      rd.setContentData( data );
+      
+      rds.add( rd );
+    }    
+    return rds;
   }
 
   

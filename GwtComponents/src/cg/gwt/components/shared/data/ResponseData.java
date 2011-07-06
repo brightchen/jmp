@@ -44,5 +44,10 @@ public class ResponseData< D extends UIContentData > implements Serializable
     this.flowData = flowData;
   }
   
+  public void setFlowData( UIIdentity uiIdentity )
+  {
+    setFlowData( new UIFlowData( uiIdentity ) );
+  }
+  
   
 }
