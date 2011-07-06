@@ -3,10 +3,10 @@ package cg.usermanagement.gwt.client.ui;
 import java.util.List;
 
 import cg.gwt.components.client.ui.old.UIObjectBuilder;
-import cg.usermanagement.gwt.shared.data.MenuBarData;
-import cg.usermanagement.gwt.shared.data.MenuItemData;
-import cg.usermanagement.gwt.shared.data.MenuItemType;
-import cg.usermanagement.gwt.shared.data.NormalMenuItemData;
+import cg.gwt.components.shared.data.MenuBarData;
+import cg.gwt.components.shared.data.MenuItemData;
+import cg.gwt.components.shared.data.MenuItemType;
+import cg.gwt.components.shared.data.NormalMenuItemData;
 
 import com.google.gwt.user.client.ui.MenuBar;
 

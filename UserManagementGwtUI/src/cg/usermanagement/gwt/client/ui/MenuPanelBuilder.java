@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cg.gwt.components.client.ui.old.UIObjectBuilder;
-import cg.usermanagement.gwt.shared.data.MenuBarData;
+import cg.gwt.components.shared.data.MenuBarData;
 
 import com.google.gwt.user.client.ui.MenuBar;
 

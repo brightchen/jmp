@@ -1,7 +1,7 @@
 package cg.usermanagement.gwt.client.ui;
 
 import cg.gwt.components.client.ui.old.TypicalCompositeBuilder;
-import cg.usermanagement.gwt.shared.data.MenuBarData;
+import cg.gwt.components.shared.data.MenuBarData;
 import cg.usermanagement.gwt.shared.data.UserManagementClientPanelData;
 
 import com.google.gwt.user.client.ui.MenuBar;

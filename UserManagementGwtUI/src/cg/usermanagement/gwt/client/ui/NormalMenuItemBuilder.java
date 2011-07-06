@@ -1,8 +1,8 @@
 package cg.usermanagement.gwt.client.ui;
 
+import cg.gwt.components.client.ui.menu.TypicalCommand;
 import cg.gwt.components.client.ui.old.UIObjectBuilder;
-import cg.usermanagement.gwt.client.TypicalCommand;
-import cg.usermanagement.gwt.shared.data.NormalMenuItemData;
+import cg.gwt.components.shared.data.NormalMenuItemData;
 
 import com.google.gwt.user.client.ui.MenuItem;
 

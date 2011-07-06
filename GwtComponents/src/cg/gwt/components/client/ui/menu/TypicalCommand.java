@@ -1,4 +1,4 @@
-package cg.usermanagement.gwt.client;
+package cg.gwt.components.client.ui.menu;
 
 import java.util.ArrayList;
 import java.util.List;
