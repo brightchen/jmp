@@ -1,5 +1,10 @@
 package cg.usermanagement.gwt.shared.data;
 
+import cg.gwt.components.shared.data.MenuBarData;
+import cg.gwt.components.shared.data.MenuItemData;
+import cg.gwt.components.shared.data.MenuItemType;
+import cg.gwt.components.shared.data.NormalMenuItemData;
+
 
 public class UserManagementMenuBarData extends MenuBarData
 {

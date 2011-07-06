@@ -1,7 +1,8 @@
-package cg.usermanagement.gwt.shared.data;
+package cg.gwt.components.shared.data;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 //MenuBar is a collection of menuitems
 //MenuBar can contain sub-MenuBar(s)
