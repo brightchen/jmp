@@ -19,4 +19,25 @@ public class LocaleUtil
       return new Locale( localeInfos[0], localeInfos[1] );
     return new Locale( localeName );
   }
+  
+  /*
+   * this method is opposite to the getLocale, it returns language_country_variant
+   */
+  public static String getLocaleName( Locale locale )
+  {
+    String localeName = locale.getLanguage();
+    
+    {
+      String country = locale.getCountry();
+      if( country != null && !country.isEmpty() )
+        localeName += "_" + country;
+    }
+    
+    {
+      String variant = locale.getVariant();
+      if( variant != null && !variant.isEmpty() )
+        localeName += "_" + variant;
+    }
+    return localeName;
+  }
 }

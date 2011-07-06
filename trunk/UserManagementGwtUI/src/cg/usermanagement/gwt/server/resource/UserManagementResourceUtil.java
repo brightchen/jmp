@@ -1,11 +1,18 @@
 package cg.usermanagement.gwt.server.resource;
 
 import java.util.Locale;
+import java.util.Set;
 
+import cg.resourcemanagement.ResourceManager;
 import cg.resourcemanagement.util.LocaleUtil;
 
 public class UserManagementResourceUtil
 {
+  public static Set<Locale> getSupportedLocales()
+  {
+    return ResourceManager.getInstance().getSupportedLocales( UserManagementResourceKey.getResourceBundleBaseName() );
+  }
+  
   public static String getResource( UserManagementResourceKey key )
   {
     return getResource( key, getLocale() );
@@ -22,7 +29,7 @@ public class UserManagementResourceUtil
   }
   
   /*
-   * the locale should be get from current user's session
+   * TODO: the locale should be get from current user's session
    */
   public static Locale getLocale()
   {
