@@ -35,7 +35,7 @@ public class ResourceTester
     try
     {
     Locale chinaLocale = Locale.CHINA;
-    String str = ResourceManager.getInstance().getString( chinaLocale , "ok" );
+    String str = ResourceManager.getInstance().getString( chinaLocale , "label1" );
     byte[] bstr = str.getBytes();       //how can bstr[5] is 63? it should be -102
 //    bstr[5] = (byte)-102;
     

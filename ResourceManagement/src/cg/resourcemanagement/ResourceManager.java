@@ -156,8 +156,8 @@ public class ResourceManager
       return value;
     try
     {
-      byte[] bytes = value.getBytes();
-      return new String( bytes, 0, bytes.length, "UTF-8" ); //"UTF-8"
+      //the ResourceBundle read resource file as "ISO-8859-1", we using "UTF-8" inside for resource 
+      return new String( value.getBytes( "ISO-8859-1" ), "UTF-8" ); 
     }
     catch( Exception e )
     {
