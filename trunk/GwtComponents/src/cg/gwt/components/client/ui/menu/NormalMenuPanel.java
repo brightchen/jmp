@@ -26,7 +26,7 @@ public class NormalMenuPanel extends MenuBar
     
     for( MenuBarData menuBarData : menuPanelData )
     {
-      addItem( menuBarData.getTitle(), new NormalMenuBar( menuBarData ) );
+      addItem( menuBarData.getTitle(), new NormalMenuBar( menuBarData, false ) );
     }
   }
 }

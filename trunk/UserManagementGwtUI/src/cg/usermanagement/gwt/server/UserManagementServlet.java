@@ -3,6 +3,7 @@ package cg.usermanagement.gwt.server;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,8 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import cg.gwt.components.shared.data.MenuBarData;
+import cg.gwt.components.shared.data.NormalMenuItemData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.resourcemanagement.util.LocaleUtil;
@@ -69,7 +72,21 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     // control section data
     {
       ResponseData< ControlSectionData > rd = new ResponseData< ControlSectionData >();
-      rd.setFlowData( UIIdentity.UM_START );
+      rd.setFlowData( UIIdentity.CONTROL_SECTION );
+      
+      MenuBarData menuBarData = new MenuBarData(); 
+      menuBarData.setTitle( "Locale" );
+      Map< String, String > localeDatas = UserManagementResourceDataBuilder.getSupportedLocalesData();
+      for( Map.Entry< String, String > localeData : localeDatas.entrySet() )
+      {
+        //use locale name as the command key and locale name's resource value as menu item's title
+        NormalMenuItemData menuItemData = new NormalMenuItemData( localeData.getValue(), localeData.getKey() );
+        menuBarData.addMenuItemData( menuItemData );
+      }
+      ControlSectionData controlSectionData = new ControlSectionData();
+      controlSectionData.addMenuBarData( menuBarData );
+      rd.setContentData( controlSectionData );
+      
       rds.add( rd );
     }
     

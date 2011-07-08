@@ -1,18 +1,51 @@
-package cg.resourcemanagement;
+package cg.resourcemanagement.test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import cg.resourcemanagement.ResourceManager;
+
 public class ResourceTester
 {
   public static void main( String[] argv )
   {
-    normalTest();
+    testDecode();
+//    normalTest();
+  }
+  
+  public static void testDecode()
+  {
+    try
+    {
+      FileWriter filewrt = new FileWriter("out");
+      String defaultcharset = filewrt.getEncoding();
+      System.out.println( "default charset is: " + defaultcharset );
+    }
+    catch( IOException e )
+    {
+      e.printStackTrace();
+    }
+    
+    try
+    {
+    Locale chinaLocale = Locale.CHINA;
+    String str = ResourceManager.getInstance().getString( chinaLocale , "ok" );
+    byte[] bstr = str.getBytes();       //how can bstr[5] is 63? it should be -102
+//    bstr[5] = (byte)-102;
+    
+    str = new String( bstr, 0, bstr.length, "UTF-8" );
+    System.out.println( str );
+    }
+    catch( Exception e )
+    {
+      e.printStackTrace();
+    }
   }
   
   public static void testBundles()

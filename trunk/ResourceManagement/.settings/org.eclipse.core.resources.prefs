@@ -1,4 +1,5 @@
-#Fri Jul 01 19:24:07 EDT 2011
+#Thu Jul 07 16:52:55 EDT 2011
 eclipse.preferences.version=1
-encoding//src/cg/resourcemanagement/T2Resource_zh.properties=UTF-8
-encoding//src/cg/resourcemanagement/T2Resource_zh_CN.properties=UTF-8
+encoding//test/cg/resourcemanagement/test/DecodeTester.java=UTF-8
+encoding//test/cg/resourcemanagement/test/T2Resource_zh.properties=UTF-8
+encoding//test/cg/resourcemanagement/test/T2Resource_zh_CN.properties=UTF-8
