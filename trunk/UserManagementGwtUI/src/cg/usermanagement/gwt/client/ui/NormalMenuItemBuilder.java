@@ -1,6 +1,6 @@
 package cg.usermanagement.gwt.client.ui;
 
-import cg.gwt.components.client.ui.menu.TypicalCommand;
+import cg.gwt.components.client.ui.menu.NormalMenuItem;
 import cg.gwt.components.client.ui.old.UIObjectBuilder;
 import cg.gwt.components.shared.data.NormalMenuItemData;
 
@@ -20,7 +20,7 @@ public class NormalMenuItemBuilder extends UIObjectBuilder< NormalMenuItemData, 
     NormalMenuItemData data = getData();
     String title = data.getTitle();
     String commandKey = data.getCommandKey();
-    return new MenuItem( title, new TypicalCommand( commandKey ) );
+    return new NormalMenuItem( title );
   }
 
   @Override
