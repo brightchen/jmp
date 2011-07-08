@@ -80,6 +80,7 @@ public class NormalMenuBar extends MenuBar
     if( miData instanceof MenuBarData )
     {
       MenuBarData mbData = ( MenuBarData)miData;
+      //this normal menu bar is NOT root
       menuBar.addItem( mbData.getTitle(), new NormalMenuBar( mbData, false ) );
       return;
     }

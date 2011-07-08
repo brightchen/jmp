@@ -3,8 +3,8 @@ package cg.usermanagement.gwt.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import cg.gwt.components.client.ui.menu.NormalMenuPanel;
 import cg.gwt.components.shared.data.MenuBarData;
-import cg.usermanagement.gwt.client.ui.MenuPanelBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementClientPanelBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementMenuBarBuilder;
 import cg.usermanagement.gwt.client.ui.UserManagementPanelBuilder;
@@ -15,26 +15,19 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class UserManagementPage implements EntryPoint
 {
   public void onModuleLoad()
   {
+//    testMenuPanel();
     UserManagementUIFlow.start();
   }    
 
-  protected Panel buildNormalPage()
-  {
-    return null;
-//    LoginData loginData = new UserLoginData();
-//    UserRegisterData registerData = new UserRegisterData();
-//    return UserManagementUIFlow.buildStartUI();
-//    SystemUserLoginTransformer loginPart = new SystemUserLoginTransformer();
-//    return loginPart.build();
-  }
   
-  protected MenuBar buildTestMenuPanel()
+  protected void testMenuPanel()
   {
     MenuBarData menuBarData = UserManagementMenuBarData.getTypicalData();
     List< MenuBarData > menuPanelData = new ArrayList< MenuBarData >();
@@ -43,8 +36,10 @@ public class UserManagementPage implements EntryPoint
       menuPanelData.add( menuBarData );
     }
     
-    MenuPanelBuilder menuPanelBuilder = new MenuPanelBuilder();
-    return menuPanelBuilder.build( menuPanelData );
+//      MenuPanelBuilder menuPanelBuilder = new MenuPanelBuilder();
+//      return menuPanelBuilder.build( menuPanelData );
+    
+    RootPanel.get().add( new NormalMenuPanel( menuPanelData ) );
   }
   
   protected Panel buildTestUserManagementPanel()

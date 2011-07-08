@@ -13,6 +13,14 @@ import com.google.gwt.user.client.ui.MenuBar;
 public class MenuPanelBuilder extends UIObjectBuilder< List< MenuBarData >, MenuBar >
 {
   private MenuBar rootMenuBar;
+  
+  public MenuPanelBuilder(){}
+  
+  public MenuPanelBuilder( List< MenuBarData > data )
+  {
+    setData( data );
+  }
+  
   @Override
   public MenuBar build()
   {

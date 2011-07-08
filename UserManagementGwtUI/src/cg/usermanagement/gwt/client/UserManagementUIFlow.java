@@ -12,6 +12,7 @@ import cg.gwt.components.shared.data.UIIdentity;
 import cg.usermanagement.gwt.client.role.AddRoleUI;
 import cg.usermanagement.gwt.client.role.RoleDetailUI;
 import cg.usermanagement.gwt.shared.data.AddRoleData;
+import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.UserManagementData;
@@ -30,7 +31,7 @@ public class UserManagementUIFlow
 {
   //the static attribute is safe as this is client code and run in the web browser.
   //the static is only static for one client web browser.
-  private static ControlSectionUI controlSectionUI = new ControlSectionUI();
+  private static ControlSectionUI controlSectionUI;
   private static ClientSectionUI clientSectionUI = new ClientSectionUI();
   
   private static PopupDecorator<?,?> addRolePopup;
@@ -54,6 +55,8 @@ public class UserManagementUIFlow
   
   public static void doGetStartUISuccess( List< ResponseData<?> > responseDatas )
   {
+    controlSectionUI = (ControlSectionUI)buildUI( responseDatas.get( 0 ) );
+    
     clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
    
     RootPanel rp = RootPanel.get();
@@ -65,6 +68,11 @@ public class UserManagementUIFlow
   {
     UIFlowData flowData = responseData.getFlowData();
     UIIdentity identity = flowData.getUiIdentity();
+    
+    if( UIIdentity.CONTROL_SECTION.equals( identity ) )
+    {
+      return new ControlSectionUI( (ControlSectionData)responseData.getContentData() );
+    }
     if( UIIdentity.UM_START.equals( identity ) )
     {
       return new UserManagementUI( (UserManagementData)responseData.getContentData() );   

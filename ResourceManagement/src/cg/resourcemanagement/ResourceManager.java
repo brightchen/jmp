@@ -123,7 +123,7 @@ public class ResourceManager
     {
       ResourceBundle bundle = group.get( locale );
       if( bundle != null )
-        return bundle.getString( key );
+        return decodeString( locale, bundle.getString( key ) );
     }
     return null;
   }
@@ -147,6 +147,30 @@ public class ResourceManager
     return null;
   }
 
+  /*
+   * some resources are kept as UTF-8 in the resource file, should convert to the UTF-16 before use it
+   */
+  protected static String decodeString( Locale locale, String value )
+  {
+    if( !shouldDecode( locale ) )
+      return value;
+    try
+    {
+      byte[] bytes = value.getBytes();
+      return new String( bytes, 0, bytes.length, "UTF-8" ); //"UTF-8"
+    }
+    catch( Exception e )
+    {
+      return value;
+    }
+  }
+  
+  protected static boolean shouldDecode( Locale locale )
+  {
+    //only Chinese need to decode right now
+    return Locale.CHINESE.getLanguage().equals( locale.getLanguage() );
+  }
+  
 //  public String[] getStringArray( Locale locale, String key )
 //  {
 //    ResourceBundle rb = getResourceBundle( locale );
