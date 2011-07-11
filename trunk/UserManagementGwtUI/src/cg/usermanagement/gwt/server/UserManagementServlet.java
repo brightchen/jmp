@@ -15,6 +15,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import cg.gwt.components.shared.data.MenuBarData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
+import cg.gwt.components.shared.data.UIResourceData;
 import cg.resourcemanagement.util.LocaleUtil;
 import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
@@ -136,7 +137,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       return rds;
     for( ResponseData<?> rd : rds )
     {
-      rd.getContentData().getResourceData()
+      UIResourceData resourceData = rd.getContentData().getResourceData();
     }
   }
   
