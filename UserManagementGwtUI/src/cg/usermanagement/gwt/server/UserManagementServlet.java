@@ -13,7 +13,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import cg.gwt.components.shared.data.MenuBarData;
-import cg.gwt.components.shared.data.NormalMenuItemData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.resourcemanagement.util.LocaleUtil;
@@ -23,6 +22,7 @@ import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.server.resource.UserManagementResourceDataBuilder;
 import cg.usermanagement.gwt.shared.data.AccountLoginData;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
+import cg.usermanagement.gwt.shared.data.LocaleMenuItemData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
@@ -80,7 +80,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       for( Map.Entry< String, String > localeData : localeDatas.entrySet() )
       {
         //use locale name as the command key and locale name's resource value as menu item's title
-        NormalMenuItemData menuItemData = new NormalMenuItemData( localeData.getValue(), localeData.getKey() );
+        LocaleMenuItemData menuItemData = new LocaleMenuItemData( localeData.getValue(), localeData.getKey() );
         menuBarData.addMenuItemData( menuItemData );
       }
       ControlSectionData controlSectionData = new ControlSectionData();
@@ -112,9 +112,33 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       
       rds.add( rd );
     }    
+
+    
+    //put into the session
+    SessionManager.startSession();
+    SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, rds );
+
     return rds;
   }
 
+  /*
+   * when the locale changed, the server should response with resource data of new locale and refresh the page
+   * @see cg.usermanagement.gwt.client.IUserManagement#changeLocale(java.lang.String)
+   */
+  @Override
+  public List< ResponseData<?> > changeLocale( String localeName )
+  {
+    Locale locale = LocaleUtil.getLocale( localeName );
+    SessionManager.putAttribute( UserManagementSessionKey.locale, locale );
+
+    List< ResponseData<?> > rds = (List< ResponseData<?> >)SessionManager.getAttribute( UserManagementSessionKey.currentPageDatas );
+    if( rds == null || rds.size() == 0 )
+      return rds;
+    for( ResponseData<?> rd : rds )
+    {
+      rd.getContentData().getResourceData()
+    }
+  }
   
   public void userlogin( String userName, String password ) throws LoginException
   {

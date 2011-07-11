@@ -6,7 +6,7 @@ public class NormalMenuItemData extends MenuItemData
   private static final long serialVersionUID = -8086856314308266592L;
   
   private String title;
-  private String commandKey;
+  private MenuEventData eventData;
   
   public NormalMenuItemData()
   {
@@ -15,14 +15,17 @@ public class NormalMenuItemData extends MenuItemData
   
   public NormalMenuItemData( String title )
   {
-    this( null, null );
+    this( title, null );
   }
-
   public NormalMenuItemData( String title, String commandKey )
   {
+    this( title, commandKey, (String[])null );
+  }
+  
+  public NormalMenuItemData( String title, String commandKey, String ... parameters )
+  {
     super( MenuItemType.NORMAL );
-    setTitle( title );
-    setCommandKey( commandKey );
+    setEventData( new MenuEventData( commandKey, parameters ) );
   }
 
   public String getTitle()
@@ -37,13 +40,17 @@ public class NormalMenuItemData extends MenuItemData
 
   public String getCommandKey()
   {
-    return commandKey;
+    return ( eventData == null ) ? null : eventData.getKey();
   }
 
-  public void setCommandKey( String commandKey )
+  public MenuEventData getEventData()
   {
-    this.commandKey = commandKey;
+    return eventData;
   }
-  
+
+  public void setEventData( MenuEventData eventData )
+  {
+    this.eventData = eventData;
+  }
   
 }

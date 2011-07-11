@@ -5,8 +5,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import cg.gwt.components.shared.data.UIIdentity;
+import cg.gwt.components.shared.data.UIResourceData;
 import cg.resourcemanagement.util.LocaleUtil;
 import cg.usermanagement.gwt.shared.data.LoginResourceData;
+import cg.usermanagement.gwt.shared.data.UserManagementResourceData;
 
 public class UserManagementResourceDataBuilder
 {
@@ -25,6 +28,24 @@ public class UserManagementResourceDataBuilder
       localesData.put( LocaleUtil.getLocaleName( locale ), UserManagementResourceUtil.getResource( UserManagementResourceKey.localename, locale ) );
     }
     return localesData;
+  }
+
+  public static <RD extends UserManagementResourceData> RD buildResourceData( Locale locale, Class< RD > resouceDataClass )
+  {
+    try
+    {
+      return buildResourceData( locale, resouceDataClass.newInstance() );
+    }
+    catch( Exception e )
+    {
+      
+    }
+    
+  }
+
+  public static <RD extends UserManagementResourceData> RD buildResourceData( Locale locale, RD resouceData )
+  {
+    
   }
   
   public static LoginResourceData buildUserLoginResourceData( Locale locale )

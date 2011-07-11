@@ -8,7 +8,6 @@ import cg.gwt.components.shared.data.MenuBarData;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 
 public class ControlSectionUI extends ComponentUI< ControlSectionData, HorizontalPanel >
 {
@@ -23,7 +22,6 @@ public class ControlSectionUI extends ComponentUI< ControlSectionData, Horizonta
   public HorizontalPanel build()
   {
     List< MenuBarData > menuPanelData = getData().getMenuPanelData();
-    component.add( new Label( "control panel") );
     component.add( new NormalMenuPanel( menuPanelData ) );
     return component;
   }

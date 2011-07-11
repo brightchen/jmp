@@ -4,6 +4,9 @@ import cg.services.session.api.ISessionKey;
 
 public enum UserManagementSessionKey implements ISessionKey
 {
+  locale,
+  currentPageDatas,   //List< ResponseData<?> >
+  
   userName,
   accountName,
   userPermissions,

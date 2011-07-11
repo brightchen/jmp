@@ -38,7 +38,20 @@ public class UserManagementUIFlow
   private static PopupDecorator<?,?> roleDetailPopup;
   
   private static final String cookieLocale = "locale";
+  
+  public static void freshCurrentPage( List< ResponseData<?> > responseDatas )
+  {
+    controlSectionUI = (ControlSectionUI)buildUI( responseDatas.get( 0 ) );
+    
+    clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
+   
+    RootPanel rp = RootPanel.get();
+    rp.clear();
+    rp.add( controlSectionUI );
+    rp.add( clientSectionUI );
 
+  }
+  
   public static void start()
   {
     String localeName = Cookies.getCookie( cookieLocale );
