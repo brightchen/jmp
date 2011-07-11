@@ -2,10 +2,18 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
+import cg.usermanagement.gwt.server.resource.IResourceDataProperty;
+
 public class LoginResourceData implements Serializable
 {
   private static final long serialVersionUID = 4036326632774416259L;
 
+  public enum LoginResourceDataProperty implements IResourceDataProperty
+  {
+    name,
+    password
+  }
+  
   private String name;
   private String password;
   

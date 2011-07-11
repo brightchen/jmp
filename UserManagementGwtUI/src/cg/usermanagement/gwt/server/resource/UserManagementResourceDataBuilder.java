@@ -5,8 +5,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import cg.gwt.components.shared.data.UIIdentity;
-import cg.gwt.components.shared.data.UIResourceData;
 import cg.resourcemanagement.util.LocaleUtil;
 import cg.usermanagement.gwt.shared.data.LoginResourceData;
 import cg.usermanagement.gwt.shared.data.UserManagementResourceData;
@@ -38,7 +36,7 @@ public class UserManagementResourceDataBuilder
     }
     catch( Exception e )
     {
-      
+      return null;
     }
     
   }

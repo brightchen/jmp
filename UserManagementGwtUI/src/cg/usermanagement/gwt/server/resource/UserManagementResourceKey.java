@@ -12,20 +12,20 @@ import cg.resourcemanagement.ResourceManager;
 public enum UserManagementResourceKey
 {
   localename,
-  um$userloginui$title,
-  um$userloginui$username,
-  um$userloginui$userpassword,
-  um$userloginui$login,
+  um$userlogin$title,
+  um$userlogin$username,
+  um$userlogin$userpassword,
+  um$userlogin$login,
 
-  um$accountloginui$title,
-  um$accountloginui$accountname,
-  um$accountloginui$accountpassword,
-  um$accountloginui$login,
+  um$accountlogin$title,
+  um$accountlogin$accountname,
+  um$accountlogin$accountpassword,
+  um$accountlogin$login,
 
-  um$userregisterui$title,
-  um$userregisterui$username,
-  um$userregisterui$userpassword,
-  um$userregisterui$adduser,
+  um$userregister$title,
+  um$userregister$username,
+  um$userregister$userpassword,
+  um$userregister$adduser,
 
   ;
   public String getStringKey()
