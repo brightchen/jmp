@@ -21,6 +21,8 @@ public interface IUserManagement extends RemoteService
    */
   public List< ResponseData<?> > getStartUI( String localeName );
   
+  public List< ResponseData<?> > changeLocale( String localeName );
+  
   public void userlogin( String userName, String password ) throws LoginException;
   public void accountlogin( String accountName, String password ) throws LoginException;
   
