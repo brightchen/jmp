@@ -7,12 +7,15 @@ import java.util.Vector;
 public class ClassPropertyUtil
 {
   // where the property come from
-  public static enum PropertySource
+  public static enum PropertyCriteria
   {
-    Field,
-    Getter,
-    Setter
+    Getter,           //has getter method
+    Setter,           //has setter method
+    GetterAndSetter,  //has both getter and setter
+    GetterOrSetter    //has either getter or setter
   }
+  
+  public static PropertyCriteria defaultPropertyCriteria = PropertyCriteria.GetterAndSetter;
   
   /*
    * get properties from class clazz and its super classes until rootSuperClass
@@ -28,5 +31,11 @@ public class ClassPropertyUtil
     return null;
   }
   
+  /*
+   * get the properties for this class only, it doesn't go through the class hierarchy
+   */
   public static <T> getClassPropertiesFlattly( Class<T> clazz )
+  {
+    
+  }
 }

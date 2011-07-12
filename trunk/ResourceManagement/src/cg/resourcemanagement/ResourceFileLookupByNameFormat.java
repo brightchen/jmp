@@ -8,7 +8,7 @@ import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 
 import cg.common.reflect.ReflectionsBuilder;
-import cg.utils.DataReference;
+import cg.common.util.DataReference;
 
 /*
  * find the resource files by resource file name format
