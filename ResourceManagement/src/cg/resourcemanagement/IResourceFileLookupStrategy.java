@@ -3,7 +3,7 @@ package cg.resourcemanagement;
 import java.util.Locale;
 import java.util.Set;
 
-import cg.utils.DataReference;
+import cg.common.util.DataReference;
 
 
 public interface IResourceFileLookupStrategy

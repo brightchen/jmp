@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import cg.common.util.DataConverter;
 import cg.gwt.components.shared.data.MenuBarData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
@@ -35,7 +36,6 @@ import cg.usermanagement.model.view.UserRegisterView;
 import cg.usermanagement.shared.LoginException;
 import cg.usermanagement.shared.RegisterUserException;
 import cg.usermanagement.shared.RoleException;
-import cg.utils.DataConverter;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
