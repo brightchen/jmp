@@ -1,9 +1,7 @@
 package cg.usermanagement.gwt.server.resource;
 
-import java.util.HashMap;
-import java.util.Map;
+import cg.common.property.IClassProperty;
 
-import cg.gwt.components.shared.data.UIResourceData;
 
 /*
  * this manager manages the properties of resource data and resource key
@@ -12,21 +10,9 @@ import cg.gwt.components.shared.data.UIResourceData;
 public class UserManagementResourceDataManager
 {
   // ResourceData class ==> ( ResourceDataProperty ==> Resource Key )
-  private Map< String, Map< IResourceDataProperty, UserManagementResourceKey > > propertyKeyMap = new HashMap< String, Map< IResourceDataProperty, UserManagementResourceKey > >();
-  
   private ResourcePropertyKeyChainLookupStrategy lookupStrategy = new ResourcePropertyKeyChainLookupStrategy();
-  
-  public Map< IResourceDataProperty, UserManagementResourceKey > getResourcePropertyKeyMap( Class< ? extends UIResourceData > resouceDataClass )
-  {
-    return getResourcePropertyKeyMap( resouceDataClass.getName() );
-  }
-  
-  public Map< IResourceDataProperty, UserManagementResourceKey > getResourcePropertyKeyMap( String resourceDataClassName )
-  {
-    return propertyKeyMap.get( resourceDataClassName );
-  }
-  
-  public String getResourceKey( IResourceDataProperty resourceDataProperty )
+
+  public String getResourceKey( IClassProperty resourceDataProperty )
   {
     return lookupStrategy.getResourceKey( resourceDataProperty );
   }

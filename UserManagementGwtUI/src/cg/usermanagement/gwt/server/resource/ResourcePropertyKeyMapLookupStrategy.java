@@ -3,18 +3,20 @@ package cg.usermanagement.gwt.server.resource;
 import java.util.HashMap;
 import java.util.Map;
 
+import cg.common.property.IClassProperty;
+
 public class ResourcePropertyKeyMapLookupStrategy implements IResourcePropertyKeyLookupStrategy
 {
   // the property ==> key map
-  private Map< IResourceDataProperty, String > propertyKeyMap = new HashMap< IResourceDataProperty, String >();
+  private Map< IClassProperty, String > propertyKeyMap = new HashMap< IClassProperty, String >();
   
   @Override
-  public String getResourceKey( IResourceDataProperty resourceDataProperty )
+  public String getResourceKey( IClassProperty resourceDataProperty )
   {
     return propertyKeyMap.get( resourceDataProperty );
   }
 
-  public void registerPropertyKey( IResourceDataProperty property, String key )
+  public void registerPropertyKey( IClassProperty property, String key )
   {
     propertyKeyMap.put( property, key );
   }
