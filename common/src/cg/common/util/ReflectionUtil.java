@@ -2,6 +2,8 @@ package cg.common.util;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 public class ReflectionUtil
@@ -44,39 +46,101 @@ public class ReflectionUtil
     }
   }
   
+  public static Set< Method > getMethods( Class<?> clazz, String methodNamePattern, Object[] expectedParameters, int expectedModifiers )
+  {
+    Class<?>[] expectedParameterTypes = null; 
+    if( expectedParameters != null && expectedParameters.length > 0 )
+    {
+      expectedParameterTypes = new Class<?>[ expectedParameters.length ];
+      for( int index = 0; index < expectedParameters.length; ++index )
+      {
+        Object parameter = expectedParameters[ index ];
+        expectedParameterTypes[ index ] = ( parameter == null ? null : parameter.getClass() );
+      }
+    }
+    
+    return getMethods( clazz, methodNamePattern, expectedParameterTypes, expectedModifiers );
+                                                      
+  }
+
+  public static Set< Method > getMethods( Class<?> clazz, String methodNamePattern, Class<?>[] expectedParameterTypes, int expectedModifiers )
+  {
+    Set< Method > methods = new HashSet< Method >(); 
+    Method[] allMethods = clazz.getMethods();
+    if( allMethods == null || allMethods.length == 0 )
+      return methods;
+    
+    for( Method method : methods )
+    {
+      if( isMethodMetch( method, methodNamePattern, expectedParameterTypes, expectedModifiers ) )
+        methods.add( method );
+    }
+    return methods;
+  }
+
+
+  
   /*
    * get the method from class which the method name is <methodName>, and the parameters are compatible to <parameters> 
    */
   public static Method getMethod( Class<?> clazz, String methodName, Object[] parameters )
   {
-    Method[] methods = getMethods( clazz, methodName );
-    if( methods == null || methods.length == 0 )
-      return null;
-    
-    //check the parameter compatibility
-    for( Method method : methods )
-    {
-      Class<?>[] parameterTypes = method.getParameterTypes();
-      if( isParametersCompatible( parameters, parameterTypes ) )
-        return method;
-    }
-    return null;
+    Set< Method > methods = getMethods( clazz, methodName, parameters, Modifier.PUBLIC );
+    return ( methods == null || methods.size() == 0 ) ? null : methods.iterator().next();
   }
   
-  public static boolean isParametersCompatible( Object[] parameters, Class<?>[] parameterTypes )
+  public static boolean isMethodMetch( Method method, String methodNamePattern, Class<?>[] expectedParameterTypes, int expectedModifiers )
   {
-    if( parameters == null || parameters.length == 0 )
-    {
-      return ( parameterTypes == null || parameterTypes.length == 0 );
-    }
-    if( parameterTypes == null || parameterTypes.length == 0 )
-      return false;
-    if( parameters.length != parameterTypes.length )
+    if( methodNamePattern != null && methodNamePattern.length() > 0 && !method.getName().matches( methodNamePattern ) )
       return false;
     
-    for( int index = 0; index < parameters.length; ++index )
+    if( !isModifiedMatch( method.getModifiers(), expectedModifiers ) )
+      return false;
+    
+    if( !isParameterTypesCompatible( method.getParameterTypes(), expectedParameterTypes) )
+      return false;
+    
+    return true;
+  }
+  
+  /*
+   * check the accessible modifier and others
+   */
+  public static boolean isModifiedMatch( int modifiers, int expectedModifiers )
+  {
+    // accessible
+    if( Modifier.isPrivate( expectedModifiers ) && !Modifier.isPrivate( modifiers ) )
+      return false;
+    if( Modifier.isProtected( expectedModifiers ) && !Modifier.isProtected( modifiers ) )
+      return false;
+    if( Modifier.isPublic( expectedModifiers ) && !Modifier.isPublic( modifiers ) )
+      return false;
+
+    //abstract
+    if( Modifier.isAbstract( expectedModifiers ) && !Modifier.isAbstract( modifiers ) )
+      return false;
+    
+    //static 
+    if( Modifier.isStatic( expectedModifiers ) && !Modifier.isStatic( modifiers ) )
+      return false;
+
+    return true;
+  }
+  
+  public static boolean isParameterTypesCompatible( Class<?>[] parameterTypes, Class<?>[] expectedParameterTypes )
+  {
+    if( parameterTypes == null || parameterTypes.length == 0 )
     {
-      if( !isParameterCompatible( parameters[index], parameterTypes[index] ) )
+      return ( expectedParameterTypes == null || expectedParameterTypes.length == 0 );
+    }
+    if( expectedParameterTypes == null || expectedParameterTypes.length == 0 )
+      return false;
+    if( parameterTypes.length != expectedParameterTypes.length )
+      return false;
+    
+    for( int index = 0; index < parameterTypes.length; ++index )
+    {
+      if( !isParameterTypeCompatible( parameterTypes[index], expectedParameterTypes[index] ) )
         return false;
     }
     return true;
@@ -85,14 +149,16 @@ public class ReflectionUtil
   /*
    * precondition: the parameter can be null, but parameterType can NOT be null;
    */
-  public static boolean isParameterCompatible( Object parameter, Class<?> parameterType )
+  public static boolean isParameterTypeCompatible( Class<?> parameterType, Class<?> expectedParameterType )
   {
-    if( parameter == null )
+    if( expectedParameterType == null && parameterType == null )
       return true;
-    if( parameterType == null )
+
+    if( expectedParameterType == null || parameterType == null )
       return false;
+
     //TODO: need to check primitive etc
-    return parameterType.isAssignableFrom( parameter.getClass() );
+    return expectedParameterType.isAssignableFrom( parameterType );
   }
   
   public static Method[] getMethods( Class<?> clazz, String methodName )
