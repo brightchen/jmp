@@ -17,15 +17,20 @@ public class ClassPropertyUtil
   
   public static PropertyCriteria defaultPropertyCriteria = PropertyCriteria.GetterAndSetter;
   
+  public static <T> Set< IClassProperty > getClassProperties( Class<T> clazz, Class< ? super T > rootSuperClass )
+  {
+    return getClassProperties( clazz, rootSuperClass, defaultPropertyCriteria );
+  }
+  
   /*
    * get properties from class clazz and its super classes until rootSuperClass
    */
-  public static <T> Set< IClassProperty > getClassProperties( Class<T> clazz, Class< ? super T > rootSuperClass )
+  public static <T> Set< IClassProperty > getClassProperties( Class<T> clazz, Class< ? super T > rootSuperClass, PropertyCriteria criteria )
   {
     Set< IClassProperty > properties = new HashSet< IClassProperty >();
     for( Class< ? super T > superClass = clazz; superClass != null && !superClass.equals( rootSuperClass ); superClass = superClass.getSuperclass()  )
     {
-      properties.addAll( getClassPropertiesFlattly( superClass ) );
+      properties.addAll( getClassPropertiesFlattly( superClass, criteria ) );
     }
     
     return null;
@@ -34,8 +39,19 @@ public class ClassPropertyUtil
   /*
    * get the properties for this class only, it doesn't go through the class hierarchy
    */
-  public static <T> getClassPropertiesFlattly( Class<T> clazz )
+  public static <T> Set< IClassProperty > getClassPropertiesFlattly( Class<T> clazz, PropertyCriteria criteria )
+  {
+    return null;
+  }
+  
+  public static <T> Set< IClassProperty > getClassGetterPropertiesFlattly( Class<T> clazz )
+  {
+    ReflectionUtil.ge
+  }
+
+  public static <T> Set< IClassProperty > getClassSetterPropertiesFlattly( Class<T> clazz )
   {
     
   }
+
 }
