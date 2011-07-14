@@ -9,7 +9,6 @@ public class UIResourceData implements Serializable
 {
   private static final long serialVersionUID = -2047215359328761554L;
 
-  public 
   //the map between the class property ( getter/setter ) ==> resource key name
 //  private static Map< String, String > propertyResourceMap = new HashMap< String, String >();
 //

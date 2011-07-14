@@ -8,6 +8,9 @@ import java.util.Vector;
 
 public class ReflectionUtil
 {
+  public static final String GET_METHOD_PATTERN = "get.+";
+  public static final String SET_METHOD_PATTERN = "set.+";
+  
   private static final String GET_METHOD_PREFIX = "get";
   private static final String SET_METHOD_PREFIX = "set";
 
@@ -127,12 +130,19 @@ public class ReflectionUtil
     return true;
   }
   
+  /*
+   * if expectedParameterTypes is null: means the caller don't care about the parameter types
+   * if length of expectedParameterTypes is 0: means the method should not have parameter.
+   */
   public static boolean isParameterTypesCompatible( Class<?>[] parameterTypes, Class<?>[] expectedParameterTypes )
   {
-    if( parameterTypes == null || parameterTypes.length == 0 )
+    if( expectedParameterTypes == null )
     {
-      return ( expectedParameterTypes == null || expectedParameterTypes.length == 0 );
+      return true;
     }
+    if( expectedParameterTypes.length == 0 )
+      return ( parameterTypes.length == 0 );
+    
     if( expectedParameterTypes == null || expectedParameterTypes.length == 0 )
       return false;
     if( parameterTypes.length != expectedParameterTypes.length )
@@ -147,15 +157,12 @@ public class ReflectionUtil
   }
   
   /*
-   * precondition: the parameter can be null, but parameterType can NOT be null;
+   * precondition: parameterType should NOT be null;
    */
   public static boolean isParameterTypeCompatible( Class<?> parameterType, Class<?> expectedParameterType )
   {
-    if( expectedParameterType == null && parameterType == null )
-      return true;
-
     if( expectedParameterType == null || parameterType == null )
-      return false;
+      throw new IllegalArgumentException( "Neither parameter type nor expected parameter type should be null." );
 
     //TODO: need to check primitive etc
     return expectedParameterType.isAssignableFrom( parameterType );
@@ -178,13 +185,13 @@ public class ReflectionUtil
   public static boolean isGetterMethod( Method method )
   {
     String methodName = method.getName();
-    return ( methodName.length() > GET_METHOD_PREFIX.length() && methodName.startsWith( GET_METHOD_PREFIX ) );
+    return methodName.matches( GET_METHOD_PATTERN );
   }
 
   public static boolean isSetterMethod( Method method )
   {
     String methodName = method.getName();
-    return ( methodName.length() > SET_METHOD_PREFIX.length() && methodName.startsWith( SET_METHOD_PREFIX ) );
+    return methodName.matches( SET_METHOD_PATTERN );
   }
 
   public static boolean isValidMethod( Method method )
