@@ -36,4 +36,14 @@ public class ClassProperty
     this.declaringClass = declaringClass;
   }
 
+  public String getGetterMethodName()
+  {
+    return "get" + name.substring( 0, name.length() - 1 ).toUpperCase() + name.substring( 1 );
+  }
+
+  public String getSetterMethodName()
+  {
+    return "set" + name.substring( 0, name.length() - 1 ).toUpperCase() + name.substring( 1 );
+  }
+
 }

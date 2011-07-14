@@ -22,7 +22,7 @@ public class ResourcePropertyKeyDefaultLookupStrategy implements IResourceProper
     ownerClassShortName = ownerClassShortName.endsWith( RESOURCE_CALSS_POSTFIX ) 
                         ? ownerClassShortName.substring( 0, ownerClassShortName.length() - RESOURCE_CALSS_POSTFIX.length() )
                         : ownerClassShortName;
-    return modulePrefix + ownerClassShortName + SEPERATOR + resourceDataProperty.name().toLowerCase();
+    return modulePrefix + ownerClassShortName + SEPERATOR + resourceDataProperty.getName().toLowerCase();
   }
 
 }

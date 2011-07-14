@@ -3,11 +3,9 @@ package cg.common.property;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Vector;
-
-import cg.common.util.ReflectionUtil;
 
 import javassist.Modifier;
+import cg.common.util.ReflectionUtil;
 
 public class ClassPropertyUtil
 {
@@ -74,13 +72,18 @@ public class ClassPropertyUtil
   
   public static <T> Set< ClassProperty > getClassGetterPropertiesFlattly( Class<T> clazz )
   {
-    Set< Method > getterMethods = ReflectionUtil.getMethods( clazz, "get.+", null, Modifier.PUBLIC );
+    Set< Method > getterMethods = ReflectionUtil.getMethods( clazz, ReflectionUtil.GET_METHOD_PATTERN, new Class<?>[]{}, Modifier.PUBLIC );
     return getProperties( getterMethods );
   }
 
+  /*
+   * we don't care about the parameters list of setter right now
+   * TODO: check the parameter list of setter
+   */
   public static <T> Set< ClassProperty > getClassSetterPropertiesFlattly( Class<T> clazz )
   {
-    
+    Set< Method > getterMethods = ReflectionUtil.getMethods( clazz, ReflectionUtil.SET_METHOD_PATTERN, null, Modifier.PUBLIC );
+    return getProperties( getterMethods );
   }
   
   public static Set< ClassProperty > getProperties( Set< Method > methods )
