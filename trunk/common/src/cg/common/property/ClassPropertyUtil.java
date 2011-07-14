@@ -1,8 +1,13 @@
 package cg.common.property;
 
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
+
+import cg.common.util.ReflectionUtil;
+
+import javassist.Modifier;
 
 public class ClassPropertyUtil
 {
@@ -17,7 +22,7 @@ public class ClassPropertyUtil
   
   public static PropertyCriteria defaultPropertyCriteria = PropertyCriteria.GetterAndSetter;
   
-  public static <T> Set< IClassProperty > getClassProperties( Class<T> clazz, Class< ? super T > rootSuperClass )
+  public static <T> Set< ClassProperty > getClassProperties( Class<T> clazz, Class< ? super T > rootSuperClass )
   {
     return getClassProperties( clazz, rootSuperClass, defaultPropertyCriteria );
   }
@@ -25,9 +30,9 @@ public class ClassPropertyUtil
   /*
    * get properties from class clazz and its super classes until rootSuperClass
    */
-  public static <T> Set< IClassProperty > getClassProperties( Class<T> clazz, Class< ? super T > rootSuperClass, PropertyCriteria criteria )
+  public static <T> Set< ClassProperty > getClassProperties( Class<T> clazz, Class< ? super T > rootSuperClass, PropertyCriteria criteria )
   {
-    Set< IClassProperty > properties = new HashSet< IClassProperty >();
+    Set< ClassProperty > properties = new HashSet< ClassProperty >();
     for( Class< ? super T > superClass = clazz; superClass != null && !superClass.equals( rootSuperClass ); superClass = superClass.getSuperclass()  )
     {
       properties.addAll( getClassPropertiesFlattly( superClass, criteria ) );
@@ -39,19 +44,58 @@ public class ClassPropertyUtil
   /*
    * get the properties for this class only, it doesn't go through the class hierarchy
    */
-  public static <T> Set< IClassProperty > getClassPropertiesFlattly( Class<T> clazz, PropertyCriteria criteria )
+  public static <T> Set< ClassProperty > getClassPropertiesFlattly( Class<T> clazz, PropertyCriteria criteria )
   {
-    return null;
+    Set< ClassProperty > getters = null;
+    if( PropertyCriteria.Getter.equals( criteria ) || PropertyCriteria.GetterAndSetter.equals( criteria ) 
+        || PropertyCriteria.GetterOrSetter.equals( criteria ) )
+    {
+      getters = getClassGetterPropertiesFlattly( clazz );
+      if( PropertyCriteria.Getter.equals( criteria ) )
+        return getters;
+    }
+    
+    Set< ClassProperty > setters = null;
+    if( PropertyCriteria.Setter.equals( criteria ) || PropertyCriteria.GetterAndSetter.equals( criteria ) 
+        || PropertyCriteria.GetterOrSetter.equals( criteria ) )
+    {
+      setters = getClassSetterPropertiesFlattly( clazz );
+      if( PropertyCriteria.Setter.equals( criteria ) )
+          return setters;
+    }
+    
+    if( PropertyCriteria.GetterAndSetter.equals( criteria ) )
+      getters.retainAll( setters );
+    else  // PropertyCriteria.GetterOrSetter
+      getters.addAll( setters );
+    
+    return getters;
   }
   
-  public static <T> Set< IClassProperty > getClassGetterPropertiesFlattly( Class<T> clazz )
+  public static <T> Set< ClassProperty > getClassGetterPropertiesFlattly( Class<T> clazz )
   {
-    ReflectionUtil.ge
+    Set< Method > getterMethods = ReflectionUtil.getMethods( clazz, "get.+", null, Modifier.PUBLIC );
+    return getProperties( getterMethods );
   }
 
-  public static <T> Set< IClassProperty > getClassSetterPropertiesFlattly( Class<T> clazz )
+  public static <T> Set< ClassProperty > getClassSetterPropertiesFlattly( Class<T> clazz )
   {
     
   }
+  
+  public static Set< ClassProperty > getProperties( Set< Method > methods )
+  {
+    Set< ClassProperty > properties = new HashSet< ClassProperty >();
+    for( Method method : methods )
+    {
+      ClassProperty property = new ClassProperty( getPropertyName( method ), method.getDeclaringClass() );
+    }
+    return properties;
+  }
 
+  public static String getPropertyName( Method method )
+  {
+    String methodName = method.getName();
+    return methodName.substring( 3 );
+  }
 }
