@@ -1,6 +1,6 @@
 package cg.usermanagement.gwt.server.resource;
 
-import cg.common.property.IClassProperty;
+import cg.common.property.ClassProperty;
 
 /*
  * statically transform the resourceDataProperty to the resource key
@@ -14,7 +14,7 @@ public class ResourcePropertyKeyDefaultLookupStrategy implements IResourceProper
 
   //resource key format: <module short name> + <class short name> + <property name>
   @Override
-  public String getResourceKey( IClassProperty resourceDataProperty )
+  public String getResourceKey( ClassProperty resourceDataProperty )
   {
     Class<?> ownerClass = resourceDataProperty.getClass().getDeclaringClass();
     String ownerClassShortName = ownerClass.getSimpleName();

@@ -3,7 +3,7 @@ package cg.usermanagement.gwt.server.resource;
 import java.util.ArrayList;
 import java.util.List;
 
-import cg.common.property.IClassProperty;
+import cg.common.property.ClassProperty;
 
 public class ResourcePropertyKeyChainLookupStrategy implements IResourcePropertyKeyLookupStrategy
 {
@@ -22,7 +22,7 @@ public class ResourcePropertyKeyChainLookupStrategy implements IResourceProperty
 
   //also need to cache the correct result to the map strategy 
   @Override
-  public String getResourceKey( IClassProperty resourceDataProperty )
+  public String getResourceKey( ClassProperty resourceDataProperty )
   {
     for( IResourcePropertyKeyLookupStrategy strategy : lookupChain )
     {

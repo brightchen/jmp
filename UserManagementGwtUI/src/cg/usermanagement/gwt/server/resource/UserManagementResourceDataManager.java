@@ -1,6 +1,6 @@
 package cg.usermanagement.gwt.server.resource;
 
-import cg.common.property.IClassProperty;
+import cg.common.property.ClassProperty;
 
 
 /*
@@ -12,7 +12,7 @@ public class UserManagementResourceDataManager
   // ResourceData class ==> ( ResourceDataProperty ==> Resource Key )
   private ResourcePropertyKeyChainLookupStrategy lookupStrategy = new ResourcePropertyKeyChainLookupStrategy();
 
-  public String getResourceKey( IClassProperty resourceDataProperty )
+  public String getResourceKey( ClassProperty resourceDataProperty )
   {
     return lookupStrategy.getResourceKey( resourceDataProperty );
   }
