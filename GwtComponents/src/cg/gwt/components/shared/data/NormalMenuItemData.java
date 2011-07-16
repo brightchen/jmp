@@ -1,12 +1,13 @@
 package cg.gwt.components.shared.data;
 
 
-public class NormalMenuItemData extends MenuItemData
+public class NormalMenuItemData extends MenuItemData implements IUIResourceDataProvider< SimpleUIResourceData >
 {
   private static final long serialVersionUID = -8086856314308266592L;
   
-  private String title;
   private MenuEventData eventData;
+  
+  private SimpleUIResourceData resourceData = new SimpleUIResourceData();
   
   public NormalMenuItemData()
   {
@@ -26,16 +27,17 @@ public class NormalMenuItemData extends MenuItemData
   {
     super( MenuItemType.NORMAL );
     setEventData( new MenuEventData( commandKey, parameters ) );
+    setTitle( title );
   }
 
   public String getTitle()
   {
-    return title;
+    return resourceData.getValue();
   }
 
   public void setTitle( String title )
   {
-    this.title = title;
+    resourceData.setValue( title );
   }
 
   public String getCommandKey()
@@ -51,6 +53,12 @@ public class NormalMenuItemData extends MenuItemData
   public void setEventData( MenuEventData eventData )
   {
     this.eventData = eventData;
+  }
+
+  @Override
+  public SimpleUIResourceData getResourceData()
+  {
+    return resourceData;
   }
   
 }

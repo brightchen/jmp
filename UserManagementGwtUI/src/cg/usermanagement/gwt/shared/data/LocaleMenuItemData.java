@@ -8,6 +8,8 @@ public class LocaleMenuItemData extends NormalMenuItemData implements Serializab
 {
   private static final long serialVersionUID = -4225004675359361290L;
 
+  public LocaleMenuItemData(){}
+  
   public LocaleMenuItemData( String localeValue, String localeKey )
   {
     //use localeValue( from resource file ) as the title, commandkey is control$locale, localeKey( "", "en_US" ) as parameter
