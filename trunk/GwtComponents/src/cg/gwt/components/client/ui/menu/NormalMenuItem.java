@@ -3,21 +3,25 @@ package cg.gwt.components.client.ui.menu;
 import cg.gwt.components.client.ui.event.UIMenuEvent;
 import cg.gwt.components.shared.data.NormalMenuItemData;
 
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
 
 public class NormalMenuItem extends MenuItem
 {
   public NormalMenuItem( String title )
   {
-    super( title, (Command)null );
+    this( title, null );
   }
   public NormalMenuItem( NormalMenuItemData data )
   {
-    this( data.getTitle() );
+    this( data.getTitle(), getMenuEvent( data ) );
+  }
+
+  public NormalMenuItem( String title, UIMenuEvent menuEvent )
+  {
+    super( title, menuEvent );
   }
   
-  public UIMenuEvent getMenuEvent( NormalMenuItemData data )
+  public static UIMenuEvent getMenuEvent( NormalMenuItemData data )
   {
     return new UIMenuEvent( data.getCommandKey() );
   }
