@@ -45,4 +45,8 @@ public abstract class UIEvent< D > implements IDataProvider< D >
     handlers.add( handler );
   }
   
+  public void cloneTo( UIEvent<?> newEvent )
+  {
+    newEvent.setHandlers( getHandlers() );
+  }
 }

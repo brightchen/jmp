@@ -2,6 +2,7 @@ package cg.gwt.components.client.ui.menu;
 
 import java.util.List;
 
+import cg.gwt.components.client.ui.event.UIMenuEvent;
 import cg.gwt.components.shared.data.MenuBarData;
 import cg.gwt.components.shared.data.MenuItemData;
 import cg.gwt.components.shared.data.MenuItemType;
@@ -23,10 +24,16 @@ public class NormalMenuBar extends MenuBar
   
   public NormalMenuBar( MenuBarData data, boolean isRootMenuBar )
   {
+    this( data, isRootMenuBar, null );
+  }
+  
+  //all the menu item of this menu panel share the same menu event ( event type )
+  public NormalMenuBar( MenuBarData data, boolean isRootMenuBar, UIMenuEvent menuEvent )
+  {
     //horizontal menuBar if it is root menuber
     super( !isRootMenuBar );
     setMenuBarData( data );
-    build( isRootMenuBar );
+    build( isRootMenuBar, menuEvent );
   }
   
   public MenuBarData getMenuBarData()
@@ -41,7 +48,7 @@ public class NormalMenuBar extends MenuBar
     
   }
   
-  protected void build( boolean isRootMenuBar )
+  protected void build( boolean isRootMenuBar, UIMenuEvent menuEvent )
   {
     MenuBarData data = getMenuBarData();
     if( data == null )
@@ -64,11 +71,11 @@ public class NormalMenuBar extends MenuBar
       return;
     for( MenuItemData miData : menuItemDatas )
     {
-      appendMenuItem( verticalMenuBar, miData );
+      appendMenuItem( verticalMenuBar, miData, menuEvent );
     }
   }
   
-  protected void appendMenuItem( MenuBar menuBar, MenuItemData miData )
+  protected void appendMenuItem( MenuBar menuBar, MenuItemData miData, UIMenuEvent menuEvent )
   {
     if( MenuItemType.SEPARATOR.equals( miData.getMenuItemType() ) )
     {
@@ -87,7 +94,7 @@ public class NormalMenuBar extends MenuBar
     
     //normal menuitem
     {
-      menuBar.addItem( new NormalMenuItem( (NormalMenuItemData)miData ) );
+      menuBar.addItem( new NormalMenuItem( (NormalMenuItemData)miData, menuEvent ) );
     }
   }
 

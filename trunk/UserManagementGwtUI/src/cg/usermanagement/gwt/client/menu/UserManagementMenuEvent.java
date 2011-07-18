@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import cg.gwt.components.client.ui.event.UIMenuEvent;
+import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.gwt.components.shared.data.MenuEventData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.usermanagement.gwt.client.IUserManagement;
@@ -18,6 +19,8 @@ public class UserManagementMenuEvent extends UIMenuEvent implements Serializable
   private static final long serialVersionUID = -3903627606324119377L;
 
   private IUserManagementAsync userManagementWebService = null;
+  
+  public UserManagementMenuEvent(){}
   
   public UserManagementMenuEvent( MenuEventData data )
   {
@@ -36,7 +39,7 @@ public class UserManagementMenuEvent extends UIMenuEvent implements Serializable
   public void fire()
   {
     String key = getData().getKey();
-    if( UserManagementMenuKey.control$locale.equals( key ) )
+    if( UserManagementMenuKey.control$locale.getStringKey().equals( key ) )
     {
       fireLocaleMenuEvent( getData().getParameters().get( 0 ) );
     }
@@ -47,19 +50,33 @@ public class UserManagementMenuEvent extends UIMenuEvent implements Serializable
    */
   public void fireLocaleMenuEvent( final String localeKey )
   {
-//    getUserManagementWebService().changeLocale( localeKey,
-//                                 new PopupFailureReasonCallback< List< ResponseData<?> > >()
-//                                 {
-//                                   @Override
-//                                   public void onSuccess( List< ResponseData<?> > responseDatas )
-//                                   {
-//                                     onChangeLocaleSuccess( responseDatas );
-//                                   }
-//                                 } );
+    getUserManagementWebService().changeLocale( localeKey,
+                                 new PopupFailureReasonCallback< List< ResponseData<?> > >()
+                                 {
+                                   @Override
+                                   public void onSuccess( List< ResponseData<?> > responseDatas )
+                                   {
+                                     onChangeLocaleSuccess( responseDatas );
+                                   }
+                                 } );
   }
 
   protected void onChangeLocaleSuccess( List< ResponseData<?> > responseDatas )
   {
     UserManagementUIFlow.freshCurrentPage( responseDatas );
   }
+  
+  public UserManagementMenuEvent clone()
+  {
+    UserManagementMenuEvent newMenuEvent = new UserManagementMenuEvent();
+    cloneTo( newMenuEvent );
+    return newMenuEvent;
+  }
+  
+  public void cloneTo( UserManagementMenuEvent newMenuEvent )
+  {
+    super.cloneTo( newMenuEvent );
+    newMenuEvent.setData( this.getData() );
+  }
+
 }

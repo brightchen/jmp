@@ -48,4 +48,17 @@ public class UIMenuEvent extends UIEvent< MenuEventData > implements Command, Se
   {
     this.data = data;
   }
+  
+  public UIMenuEvent clone()
+  {
+    UIMenuEvent newMenuEvent = new UIMenuEvent();
+    cloneTo( newMenuEvent );
+    return newMenuEvent;
+  }
+  
+  public void cloneTo( UIMenuEvent newMenuEvent )
+  {
+    super.cloneTo( newMenuEvent );
+    newMenuEvent.setData( this.getData() );
+  }
 }
