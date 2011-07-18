@@ -1,11 +1,15 @@
 package cg.gwt.components.client.ui.event;
 
+import java.io.Serializable;
+
 import com.google.gwt.user.client.Command;
 
 import cg.gwt.components.shared.data.MenuEventData;
 
-public class UIMenuEvent extends UIEvent< MenuEventData > implements Command 
+public class UIMenuEvent extends UIEvent< MenuEventData > implements Command, Serializable
 {
+  private static final long serialVersionUID = -6797472881937510733L;
+
   private MenuEventData data;
   
   public UIMenuEvent(){}

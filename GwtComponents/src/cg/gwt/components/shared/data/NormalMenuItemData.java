@@ -1,6 +1,8 @@
 package cg.gwt.components.shared.data;
 
-
+/*
+ * the MenuItemData with eventData and ResourceData
+ */
 public class NormalMenuItemData extends MenuItemData implements IUIResourceDataProvider< SimpleUIResourceData >
 {
   private static final long serialVersionUID = -8086856314308266592L;
