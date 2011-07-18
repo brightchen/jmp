@@ -53,6 +53,9 @@ public class UserManagementResourceDataBuilder
    */
   public static <RD extends UserManagementResourceData> RD buildResourceData( Locale locale, RD resourceData )
   {
+    if( resourceData == null )
+      return null;
+    
     Class< RD > resourceDataClass = (Class< RD >)resourceData.getClass();
     Set< ClassProperty > classProperties = ClassPropertyUtil.getClassProperties( resourceDataClass, UserManagementResourceData.class );
     for( ClassProperty classProperty : classProperties )
