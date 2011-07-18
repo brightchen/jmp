@@ -7,6 +7,8 @@ import java.util.Set;
 
 import cg.common.property.ClassProperty;
 import cg.common.property.ClassPropertyUtil;
+import cg.gwt.components.server.util.ResourceDataUtil;
+import cg.resourcemanagement.ResourceKeyManager;
 import cg.resourcemanagement.util.LocaleUtil;
 import cg.usermanagement.gwt.shared.data.LoginResourceData;
 import cg.usermanagement.gwt.shared.data.UserManagementResourceData;
@@ -55,8 +57,9 @@ public class UserManagementResourceDataBuilder
     Set< ClassProperty > classProperties = ClassPropertyUtil.getClassProperties( resourceDataClass, UserManagementResourceData.class );
     for( ClassProperty classProperty : classProperties )
     {
-      String resourceValue = UserManagementResourceDataManager.defaultInstance.getResourceKey( classProperty );
-      UserManagementResourceDataManager.setResourceValue( resourceData, classProperty, resourceValue );
+      String resourceKey = ResourceKeyManager.defaultInstance.getResourceKey( classProperty );
+      String resourceValue = UserManagementResourceUtil.getResourceValue( resourceKey );
+      ResourceDataUtil.setResourceValue( resourceData, classProperty, resourceValue );
     }
     return resourceData;
   }

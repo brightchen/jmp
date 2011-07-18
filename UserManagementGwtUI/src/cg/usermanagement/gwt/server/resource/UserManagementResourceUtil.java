@@ -35,4 +35,9 @@ public class UserManagementResourceUtil
   {
     return Locale.US;
   }
+  
+  public static String getResourceValue( String resourceKey  )
+  {
+    return ResourceManager.getInstance().getString( getLocale(), resourceKey );
+  }
 }

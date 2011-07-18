@@ -31,7 +31,7 @@ public class UserManagementUIFlow
 {
   //the static attribute is safe as this is client code and run in the web browser.
   //the static is only static for one client web browser.
-  private static ControlSectionUI controlSectionUI;
+  private static UserManagementControlSectionUI controlSectionUI;
   private static ClientSectionUI clientSectionUI = new ClientSectionUI();
   
   private static PopupDecorator<?,?> addRolePopup;
@@ -41,7 +41,7 @@ public class UserManagementUIFlow
   
   public static void freshCurrentPage( List< ResponseData<?> > responseDatas )
   {
-    controlSectionUI = (ControlSectionUI)buildUI( responseDatas.get( 0 ) );
+    controlSectionUI = (UserManagementControlSectionUI)buildUI( responseDatas.get( 0 ) );
     
     clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
    
@@ -68,7 +68,7 @@ public class UserManagementUIFlow
   
   public static void doGetStartUISuccess( List< ResponseData<?> > responseDatas )
   {
-    controlSectionUI = (ControlSectionUI)buildUI( responseDatas.get( 0 ) );
+    controlSectionUI = (UserManagementControlSectionUI)buildUI( responseDatas.get( 0 ) );
     
     clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
    
@@ -84,7 +84,7 @@ public class UserManagementUIFlow
     
     if( UIIdentity.CONTROL_SECTION.equals( identity ) )
     {
-      return new ControlSectionUI( (ControlSectionData)responseData.getContentData() );
+      return new UserManagementControlSectionUI( (ControlSectionData)responseData.getContentData() );
     }
     if( UIIdentity.UM_START.equals( identity ) )
     {
