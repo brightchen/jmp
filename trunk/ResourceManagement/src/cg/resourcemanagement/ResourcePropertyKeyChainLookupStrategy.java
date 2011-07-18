@@ -1,4 +1,4 @@
-package cg.usermanagement.gwt.server.resource;
+package cg.resourcemanagement;
 
 import java.util.ArrayList;
 import java.util.List;

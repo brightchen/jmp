@@ -9,11 +9,11 @@ import cg.usermanagement.gwt.shared.data.ControlSectionData;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
-public class ControlSectionUI extends ComponentUI< ControlSectionData, HorizontalPanel >
+public class UserManagementControlSectionUI extends ComponentUI< ControlSectionData, HorizontalPanel >
 {
   private HorizontalPanel component = new HorizontalPanel();
   
-  public ControlSectionUI( ControlSectionData data )
+  public UserManagementControlSectionUI( ControlSectionData data )
   {
     setData( data );
   }

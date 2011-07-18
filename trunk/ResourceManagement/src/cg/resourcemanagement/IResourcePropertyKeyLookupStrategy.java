@@ -1,4 +1,4 @@
-package cg.usermanagement.gwt.server.resource;
+package cg.resourcemanagement;
 
 import cg.common.property.ClassProperty;
 

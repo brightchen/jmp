@@ -13,7 +13,8 @@ public class NormalMenuItem extends MenuItem
   }
   public NormalMenuItem( NormalMenuItemData data )
   {
-    this( data.getTitle(), getMenuEvent( data ) );
+    this( data.getTitle(), null );
+    setMenuEvent( buildMenuEvent( data ) );
   }
 
   public NormalMenuItem( String title, UIMenuEvent menuEvent )
@@ -21,9 +22,9 @@ public class NormalMenuItem extends MenuItem
     super( title, menuEvent );
   }
   
-  public static UIMenuEvent getMenuEvent( NormalMenuItemData data )
+  public UIMenuEvent buildMenuEvent( NormalMenuItemData data )
   {
-    return new UIMenuEvent( data.getCommandKey() );
+    return new UIMenuEvent( data.getEventData() );
   }
   
   public void setMenuEvent( UIMenuEvent menuEvent )
