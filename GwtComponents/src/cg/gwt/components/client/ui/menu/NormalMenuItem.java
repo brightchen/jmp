@@ -13,10 +13,19 @@ public class NormalMenuItem extends MenuItem
   }
   public NormalMenuItem( NormalMenuItemData data )
   {
-    this( data.getTitle(), null );
+    this( data, null );
     setMenuEvent( buildMenuEvent( data ) );
   }
-
+  
+  /*
+   * the NormalMenuItemData and UIMenuEvent are redundant data ( commandKey and parameters )
+   */
+  public NormalMenuItem( NormalMenuItemData data, UIMenuEvent menuEvent )
+  {
+    this( data.getTitle(), null );
+    setMenuEvent( mergeEventData( data, menuEvent ) );
+  }
+  
   public NormalMenuItem( String title, UIMenuEvent menuEvent )
   {
     super( title, menuEvent );
@@ -32,4 +41,17 @@ public class NormalMenuItem extends MenuItem
     setCommand( menuEvent );
   }
 
+  /*
+   * the UIMenuEvent's MenuEventData is over NormalMenuItemData's eventData
+   * the UIMenuEvent maybe a template for whole MenuBar/MenuPanel, so, the new instance of MenuEvent should be created and set data
+   */
+  protected UIMenuEvent mergeEventData( NormalMenuItemData data, UIMenuEvent menuEvent )
+  {
+    if( menuEvent.getData() != null )
+      return menuEvent;
+    
+    UIMenuEvent newMenuEvent = menuEvent.clone();
+    newMenuEvent.setData( data.getEventData() );
+    return newMenuEvent;
+  }
 }
