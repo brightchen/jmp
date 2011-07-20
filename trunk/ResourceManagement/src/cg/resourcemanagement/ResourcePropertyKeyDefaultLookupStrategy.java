@@ -15,29 +15,31 @@ public class ResourcePropertyKeyDefaultLookupStrategy implements IResourceProper
 
   //keep the map packageName ==> module short name
   private Map< String, String > packageModuleMap = new HashMap< String, String >();
-  
+
   public ResourcePropertyKeyDefaultLookupStrategy()
   {
     putBuildinPackageModule();
   }
   
-  //resource key format: <module short name> + <class short name> + <property name>
+  /*
+   * resource key format: <module short name> + <class short name> + <property name>
+   * the resource owner class maybe different from the property declaring class 
+   */
   @Override
-  public String getResourceKey( ClassProperty resourceDataProperty )
+  public String getResourceKey( ClassProperty resourceDataProperty, Class<?> resourceOwnerClass )
   {
-    Class<?> ownerClass = resourceDataProperty.getClass().getDeclaringClass();
-    String ownerClassShortName = ownerClass.getSimpleName();
+    String ownerClassShortName = resourceOwnerClass.getSimpleName();
     ownerClassShortName = ownerClassShortName.toLowerCase();
     ownerClassShortName = ownerClassShortName.endsWith( RESOURCE_CALSS_POSTFIX ) 
                         ? ownerClassShortName.substring( 0, ownerClassShortName.length() - RESOURCE_CALSS_POSTFIX.length() )
                         : ownerClassShortName;
-    return getModuleShortName( resourceDataProperty ) + SEPERATOR + ownerClassShortName + SEPERATOR 
+    return getModuleShortName( resourceOwnerClass ) + SEPERATOR + ownerClassShortName + SEPERATOR 
          + resourceDataProperty.getName().toLowerCase();
   }
 
-  protected String getModuleShortName( ClassProperty resourceDataProperty )
+  protected String getModuleShortName( Class<?> resourceOwnerClass )
   {
-    return packageModuleMap.get( resourceDataProperty.getClass().getDeclaringClass().getPackage().getName() );
+    return packageModuleMap.get( resourceOwnerClass.getPackage().getName() );
   }
   
   protected void putBuildinPackageModule()

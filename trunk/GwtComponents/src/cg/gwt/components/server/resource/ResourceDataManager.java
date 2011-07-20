@@ -72,7 +72,7 @@ public class ResourceDataManager
     if( contentData.getResourceData() != null )
       return contentData.getResourceData().getClass();
     
-    Method getResourceDataMethod = ReflectionUtil.getMethod( contentData.getClass(), "getResourceData", new Object[]{} );
+    Method getResourceDataMethod = ReflectionUtil.getMethod( contentData.getClass(), "getResourceData", new Class<?>[]{} );
     return (Class<ResourceData>)getResourceDataMethod.getReturnType();
   }
   

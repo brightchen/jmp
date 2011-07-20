@@ -36,7 +36,7 @@ public class ReflectionUtil
       try
       {
         Object data = method.invoke( source, (Object[])null );
-        Method setMethod = getMethod( destClass, setMethodName, new Object[]{ data } ); //destClass.getMethod( setMethodName, (Class<?>[])null );
+        Method setMethod = getMethod( destClass, setMethodName, getParameterTypes( new Object[]{ data } ) ); //destClass.getMethod( setMethodName, (Class<?>[])null );
         if( setMethod == null )
           continue;
         setMethod.invoke( dest, data );
@@ -49,24 +49,21 @@ public class ReflectionUtil
     }
   }
   
-  public static Set< Method > getMethods( Class<?> clazz, String methodNamePattern, Object[] expectedParameters, int expectedModifiers )
-  {
-    Class<?>[] expectedParameterTypes = null; 
-    if( expectedParameters != null && expectedParameters.length > 0 )
-    {
-      expectedParameterTypes = new Class<?>[ expectedParameters.length ];
-      for( int index = 0; index < expectedParameters.length; ++index )
-      {
-        Object parameter = expectedParameters[ index ];
-        expectedParameterTypes[ index ] = ( parameter == null ? null : parameter.getClass() );
-      }
-    }
-    
-    return getMethods( clazz, methodNamePattern, expectedParameterTypes, expectedModifiers );
-                                                      
-  }
-
+  
   public static Set< Method > getMethods( Class<?> clazz, String methodNamePattern, Class<?>[] expectedParameterTypes, int expectedModifiers )
+  {
+    return getMethods( clazz, null, methodNamePattern, expectedParameterTypes, expectedModifiers );
+  }
+  
+  /*
+   * get the methods which match following criteria from class clazz
+   * 1. the methods is declared in the class hierarchy [ clazz, rootSuperClass ] inclusively
+   * 2. the methods' name is match methodNamePattern
+   * 3. the parameter type list is compatible with expectedParameterTypes
+   * 4. the methods' modifiers are match expectedModifiers
+   */
+  public static <T> Set< Method > getMethods( Class<T> clazz, Class< ? super T > rootSuperClass, String methodNamePattern, 
+                                              Class<?>[] expectedParameterTypes, int expectedModifiers ) 
   {
     Set< Method > methods = new HashSet< Method >(); 
     Method[] allMethods = clazz.getMethods();
@@ -75,6 +72,12 @@ public class ReflectionUtil
     
     for( Method method : allMethods )
     {
+      if( rootSuperClass != null )
+      {
+        // the qualify method should be declared in the class which is sub-class of rootSuperClass inclusively
+        if( !rootSuperClass.isAssignableFrom( method.getDeclaringClass() ) )
+          continue;
+      }
       if( isMethodMetch( method, methodNamePattern, expectedParameterTypes, expectedModifiers ) )
         methods.add( method );
     }
@@ -85,10 +88,11 @@ public class ReflectionUtil
   
   /*
    * get the method from class which the method name is <methodName>, and the parameters are compatible to <parameters> 
+   * parameters - the parameter list instead of parameter type list
    */
-  public static Method getMethod( Class<?> clazz, String methodName, Object[] parameters )
+  public static Method getMethod( Class<?> clazz, String methodName, Class<?>[] parameterTypes )
   {
-    Set< Method > methods = getMethods( clazz, methodName, parameters, Modifier.PUBLIC );
+    Set< Method > methods = getMethods( clazz, methodName, parameterTypes, Modifier.PUBLIC );
     return ( methods == null || methods.size() == 0 ) ? null : methods.iterator().next();
   }
   
@@ -225,4 +229,19 @@ public class ReflectionUtil
     return setMethodName.replaceFirst( SET_METHOD_PREFIX, GET_METHOD_PREFIX );
   }
 
+  public static Class<?>[] getParameterTypes( Object[] parameters )
+  {
+    Class<?>[] parameterTypes = null; 
+    if( parameters != null && parameters.length > 0 )
+    {
+      parameterTypes = new Class<?>[ parameters.length ];
+      for( int index = 0; index < parameters.length; ++index )
+      {
+        Object parameter = parameters[ index ];
+        parameterTypes[ index ] = ( parameter == null ? null : parameter.getClass() );
+      }
+    }
+    return parameterTypes;
+
+  }
 }

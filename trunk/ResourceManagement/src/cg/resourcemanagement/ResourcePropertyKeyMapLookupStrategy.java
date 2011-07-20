@@ -5,13 +5,15 @@ import java.util.Map;
 
 import cg.common.property.ClassProperty;
 
+//FIXME: the strategy has problem, the key should be ( ClassProperty, resourceOwnerClass )
 public class ResourcePropertyKeyMapLookupStrategy implements IResourcePropertyKeyLookupStrategy
 {
   // the property ==> key map
+  
   private Map< ClassProperty, String > propertyKeyMap = new HashMap< ClassProperty, String >();
   
   @Override
-  public String getResourceKey( ClassProperty resourceDataProperty )
+  public String getResourceKey( ClassProperty resourceDataProperty, Class<?> resourceOwnerClass )
   {
     return propertyKeyMap.get( resourceDataProperty );
   }
