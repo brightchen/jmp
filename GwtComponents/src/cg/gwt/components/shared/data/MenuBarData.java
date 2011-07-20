@@ -8,7 +8,7 @@ import java.util.List;
 //MenuBar can contain sub-MenuBar(s)
 //Although the MenuBar don't have to fire a command, but we can look the open of sub-menuitem as the behavior of a command,
 //so, the menubar can be looked as normal menu-item
-public class MenuBarData extends NormalMenuItemData
+public class MenuBarData extends NormalMenuItemData implements ICompositeContentData
 {
   private static final long serialVersionUID = 718570757853564304L;
 
@@ -28,5 +28,11 @@ public class MenuBarData extends NormalMenuItemData
     if( menuItemDatas == null )
       menuItemDatas = new ArrayList< MenuItemData >();
     menuItemDatas.add( menuItemData );
+  }
+  
+  @Override
+  public List< ? extends UIContentData > getSubContentDatas()
+  {
+    return menuItemDatas;
   }
 }

@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cg.gwt.components.shared.data.ICompositeContentData;
 import cg.gwt.components.shared.data.MenuBarData;
 import cg.gwt.components.shared.data.UIContentData;
 
-public class ControlSectionData extends UIContentData implements Serializable
+public class ControlSectionData extends UIContentData implements ICompositeContentData, Serializable
 {
   private static final long serialVersionUID = -5140670063119550849L;
 
@@ -28,5 +29,11 @@ public class ControlSectionData extends UIContentData implements Serializable
     if( menuPanelData == null )
       menuPanelData = new ArrayList<MenuBarData>();
     menuPanelData.add( menuBarData );
+  }
+
+  @Override
+  public List< ? extends UIContentData > getSubContentDatas()
+  {
+    return menuPanelData;
   }
 }
