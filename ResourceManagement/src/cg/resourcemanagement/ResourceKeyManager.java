@@ -23,7 +23,12 @@ public class ResourceKeyManager
   
   public String getResourceKey( ClassProperty resourceDataProperty )
   {
-    return lookupStrategy.getResourceKey( resourceDataProperty );
+    return getResourceKey( resourceDataProperty, resourceDataProperty.getDeclaringClass() );
+  }
+  
+  public String getResourceKey( ClassProperty resourceDataProperty, Class<?> resourceOwnerClass )
+  {
+    return lookupStrategy.getResourceKey( resourceDataProperty, resourceOwnerClass );
   }
 
   public IResourcePropertyKeyLookupStrategy getLookupStrategy()

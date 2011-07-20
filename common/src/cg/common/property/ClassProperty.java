@@ -43,7 +43,7 @@ public class ClassProperty
 
   public String getSetterMethodName()
   {
-    return "set" + name.substring( 0, name.length() - 1 ).toUpperCase() + name.substring( 1 );
+    return "set" + name.substring( 0, 1 ).toUpperCase() + name.substring( 1 );
   }
 
   @Override

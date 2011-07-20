@@ -26,11 +26,11 @@ public class ResourcePropertyKeyChainLookupStrategy implements IResourceProperty
 
   //also need to cache the correct result to the map strategy 
   @Override
-  public String getResourceKey( ClassProperty resourceDataProperty )
+  public String getResourceKey( ClassProperty resourceDataProperty, Class<?> resourceOwnerClass )
   {
     for( IResourcePropertyKeyLookupStrategy strategy : lookupChain )
     {
-      String key = strategy.getResourceKey( resourceDataProperty );
+      String key = strategy.getResourceKey( resourceDataProperty, resourceOwnerClass );
       if( key != null )
         return key;
     }

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javassist.Modifier;
+import cg.common.util.CollectionUtil;
 import cg.common.util.ReflectionUtil;
 
 public class ClassPropertyUtil
@@ -26,29 +27,16 @@ public class ClassPropertyUtil
   }
   
   /*
-   * get properties from class clazz and its super classes until rootSuperClass
+   * get properties from class clazz and its super classes until rootSuperClass.
+   * the reflection getMethod() will get all the methods defined in class hierarchy
    */
   public static <T> Set< ClassProperty > getClassProperties( Class<T> clazz, Class< ? super T > rootSuperClass, PropertyCriteria criteria )
-  {
-    Set< ClassProperty > properties = new HashSet< ClassProperty >();
-    for( Class< ? super T > superClass = clazz; superClass != null && !superClass.equals( rootSuperClass ); superClass = superClass.getSuperclass()  )
-    {
-      properties.addAll( getClassPropertiesFlattly( superClass, criteria ) );
-    }
-    
-    return properties;
-  }
-  
-  /*
-   * get the properties for this class only, it doesn't go through the class hierarchy
-   */
-  public static <T> Set< ClassProperty > getClassPropertiesFlattly( Class<T> clazz, PropertyCriteria criteria )
   {
     Set< ClassProperty > getters = null;
     if( PropertyCriteria.Getter.equals( criteria ) || PropertyCriteria.GetterAndSetter.equals( criteria ) 
         || PropertyCriteria.GetterOrSetter.equals( criteria ) )
     {
-      getters = getClassGetterPropertiesFlattly( clazz );
+      getters = getClassGetterProperties( clazz, rootSuperClass );
       if( PropertyCriteria.Getter.equals( criteria ) )
         return getters;
     }
@@ -57,22 +45,22 @@ public class ClassPropertyUtil
     if( PropertyCriteria.Setter.equals( criteria ) || PropertyCriteria.GetterAndSetter.equals( criteria ) 
         || PropertyCriteria.GetterOrSetter.equals( criteria ) )
     {
-      setters = getClassSetterPropertiesFlattly( clazz );
+      setters = getClassSetterProperties( clazz, rootSuperClass );
       if( PropertyCriteria.Setter.equals( criteria ) )
           return setters;
     }
     
     if( PropertyCriteria.GetterAndSetter.equals( criteria ) )
-      getters.retainAll( setters );
+      CollectionUtil.retainAllByValue( getters, setters );
     else  // PropertyCriteria.GetterOrSetter
-      getters.addAll( setters );
+      CollectionUtil.addAllByValue( getters, setters );
     
     return getters;
   }
   
-  public static <T> Set< ClassProperty > getClassGetterPropertiesFlattly( Class<T> clazz )
+  public static <T> Set< ClassProperty > getClassGetterProperties( Class<T> clazz, Class< ? super T > rootSuperClass )
   {
-    Set< Method > getterMethods = ReflectionUtil.getMethods( clazz, ReflectionUtil.GET_METHOD_PATTERN, new Class<?>[]{}, Modifier.PUBLIC );
+    Set< Method > getterMethods = ReflectionUtil.getMethods( clazz, rootSuperClass, ReflectionUtil.GET_METHOD_PATTERN, new Class<?>[]{}, Modifier.PUBLIC );
     return getProperties( getterMethods );
   }
 
@@ -80,9 +68,9 @@ public class ClassPropertyUtil
    * we don't care about the parameters list of setter right now
    * TODO: check the parameter list of setter
    */
-  public static <T> Set< ClassProperty > getClassSetterPropertiesFlattly( Class<T> clazz )
+  public static <T> Set< ClassProperty > getClassSetterProperties( Class<T> clazz, Class< ? super T > rootSuperClass )
   {
-    Set< Method > setterMethods = ReflectionUtil.getMethods( clazz, ReflectionUtil.SET_METHOD_PATTERN, null, Modifier.PUBLIC );
+    Set< Method > setterMethods = ReflectionUtil.getMethods( clazz, rootSuperClass, ReflectionUtil.SET_METHOD_PATTERN, null, Modifier.PUBLIC );
     return getProperties( setterMethods );
   }
   

@@ -23,6 +23,7 @@ public class ResourceDataBuilder implements IResourceDataLookupStrategy
     }
     catch( Exception e )
     {
+      e.printStackTrace();
       return null;
     }
   }
@@ -42,7 +43,7 @@ public class ResourceDataBuilder implements IResourceDataLookupStrategy
     Set< ClassProperty > classProperties = ClassPropertyUtil.getClassProperties( resourceDataClass, ResourceData.class );
     for( ClassProperty classProperty : classProperties )
     {
-      String resourceKey = ResourceKeyManager.defaultInstance.getResourceKey( classProperty );
+      String resourceKey = ResourceKeyManager.defaultInstance.getResourceKey( classProperty, resourceData.getClass() );
       String resourceValue = ResourceUtil.getResourceValue( locale, resourceKey );
       ResourceDataUtil.setResourceValue( resourceData, classProperty, resourceValue );
     }
