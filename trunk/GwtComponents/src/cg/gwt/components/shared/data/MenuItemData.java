@@ -5,7 +5,7 @@ import java.io.Serializable;
 /*
  * separator is a kind of menu item which don't need any data
  */
-public class MenuItemData implements Serializable
+public class MenuItemData extends UIContentData implements Serializable
 {
   private static final long serialVersionUID = -6887503661899518808L;
   

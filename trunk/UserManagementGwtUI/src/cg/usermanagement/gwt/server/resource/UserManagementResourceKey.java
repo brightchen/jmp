@@ -13,13 +13,13 @@ public enum UserManagementResourceKey
 {
   localename,
   um$userlogin$title,
-  um$userlogin$username,
-  um$userlogin$userpassword,
+  um$userlogin$name,
+  um$userlogin$password,
   um$userlogin$login,
 
   um$accountlogin$title,
-  um$accountlogin$accountname,
-  um$accountlogin$accountpassword,
+  um$accountlogin$name,
+  um$accountlogin$password,
   um$accountlogin$login,
 
   um$userregister$title,

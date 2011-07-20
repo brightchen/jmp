@@ -73,7 +73,7 @@ public class ReflectionUtil
     if( allMethods == null || allMethods.length == 0 )
       return methods;
     
-    for( Method method : methods )
+    for( Method method : allMethods )
     {
       if( isMethodMetch( method, methodNamePattern, expectedParameterTypes, expectedModifiers ) )
         methods.add( method );

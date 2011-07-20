@@ -5,6 +5,10 @@ import java.util.List;
 
 import cg.common.property.ClassProperty;
 
+/*
+ * supports ResourcePropertyKeyMapLookupStrategy and ResourcePropertyKeyDefaultLookupStrategy
+ * consider other strategies, such as annotation( the ResourceData class is annotated by resource key )
+ */
 public class ResourcePropertyKeyChainLookupStrategy implements IResourcePropertyKeyLookupStrategy
 {
   private List< IResourcePropertyKeyLookupStrategy > lookupChain = new ArrayList< IResourcePropertyKeyLookupStrategy >();

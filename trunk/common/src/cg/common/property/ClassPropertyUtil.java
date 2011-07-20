@@ -36,7 +36,7 @@ public class ClassPropertyUtil
       properties.addAll( getClassPropertiesFlattly( superClass, criteria ) );
     }
     
-    return null;
+    return properties;
   }
   
   /*
@@ -82,8 +82,8 @@ public class ClassPropertyUtil
    */
   public static <T> Set< ClassProperty > getClassSetterPropertiesFlattly( Class<T> clazz )
   {
-    Set< Method > getterMethods = ReflectionUtil.getMethods( clazz, ReflectionUtil.SET_METHOD_PATTERN, null, Modifier.PUBLIC );
-    return getProperties( getterMethods );
+    Set< Method > setterMethods = ReflectionUtil.getMethods( clazz, ReflectionUtil.SET_METHOD_PATTERN, null, Modifier.PUBLIC );
+    return getProperties( setterMethods );
   }
   
   public static Set< ClassProperty > getProperties( Set< Method > methods )
@@ -92,6 +92,7 @@ public class ClassPropertyUtil
     for( Method method : methods )
     {
       ClassProperty property = new ClassProperty( getPropertyName( method ), method.getDeclaringClass() );
+      properties.add( property );
     }
     return properties;
   }

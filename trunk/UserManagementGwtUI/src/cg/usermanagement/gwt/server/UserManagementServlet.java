@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import cg.common.util.DataConverter;
+import cg.gwt.components.server.resource.ResourceDataManager;
 import cg.gwt.components.shared.data.MenuBarData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
@@ -28,7 +29,6 @@ import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
 import cg.usermanagement.gwt.shared.data.UserManagementData;
-import cg.usermanagement.gwt.shared.data.UserManagementResourceData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
 import cg.usermanagement.model.view.RoleView;
@@ -137,9 +137,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       return rds;
     for( ResponseData<?> rd : rds )
     {
-      UserManagementResourceData resourceData = (UserManagementResourceData)rd.getContentData().getResourceData();
-      UserManagementResourceDataBuilder.buildResourceData( locale, resourceData );
-      rd.getContentData().setResourceData( resourceData );
+      ResourceDataManager.fillResourceDatas( locale, rd.getContentData(), false );
     }
     return rds;
   }
