@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
@@ -42,6 +43,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class UserManagementServlet extends RemoteServiceServlet implements IUserManagement
 {
   private static final long serialVersionUID = -8926280156981738193L;
+  private static final String SESSION_ID_KEY = "session_id";
   
   private Logger log = Logger.getLogger( UserManagementServlet.class );
   
@@ -116,7 +118,8 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
 
     
     //put into the session
-    SessionManager.startSession();
+    String sessionId = SessionManager.startSession();
+    setSessionId( sessionId );
     SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, rds );
 
     return rds;
@@ -130,6 +133,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   public List< ResponseData<?> > changeLocale( String localeName )
   {
     Locale locale = LocaleUtil.getLocale( localeName );
+    adjustSessionManager();
     SessionManager.putAttribute( UserManagementSessionKey.locale, locale );
 
     List< ResponseData<?> > rds = (List< ResponseData<?> >)SessionManager.getAttribute( UserManagementSessionKey.currentPageDatas );
@@ -151,7 +155,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     IUserService service = getUserService();
     Set< PermissionView > permissions = service.userLogin( userName, password );
 
-    SessionManager.startSession();
+    adjustSessionManager();
     SessionManager.putAttribute( UserManagementSessionKey.userName, userName );
 
     // cache the user permissions in the session as it is a very frequently used 
@@ -169,7 +173,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     IUserService service = getUserService();
     Set< PermissionView > permissions = service.accountLogin( accountName, password );
 
-    SessionManager.startSession();
+    adjustSessionManager();
     SessionManager.putAttribute( UserManagementSessionKey.accountName, accountName );
     
     // cache the role permissions in the session as it is a very frequently used 
@@ -205,4 +209,25 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   {
     return null;
   }
+  
+  protected void adjustSessionManager()
+  {
+    String sessionId = getSessionId();
+    if( sessionId == null )
+      return;
+    SessionManager.adjust( sessionId );
+  }
+  protected String getSessionId()
+  {
+    HttpSession session = getThreadLocalRequest().getSession(true);
+    String sessionId = ( String )session.getAttribute( SESSION_ID_KEY );
+    return sessionId;
+  }
+  public void setSessionId( String sessionId )
+  {
+    HttpSession session = getThreadLocalRequest().getSession(true);
+    session.setAttribute( SESSION_ID_KEY, sessionId );
+    
+  }
+
 }

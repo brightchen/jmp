@@ -2,7 +2,9 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
-public class UserRegisterData implements Serializable
+import cg.gwt.components.shared.data.UIContentData;
+
+public class UserRegisterData extends UIContentData implements Serializable
 {
   private static final long serialVersionUID = -4438382721725221308L;
 

@@ -39,19 +39,11 @@ public class UserManagementResourceDataBuilder
   public static UserLoginResourceData buildUserLoginResourceData( Locale locale )
   {
     return ResourceDataManager.defaultInstance.getResourceData( locale, UserLoginResourceData.class );
-//    LoginResourceData data = new LoginResourceData();
-//    data.setName( UserManagementResourceUtil.getResource( UserManagementResourceKey.um$userlogin$name, locale ) );
-//    data.setPassword( UserManagementResourceUtil.getResource( UserManagementResourceKey.um$userlogin$password, locale ) );
-//    return data;
   }
 
   public static AccountLoginResourceData buildAccountLoginResourceData( Locale locale )
   {
     return ResourceDataManager.defaultInstance.getResourceData( locale, AccountLoginResourceData.class );
-//    LoginResourceData data = new LoginResourceData();
-//    data.setName( UserManagementResourceUtil.getResource( UserManagementResourceKey.um$accountlogin$name, locale ) );
-//    data.setPassword( UserManagementResourceUtil.getResource( UserManagementResourceKey.um$accountlogin$password, locale ) );
-//    return data;
   }
 
 }

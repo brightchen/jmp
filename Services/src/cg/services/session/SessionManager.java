@@ -71,8 +71,7 @@ public class SessionManager
     String sessionId = threadSessionIdMap.get( getCurrentThreadId() );
     if( sessionId == null )
     {
-      //create a new session
-      startSession();
+      throw new RuntimeException( "sessionId should not be null. please call startSession() before using session." );
     }
 
     return sessionIdAttrbutesMap.get( sessionId );

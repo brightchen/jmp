@@ -1,11 +1,14 @@
 package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import cg.gwt.components.shared.data.UICompositeContentData;
 import cg.gwt.components.shared.data.UIContentData;
 
 
-public class UserManagementData extends UIContentData implements Serializable
+public class UserManagementData extends UICompositeContentData implements Serializable
 {
   private static final long serialVersionUID = -8520875500972991954L;
   
@@ -49,4 +52,17 @@ public class UserManagementData extends UIContentData implements Serializable
     this.userRegisterData = userRegisterData;
   }
 
+  @Override
+  public List< UIContentData< ? >> getSubContentDatas()
+  {
+    List< UIContentData< ? >> subContentDatas = new ArrayList< UIContentData< ? >>();
+    if( userLoginData != null )
+      subContentDatas.add( userLoginData );
+    if( accountLoginData != null )
+      subContentDatas.add( accountLoginData );
+    if( userRegisterData != null )
+      subContentDatas.add( userRegisterData );
+    
+    return subContentDatas;
+  }
 }

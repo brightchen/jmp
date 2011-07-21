@@ -43,6 +43,7 @@ public class UserManagementUIFlow
   {
     controlSectionUI = (UserManagementControlSectionUI)buildUI( responseDatas.get( 0 ) );
     
+    clientSectionUI = new ClientSectionUI();
     clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
    
     RootPanel rp = RootPanel.get();
