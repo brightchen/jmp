@@ -5,10 +5,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import cg.gwt.components.server.resource.ResourceDataManager;
 import cg.resourcemanagement.util.LocaleUtil;
-import cg.usermanagement.gwt.shared.data.AccountLoginResourceData;
-import cg.usermanagement.gwt.shared.data.UserLoginResourceData;
 
 public class UserManagementResourceDataBuilder
 {
@@ -36,14 +33,14 @@ public class UserManagementResourceDataBuilder
    * but they are bind to the different resources um$userlogin$* and um$accountlogin
    * it seems the instance ( instead of class ) ===> resource key map is required
    */
-  public static UserLoginResourceData buildUserLoginResourceData( Locale locale )
-  {
-    return ResourceDataManager.defaultInstance.getResourceData( locale, UserLoginResourceData.class );
-  }
-
-  public static AccountLoginResourceData buildAccountLoginResourceData( Locale locale )
-  {
-    return ResourceDataManager.defaultInstance.getResourceData( locale, AccountLoginResourceData.class );
-  }
+//  public static UserLoginResourceData buildUserLoginResourceData( Locale locale )
+//  {
+//    return ResourceDataManager.defaultInstance.getResourceData( locale, UserLoginResourceData.class );
+//  }
+//
+//  public static AccountLoginResourceData buildAccountLoginResourceData( Locale locale )
+//  {
+//    return ResourceDataManager.defaultInstance.getResourceData( locale, AccountLoginResourceData.class );
+//  }
 
 }

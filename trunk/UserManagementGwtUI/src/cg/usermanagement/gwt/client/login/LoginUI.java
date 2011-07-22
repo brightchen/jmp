@@ -7,6 +7,7 @@ import cg.gwt.components.client.ui.AlignedUIGroup;
 import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.client.ui.event.GwtEventDelegateHandler;
 import cg.usermanagement.gwt.shared.data.LoginData;
+import cg.usermanagement.gwt.shared.data.LoginResourceData;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
@@ -15,13 +16,13 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class LoginUI extends PanelCompositeUI< LoginData, VerticalPanel >
+public class LoginUI extends PanelCompositeUI< LoginData< ? extends LoginResourceData >, VerticalPanel >
 {
   private TextBox userNameField;
   private TextBox passwordField;
   private AlignedUIGroup< String > userPassUI;
   
-  public LoginUI( LoginData data )
+  public LoginUI( LoginData<? extends LoginResourceData> data )
   {
     setData( data );
     

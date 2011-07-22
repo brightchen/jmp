@@ -1,6 +1,5 @@
 package cg.gwt.components.server.resource;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,8 +48,11 @@ public class ResourceDataManager
     {
       //need to fill this resource data
       Class< ? extends ResourceData > resourceDataClass = getResourceDataType( contentData );
-      resourceData = defaultInstance.getResourceData( locale, resourceDataClass );
-      contentData.setResourceData( resourceData );
+      if( resourceDataClass != null )
+      {
+        resourceData = defaultInstance.getResourceData( locale, resourceDataClass );
+        contentData.setResourceData( resourceData );
+      }
     }
     
     if( !( contentData instanceof UICompositeContentData ) )
@@ -67,13 +69,16 @@ public class ResourceDataManager
     }
   }
   
+  /*
+   * the actually type of resourceData is the annotation type of UIContentData
+   * should not get the return type of getResourceData() as it can always be ResourceData
+   */
   public static Class< ? extends ResourceData > getResourceDataType( UIContentData contentData )
   {
     if( contentData.getResourceData() != null )
       return contentData.getResourceData().getClass();
     
-    Method getResourceDataMethod = ReflectionUtil.getMethod( contentData.getClass(), "getResourceData", new Class<?>[]{} );
-    return (Class<ResourceData>)getResourceDataMethod.getReturnType();
+    return ReflectionUtil.getGenericActualTypeArgumentClass( contentData.getClass(), UIContentData.class, ResourceData.class );
   }
   
   public static ResourceData createEmptyResourceData( UIContentData contentData )
