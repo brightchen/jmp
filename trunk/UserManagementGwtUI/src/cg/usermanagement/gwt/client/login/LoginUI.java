@@ -73,7 +73,7 @@ public class LoginUI extends PanelCompositeUI< LoginData, VerticalPanel >
       }
     };
     
-    final Button loginButton = new Button( "Login" );
+    final Button loginButton = new Button( getData().getResourceData().getLogin() );
     
     loginButton.addClickHandler( new GwtEventDelegateHandler< LoginData, LoginEvent >( loginEvent ) );
     addChild( loginButton );

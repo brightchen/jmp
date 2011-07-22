@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class LoginStartUI extends CompositeUI< UIPairData< UserLoginData, AccountLoginData >, TabPanel >
 {
-  private static final String[] TAB_TITLE = { "User Login", "Account Login" }; 
+  private String[] tabTitles;
   public LoginStartUI( UserLoginData userLoginData, AccountLoginData accountLoginData )
   {
     setData( new UIPairData< UserLoginData, AccountLoginData >( userLoginData, accountLoginData ) );
@@ -18,13 +18,18 @@ public class LoginStartUI extends CompositeUI< UIPairData< UserLoginData, Accoun
     LoginUI accountLoginUI = new LoginUI( accountLoginData );
     addChild( userLoginUI );
     addChild( accountLoginUI );
+    
+    tabTitles = new String[2];
+    tabTitles[0] = userLoginData.getResourceData().getTitle();
+    tabTitles[1] = accountLoginData.getResourceData().getTitle();
+
     setContainer( new TabPanel() );
   }
 
   @Override
   protected void addChildToContainer( TabPanel theContainer, Widget child, int index )
   {
-    theContainer.add( child, TAB_TITLE[index] );
+    theContainer.add( child, tabTitles[index] );
   }
   
   @Override

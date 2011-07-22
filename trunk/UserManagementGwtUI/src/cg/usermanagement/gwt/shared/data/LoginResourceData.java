@@ -6,8 +6,10 @@ public class LoginResourceData extends UserManagementResourceData implements Ser
 {
   private static final long serialVersionUID = 4036326632774416259L;
 
+  private String title;   //the title of the login section
   private String name;
   private String password;
+  private String login;   //the text in the login button
   
   public String getName()
   {
@@ -25,4 +27,21 @@ public class LoginResourceData extends UserManagementResourceData implements Ser
   {
     this.password = password;
   }
+  public String getTitle()
+  {
+    return title;
+  }
+  public void setTitle( String title )
+  {
+    this.title = title;
+  }
+  public String getLogin()
+  {
+    return login;
+  }
+  public void setLogin( String login )
+  {
+    this.login = login;
+  }
+  
 }

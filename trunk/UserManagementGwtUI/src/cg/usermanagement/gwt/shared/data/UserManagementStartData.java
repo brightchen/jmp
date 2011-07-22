@@ -8,7 +8,7 @@ import cg.gwt.components.shared.data.UICompositeContentData;
 import cg.gwt.components.shared.data.UIContentData;
 
 
-public class UserManagementData extends UICompositeContentData implements Serializable
+public class UserManagementStartData extends UICompositeContentData< UserManagementStartResourceData > implements Serializable
 {
   private static final long serialVersionUID = -8520875500972991954L;
   
@@ -16,9 +16,9 @@ public class UserManagementData extends UICompositeContentData implements Serial
   private AccountLoginData accountLoginData;
   private UserRegisterData userRegisterData;
   
-  public UserManagementData(){}
+  public UserManagementStartData(){}
   
-  public UserManagementData( UserLoginData userLoginData, AccountLoginData accountLoginData, UserRegisterData userRegisterData )
+  public UserManagementStartData( UserLoginData userLoginData, AccountLoginData accountLoginData, UserRegisterData userRegisterData )
   {
     setUserLoginData( userLoginData );
     setAccountLoginData( accountLoginData );
