@@ -15,7 +15,7 @@ import cg.usermanagement.gwt.shared.data.AddRoleData;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
-import cg.usermanagement.gwt.shared.data.UserManagementData;
+import cg.usermanagement.gwt.shared.data.UserManagementStartData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 
 import com.google.gwt.user.client.Cookies;
@@ -89,7 +89,7 @@ public class UserManagementUIFlow
     }
     if( UIIdentity.UM_START.equals( identity ) )
     {
-      return new UserManagementUI( (UserManagementData)responseData.getContentData() );   
+      return new UserManagementStartUI( (UserManagementStartData)responseData.getContentData() );   
     }
     
     throw new IllegalStateException( "Invalid UIIdentity. " );

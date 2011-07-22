@@ -29,7 +29,7 @@ import cg.usermanagement.gwt.shared.data.LocaleMenuItemData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
-import cg.usermanagement.gwt.shared.data.UserManagementData;
+import cg.usermanagement.gwt.shared.data.UserManagementStartData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
 import cg.usermanagement.model.view.RoleView;
@@ -98,7 +98,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       Locale locale = LocaleUtil.getLocale( localeName );
       if( locale == null )
         locale = LocaleUtil.TOP_LOCALE;
-      ResponseData< UserManagementData > rd = new ResponseData< UserManagementData >();
+      ResponseData< UserManagementStartData > rd = new ResponseData< UserManagementStartData >();
       rd.setFlowData( UIIdentity.UM_START );
       UserLoginData userLoginData = new UserLoginData();
       userLoginData.setResourceData( UserManagementResourceDataBuilder.buildUserLoginResourceData( locale ) );
@@ -110,7 +110,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       //set resource data later
       //userRegisterData.setResourceData( UserManagementResourceDataBuilder.b() );
       
-      UserManagementData data = new UserManagementData( userLoginData, accountLoginData, userRegisterData );
+      UserManagementStartData data = new UserManagementStartData( userLoginData, accountLoginData, userRegisterData );
       rd.setContentData( data );
       
       rds.add( rd );
