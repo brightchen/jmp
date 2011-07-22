@@ -2,6 +2,8 @@ package cg.common.util;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -243,5 +245,29 @@ public class ReflectionUtil
     }
     return parameterTypes;
 
+  }
+  
+  /*
+   * get the actual type of  generic class
+   * class A< T >{}
+   * class B extends A< String >{}
+   */
+  public static <T, A> Class< ? extends A > getGenericActualTypeArgumentClass( Class<T> clazz, Class< ? super T > genericClass, Class< A > actualTypeArgumentsClass )
+  {
+    for( Class< ? super T > superClass = clazz; !superClass.equals( genericClass ); superClass = superClass.getSuperclass()  )
+    {
+      Type type = superClass.getGenericSuperclass();
+      if( type instanceof ParameterizedType )
+      {
+        Type[] arguments = ( (ParameterizedType)type ).getActualTypeArguments();
+        for( Type argument : arguments )
+        {
+          if( ( argument instanceof Class ) && ( actualTypeArgumentsClass.isAssignableFrom( (Class)argument ) ) )
+            return (Class< ? extends A >)argument;
+        }
+      }
+    }
+    
+    return null;
   }
 }

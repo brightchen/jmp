@@ -100,17 +100,19 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
         locale = LocaleUtil.TOP_LOCALE;
       ResponseData< UserManagementStartData > rd = new ResponseData< UserManagementStartData >();
       rd.setFlowData( UIIdentity.UM_START );
+
       UserLoginData userLoginData = new UserLoginData();
-      userLoginData.setResourceData( UserManagementResourceDataBuilder.buildUserLoginResourceData( locale ) );
+//      userLoginData.setResourceData( UserManagementResourceDataBuilder.buildUserLoginResourceData( locale ) );
       
       AccountLoginData accountLoginData = new AccountLoginData();
-      accountLoginData.setResourceData( UserManagementResourceDataBuilder.buildAccountLoginResourceData( locale ) );
+//      accountLoginData.setResourceData( UserManagementResourceDataBuilder.buildAccountLoginResourceData( locale ) );
       
       UserRegisterData userRegisterData = new UserRegisterData();
       //set resource data later
       //userRegisterData.setResourceData( UserManagementResourceDataBuilder.b() );
       
       UserManagementStartData data = new UserManagementStartData( userLoginData, accountLoginData, userRegisterData );
+      ResourceDataManager.defaultInstance.fillResourceDatas( locale, data, true );
       rd.setContentData( data );
       
       rds.add( rd );

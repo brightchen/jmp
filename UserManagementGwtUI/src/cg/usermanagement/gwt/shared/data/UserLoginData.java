@@ -2,7 +2,7 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
-public class UserLoginData extends LoginData implements Serializable
+public class UserLoginData extends LoginData< UserLoginResourceData > implements Serializable
 {
   private static final long serialVersionUID = 2184991758414860619L;
 

@@ -7,7 +7,7 @@ import cg.gwt.components.shared.data.UIContentData;
 import cg.gwt.components.shared.data.ValidateException;
 
 //user or account login data
-public abstract class LoginData extends UIContentData<LoginResourceData> implements IValidatable, Serializable
+public abstract class LoginData< RD extends LoginResourceData> extends UIContentData<RD> implements IValidatable, Serializable
 {
   private static final long serialVersionUID = 665267442451753317L;
   
