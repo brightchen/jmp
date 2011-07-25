@@ -1,8 +1,5 @@
 package cg.resourcemanagement;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import cg.common.property.ClassProperty;
 
 /*
@@ -10,15 +7,14 @@ import cg.common.property.ClassProperty;
  */
 public class ResourcePropertyKeyDefaultLookupStrategy implements IResourcePropertyKeyLookupStrategy
 {
-  private final String RESOURCE_CALSS_POSTFIX = "resourcedata";
   private final String SEPERATOR = ".";
 
-  //keep the map packageName ==> module short name
-  private Map< String, String > packageModuleMap = new HashMap< String, String >();
-
+  private IResourceModuleNameStrategy resourceModuleNameStrategy = ResourceModuleNameChainStrategy.defaultInstance;
+  private IResourceClassNameStrategy resourceClassNameStrategy = ResourceClassNameChainStrategy.defaultInstance;
+  private IResourcePropertyNameStrategy resourcePropertyNameStrategy = ResourcePropertyNameChainStrategy.defaultInstance; 
+  
   public ResourcePropertyKeyDefaultLookupStrategy()
   {
-    putBuildinPackageModule();
   }
   
   /*
@@ -28,28 +24,23 @@ public class ResourcePropertyKeyDefaultLookupStrategy implements IResourceProper
   @Override
   public String getResourceKey( ClassProperty resourceDataProperty, Class<?> resourceOwnerClass )
   {
-    String ownerClassShortName = resourceOwnerClass.getSimpleName();
-    ownerClassShortName = ownerClassShortName.toLowerCase();
-    ownerClassShortName = ownerClassShortName.endsWith( RESOURCE_CALSS_POSTFIX ) 
-                        ? ownerClassShortName.substring( 0, ownerClassShortName.length() - RESOURCE_CALSS_POSTFIX.length() )
-                        : ownerClassShortName;
-    return getModuleShortName( resourceOwnerClass ) + SEPERATOR + ownerClassShortName + SEPERATOR 
-         + resourceDataProperty.getName().toLowerCase();
+    return getResourceModuleName( resourceOwnerClass ) + SEPERATOR + getResourceClassName( resourceDataProperty, resourceOwnerClass ) 
+          + SEPERATOR + getResourcePropertyName( resourceDataProperty );
   }
 
-  protected String getModuleShortName( Class<?> resourceOwnerClass )
+  protected String getResourceModuleName( Class<?> resourceOwnerClass )
   {
-    return packageModuleMap.get( resourceOwnerClass.getPackage().getName() );
+    return resourceModuleNameStrategy.getResourceModuleName( null, resourceOwnerClass );
   }
   
-  protected void putBuildinPackageModule()
+  protected String getResourceClassName( ClassProperty resourceDataProperty, Class<?> resourceOwnerClass )
   {
-    addPackageModule( "cg.usermanagement.gwt.shared.data", "um" );
+    return resourceClassNameStrategy.getResourceClassName( resourceDataProperty, resourceOwnerClass );
   }
   
-  public void addPackageModule( String packageName, String moduleShortName )
+  protected String getResourcePropertyName( ClassProperty resourceDataProperty )
   {
-    packageModuleMap.put( packageName, moduleShortName );
+    return resourcePropertyNameStrategy.getResourcePropertyName( resourceDataProperty, null );
   }
   
 }
