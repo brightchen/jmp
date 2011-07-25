@@ -18,6 +18,9 @@ public class ResourceClassNameChainStrategy implements IResourceClassNameStrateg
   
   public void initChain()
   {
+// the ResourceClassNameIndicatorStrategy is not a good strategy to get the resource class name as it makes the data depended on an interface which
+//    is not required by the client code
+//    lookupChain.add( ResourceClassNameIndicatorStrategy.defaultInstance );
     lookupChain.add( ResourceClassNameAnnotationStrategy.defaultInstance );
     lookupChain.add( ResourceClassNameDefaultStrategy.defaultInstance );
   }

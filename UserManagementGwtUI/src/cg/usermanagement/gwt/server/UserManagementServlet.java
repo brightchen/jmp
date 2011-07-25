@@ -25,6 +25,7 @@ import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.server.resource.UserManagementResourceDataBuilder;
 import cg.usermanagement.gwt.shared.data.AccountLoginData;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
+import cg.usermanagement.gwt.shared.data.LocaleMenuBarData;
 import cg.usermanagement.gwt.shared.data.LocaleMenuItemData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
@@ -70,6 +71,10 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   
   public List< ResponseData<?> > getStartUI( String localeName )
   {
+    Locale locale = LocaleUtil.getLocale( localeName );
+    if( locale == null )
+      locale = LocaleUtil.TOP_LOCALE;
+
     List< ResponseData<?> > rds = new ArrayList< ResponseData<?> >();
     
     // control section data
@@ -77,8 +82,8 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       ResponseData< ControlSectionData > rd = new ResponseData< ControlSectionData >();
       rd.setFlowData( UIIdentity.CONTROL_SECTION );
       
-      MenuBarData menuBarData = new MenuBarData(); 
-      menuBarData.setTitle( "Locale" );
+      MenuBarData menuBarData = new LocaleMenuBarData(); 
+      ResourceDataManager.defaultInstance.fillResourceDatas( locale, menuBarData, true );
       Map< String, String > localeDatas = UserManagementResourceDataBuilder.getSupportedLocalesData();
       for( Map.Entry< String, String > localeData : localeDatas.entrySet() )
       {
@@ -95,9 +100,6 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     
     // user management data
     {
-      Locale locale = LocaleUtil.getLocale( localeName );
-      if( locale == null )
-        locale = LocaleUtil.TOP_LOCALE;
       ResponseData< UserManagementStartData > rd = new ResponseData< UserManagementStartData >();
       rd.setFlowData( UIIdentity.UM_START );
 
@@ -143,7 +145,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       return rds;
     for( ResponseData<?> rd : rds )
     {
-      ResourceDataManager.fillResourceDatas( locale, rd.getContentData(), false );
+      ResourceDataManager.defaultInstance.fillResourceDatas( locale, rd.getContentData(), false );
     }
     return rds;
   }
