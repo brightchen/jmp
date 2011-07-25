@@ -2,5 +2,5 @@ package cg.resourcemanagement.annotation;
 
 public @interface IResourceModule
 {
-  public String resouceModuleName = "";
+  public String resouceModuleName() default "";
 }

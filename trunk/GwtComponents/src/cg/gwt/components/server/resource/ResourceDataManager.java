@@ -41,7 +41,7 @@ public class ResourceDataManager
    * create - should we create the ResourceData if the resourceData of the contentData is null
    * this methods go through the contentData and find the resource data which need to fill and then delegate to buildResourceData
    */
-  public static void fillResourceDatas( Locale locale, UIContentData contentData, boolean create )
+  public void fillResourceDatas( Locale locale, UIContentData contentData, boolean create )
   {
     ResourceData resourceData = contentData.getResourceData();
     if( resourceData != null || create )
@@ -50,7 +50,7 @@ public class ResourceDataManager
       Class< ? extends ResourceData > resourceDataClass = getResourceDataType( contentData );
       if( resourceDataClass != null )
       {
-        resourceData = defaultInstance.getResourceData( locale, resourceDataClass );
+        resourceData = getResourceData( locale, resourceDataClass );
         contentData.setResourceData( resourceData );
       }
     }

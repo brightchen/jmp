@@ -1,15 +1,17 @@
 package cg.gwt.components.shared.data;
 
+
 /*
  * the MenuItemData with eventData and ResourceData
+ * the NormalMenuItemData is a very generic class which can be reused by different menu.
+ * so, provides IResourceClassIndicator to let the sub-class overwrite the resource class indicator
  */
-public class NormalMenuItemData extends MenuItemData implements IUIResourceDataProvider< SimpleUIResourceData >
+public class NormalMenuItemData extends MenuItemData
 {
   private static final long serialVersionUID = -8086856314308266592L;
   
   private UIEventIdentity menuEventIdentity;
   private MenuEventData eventData;
-  private SimpleUIResourceData resourceData = new SimpleUIResourceData();
   
   public NormalMenuItemData()
   {
@@ -40,6 +42,7 @@ public class NormalMenuItemData extends MenuItemData implements IUIResourceDataP
     super( MenuItemType.NORMAL );
     setMenuEventIdentity( menuEventIdentity );
     setEventData( buildMenuEventData( commandKey, parameters ) );
+    setResourceData( buildResourceData() );
     setTitle( title );
   }
 
@@ -53,15 +56,19 @@ public class NormalMenuItemData extends MenuItemData implements IUIResourceDataP
     this.menuEventIdentity = menuEventIdentity;
   }
 
-
+  protected MenuItemResourceData buildResourceData()
+  {
+    return new MenuItemResourceData();
+  }
+  
   public String getTitle()
   {
-    return resourceData.getValue();
+    return getResourceData().getValue();
   }
 
   public void setTitle( String title )
   {
-    resourceData.setValue( title );
+    getResourceData().setValue( title );
   }
 
   /*
@@ -86,11 +93,4 @@ public class NormalMenuItemData extends MenuItemData implements IUIResourceDataP
   {
     this.eventData = eventData;
   }
-
-  @Override
-  public SimpleUIResourceData getResourceData()
-  {
-    return resourceData;
-  }
-  
 }
