@@ -8,7 +8,7 @@ import cg.gwt.components.shared.data.ICompositeContentData;
 import cg.gwt.components.shared.data.MenuBarData;
 import cg.gwt.components.shared.data.UIContentData;
 
-public class ControlSectionData extends UIContentData implements ICompositeContentData, Serializable
+public class ControlSectionData extends UIContentData< ControlSectionResourceData > implements ICompositeContentData, Serializable
 {
   private static final long serialVersionUID = -5140670063119550849L;
 
