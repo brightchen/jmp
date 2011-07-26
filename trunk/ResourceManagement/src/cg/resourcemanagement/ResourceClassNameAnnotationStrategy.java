@@ -1,7 +1,7 @@
 package cg.resourcemanagement;
 
 import cg.common.property.ClassProperty;
-import cg.resourcemanagement.annotation.IResourceClass;
+import cg.gwt.components.api.IResourceDataClass;
 
 /*
  * get resource class name from the class annotation
@@ -13,7 +13,7 @@ public class ResourceClassNameAnnotationStrategy implements IResourceClassNameSt
   @Override
   public String getResourceClassName( ClassProperty resourceDataProperty, Class< ? > resourceOwnerClass )
   {
-    IResourceClass resourceClass = resourceOwnerClass.getAnnotation( IResourceClass.class );
+    IResourceDataClass resourceClass = resourceOwnerClass.getAnnotation( IResourceKey.class );
     if( resourceClass == null )
       return null;
     return resourceClass.resourceClassName();

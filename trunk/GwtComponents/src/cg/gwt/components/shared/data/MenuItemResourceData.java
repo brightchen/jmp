@@ -8,8 +8,19 @@ public class MenuItemResourceData extends SimpleUIResourceData implements Serial
 
   public MenuItemResourceData(){}
   
-  public MenuItemResourceData( String value )
+  public MenuItemResourceData( String title )
   {
-    super( value );
+    super( title );
   }
+  
+  public String getTitle()
+  {
+    return super.getValue();
+  }
+  
+  public void setTitle( String title )
+  {
+    super.setValue( title );
+  }
+  
 }
