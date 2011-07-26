@@ -7,4 +7,5 @@ import cg.gwt.components.shared.data.ResourceData;
 public interface IResourceDataLookupStrategy
 {
   public < RD extends ResourceData > RD getResourceData( Locale locale, Class< RD > resourceDataClass );
+  
 }

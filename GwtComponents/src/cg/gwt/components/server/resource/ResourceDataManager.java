@@ -10,9 +10,9 @@ import cg.gwt.components.shared.data.UIContentData;
 
 public class ResourceDataManager
 {
-  private IResourceDataLookupStrategy lookupStrategy = new ResourceDataChainLookupStrategy();
-  
   public static final ResourceDataManager defaultInstance = new ResourceDataManager();
+
+  private IResourceDataLookupStrategy lookupStrategy = new ResourceDataChainLookupStrategy();
 
   public ResourceDataManager(){ }
   
