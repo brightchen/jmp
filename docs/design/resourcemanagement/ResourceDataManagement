@@ -1,0 +1,18 @@
+
+Resource Data Management
+
+- requirements
+  - automatically fill the resource data into the content data
+  - the content data should NOT include any information which is not required by the web client. Namely, keep the content data as simple as possible.
+  
+- model
+  - UIContentData: this is the top super class for all data classes used by the web client
+    - resourceData : ResourceData
+  - ResourceData: the top super class of the the resource data. the resource data is the data which can get from the resource file
+  
+- ResourceDataManager: this is the class for retrieving resource data  
+
+
+- getResourceDataType: public static Class< ? extends ResourceData > getResourceDataType( UIContentData contentData )
+  - UserLoginResourceData, AccountLoginResourceData, LoginResourceData
+  - LocaleMenuBarData, MenuBarData, NormalMenuItemData, MenuItemData, UIContentData< MenuItemResourceData >
