@@ -22,20 +22,21 @@ public class ResourcePropertyKeyDefaultLookupStrategy implements IResourceProper
    * the resource owner class maybe different from the property declaring class 
    */
   @Override
-  public String getResourceKey( ClassProperty resourceDataProperty, Class<?> resourceOwnerClass )
+  public String getResourceKey( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
   {
-    return getResourceModuleName( resourceOwnerClass ) + SEPERATOR + getResourceClassName( resourceDataProperty, resourceOwnerClass ) 
+    return getResourceModuleName( ownerContentDataClass, ownerResourceDataClass ) + SEPERATOR 
+          + getResourceClassName( resourceDataProperty, ownerContentDataClass, ownerResourceDataClass ) 
           + SEPERATOR + getResourcePropertyName( resourceDataProperty );
   }
 
-  protected String getResourceModuleName( Class<?> resourceOwnerClass )
+  protected String getResourceModuleName( Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
   {
-    return resourceModuleNameStrategy.getResourceModuleName( null, resourceOwnerClass );
+    return resourceModuleNameStrategy.getResourceModuleName( null, ownerContentDataClass, ownerResourceDataClass );
   }
   
-  protected String getResourceClassName( ClassProperty resourceDataProperty, Class<?> resourceOwnerClass )
+  protected String getResourceClassName( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceClass )
   {
-    return resourceClassNameStrategy.getResourceClassName( resourceDataProperty, resourceOwnerClass );
+    return resourceClassNameStrategy.getResourceClassName( resourceDataProperty, ownerContentDataClass, ownerResourceClass );
   }
   
   protected String getResourcePropertyName( ClassProperty resourceDataProperty )

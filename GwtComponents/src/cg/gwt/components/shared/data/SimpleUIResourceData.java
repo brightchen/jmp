@@ -18,12 +18,16 @@ public class SimpleUIResourceData extends ResourceData implements Serializable
     setValue( value );
   }
   
-  public String getValue()
+  /*
+   * the value is a generic property can shouldn't inject the resource value. so declare the accessible as protected
+   * the sub class's use this method to set value
+   */
+  protected String getValue()
   {
     return value;
   }
 
-  public void setValue( String value )
+  protected void setValue( String value )
   {
     this.value = value;
   }

@@ -13,7 +13,7 @@ public class ResourcePropertyKeyMapLookupStrategy implements IResourcePropertyKe
   private Map< ClassProperty, String > propertyKeyMap = new HashMap< ClassProperty, String >();
   
   @Override
-  public String getResourceKey( ClassProperty resourceDataProperty, Class<?> resourceOwnerClass )
+  public String getResourceKey( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
   {
     return propertyKeyMap.get( resourceDataProperty );
   }

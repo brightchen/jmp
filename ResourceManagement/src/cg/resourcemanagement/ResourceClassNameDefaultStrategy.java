@@ -12,9 +12,9 @@ public class ResourceClassNameDefaultStrategy implements IResourceClassNameStrat
   private final String RESOURCE_CALSS_POSTFIX = "resourcedata";
 
   @Override
-  public String getResourceClassName( ClassProperty resourceDataProperty, Class< ? > resourceOwnerClass )
+  public String getResourceClassName( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
   {
-    String ownerClassShortName = resourceOwnerClass.getSimpleName();
+    String ownerClassShortName = ownerResourceDataClass.getSimpleName();
     ownerClassShortName = ownerClassShortName.toLowerCase();
     ownerClassShortName = ownerClassShortName.endsWith( RESOURCE_CALSS_POSTFIX ) 
                         ? ownerClassShortName.substring( 0, ownerClassShortName.length() - RESOURCE_CALSS_POSTFIX.length() )

@@ -7,5 +7,5 @@ import cg.common.property.ClassProperty;
  */
 public interface IResourceClassNameStrategy
 {
-  public String getResourceClassName( ClassProperty resourceDataProperty, Class<?> resourceOwnerClass );
+  public String getResourceClassName( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass );
 }

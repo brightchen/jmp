@@ -3,9 +3,8 @@ package cg.gwt.components.server.resource;
 import java.util.List;
 import java.util.Locale;
 
-import cg.common.util.ReflectionUtil;
+import cg.gwt.components.shared.data.ICompositeContentData;
 import cg.gwt.components.shared.data.ResourceData;
-import cg.gwt.components.shared.data.UICompositeContentData;
 import cg.gwt.components.shared.data.UIContentData;
 
 public class ResourceDataManager
@@ -13,6 +12,7 @@ public class ResourceDataManager
   public static final ResourceDataManager defaultInstance = new ResourceDataManager();
 
   private IResourceDataLookupStrategy lookupStrategy = new ResourceDataChainLookupStrategy();
+  private IResourceDataClassStrategy resourceDataClassStrategy = new ResourceDataClassChainStrategy();
 
   public ResourceDataManager(){ }
   
@@ -31,9 +31,9 @@ public class ResourceDataManager
     this.lookupStrategy = lookupStrategy;
   }
 
-  public < RD extends ResourceData > RD getResourceData( Locale locale, Class< RD > resourceDataClass )
+  public < RD extends ResourceData > RD getResourceData( Locale locale, UIContentData contentData, Class< RD > resourceDataClass )
   {
-    return lookupStrategy.getResourceData( locale, resourceDataClass );
+    return lookupStrategy.getResourceData( locale, contentData, resourceDataClass );
   }
   
   /*
@@ -47,19 +47,19 @@ public class ResourceDataManager
     if( resourceData != null || create )
     {
       //need to fill this resource data
-      Class< ? extends ResourceData > resourceDataClass = getResourceDataType( contentData );
+      Class< ? extends ResourceData > resourceDataClass = getResourceDataClass( contentData );
       if( resourceDataClass != null )
       {
-        resourceData = getResourceData( locale, resourceDataClass );
+        resourceData = getResourceData( locale, contentData, resourceDataClass );
         contentData.setResourceData( resourceData );
       }
     }
     
-    if( !( contentData instanceof UICompositeContentData ) )
+    if( !( contentData instanceof ICompositeContentData ) )
       return;
     
-    UICompositeContentData compositeData = ( UICompositeContentData )contentData;
-    List< UIContentData > subContentDatas = compositeData.getSubContentDatas();
+    ICompositeContentData compositeData = ( ICompositeContentData )contentData;
+    List< ? extends UIContentData > subContentDatas = compositeData.getSubContentDatas();
     if( subContentDatas == null )
       return;
     
@@ -73,19 +73,16 @@ public class ResourceDataManager
    * the actually type of resourceData is the annotation type of UIContentData
    * should not get the return type of getResourceData() as it can always be ResourceData
    */
-  public static Class< ? extends ResourceData > getResourceDataType( UIContentData contentData )
+  public Class< ? extends ResourceData > getResourceDataClass( UIContentData contentData )
   {
-    if( contentData.getResourceData() != null )
-      return contentData.getResourceData().getClass();
-    
-    return ReflectionUtil.getGenericActualTypeArgumentClass( contentData.getClass(), UIContentData.class, ResourceData.class );
+    return resourceDataClassStrategy.getResourceDataClass( contentData );
   }
   
-  public static ResourceData createEmptyResourceData( UIContentData contentData )
+  public ResourceData createEmptyResourceData( UIContentData contentData )
   {
     try
     {
-      Class<? extends ResourceData> resourceDataType = getResourceDataType( contentData );
+      Class<? extends ResourceData> resourceDataType = getResourceDataClass( contentData );
       return resourceDataType.newInstance();
     }
     catch( Exception e )

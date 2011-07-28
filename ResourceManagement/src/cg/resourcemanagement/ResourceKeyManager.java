@@ -23,12 +23,18 @@ public class ResourceKeyManager
   
   public String getResourceKey( ClassProperty resourceDataProperty )
   {
-    return getResourceKey( resourceDataProperty, resourceDataProperty.getDeclaringClass() );
+    return getResourceKey( resourceDataProperty, null, resourceDataProperty.getDeclaringClass() );
   }
   
-  public String getResourceKey( ClassProperty resourceDataProperty, Class<?> resourceOwnerClass )
+  /*
+   * parameters
+   * resourceDataProperty - the property of the resource data, one property corresponding to one field/getter/setter
+   * ownerContentDataClass: the content data class which owns the resource data class of this property
+   * ownerResourceDataClass: the resource data class which owns this property
+   */
+  public String getResourceKey( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
   {
-    return lookupStrategy.getResourceKey( resourceDataProperty, resourceOwnerClass );
+    return lookupStrategy.getResourceKey( resourceDataProperty, ownerContentDataClass, ownerResourceDataClass );
   }
 
   public IResourcePropertyKeyLookupStrategy getLookupStrategy()
