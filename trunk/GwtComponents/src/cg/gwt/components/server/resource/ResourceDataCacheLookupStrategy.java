@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import cg.gwt.components.shared.data.ResourceData;
+import cg.gwt.components.shared.data.UIContentData;
 import cg.resourcemanagement.util.LocaleUtil;
 
 /*
@@ -16,7 +17,7 @@ public class ResourceDataCacheLookupStrategy implements IResourceDataLookupStrat
   private Map< String, ResourceData > resourceDatas = new HashMap< String, ResourceData >();
   
   @Override
-  public < RD extends ResourceData > RD getResourceData( Locale locale, Class< RD > resourceDataClass )
+  public < RD extends ResourceData > RD getResourceData( Locale locale, UIContentData contentData, Class< RD > resourceDataClass )
   {
     return (RD)resourceDatas.get( getCacheKey( locale, resourceDataClass ) );
   }

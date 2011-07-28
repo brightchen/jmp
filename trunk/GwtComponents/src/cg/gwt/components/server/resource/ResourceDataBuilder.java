@@ -6,6 +6,7 @@ import java.util.Set;
 import cg.common.property.ClassProperty;
 import cg.common.property.ClassPropertyUtil;
 import cg.gwt.components.shared.data.ResourceData;
+import cg.gwt.components.shared.data.UIContentData;
 import cg.resourcemanagement.ResourceKeyManager;
 
 /*
@@ -15,11 +16,11 @@ public class ResourceDataBuilder implements IResourceDataLookupStrategy
 {
 
   @Override
-  public < RD extends ResourceData > RD getResourceData( Locale locale, Class< RD > resourceDataClass )
+  public < RD extends ResourceData > RD getResourceData( Locale locale, UIContentData contentData, Class< RD > resourceDataClass )
   {
     try
     {
-      return buildResourceData( locale, resourceDataClass.newInstance() );
+      return buildResourceData( locale, contentData, resourceDataClass.newInstance() );
     }
     catch( Exception e )
     {
@@ -34,7 +35,7 @@ public class ResourceDataBuilder implements IResourceDataLookupStrategy
    * 
    * ResourceData class ==> resource data class properties ==> resource keys ==> resource values
    */
-  public static  < RD extends ResourceData > RD buildResourceData( Locale locale, RD resourceData )
+  public static  < RD extends ResourceData > RD buildResourceData( Locale locale, UIContentData contentData, RD resourceData )
   {
     if( resourceData == null )
       return null;
@@ -43,7 +44,7 @@ public class ResourceDataBuilder implements IResourceDataLookupStrategy
     Set< ClassProperty > classProperties = ClassPropertyUtil.getClassProperties( resourceDataClass, ResourceData.class );
     for( ClassProperty classProperty : classProperties )
     {
-      String resourceKey = ResourceKeyManager.defaultInstance.getResourceKey( classProperty, resourceData.getClass() );
+      String resourceKey = ResourceKeyManager.defaultInstance.getResourceKey( classProperty, contentData.getClass(), resourceData.getClass() );
       String resourceValue = ResourceUtil.getResourceValue( locale, resourceKey );
       ResourceDataUtil.setResourceValue( resourceData, classProperty, resourceValue );
     }

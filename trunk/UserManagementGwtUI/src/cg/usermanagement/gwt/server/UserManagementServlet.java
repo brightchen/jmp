@@ -84,13 +84,8 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       
       MenuBarData menuBarData = new LocaleMenuBarData(); 
       ResourceDataManager.defaultInstance.fillResourceDatas( locale, menuBarData, true );
-      Map< String, String > localeDatas = UserManagementResourceDataBuilder.getSupportedLocalesData();
-      for( Map.Entry< String, String > localeData : localeDatas.entrySet() )
-      {
-        //use locale name as the command key and locale name's resource value as menu item's title
-        LocaleMenuItemData menuItemData = new LocaleMenuItemData( localeData.getValue(), localeData.getKey() );
-        menuBarData.addMenuItemData( menuItemData );
-      }
+      fillLocaleMenuItems( menuBarData );
+      
       ControlSectionData controlSectionData = new ControlSectionData();
       controlSectionData.addMenuBarData( menuBarData );
       rd.setContentData( controlSectionData );
@@ -130,6 +125,23 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   }
 
   /*
+   * the locale menu item is different from typical menu item as the resource data is not depended on the locale at all.
+   * this method fill the information of these locale menu items
+   */
+  protected void fillLocaleMenuItems( MenuBarData menuBarData )
+  {
+    menuBarData.setMenuItemDatas( null );
+    
+    Map< String, String > localeDatas = UserManagementResourceDataBuilder.getSupportedLocalesData();
+    for( Map.Entry< String, String > localeData : localeDatas.entrySet() )
+    {
+      //use locale name as the command key and locale name's resource value as menu item's title
+      LocaleMenuItemData menuItemData = new LocaleMenuItemData( localeData.getValue(), localeData.getKey() );
+      menuBarData.addMenuItemData( menuItemData );
+    }
+
+  }
+  /*
    * when the locale changed, the server should response with resource data of new locale and refresh the page
    * @see cg.usermanagement.gwt.client.IUserManagement#changeLocale(java.lang.String)
    */
@@ -146,6 +158,10 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     for( ResponseData<?> rd : rds )
     {
       ResourceDataManager.defaultInstance.fillResourceDatas( locale, rd.getContentData(), false );
+      
+      //handle locale menu specially
+      if( UIIdentity.CONTROL_SECTION.equals( rd.getFlowData().getUiIdentity() ) )
+        fillLocaleMenuItems( ( (ControlSectionData)rd.getContentData() ).getMenuPanelData().get( 0 ) );
     }
     return rds;
   }

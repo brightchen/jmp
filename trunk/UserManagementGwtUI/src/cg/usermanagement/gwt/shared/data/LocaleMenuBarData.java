@@ -1,10 +1,12 @@
 package cg.usermanagement.gwt.shared.data;
 
-import cg.gwt.components.api.IResourceDataClass;
+import cg.gwt.components.annotation.IResourceDataClass;
 import cg.gwt.components.shared.data.MenuBarData;
 import cg.gwt.components.shared.data.MenuItemResourceData;
+import cg.resourcemanagement.annotation.IResourceKey;
 
-@IResourceDataClass( resourceClassOfKey = "localemenu", resourceClassName = MenuItemResourceData.class )
+@IResourceKey( className = "localemenu" )
+@IResourceDataClass( resourceDataClass = MenuItemResourceData.class )
 public class LocaleMenuBarData extends MenuBarData
 {
   private static final long serialVersionUID = 3755289364335325032L;
