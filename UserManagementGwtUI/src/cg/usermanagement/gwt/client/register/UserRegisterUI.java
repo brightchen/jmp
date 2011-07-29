@@ -7,6 +7,7 @@ import cg.gwt.components.client.ui.AlignedUIGroup;
 import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.client.ui.event.GwtEventDelegateHandler;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
+import cg.usermanagement.gwt.shared.data.UserRegisterResourceData;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
@@ -28,6 +29,8 @@ public class UserRegisterUI extends PanelCompositeUI< UserRegisterData, Vertical
   public UserRegisterUI( UserRegisterData data )
   {
     setData( data );
+    UserRegisterResourceData resourceData = data.getResourceData();
+    
     userNameField = new TextBox();
     passwordField = new PasswordTextBox();
     firstNameField = new TextBox();
@@ -35,15 +38,15 @@ public class UserRegisterUI extends PanelCompositeUI< UserRegisterData, Vertical
     lastNameField = new TextBox();
     
     List< String > userInfo = new ArrayList< String >();
-    userInfo.add( "user name:" );
+    userInfo.add( resourceData.getUserName() );
     userInfo.add( "" );
-    userInfo.add( "password:" );
+    userInfo.add( resourceData.getUserPassword() );
     userInfo.add( "" );
-    userInfo.add( "first name:" );
+    userInfo.add( resourceData.getFirstName() );
     userInfo.add( "" );
-    userInfo.add( "middle name:" );
+    userInfo.add( resourceData.getMiddleName() );
     userInfo.add( "" );
-    userInfo.add( "last name" );
+    userInfo.add( resourceData.getLastName() );
     userInfo.add( "" );
     
     userInfoUI = new AlignedUIGroup< String >( userInfo )
@@ -101,7 +104,7 @@ public class UserRegisterUI extends PanelCompositeUI< UserRegisterData, Vertical
       }
     };
     
-    final Button registerButton = new Button( "Register Account" );
+    final Button registerButton = new Button( resourceData.getAddUser() );
     registerButton.addClickHandler( new GwtEventDelegateHandler< UserRegisterData, UserRegisterEvent >( registerEvent ) );
     addChild( registerButton );
 
