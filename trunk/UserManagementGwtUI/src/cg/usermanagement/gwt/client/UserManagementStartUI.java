@@ -22,7 +22,7 @@ public class UserManagementStartUI extends CompositeUI< UserManagementStartData,
     
     tabTitles = new String[2];
     tabTitles[0] = data.getResourceData().getLoginTitle();
-    tabTitles[1] = data.getResourceData().getRegisterTitle();
+    tabTitles[1] = data.getUserRegisterData().getResourceData().getTitle();
 
     setContainer( new TabPanel() );
   }

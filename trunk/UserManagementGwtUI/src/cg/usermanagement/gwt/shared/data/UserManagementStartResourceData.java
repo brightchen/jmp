@@ -7,7 +7,6 @@ public class UserManagementStartResourceData extends UserManagementResourceData 
   private static final long serialVersionUID = -2303489070874546282L;
   
   private String loginTitle;    //the title of login section
-  private String registerTitle;
   
   public String getLoginTitle()
   {
@@ -17,12 +16,4 @@ public class UserManagementStartResourceData extends UserManagementResourceData 
   {
     this.loginTitle = loginTitle;
   }
-  public String getRegisterTitle()
-  {
-    return registerTitle;
-  }
-  public void setRegisterTitle( String registerTitle )
-  {
-    this.registerTitle = registerTitle;
-  } 
 }
