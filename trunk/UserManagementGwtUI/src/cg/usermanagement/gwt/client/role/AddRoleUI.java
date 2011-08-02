@@ -16,7 +16,7 @@ public class AddRoleUI extends PanelCompositeUI< AddRoleData, HorizontalPanel >
   {
     setData( data );
    
-    Label roleNameLabel = new Label( data.getRoleNameTitle() );
+    Label roleNameLabel = new Label( data.getResourceData().getRoleName() );
     addChild( roleNameLabel );
     
     roleNameField = new TextBox();

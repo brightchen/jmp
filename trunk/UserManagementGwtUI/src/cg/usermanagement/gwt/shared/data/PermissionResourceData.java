@@ -2,31 +2,32 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
-import cg.gwt.components.shared.data.UIContentData;
+import cg.gwt.components.shared.data.ResourceData;
 
-public class PermissionData extends UIContentData< PermissionResourceData > implements Serializable
+public class PermissionResourceData extends ResourceData implements Serializable
 {
-  private static final long serialVersionUID = -5201312829366091148L;
+  private static final long serialVersionUID = 4996625575111392785L;
 
-  private Long id;
-  private long featureId;
+  private String permissionId;
+  private String featureId;
   private String featureName;
-  private long operationId;
+  private String operationId;
   private String operationName;
   
-  public Long getId()
+  
+  public String getPermissionId()
   {
-    return id;
+    return permissionId;
   }
-  public void setId( Long id )
+  public void setPermissionId( String permissionId )
   {
-    this.id = id;
+    this.permissionId = permissionId;
   }
-  public long getFeatureId()
+  public String getFeatureId()
   {
     return featureId;
   }
-  public void setFeatureId( long featureId )
+  public void setFeatureId( String featureId )
   {
     this.featureId = featureId;
   }
@@ -38,11 +39,11 @@ public class PermissionData extends UIContentData< PermissionResourceData > impl
   {
     this.featureName = featureName;
   }
-  public long getOperationId()
+  public String getOperationId()
   {
     return operationId;
   }
-  public void setOperationId( long operationId )
+  public void setOperationId( String operationId )
   {
     this.operationId = operationId;
   }
@@ -54,4 +55,6 @@ public class PermissionData extends UIContentData< PermissionResourceData > impl
   {
     this.operationName = operationName;
   }
+
+  
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import cg.gwt.components.client.ui.AlignedUIGroup;
 import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.usermanagement.gwt.shared.data.PermissionDetailData;
+import cg.usermanagement.gwt.shared.data.PermissionResourceData;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -18,17 +19,18 @@ public class PermissionDetailUI extends PanelCompositeUI< PermissionDetailData, 
   public PermissionDetailUI( PermissionDetailData data )
   {
     setData( data );
+    PermissionResourceData resourceData = getData().getResourceData();
     
     List< String > alignData = new ArrayList< String >();
-    alignData.add( data.getPermissionIdTitle() );
+    alignData.add( resourceData.getPermissionId() );
     alignData.add( String.valueOf( data.getId() ) );
-    alignData.add( data.getFeatureIdTitle() );
+    alignData.add( resourceData.getFeatureId() );
     alignData.add( String.valueOf( data.getFeatureId() ) );
-    alignData.add( data.getFeatureNameTitle() );
+    alignData.add( resourceData.getFeatureName() );
     alignData.add( data.getFeatureName() );
-    alignData.add( data.getOperationIdTitle() );
+    alignData.add( resourceData.getOperationId() );
     alignData.add( String.valueOf( data.getOperationId() ) );
-    alignData.add( data.getOperationNameTitle() );
+    alignData.add( resourceData.getOperationName() );
     alignData.add( data.getOperationName() );
     
     AlignedUIGroup< String > permissionUI = new AlignedUIGroup< String >( alignData )
