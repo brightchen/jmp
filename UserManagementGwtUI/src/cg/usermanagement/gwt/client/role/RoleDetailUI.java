@@ -21,7 +21,7 @@ public class RoleDetailUI extends PanelCompositeUI< RoleDetailData, FlexTable >
     setData( data );
 
     //id
-    Label roleIdLabel = new Label( data.getRoleIdTitle() );
+    Label roleIdLabel = new Label( data.getResourceData().getRoleId() );
     addChild( roleIdLabel );
 
     roleIdField = new TextBox();
@@ -30,7 +30,7 @@ public class RoleDetailUI extends PanelCompositeUI< RoleDetailData, FlexTable >
     addChild( roleIdField );
 
     //name
-    Label roleNameLabel = new Label( data.getRoleNameTitle() );
+    Label roleNameLabel = new Label( data.getResourceData().getRoleName() );
     addChild( roleNameLabel );
 
     roleNameField = new TextBox();
