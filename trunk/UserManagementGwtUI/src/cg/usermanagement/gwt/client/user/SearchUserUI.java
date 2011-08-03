@@ -3,6 +3,7 @@ package cg.usermanagement.gwt.client.user;
 import cg.gwt.components.client.ui.UIFlexTableComposite;
 import cg.gwt.components.client.ui.components.ButtonUI;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
+import cg.usermanagement.gwt.shared.data.SearchUserResourceData;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -19,33 +20,34 @@ public class SearchUserUI extends UIFlexTableComposite< SearchUserData >
   public SearchUserUI( SearchUserData data )
   {
     super( data );
+    SearchUserResourceData resourceData = data.getResourceData();
     
-    addChild( new Label( data.getNameTitle() ) );
+    addChild( new Label( resourceData.getUserName() ) );
     nameField = new TextBox();
     nameField.setText( data.getName() );
     addChild( nameField );
     
-    addChild( new Label( data.getFirstNameTitle() ) );
+    addChild( new Label( resourceData.getFirstName() ) );
     firstNameField = new TextBox();
     firstNameField.setText( data.getFirstName() );
     addChild( firstNameField );
 
-    addChild( new Label( data.getLastNameTitle() ) );
+    addChild( new Label( resourceData.getLastName() ) );
     lastNameField = new TextBox();
     lastNameField.setText( data.getLastName() );
     addChild( lastNameField );
 
-    addChild( new Label( data.getStatusTitle() ) );
+    addChild( new Label( resourceData.getStatus() ) );
     statusField = new TextBox();
     statusField.setText( data.getStatus() );
     addChild( statusField );
 
-    addChild( new Label( data.getPhoneTitle() ) );
+    addChild( new Label( resourceData.getPhone() ) );
     phoneField = new TextBox();
     phoneField.setText( data.getPhone() );
     addChild( phoneField );
 
-    addChild( new Label( data.getEmailTitle() ) );
+    addChild( new Label( resourceData.getEmail() ) );
     emailField = new TextBox();
     emailField.setText( data.getEmail() );
     addChild( emailField );

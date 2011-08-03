@@ -4,25 +4,17 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class RoleDetailData implements Serializable
+import cg.gwt.components.shared.data.UIContentData;
+
+public class RoleDetailData extends UIContentData<RoleDetailResourceData> implements Serializable
 {
   private static final long serialVersionUID = 2876214223357809584L;
  
-  private String roleIdTitle = "Role Id: ";
   private Long id;  //role id
-  private String roleNameTitle = "Role Name: ";
   private String name;    //role name
 
   private Set< PermissionData > permissionDatas = new HashSet< PermissionData >();
   
-  public String getRoleIdTitle()
-  {
-    return roleIdTitle;
-  }
-  public void setRoleIdTitle( String roleIdTitle )
-  {
-    this.roleIdTitle = roleIdTitle;
-  }
   public Long getId()
   {
     return id;
@@ -30,14 +22,6 @@ public class RoleDetailData implements Serializable
   public void setId( Long id )
   {
     this.id = id;
-  }
-  public String getRoleNameTitle()
-  {
-    return roleNameTitle;
-  }
-  public void setRoleNameTitle( String roleNameTitle )
-  {
-    this.roleNameTitle = roleNameTitle;
   }
   public String getName()
   {
