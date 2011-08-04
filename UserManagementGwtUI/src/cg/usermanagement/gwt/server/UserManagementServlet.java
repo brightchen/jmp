@@ -68,6 +68,21 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     return userService;
   }
 
+  public ResponseData< ControlSectionData > buildControlSectionData( Locale locale )
+  {
+    ResponseData< ControlSectionData > rd = new ResponseData< ControlSectionData >();
+    rd.setFlowData( UIIdentity.CONTROL_SECTION );
+    
+    MenuBarData menuBarData = new LocaleMenuBarData(); 
+    ResourceDataManager.defaultInstance.fillResourceDatas( locale, menuBarData, true );
+    fillLocaleMenuItems( menuBarData );
+    
+    ControlSectionData controlSectionData = new ControlSectionData();
+    controlSectionData.addMenuBarData( menuBarData );
+    rd.setContentData( controlSectionData );
+
+    return rd;
+  }
   
   public List< ResponseData<?> > getStartUI( String localeName )
   {
@@ -79,18 +94,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     
     // control section data
     {
-      ResponseData< ControlSectionData > rd = new ResponseData< ControlSectionData >();
-      rd.setFlowData( UIIdentity.CONTROL_SECTION );
-      
-      MenuBarData menuBarData = new LocaleMenuBarData(); 
-      ResourceDataManager.defaultInstance.fillResourceDatas( locale, menuBarData, true );
-      fillLocaleMenuItems( menuBarData );
-      
-      ControlSectionData controlSectionData = new ControlSectionData();
-      controlSectionData.addMenuBarData( menuBarData );
-      rd.setContentData( controlSectionData );
-      
-      rds.add( rd );
+      rds.add( buildControlSectionData( locale ) );
     }
     
     // user management data
@@ -166,7 +170,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     return rds;
   }
   
-  public void userlogin( String userName, String password ) throws LoginException
+  public List< ResponseData<?> > userlogin( String userName, String password ) throws LoginException
   {
     log.debug( "login: user=" + userName + "; password=" + password );
     if( password == null || password.isEmpty() )
@@ -180,11 +184,13 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
 
     // cache the user permissions in the session as it is a very frequently used 
     SessionManager.putAttribute( UserManagementSessionKey.userPermissions, permissions );
+    
+    return getUserManagementPanelDatas();
   }
 
   //it should be account instead of user login
   @Override
-  public void accountlogin( String accountName, String password ) throws LoginException
+  public List< ResponseData<?> > accountlogin( String accountName, String password ) throws LoginException
   {
     log.debug( "login: account=" + accountName + "; password=" + password );
     if( password == null || password.isEmpty() )
@@ -198,6 +204,16 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     
     // cache the role permissions in the session as it is a very frequently used 
     SessionManager.putAttribute( UserManagementSessionKey.accountPermissions, permissions );
+    
+    return getUserManagementPanelDatas();
+  }
+  
+  /*
+   * get the response data to let the client build User Management Panel
+   */
+  public List< ResponseData<?> > getUserManagementPanelDatas()
+  {
+    UserManagementPanelData
   }
   
   @Override
