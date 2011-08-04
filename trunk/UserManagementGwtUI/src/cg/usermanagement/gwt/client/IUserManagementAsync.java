@@ -16,8 +16,8 @@ public interface IUserManagementAsync
   public void changeLocale( String localeName, AsyncCallback< List< ResponseData<?> > > callback );
   
   //the async version should not throw any exception
-  public void userlogin( String userName, String password, AsyncCallback< Void > callback );
-  public void accountlogin( String accountName, String password, AsyncCallback< Void > callback  );
+  public void userlogin( String userName, String password, AsyncCallback< List< ResponseData<?> > > callback );
+  public void accountlogin( String accountName, String password, AsyncCallback< List< ResponseData<?> > > callback  );
   
   public void registerUser( UserRegisterData data, AsyncCallback< Void > callback );
   

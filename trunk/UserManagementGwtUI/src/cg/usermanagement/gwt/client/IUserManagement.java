@@ -13,6 +13,10 @@ import cg.usermanagement.shared.RoleException;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+/*
+ * for each request, return the response datas which required to build the next UI
+ * by this way, the web server side can control the UI flow completely
+ */
 @RemoteServiceRelativePath( "UserManagement")
 public interface IUserManagement extends RemoteService
 {
@@ -23,8 +27,8 @@ public interface IUserManagement extends RemoteService
   
   public List< ResponseData<?> > changeLocale( String localeName );
   
-  public void userlogin( String userName, String password ) throws LoginException;
-  public void accountlogin( String accountName, String password ) throws LoginException;
+  public List< ResponseData<?> > userlogin( String userName, String password ) throws LoginException;
+  public List< ResponseData<?> > accountlogin( String accountName, String password ) throws LoginException;
   
   public void registerUser( UserRegisterData data ) throws RegisterUserException;
   
