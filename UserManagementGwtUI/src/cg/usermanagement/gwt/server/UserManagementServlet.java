@@ -30,6 +30,7 @@ import cg.usermanagement.gwt.shared.data.LocaleMenuItemData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
+import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 import cg.usermanagement.gwt.shared.data.UserManagementStartData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
@@ -68,6 +69,18 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     return userService;
   }
 
+  public Locale getCurrentLocale()
+  {
+    adjustSessionManager();
+    Locale locale = (Locale)SessionManager.getAttribute( UserManagementSessionKey.locale );
+    return locale == null ? LocaleUtil.TOP_LOCALE : locale;
+  }
+  
+  public ResponseData< ControlSectionData > buildControlSectionData()
+  {
+    return buildControlSectionData( getCurrentLocale() );
+  }
+  
   public ResponseData< ControlSectionData > buildControlSectionData( Locale locale )
   {
     ResponseData< ControlSectionData > rd = new ResponseData< ControlSectionData >();
@@ -213,7 +226,26 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
    */
   public List< ResponseData<?> > getUserManagementPanelDatas()
   {
-    UserManagementPanelData
+    List< ResponseData<?> > rds = new ArrayList< ResponseData<?> >();
+    
+    // control section data
+    {
+      rds.add( buildControlSectionData() );
+    }
+    
+     
+    {
+      ResponseData< UserManagementPanelData > rd = new ResponseData< UserManagementPanelData >();
+      rd.setFlowData( UIIdentity.UM_CONTROL_PANEL );
+
+      UserManagementPanelData data = new UserManagementPanelData();
+      ResourceDataManager.defaultInstance.fillResourceDatas( getCurrentLocale(), data, true );
+      rd.setContentData( data );
+      
+      rds.add( rd );
+    }    
+    
+    return rds;
   }
   
   @Override
