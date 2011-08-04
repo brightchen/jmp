@@ -106,15 +106,15 @@ public class UserManagementUIFlow
    * this is the UI allow user the manage users,
    * such as user account management; account role management; role permission management etc
    */
-  public static ComponentUI< ?, ? > buildUserManagementPanelUI()
-  {
-    UserManagementPanelData data = new UserManagementPanelData();
-    for( UserManagementButtonMeta meta : UserManagementButtonMeta.values() )
-    {
-      data.addButtonData( meta.getButtonData() );
-    }
-    return new UserManagementPanelUI( data );
-  }
+//  public static ComponentUI< ?, ? > buildUserManagementPanelUI()
+//  {
+//    UserManagementPanelData data = new UserManagementPanelData();
+//    for( UserManagementButtonMeta meta : UserManagementButtonMeta.values() )
+//    {
+//      data.addButtonData( meta.getButtonData() );
+//    }
+//    return new UserManagementPanelUI( data );
+//  }
   
   public static void doSearchUser()
   {
