@@ -1,13 +1,22 @@
 package cg.resourcemanagement.util;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
+
+import cg.common.util.StringUtil;
 
 public class LocaleUtil
 {
   // the top locale is the locale without specifying language/country/variant
-  public static Locale TOP_LOCALE = new Locale( "" );
+  public static final Locale TOP_LOCALE = new Locale( "" );
+
   private static final String SEPERATOR = "_";
   
+  /*
+   * the localeName must have format language_country_variant
+   */
   public static Locale getLocale( String localeName )
   {
     if( localeName == null || localeName.isEmpty() )
@@ -15,9 +24,16 @@ public class LocaleUtil
     if( localeName.startsWith( SEPERATOR ) )
       return getLocale( localeName.substring( SEPERATOR.length() ) );
     String[] localeInfos = localeName.split( SEPERATOR );
-    if( localeInfos.length >=2 )
-      return new Locale( localeInfos[0], localeInfos[1] );
-    return new Locale( localeName );
+    switch( localeInfos.length )
+    {
+      case 1:
+        return new Locale( localeInfos[0] );
+      case 2:
+        return new Locale( localeInfos[0], localeInfos[1] );
+      case 3:
+        return new Locale( localeInfos[0], localeInfos[1], localeInfos[2] );
+    }
+    throw new IllegalArgumentException( "method: getLocale(); localeName: " + localeName );
   }
   
   /*
@@ -25,19 +41,22 @@ public class LocaleUtil
    */
   public static String getLocaleName( Locale locale )
   {
-    String localeName = locale.getLanguage();
+    if( locale == null )
+      locale = TOP_LOCALE;
+    return String.format( "%s" + SEPERATOR + "%s" + SEPERATOR + "%s" , StringUtil.nullToEmpty( locale.getLanguage() ), 
+                          StringUtil.nullToEmpty( locale.getCountry() ), StringUtil.nullToEmpty( locale.getVariant() ) );
+  }
+  
+  public static Set< Locale > getLocales( Set< String > localeNames )
+  {
+    if( localeNames == null || localeNames.isEmpty() )
+      return Collections.emptySet();
     
+    Set< Locale > locales = new HashSet< Locale >();
+    for( String localeName : localeNames )
     {
-      String country = locale.getCountry();
-      if( country != null && !country.isEmpty() )
-        localeName += "_" + country;
+      locales.add( getLocale( localeName ) );
     }
-    
-    {
-      String variant = locale.getVariant();
-      if( variant != null && !variant.isEmpty() )
-        localeName += "_" + variant;
-    }
-    return localeName;
+    return locales;
   }
 }

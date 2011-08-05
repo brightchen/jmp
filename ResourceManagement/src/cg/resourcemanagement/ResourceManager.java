@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
 import cg.common.util.DataReference;
+import cg.resourcemanagement.util.LocaleUtil;
 
 
 /*
@@ -19,10 +21,9 @@ import cg.common.util.DataReference;
 public class ResourceManager
 {
   private static ResourceManager instance;
-  private static final Locale TOP_LOCALE = new Locale( "" );   // a locale without language and country, it's the top locale 
   
-  //  resource bundle base name ==> ( locale ==> resource bundle )
-  private Map< String, Map< Locale, ResourceBundle > > resourcesGroups = new HashMap< String, Map< Locale, ResourceBundle > >();;
+  //  resource bundle base name ==> ( localeName ==> resource bundle ), String is more efficient than Locale as key
+  private Map< String, Map< String, ResourceBundle > > resourcesGroups = new HashMap< String, Map< String, ResourceBundle > >();;
   
   public static ResourceManager getInstance()
   {
@@ -58,16 +59,16 @@ public class ResourceManager
     {
       // convert the file into the bundle name
       // the input file is file path, like cg/ResourceManagement/TestResource.properties
-      DataReference< Locale > locale = new DataReference< Locale >();
-      DataReference< String > baseName = new DataReference< String >();
-      lookup.getLookupStrategy().getResourceInfo( file, locale, baseName );
+      DataReference< Locale > localeRef = new DataReference< Locale >();
+      DataReference< String > baseNameRef = new DataReference< String >();
+      lookup.getLookupStrategy().getResourceInfo( file, localeRef, baseNameRef );
 
-      ResourceBundle rb = loadResourceBundle( baseName.getData(), locale.getData() );
+      ResourceBundle rb = loadResourceBundle( baseNameRef.getData(), localeRef.getData() );
       if( rb == null )
         continue;
-
-      // use rb.getLocale() instead of locale as locale can be null
-      putResource( rb.getLocale(), baseName.getData(), rb );
+      
+      //UserManagementResource.properties, the loaded ResourceBundle's locale is "en US"
+      putResource( localeRef.getData(), baseNameRef.getData(), rb );
     }
   }
   
@@ -78,13 +79,13 @@ public class ResourceManager
   
   protected void putResource( Locale locale, String baseName, ResourceBundle resourceBundle )
   {
-    Map< Locale, ResourceBundle > bundles = resourcesGroups.get( baseName );
+    Map< String, ResourceBundle > bundles = resourcesGroups.get( baseName );
     if( bundles == null )
     {
-      bundles = new HashMap< Locale, ResourceBundle >();
+      bundles = new HashMap< String, ResourceBundle >();
       resourcesGroups.put( baseName, bundles );
     }
-    bundles.put( locale, resourceBundle );
+    bundles.put( LocaleUtil.getLocaleName( locale ), resourceBundle );
   }
   
   protected ResourceFileLookup getResourceFileLookup()
@@ -94,14 +95,28 @@ public class ResourceManager
 
   public Set< Locale > getSupportedLocales( String resourceBaseName )
   {
-    return resourcesGroups.get( resourceBaseName ).keySet();
+    return LocaleUtil.getLocales( getSupportedLocaleNames( resourceBaseName ) );
+  }
+  
+  public Set< String > getSupportedLocaleNames( String resourceBaseName )
+  {
+    // the TOP locale in fact is not a locale, get rid of it from the list
+    // the keySet is a reference. should clone it
+    Set< String > supportedLocales = new HashSet< String >();
+    for( String localeName : resourcesGroups.get( resourceBaseName ).keySet() )
+    {
+      if( LocaleUtil.getLocaleName( LocaleUtil.TOP_LOCALE ).equals( localeName ) )
+        continue;
+      supportedLocales.add( localeName );
+    }
+    return supportedLocales;
   }
   
   public Set<String> getKeys( Locale locale )
   {
     Set< String > keys = new HashSet< String >();
 
-    for( Map.Entry< String, Map< Locale, ResourceBundle > >group : resourcesGroups.entrySet() )
+    for( Map.Entry< String, Map< String, ResourceBundle > >group : resourcesGroups.entrySet() )
     {
       ResourceBundle bundle = group.getValue().get( locale );
       Enumeration< String > theKeys = bundle.getKeys();
@@ -115,25 +130,36 @@ public class ResourceManager
   
   public String getString( String resourceBaseName, Locale locale, String key )
   {
-    Map< Locale, ResourceBundle > group = resourcesGroups.get( resourceBaseName );
+    Map< String, ResourceBundle > group = resourcesGroups.get( resourceBaseName );
     if( group == null )
       return null;
     
     for( ; locale != null; locale = getParentLocale( locale ) )
     {
-      ResourceBundle bundle = group.get( locale );
+      ResourceBundle bundle = group.get( LocaleUtil.getLocaleName( locale ) );
       if( bundle != null )
-        return decodeString( locale, bundle.getString( key ) );
+      {
+        try
+        {
+          String value = bundle.getString( key );
+          return decodeString( locale, value );
+        }
+        catch( MissingResourceException mre )
+        {
+          mre.printStackTrace();
+          return null;
+        }
+      }
     }
     return null;
   }
 
   protected Locale getParentLocale( Locale locale )
   {
-    if( TOP_LOCALE.equals( locale ) )
+    if( LocaleUtil.TOP_LOCALE.equals( locale ) )
       return null;
     String country = locale.getCountry();
-    return ( country != null && !country.isEmpty() ) ? new Locale( locale.getLanguage() ) : TOP_LOCALE;
+    return ( country != null && !country.isEmpty() ) ? new Locale( locale.getLanguage() ) : LocaleUtil.TOP_LOCALE;
   }
   
   public String getString( Locale locale, String key )

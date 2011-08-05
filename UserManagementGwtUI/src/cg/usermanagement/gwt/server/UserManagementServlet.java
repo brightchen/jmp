@@ -99,9 +99,8 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   
   public List< ResponseData<?> > getStartUI( String localeName )
   {
-    Locale locale = LocaleUtil.getLocale( localeName );
-    if( locale == null )
-      locale = LocaleUtil.TOP_LOCALE;
+    SessionManager.startSession();
+    Locale locale = getCurrentLocale();
 
     List< ResponseData<?> > rds = new ArrayList< ResponseData<?> >();
     
@@ -198,7 +197,10 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     // cache the user permissions in the session as it is a very frequently used 
     SessionManager.putAttribute( UserManagementSessionKey.userPermissions, permissions );
     
-    return getUserManagementPanelDatas();
+    List< ResponseData<?> > responseDatas = getUserManagementPanelDatas();
+    SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, responseDatas );
+    
+    return responseDatas;
   }
 
   //it should be account instead of user login
@@ -218,7 +220,11 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     // cache the role permissions in the session as it is a very frequently used 
     SessionManager.putAttribute( UserManagementSessionKey.accountPermissions, permissions );
     
-    return getUserManagementPanelDatas();
+    List< ResponseData<?> > responseDatas = getUserManagementPanelDatas();
+    SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, responseDatas );
+    
+    return responseDatas;
+
   }
   
   /*
