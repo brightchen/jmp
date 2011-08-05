@@ -2,47 +2,56 @@ package cg.usermanagement.gwt.client;
 
 import cg.gwt.components.client.ui.event.UIEvent;
 
-public class UserManagementButtonEvent extends UIEvent< UserManagementButtonMeta >
+public class UserManagementButtonEvent extends UIEvent< UserManagementButtonEvent.Operation >
 {
-  private UserManagementButtonMeta data;
+  public static enum Operation
+  {
+    SearchUser,
+    SearchAccount,
+    AddAccount,
+    SearchRole,
+    AddRole,
+    AddPermission
+  }
+  private Operation data;
   
   @Override
   public void fire()
   {
-    if( UserManagementButtonMeta.SEARCH_USER.equals( data ) )
+    if( Operation.SearchUser.equals( data ) )
     {
       UserManagementUIFlow.doSearchUser();
       return;
     }
-    if( UserManagementButtonMeta.SEARCH_ACCOUNT.equals( data ) )
+    if( Operation.SearchAccount.equals( data ) )
     {
       UserManagementUIFlow.doSearchAccount();
       return;
     }
-    if( UserManagementButtonMeta.ADD_ACCOUNT.equals( data ) )
+    if( Operation.AddAccount.equals( data ) )
     {
       UserManagementUIFlow.doAddAccount();
       return;
     }
-    if( UserManagementButtonMeta.SEARCH_ROLE.equals( data ) )
+    if( Operation.SearchRole.equals( data ) )
     {
       UserManagementUIFlow.doSearchRole();
       return;
     }
 
-    if( UserManagementButtonMeta.ADD_ROLE.equals( data ) )
+    if( Operation.AddRole.equals( data ) )
     {
       UserManagementUIFlow.doAddRole();
       return;
     }
-    if( UserManagementButtonMeta.ADD_PERMISSION.equals( data ) )
+    if( Operation.AddPermission.equals( data ) )
     {
       return;
     }
   }
   
   @Override
-  public UserManagementButtonMeta getData()
+  public Operation getData()
   {
     return data;
   }
@@ -51,7 +60,7 @@ public class UserManagementButtonEvent extends UIEvent< UserManagementButtonMeta
    * this event don't need dynamic data from ui. So, we can use setData
    * the data here is just for distinguishing which UserManagement button triggered this event. 
    */
-  public void setData( UserManagementButtonMeta data )
+  public void setData( Operation data )
   {
     this.data = data;
   }

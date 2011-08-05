@@ -1,7 +1,10 @@
 package cg.usermanagement.gwt.client.login;
 
+import java.util.List;
+
 import cg.gwt.components.client.ui.event.UIEvent;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
+import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.ValidateException;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.client.IUserManagementAsync;
@@ -53,12 +56,12 @@ public abstract class LoginEvent extends UIEvent< LoginData >
     else if( LoginType.ACCOUNT_LOGIN.equals( loginType ) ) 
     {
       userManagement.accountlogin( data.getName(), data.getPassword(), 
-                                   new PopupFailureReasonCallback< Void >()
+                                   new PopupFailureReasonCallback< List< ResponseData<?> > >()
                                     {
                                       @Override
-                                      public void onSuccess( Void returned )
+                                      public void onSuccess( List< ResponseData<?> > responseDatas )
                                       {
-                                        onLoginSuccess( data );
+                                        onLoginSuccess( data, responseDatas );
                                       }
                                     } );
     }
@@ -68,9 +71,9 @@ public abstract class LoginEvent extends UIEvent< LoginData >
     }
   }
 
-  protected void onLoginSuccess( LoginData data )
+  protected void onLoginSuccess( LoginData loginData, List< ResponseData<?> > responseDatas )
   {
-    UserManagementUIFlow.onLoginSuccess( data );
+    UserManagementUIFlow.onLoginSuccess( loginData, responseDatas );
   }
 
 }

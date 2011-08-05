@@ -25,12 +25,13 @@ public class UserManagementPanelUI extends ComponentUI< UserManagementPanelData,
   {
     AlignedUIGroup< ButtonData > buttonGroup = new AlignedUIGroup< ButtonData >( getData().getButtonDatas(), new FlexTable() )
     {
+      final UserManagementButtonEvent.Operation[] operations = UserManagementButtonEvent.Operation.values();
       @Override
       protected Widget buildChildComponent( ButtonData childData, int index )
       {
         UserManagementButtonEvent event = new UserManagementButtonEvent();
-        event.setData( UserManagementButtonMeta.toMeta( childData ) );
-        ButtonUI<UserManagementButtonMeta> buttonUI = new ButtonUI<UserManagementButtonMeta>( childData );
+        event.setData( operations[ index ] );
+        ButtonUI< UserManagementButtonEvent.Operation > buttonUI = new ButtonUI< UserManagementButtonEvent.Operation >( childData );
         buttonUI.addClickEvent( event );
         return buttonUI;
       }
