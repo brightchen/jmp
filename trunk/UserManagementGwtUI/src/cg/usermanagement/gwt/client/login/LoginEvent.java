@@ -44,12 +44,12 @@ public abstract class LoginEvent extends UIEvent< LoginData >
     if( LoginType.USER_LOGIN.equals( loginType ) )
     {
       userManagement.userlogin( data.getName(), data.getPassword(), 
-                                new PopupFailureReasonCallback< Void >()
+                                new PopupFailureReasonCallback< List< ResponseData<?> > >()
                                  {
                                    @Override
-                                   public void onSuccess( Void returned )
+                                   public void onSuccess( List< ResponseData<?> > responseDatas )
                                    {
-                                     onLoginSuccess( data );
+                                     onLoginSuccess( data, responseDatas );
                                    }
                                  } );
     }

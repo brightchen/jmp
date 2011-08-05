@@ -2,7 +2,6 @@ package cg.usermanagement.gwt.client;
 
 import java.util.List;
 
-import cg.gwt.components.client.ui.ComponentUI;
 import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.client.ui.decorator.PopupDecorator;
 import cg.gwt.components.client.ui.decorator.PopupWithCancelButtonDecorator;
@@ -16,8 +15,8 @@ import cg.usermanagement.gwt.shared.data.AddRoleData;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
-import cg.usermanagement.gwt.shared.data.UserManagementStartData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
+import cg.usermanagement.gwt.shared.data.UserManagementStartData;
 
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -33,25 +32,26 @@ public class UserManagementUIFlow
 {
   //the static attribute is safe as this is client code and run in the web browser.
   //the static is only static for one client web browser.
-  private static UserManagementControlSectionUI controlSectionUI;
-  private static ClientSectionUI clientSectionUI = new ClientSectionUI();
+//  private static UserManagementControlSectionUI controlSectionUI;
+//  private static ClientSectionUI clientSectionUI = new ClientSectionUI();
   
   private static PopupDecorator<?,?> addRolePopup;
   private static PopupDecorator<?,?> roleDetailPopup;
   
   private static final String cookieLocale = "locale";
   
-  public static void freshCurrentPage( List< ResponseData<?> > responseDatas )
+  public static void freshPage( List< ResponseData<?> > responseDatas )
   {
-    controlSectionUI = (UserManagementControlSectionUI)buildUI( responseDatas.get( 0 ) );
-    
-    clientSectionUI = new ClientSectionUI();
-    clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
+//    UserManagementControlSectionUI controlSectionUI = (UserManagementControlSectionUI)buildUI( responseDatas.get( 0 ) );
+//    
+//    ClientSectionUI clientSectionUI = new ClientSectionUI();
+//    clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
    
     RootPanel rp = RootPanel.get();
     rp.clear();
-    rp.add( controlSectionUI );
-    rp.add( clientSectionUI );
+    rp.add( buildUI( responseDatas ) );
+//    rp.add( controlSectionUI );
+//    rp.add( clientSectionUI );
 
   }
   
@@ -69,26 +69,15 @@ public class UserManagementUIFlow
     event.fire();
   }
   
-  public static void doGetStartUISuccess( List< ResponseData<?> > responseDatas )
-  {
-    controlSectionUI = (UserManagementControlSectionUI)buildUI( responseDatas.get( 0 ) );
-    
-    clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
-   
-    RootPanel rp = RootPanel.get();
-    rp.add( controlSectionUI );
-    rp.add( clientSectionUI );
-  }
   
   /*
    * the responseDatas should be control section data and the data for the client section
    */
   public static Widget buildUI( List< ResponseData<?> > responseDatas )
   {
-    controlSectionUI = (UserManagementControlSectionUI)buildUI( responseDatas.get( 0 ) );
+    UserManagementControlSectionUI controlSectionUI = (UserManagementControlSectionUI)buildUI( responseDatas.get( 0 ) );
 
-    if( clientSectionUI == null )
-      clientSectionUI = new ClientSectionUI();
+    ClientSectionUI clientSectionUI = new ClientSectionUI();
     clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
 
     PanelCompositeUI ui = new PanelCompositeUI();
@@ -120,10 +109,14 @@ public class UserManagementUIFlow
     throw new IllegalStateException( "Invalid UIIdentity. " );
   }
   
+  public static void doGetStartUISuccess( List< ResponseData<?> > responseDatas )
+  {
+    freshPage( responseDatas );
+  }
+
   public static void onLoginSuccess( LoginData loginData, List< ResponseData<?> > responseDatas )
   {
-    RootPanel.get().clear();
-    RootPanel.get().add( buildUserManagementPanelUI() );
+    freshPage( responseDatas );
   }
 
 

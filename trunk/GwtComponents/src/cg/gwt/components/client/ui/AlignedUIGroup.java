@@ -9,14 +9,14 @@ import com.google.gwt.user.client.ui.Widget;
  * AlignedUIGroup is a type of UIGroup which items are aligned by column or row
  * use HTMLTable or its sub-classes as the container 
  */
-public abstract class AlignedUIGroup < I > extends UIFlexTableComposite< List<I> >
+public abstract class AlignedUIGroup < I > extends UIFlexTableComposite< List< ? extends I> >
 {
-  public AlignedUIGroup( List<I> data )
+  public AlignedUIGroup( List< ? extends I> data )
   {
     super( data );
   }
   
-  public AlignedUIGroup( List<I> data, FlexTable container )
+  public AlignedUIGroup( List<? extends I> data, FlexTable container )
   {
     this( data );
     setContainer( container );
@@ -32,7 +32,7 @@ public abstract class AlignedUIGroup < I > extends UIFlexTableComposite< List<I>
    * build and add children component into the children list
    * the build() method will add the component in the children list into the container
    */
-  public void buildAndAddChildren( List<I> data )
+  public void buildAndAddChildren( List<? extends I> data )
   {
     if( data == null || data.isEmpty() )
       return;
