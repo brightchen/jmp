@@ -3,6 +3,7 @@ package cg.usermanagement.gwt.client;
 import java.util.List;
 
 import cg.gwt.components.client.ui.ComponentUI;
+import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.client.ui.decorator.PopupDecorator;
 import cg.gwt.components.client.ui.decorator.PopupWithCancelButtonDecorator;
 import cg.gwt.components.shared.data.ButtonData;
@@ -20,6 +21,7 @@ import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /*
@@ -78,6 +80,25 @@ public class UserManagementUIFlow
     rp.add( clientSectionUI );
   }
   
+  /*
+   * the responseDatas should be control section data and the data for the client section
+   */
+  public static Widget buildUI( List< ResponseData<?> > responseDatas )
+  {
+    controlSectionUI = (UserManagementControlSectionUI)buildUI( responseDatas.get( 0 ) );
+
+    if( clientSectionUI == null )
+      clientSectionUI = new ClientSectionUI();
+    clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
+
+    PanelCompositeUI ui = new PanelCompositeUI();
+    ui.setContainer( new VerticalPanel() );
+    ui.addChild( controlSectionUI );
+    ui.addChild( clientSectionUI );
+    
+    return ui;
+  }
+  
   public static Widget buildUI( ResponseData<?> responseData )
   {
     UIFlowData flowData = responseData.getFlowData();
@@ -91,11 +112,15 @@ public class UserManagementUIFlow
     {
       return new UserManagementStartUI( (UserManagementStartData)responseData.getContentData() );   
     }
+    if( UIIdentity.UM_CONTROL_PANEL.equals( identity ) )
+    {
+      return new UserManagementPanelUI( (UserManagementPanelData)responseData.getContentData() ); 
+    }
     
     throw new IllegalStateException( "Invalid UIIdentity. " );
   }
   
-  public static void onLoginSuccess( LoginData data )
+  public static void onLoginSuccess( LoginData loginData, List< ResponseData<?> > responseDatas )
   {
     RootPanel.get().clear();
     RootPanel.get().add( buildUserManagementPanelUI() );
