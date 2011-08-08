@@ -5,6 +5,7 @@ import java.util.List;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
+import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -27,4 +28,6 @@ public interface IUserManagementAsync
   public void addRole( String roleName, AsyncCallback< Long > callback );
   
   public void searchUser( SearchUserData searchUserData, AsyncCallback< List< UserListData > > userListDatas );
+  
+  public void onUserManagementPanelOperation( UserManagementPanelOperation operation, AsyncCallback< List< ResponseData<?> > > responseDatas );
 }
