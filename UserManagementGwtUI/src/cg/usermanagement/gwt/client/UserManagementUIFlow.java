@@ -134,22 +134,22 @@ public class UserManagementUIFlow
 //    return new UserManagementPanelUI( data );
 //  }
   
-  public static void doSearchUser()
+  public static void onUserManagementPanelSearchUser()
   {
     
   }
   
-  public static void doSearchAccount()
+  public static void onUserManagementPanelSearchAccount()
   {
     
   }
 
-  public static void doAddAccount()
+  public static void onUserManagementPanelAddAccount()
   {
     
   }
 
-  public static void doSearchRole()
+  public static void onUserManagementPanelSearchRole()
   {
     
   }
@@ -157,7 +157,7 @@ public class UserManagementUIFlow
   /*
    * the system behavior when user clicking the add role button
    */
-  public static void doAddRole()
+  public static void onUserManagementPanelAddRole()
   {
     //the addRolePopup should be recreate even if addRolePopup is not null, 
     //as addRolePopup can be already closed( for example, one user create two roles ),
@@ -169,7 +169,12 @@ public class UserManagementUIFlow
     addRolePopup = new PopupWithCancelButtonDecorator< AddRoleUI >( "Add Role", new AddRoleUI( roleData ) );
     addRolePopup.centre();
   }
-  
+
+  public static void onUserManagementPanelAddPermission()
+  {
+    
+  }
+
   /*
    * switch to role detail ui to assign permissions
    */
@@ -180,6 +185,7 @@ public class UserManagementUIFlow
     roleDetailPopup = new PopupWithCancelButtonDecorator< Widget >( "Role Detail", buildRoleDetailUI( addRoleData.getId(), addRoleData.getName() ) );
     roleDetailPopup.centre();
   }
+  
   
   public static Widget buildRoleDetailUI( Long roleId, String roleName )
   {

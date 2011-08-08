@@ -24,6 +24,7 @@ import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.server.resource.UserManagementResourceDataBuilder;
 import cg.usermanagement.gwt.shared.data.AccountLoginData;
+import cg.usermanagement.gwt.shared.data.AddRoleData;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.LocaleMenuBarData;
 import cg.usermanagement.gwt.shared.data.LocaleMenuItemData;
@@ -31,6 +32,7 @@ import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
+import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserManagementStartData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
@@ -269,6 +271,44 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     UserRegisterView view = new UserRegisterView();
     DataConverter.shallowCopyConvert( data, view );
     service.registerUser( view );
+  }
+  
+  @Override
+  public List< ResponseData<?> > onUserManagementPanelOperation( UserManagementPanelOperation operation )
+  {
+    List< ResponseData<?> > rds = new ArrayList< ResponseData<?> >();
+
+    if( UserManagementPanelOperation.SearchUser.equals( operation ) )
+    {
+    }
+    if( UserManagementPanelOperation.SearchAccount.equals( operation ) )
+    {
+    }
+    if( UserManagementPanelOperation.AddAccount.equals( operation ) )
+    {
+    }
+    if( UserManagementPanelOperation.SearchRole.equals( operation ) )
+    {
+    }
+  
+    if( UserManagementPanelOperation.AddRole.equals( operation ) )
+    {
+      ResponseData< AddRoleData > rd = new ResponseData< AddRoleData >();
+      rd.setFlowData( UIIdentity.UM_ADD_ROLE );
+
+      AddRoleData data = new AddRoleData();
+      ResourceDataManager.defaultInstance.fillResourceDatas( getCurrentLocale(), data, true );
+      rd.setContentData( data );
+      
+      rds.add( rd );
+      
+      return rds;
+    }
+    if( UserManagementPanelOperation.AddPermission.equals( operation ) )
+    {
+    }
+
+    return null;
   }
   
   @Override

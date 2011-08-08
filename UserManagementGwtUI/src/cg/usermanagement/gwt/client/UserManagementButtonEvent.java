@@ -1,45 +1,27 @@
 package cg.usermanagement.gwt.client;
 
-import cg.gwt.components.client.ui.event.UIEvent;
+import java.util.List;
+
+import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
+import cg.gwt.components.shared.data.ResponseData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 
-public class UserManagementButtonEvent extends UIEvent< UserManagementPanelOperation >
+public class UserManagementButtonEvent extends UserManagementEvent< UserManagementPanelOperation >
 {
   private UserManagementPanelOperation data;
   
   @Override
   public void fire()
   {
-    if( UserManagementPanelOperation.SearchUser.equals( data ) )
-    {
-      UserManagementUIFlow.doSearchUser();
-      return;
-    }
-    if( UserManagementPanelOperation.SearchAccount.equals( data ) )
-    {
-      UserManagementUIFlow.doSearchAccount();
-      return;
-    }
-    if( UserManagementPanelOperation.AddAccount.equals( data ) )
-    {
-      UserManagementUIFlow.doAddAccount();
-      return;
-    }
-    if( UserManagementPanelOperation.SearchRole.equals( data ) )
-    {
-      UserManagementUIFlow.doSearchRole();
-      return;
-    }
-
-    if( UserManagementPanelOperation.AddRole.equals( data ) )
-    {
-      UserManagementUIFlow.doAddRole();
-      return;
-    }
-    if( UserManagementPanelOperation.AddPermission.equals( data ) )
-    {
-      return;
-    }
+    getUserManagement().onUserManagementPanelOperation( data,
+                                                        new PopupFailureReasonCallback< List< ResponseData<?> > >()
+                                                        {
+                                                          @Override
+                                                          public void onSuccess( List< ResponseData<?> > responseDatas )
+                                                          {
+                                                            onUserManagementPanelOperationSuccess( data, responseDatas );
+                                                          }
+                                                        } );
   }
   
   @Override
@@ -57,5 +39,8 @@ public class UserManagementButtonEvent extends UIEvent< UserManagementPanelOpera
     this.data = data;
   }
   
-
+  protected void onUserManagementPanelOperationSuccess( UserManagementPanelOperation operation, List< ResponseData<?> > responseDatas )
+  {
+    
+  }
 }
