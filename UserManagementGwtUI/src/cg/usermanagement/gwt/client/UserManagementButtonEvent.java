@@ -41,6 +41,6 @@ public class UserManagementButtonEvent extends UserManagementEvent< UserManageme
   
   protected void onUserManagementPanelOperationSuccess( UserManagementPanelOperation operation, List< ResponseData<?> > responseDatas )
   {
-    
+    UserManagementUIFlow.onUserManagementPanelOperationSuccess( operation, responseDatas );
   }
 }

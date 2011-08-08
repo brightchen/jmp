@@ -2,9 +2,10 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
+import cg.gwt.components.shared.data.IButtonDataSupport;
 import cg.gwt.components.shared.data.ResourceData;
 
-public class AddRoleResourceData extends ResourceData implements Serializable
+public class AddRoleResourceData extends ResourceData implements IButtonDataSupport, Serializable
 {
   private static final long serialVersionUID = -8086359626588958685L;
 
@@ -35,6 +36,17 @@ public class AddRoleResourceData extends ResourceData implements Serializable
   public void setSaveRoleTitle( String saveRoleTitle )
   {
     this.saveRoleTitle = saveRoleTitle;
+  }
+  
+  @Override
+  public String getButtonText()
+  {
+    return getSaveRoleText();
+  }
+  @Override
+  public String getButtonTitle()
+  {
+    return getSaveRoleTitle();
   }
 
 }

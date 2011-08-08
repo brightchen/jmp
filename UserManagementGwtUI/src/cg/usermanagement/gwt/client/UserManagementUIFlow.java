@@ -7,6 +7,7 @@ import cg.gwt.components.client.ui.decorator.PopupDecorator;
 import cg.gwt.components.client.ui.decorator.PopupWithCancelButtonDecorator;
 import cg.gwt.components.shared.data.ButtonData;
 import cg.gwt.components.shared.data.ResponseData;
+import cg.gwt.components.shared.data.UIContentData;
 import cg.gwt.components.shared.data.UIFlowData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.usermanagement.gwt.client.role.AddRoleUI;
@@ -16,6 +17,7 @@ import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
+import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserManagementStartData;
 
 import com.google.gwt.user.client.Cookies;
@@ -75,11 +77,22 @@ public class UserManagementUIFlow
    */
   public static Widget buildUI( List< ResponseData<?> > responseDatas )
   {
-    UserManagementControlSectionUI controlSectionUI = (UserManagementControlSectionUI)buildUI( responseDatas.get( 0 ) );
-
+    UserManagementControlSectionUI controlSectionUI = null;
     ClientSectionUI clientSectionUI = new ClientSectionUI();
-    clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
+    for( ResponseData data : responseDatas )
+    {
+      UIFlowData flowData = data.getFlowData();
+      UIIdentity identity = flowData.getUiIdentity();
+      if( UIIdentity.CONTROL_SECTION.equals( identity ) )
+        controlSectionUI = (UserManagementControlSectionUI)buildUI( data );
+      else
+        clientSectionUI.setComponent( buildUI( data ) );    //the clientSectionUI should support multiple UI?
+    }
+    
+    if( controlSectionUI == null )
+      return clientSectionUI;
 
+    //have both control section and client section
     PanelCompositeUI ui = new PanelCompositeUI();
     ui.setContainer( new VerticalPanel() );
     ui.addChild( controlSectionUI );
@@ -92,20 +105,40 @@ public class UserManagementUIFlow
   {
     UIFlowData flowData = responseData.getFlowData();
     UIIdentity identity = flowData.getUiIdentity();
+    UIContentData contentData = responseData.getContentData();
     
     if( UIIdentity.CONTROL_SECTION.equals( identity ) )
     {
-      return new UserManagementControlSectionUI( (ControlSectionData)responseData.getContentData() );
+      return new UserManagementControlSectionUI( (ControlSectionData)contentData );
     }
     if( UIIdentity.UM_START.equals( identity ) )
     {
-      return new UserManagementStartUI( (UserManagementStartData)responseData.getContentData() );   
+      return new UserManagementStartUI( (UserManagementStartData)contentData );   
     }
     if( UIIdentity.UM_CONTROL_PANEL.equals( identity ) )
     {
-      return new UserManagementPanelUI( (UserManagementPanelData)responseData.getContentData() ); 
+      return new UserManagementPanelUI( (UserManagementPanelData)contentData ); 
     }
-    
+    if( UIIdentity.UM_SEARCH_USER.equals( identity ) )
+    {
+    }
+    if( UIIdentity.UM_SEARCH_ACCOUNT.equals( identity ) )
+    {
+    }
+    if( UIIdentity.UM_ADD_ACCOUNT.equals( identity ) )
+    {
+    }
+    if( UIIdentity.UM_SEARCH_ROLE.equals( identity ) )
+    {
+    }
+    if( UIIdentity.UM_ADD_ROLE.equals( identity ) )
+    {
+      return new AddRoleUI( (AddRoleData)contentData );
+    }
+    if( UIIdentity.UM_ADD_PERMISSION.equals( identity ) )
+    {
+    }
+
     throw new IllegalStateException( "Invalid UIIdentity. " );
   }
   
@@ -133,6 +166,12 @@ public class UserManagementUIFlow
 //    }
 //    return new UserManagementPanelUI( data );
 //  }
+  
+  protected static void onUserManagementPanelOperationSuccess( UserManagementPanelOperation operation, List< ResponseData<?> > responseDatas )
+  {
+    PopupWithCancelButtonDecorator popup = new PopupWithCancelButtonDecorator< Widget >( "", buildUI( responseDatas ) );
+    popup.centre();
+  }
   
   public static void onUserManagementPanelSearchUser()
   {
