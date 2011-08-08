@@ -5,6 +5,7 @@ import cg.gwt.components.client.ui.ComponentUI;
 import cg.gwt.components.client.ui.components.ButtonUI;
 import cg.gwt.components.shared.data.ButtonData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
+import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -25,13 +26,13 @@ public class UserManagementPanelUI extends ComponentUI< UserManagementPanelData,
   {
     AlignedUIGroup< ButtonData > buttonGroup = new AlignedUIGroup< ButtonData >( getData().getButtonDatas(), new FlexTable() )
     {
-      final UserManagementButtonEvent.Operation[] operations = UserManagementButtonEvent.Operation.values();
+      final UserManagementPanelOperation[] operations = UserManagementPanelOperation.values();
       @Override
       protected Widget buildChildComponent( ButtonData childData, int index )
       {
         UserManagementButtonEvent event = new UserManagementButtonEvent();
         event.setData( operations[ index ] );
-        ButtonUI< UserManagementButtonEvent.Operation > buttonUI = new ButtonUI< UserManagementButtonEvent.Operation >( childData );
+        ButtonUI< UserManagementPanelOperation > buttonUI = new ButtonUI< UserManagementPanelOperation >( childData );
         buttonUI.addClickEvent( event );
         return buttonUI;
       }

@@ -14,7 +14,10 @@ public class UserManagementPanelData extends UIContentData<UserManagementPanelRe
 
   public UserManagementPanelData()
   {
-    addButtonData( new UserManagementPanelButtonData( this ) );
+    for( UserManagementPanelOperation operation : UserManagementPanelOperation.values() )
+    {
+      addButtonData( new UserManagementPanelButtonData( this, operation ) );
+    }
   }
   
   public List< UserManagementPanelButtonData > getButtonDatas()

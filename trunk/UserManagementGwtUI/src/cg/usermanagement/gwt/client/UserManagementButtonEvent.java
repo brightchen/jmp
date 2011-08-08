@@ -1,57 +1,49 @@
 package cg.usermanagement.gwt.client;
 
 import cg.gwt.components.client.ui.event.UIEvent;
+import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 
-public class UserManagementButtonEvent extends UIEvent< UserManagementButtonEvent.Operation >
+public class UserManagementButtonEvent extends UIEvent< UserManagementPanelOperation >
 {
-  public static enum Operation
-  {
-    SearchUser,
-    SearchAccount,
-    AddAccount,
-    SearchRole,
-    AddRole,
-    AddPermission
-  }
-  private Operation data;
+  private UserManagementPanelOperation data;
   
   @Override
   public void fire()
   {
-    if( Operation.SearchUser.equals( data ) )
+    if( UserManagementPanelOperation.SearchUser.equals( data ) )
     {
       UserManagementUIFlow.doSearchUser();
       return;
     }
-    if( Operation.SearchAccount.equals( data ) )
+    if( UserManagementPanelOperation.SearchAccount.equals( data ) )
     {
       UserManagementUIFlow.doSearchAccount();
       return;
     }
-    if( Operation.AddAccount.equals( data ) )
+    if( UserManagementPanelOperation.AddAccount.equals( data ) )
     {
       UserManagementUIFlow.doAddAccount();
       return;
     }
-    if( Operation.SearchRole.equals( data ) )
+    if( UserManagementPanelOperation.SearchRole.equals( data ) )
     {
       UserManagementUIFlow.doSearchRole();
       return;
     }
 
-    if( Operation.AddRole.equals( data ) )
+    if( UserManagementPanelOperation.AddRole.equals( data ) )
     {
       UserManagementUIFlow.doAddRole();
       return;
     }
-    if( Operation.AddPermission.equals( data ) )
+    if( UserManagementPanelOperation.AddPermission.equals( data ) )
     {
       return;
     }
   }
   
   @Override
-  public Operation getData()
+  public UserManagementPanelOperation getData()
   {
     return data;
   }
@@ -60,7 +52,7 @@ public class UserManagementButtonEvent extends UIEvent< UserManagementButtonEven
    * this event don't need dynamic data from ui. So, we can use setData
    * the data here is just for distinguishing which UserManagement button triggered this event. 
    */
-  public void setData( Operation data )
+  public void setData( UserManagementPanelOperation data )
   {
     this.data = data;
   }
