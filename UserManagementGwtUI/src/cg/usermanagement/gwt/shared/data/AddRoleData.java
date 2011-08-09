@@ -2,8 +2,10 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
+import cg.gwt.components.annotation.IContentDataIndicator;
 import cg.gwt.components.shared.data.ButtonData;
 import cg.gwt.components.shared.data.UIContentData;
+import cg.resourcemanagement.annotation.IResourceKey;
 
 public class AddRoleData extends UIContentData< AddRoleResourceData > implements Serializable
 {
@@ -54,6 +56,8 @@ public class AddRoleData extends UIContentData< AddRoleResourceData > implements
     this.name = name;
   }
 
+  @IContentDataIndicator( isContentData = true )  //the saveButtonData is sub-content-data
+  @IResourceKey( className = "saverolebutton" )  //the className of this ButtonData is saverolebutton
   public ButtonData getSaveButtonData()
   {
     return saveButtonData;

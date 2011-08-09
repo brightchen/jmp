@@ -38,9 +38,7 @@ public class PopupWithCancelButtonDecorator< UC extends Widget > extends PopupWi
   
   protected ButtonData getCancelButtonData()
   {
-    ButtonData buttonData = new ButtonData();
-    buttonData.setText( "Cancel" );
-    buttonData.setTitle( "Cancel the operation and close the popup" );
+    ButtonData buttonData = new ButtonData( "Cancel", "Cancel the operation and close the popup" );
     return buttonData;
   }
   

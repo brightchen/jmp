@@ -6,6 +6,7 @@ import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.client.ui.decorator.PopupDecorator;
 import cg.gwt.components.client.ui.decorator.PopupWithCancelButtonDecorator;
 import cg.gwt.components.shared.data.ButtonData;
+import cg.gwt.components.shared.data.ButtonResourceData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIContentData;
 import cg.gwt.components.shared.data.UIFlowData;
@@ -203,8 +204,10 @@ public class UserManagementUIFlow
     //which made any operation to addRolePopup is invalid
     AddRoleData roleData = new AddRoleData();
     ButtonData buttonData = roleData.getSaveButtonData();
-    buttonData.setText( "Add Role" );
-    buttonData.setTitle( "Add a new Role" );
+    ButtonResourceData resourceData = new ButtonResourceData();
+    resourceData.setText( "Add Role" );
+    resourceData.setTitle( "Add a new Role" );
+    buttonData.setResourceData( resourceData );
     addRolePopup = new PopupWithCancelButtonDecorator< AddRoleUI >( "Add Role", new AddRoleUI( roleData ) );
     addRolePopup.centre();
   }
