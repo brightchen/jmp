@@ -2,11 +2,14 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
+import cg.gwt.components.annotation.IContentDataAttributes;
 import cg.gwt.components.annotation.IContentDataIndicator;
+import cg.gwt.components.server.resource.SubContentDataAnnotationLookupStrategy;
 import cg.gwt.components.shared.data.ButtonData;
 import cg.gwt.components.shared.data.UIContentData;
 import cg.resourcemanagement.annotation.IResourceKey;
 
+@IContentDataAttributes( isComposite = true, subContentDataLookupStrategy = SubContentDataAnnotationLookupStrategy.class )
 public class AddRoleData extends UIContentData< AddRoleResourceData > implements Serializable
 {
   private static final long serialVersionUID = -6940977542611194133L;
