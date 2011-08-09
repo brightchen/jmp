@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import cg.gwt.components.server.resource.ISubContentDataLookupStrategy;
+
 /*
  * this annotation annotated the UIContentData class
  * if a class doesn't annotated by this annotation, treat it as leaf
@@ -20,5 +22,5 @@ public @interface IContentDataAttributes
   /*
    * specify how to find the sub-content-data
    */
-  public Class< ? > subContentDataLookupStrategy();
+  public Class< ? extends ISubContentDataLookupStrategy > subContentDataLookupStrategy();
 }
