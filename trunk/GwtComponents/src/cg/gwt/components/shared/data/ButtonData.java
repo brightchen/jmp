@@ -7,12 +7,10 @@ import java.io.Serializable;
  * text: is the text display in the button
  * title: is the text displayed for help when mouse over
  */
-public class ButtonData implements Serializable
+public class ButtonData extends UIContentData< ButtonResourceData > implements Serializable
 {
   private static final long serialVersionUID = 4191914428310120094L;
 
-  private String text;
-  private String title;
   private boolean enabled = true;
   
   public ButtonData(){}
@@ -27,22 +25,33 @@ public class ButtonData implements Serializable
     setTitle( title );
   }
   
+  public ButtonResourceData getOrCreateResourceData()
+  {
+    ButtonResourceData resourceData = getResourceData();
+    if( resourceData == null )
+    {
+      resourceData = new ButtonResourceData();
+      setResourceData( resourceData );
+    }
+    return resourceData;
+  }
+  
   public String getText()
   {
-    return text;
+    return getResourceData() == null ? null : getResourceData().getText();
   }
   public void setText( String text )
   {
-    this.text = text;
+    getOrCreateResourceData().setText( text );
   }
   
   public String getTitle()
   {
-    return title;
+    return getResourceData() == null ? null : getResourceData().getTitle();
   }
   public void setTitle( String title )
   {
-    this.title = title;
+    getOrCreateResourceData().setTitle( title );
   }
   public boolean isEnabled()
   {
