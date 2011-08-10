@@ -4,7 +4,8 @@ import cg.gwt.components.shared.data.ResourceData;
 import cg.gwt.components.shared.data.UIContentData;
 
 /*
- * this interface declare the interface of 
+ * get the actual type of resource data of a content data, it only take care of the resource data of this content data
+ * it doesn't take care the resource of the sub-content-datas
  */
 public interface IResourceDataClassStrategy
 {

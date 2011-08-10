@@ -3,6 +3,7 @@ package cg.gwt.components.server.resource;
 import java.util.List;
 import java.util.Locale;
 
+import cg.gwt.components.annotation.IContentDataAttributes;
 import cg.gwt.components.shared.data.ICompositeContentData;
 import cg.gwt.components.shared.data.ResourceData;
 import cg.gwt.components.shared.data.UIContentData;
@@ -55,11 +56,12 @@ public class ResourceDataManager
       }
     }
     
-    if( !( contentData instanceof ICompositeContentData ) )
-      return;
+//    if( !( contentData instanceof ICompositeContentData ) )
+//      return;
     
-    ICompositeContentData compositeData = ( ICompositeContentData )contentData;
-    List< ? extends UIContentData > subContentDatas = compositeData.getSubContentDatas();
+//    ICompositeContentData compositeData = ( ICompositeContentData )contentData;
+//    List< ? extends UIContentData > subContentDatas = compositeData.getSubContentDatas();
+    List< ? extends UIContentData > subContentDatas = getSubContentDatas( contentData );
     if( subContentDatas == null )
       return;
     
@@ -90,5 +92,11 @@ public class ResourceDataManager
       e.printStackTrace();
       return null;
     }
+  }
+  
+  // get the list of the sub-content-data of contentData
+  public List< ? extends UIContentData > getSubContentDatas( UIContentData contentData )
+  {
+    //if contentData is annotated by @IContentDataAttributes
   }
 }
