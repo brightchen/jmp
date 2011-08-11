@@ -4,7 +4,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -272,5 +274,106 @@ public class ReflectionUtil
     }
     
     return null;
+  }
+  
+  /*
+   * get the Getter/Setter if input method is Setter/Getter
+   * return the map using the input method as key and corresponding method as value
+   */
+  public static Map< Method, Method > getCorrespondingGetterSetters( Set< Method > methods )
+  {
+    if( methods == null )
+      return null;
+    
+    Map< Method, Method > map = new HashMap< Method, Method >();
+    for( Method method : methods )
+    {
+      map.put( method, getCorrespondingGetterSetter( method ) );
+    }
+    return map;
+  }
+  
+  public static Map< Method, Method > getCorrespondingSetters( Set< Method > getters )
+  {
+    if( getters == null )
+      return null;
+    
+    Map< Method, Method > map = new HashMap< Method, Method >();
+    for( Method method : getters )
+    {
+      map.put( method, getCorrespondingSetter( method ) );
+    }
+    return map;
+  }
+  
+  public static Map< Method, Method > getCorrespondingGetters( Set< Method > setters )
+  {
+    if( setters == null )
+      return null;
+    
+    Map< Method, Method > map = new HashMap< Method, Method >();
+    for( Method method : setters )
+    {
+      map.put( method, getCorrespondingGetter( method ) );
+    }
+    return map;
+  }
+  
+  
+  public static Method getCorrespondingGetterSetter( Method method )
+  {
+    if( method == null )
+      return null;
+    String methodName = method.getName();
+    if( methodName.matches( GET_METHOD_PATTERN ) )
+      return getCorrespondingSetter( method );
+    else if( methodName.matches( SET_METHOD_PATTERN )  )
+      return getCorrespondingGetter( method );
+    return null;
+  }
+  
+  public static Method getCorrespondingSetter( Method getterMethod )
+  {
+    if( !getterMethod.getName().matches( GET_METHOD_PATTERN ) )
+      return null;
+    
+    final String getterMethodName = getterMethod.getName();
+    final String setterMethodName = "s" + getterMethodName.substring( 1 );
+    
+    //get parameter/return value type
+    Class<?> parameterReturnValueType = getterMethod.getReturnType();
+    
+    //usually, the getter/setter are defined in same class
+    Set< Method > methods = getMethods( getterMethod.getDeclaringClass(), setterMethodName, new Class<?>[]{ parameterReturnValueType }, Modifier.PUBLIC );
+    return ( methods == null || methods.size() == 0 ) ? null : methods.iterator().next();
+  }
+  
+  
+  public static Method getCorrespondingGetter( Method setterMethod )
+  {
+    if( !setterMethod.getName().matches( SET_METHOD_PATTERN ) )
+      return null;
+
+    final String setterMethodName = setterMethod.getName();
+    final String getterMethodName = "g" + setterMethodName.substring( 1 );
+    
+    //usually, the getter/setter are defined in same class
+    Set< Method > methods = getMethods( setterMethod.getDeclaringClass(), getterMethodName, NO_PARAMETER, Modifier.PUBLIC );
+    if( methods == null || methods.size() == 0 ) 
+      return null;
+    
+    Method getterMethod = methods.iterator().next();
+    if( getterMethod == null )
+      return null;
+    
+    //check the return value of getter
+    //get parameter/return value type
+    Class<?>[] parameterTypes = setterMethod.getParameterTypes();
+    if( parameterTypes == null || parameterTypes.length != 1 )
+      return null;  //this is not a really setter, the setter should take and only take one parameter;
+    Class<?> parameterReturnValueType = parameterTypes[0];
+    
+    return isParameterTypeCompatible( getterMethod.getReturnType(), parameterReturnValueType ) ? getterMethod : null;
+    
   }
 }
