@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * there are a lot of strategies to get the list of list of sub-content-data
+ * such as SubContentDataAnnotationLookupStrategy, SubContentDataTypeLookupStrategy, SubContentDataDefaultLookupStrategy etc.
+ * but all above is using the static analysis, they can't have dynamic and override sub-content-datas well
+ * this class handles the dynamic and override case
+ */
 public class UICompositeContentData< D extends ResourceData > extends UIContentData< D >  implements ICompositeContentData, Serializable
 {
   private static final long serialVersionUID = -6910434103700384971L;
