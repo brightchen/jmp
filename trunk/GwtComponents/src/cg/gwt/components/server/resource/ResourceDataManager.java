@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Locale;
 
 import cg.gwt.components.annotation.IContentDataAttributes;
-import cg.gwt.components.shared.data.ICompositeContentData;
 import cg.gwt.components.shared.data.ResourceData;
+import cg.gwt.components.shared.data.UICompositeContentData;
 import cg.gwt.components.shared.data.UIContentData;
 
 public class ResourceDataManager
@@ -97,6 +97,45 @@ public class ResourceDataManager
   // get the list of the sub-content-data of contentData
   public List< ? extends UIContentData > getSubContentDatas( UIContentData contentData )
   {
-    //if contentData is annotated by @IContentDataAttributes
+    if( contentData == null )
+      return null;
+    
+    //for composite content data, use the getSubContentDatas
+    if( contentData instanceof UICompositeContentData )
+    {
+      UICompositeContentData compositeData = (UICompositeContentData)contentData;
+      return compositeData.getSubContentDatas();
+    }
+    
+    Class< ? extends ISubContentDataLookupStrategy > lookupStrategyClass = null;
+    Class< ? extends UIContentData > contentDataClass = contentData.getClass();
+    IContentDataAttributes attributes = contentDataClass.getAnnotation( IContentDataAttributes.class );
+    if( attributes != null )
+    {
+      if( !attributes.isComposite() )
+        return null;
+      lookupStrategyClass = attributes.subContentDataLookupStrategy();
+    }
+    
+    ISubContentDataLookupStrategy lookupStrategy = null;
+    if( lookupStrategyClass == null )
+    {
+      //don't have IContentDataAttributes annotation or doesn't specify the lookup strategy
+      //use the default lookup strategy
+      lookupStrategy = SubContentDataDefaultLookupStrategy.defaultInstance();
+    }
+    else
+    {
+      try
+      {
+        lookupStrategy = lookupStrategyClass.newInstance();
+      }
+      catch( Exception e )
+      {
+        e.printStackTrace();
+      }
+    }
+    //get contentData's @IContentDataAttributes
+    return lookupStrategy.getSubContentData( contentData );
   }
 }
