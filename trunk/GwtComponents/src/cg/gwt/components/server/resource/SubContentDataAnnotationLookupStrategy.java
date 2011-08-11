@@ -2,9 +2,11 @@ package cg.gwt.components.server.resource;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import cg.common.util.ReflectionUtil;
@@ -24,7 +26,7 @@ public class SubContentDataAnnotationLookupStrategy implements ISubContentDataLo
                                                        ReflectionUtil.NO_PARAMETER, Modifier.PUBLIC );
     //setter only take one parameter
     Set< Method > setters = ReflectionUtil.getMethods( contentDataClass, ReflectionUtil.SET_METHOD_PATTERN, 
-                                                       new Class<?>[]{ Object.class }, Modifier.PUBLIC );
+                                                       new Class<?>[]{ UIContentData.class }, Modifier.PUBLIC );
     
     Set< Method > allMethods = new HashSet< Method >();
     allMethods.addAll( getters );
@@ -48,9 +50,35 @@ public class SubContentDataAnnotationLookupStrategy implements ISubContentDataLo
     
     getters.retainAll( contentDataMethods );
     setters.retainAll( contentDataMethods );
-    
-    //++++
-    // TODO Auto-generated method stub
+
+    //for getters, should get its corresponding setter method in order to set sub-content-datas
+    Map< Method, Method > map = ReflectionUtil.getCorrespondingSetters( getters );
+    for( Map.Entry< Method, Method > entry : map.entrySet() )
+    {
+      Method setter = entry.getValue();
+      if( setter == null )
+        continue;
+      if( !ReflectionUtil.isParameterTypeCompatible( setter.getParameterTypes()[0], UIContentData.class ) )
+        continue;
+
+      setters.add( setter );
+    }
+
+    List< UIContentData > subContentDatas = new ArrayList< UIContentData >();
+    for( Method setter : setters )
+    {
+      try
+      {
+        Class< ? extends UIContentData > subContentDataClass = (Class< ? extends UIContentData >)setter.getParameterTypes()[0];
+        UIContentData subContentData = subContentDataClass.newInstance();
+        setter.invoke( contentData, subContentData );   //should call the setter method to set the sub-content-data into this contentData
+        subContentDatas.add( subContentData );
+      }
+      catch( Exception e )
+      {
+        e.printStackTrace();
+      }
+    }
     return null;
   }
 
