@@ -12,4 +12,11 @@ public @interface IResourceKey
   
   public String propertyName() default "";
   
+  /*
+   * there are generic ContentData/ResourceData, for example ButtonData
+   * the module/class name should not determined by this class itself, but determined by the owner content data
+   * set inheritModuleName/inheritClassName to true represents they are inherited
+   */
+  public boolean inheritModuleName() default false;
+  public boolean inheritClassName() default false;
 }

@@ -38,7 +38,7 @@ public class ReflectionUtil
 
     for( Method method : sourceMethods )
     {
-      if( !isValidGetterMethod( method ) )
+      if( !isTypicalGetterMethod( method ) )
         continue;
       String setMethodName = getCorrespondingSetMethodName( method.getName() );
       try
@@ -186,7 +186,7 @@ public class ReflectionUtil
     Vector< Method > satisfiedMethods = new Vector< Method >();
     for( Method method : methods )
     {
-      if( method.getName().equals( methodName ) && isValidMethod( method ) )
+      if( method.getName().equals( methodName ) && isValidPublicMethod( method ) )
       {
         satisfiedMethods.add( method );
       }
@@ -206,7 +206,7 @@ public class ReflectionUtil
     return methodName.matches( SET_METHOD_PATTERN );
   }
 
-  public static boolean isValidMethod( Method method )
+  public static boolean isValidPublicMethod( Method method )
   {
     int modifiers = method.getModifiers();
     if( Modifier.isAbstract( modifiers ) || !Modifier.isPublic( modifiers ) )
@@ -214,18 +214,36 @@ public class ReflectionUtil
     return true;
   }
   
-  public static boolean isValidGetterMethod( Method method )
+  public static boolean isTypicalGetterMethod( Method method )
   {
     if( !isGetterMethod( method ) )
       return false;
-    return isValidMethod( method );
+    if( !isValidPublicMethod( method ) )
+      return false;
+    
+    //getter shouldn't take parameter and have return value
+    Class<?>[] parameterTypes = method.getParameterTypes();
+    if( parameterTypes != null && parameterTypes.length != 0 )
+      return false;
+    
+    return ( method.getReturnType() != null );
+    
   }
 
-  public static boolean isValidSetterMethod( Method method )
+  public static boolean isTypicalSetterMethod( Method method )
   {
     if( !isSetterMethod( method ) )
       return false;
-    return isValidMethod( method );
+    if( !isValidPublicMethod( method ) )
+      return false;
+    
+    //setter method should have one parameter and without return type
+    Class<?>[] parameterTypes = method.getParameterTypes();
+    if( parameterTypes == null || parameterTypes.length != 1 )
+      return false;
+    
+    return ( method.getReturnType() == null );
+    
   }
 
   public static String getCorrespondingSetMethodName( String getMethodName )

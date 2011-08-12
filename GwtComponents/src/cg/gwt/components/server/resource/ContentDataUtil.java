@@ -3,6 +3,7 @@ package cg.gwt.components.server.resource;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +19,16 @@ public class ContentDataUtil
    */
   public static Set< Method > getSubContentDataGetters( Class< ? extends UIContentData > contentDataClass )
   {
-    return ReflectionUtil.getMethods( contentDataClass, ReflectionUtil.GET_METHOD_PATTERN, ReflectionUtil.NO_PARAMETER, Modifier.PUBLIC );
+    Set< Method > getters = ReflectionUtil.getMethods( contentDataClass, ReflectionUtil.GET_METHOD_PATTERN, 
+                                                       ReflectionUtil.NO_PARAMETER, Modifier.PUBLIC );
+    Set< Method > validGetters = new HashSet< Method >();
+    for( Method getter : getters )
+    {
+      if( !isValidSubContentDataGetter( getter ) )
+        continue;
+      validGetters.add( getter );
+    }
+    return validGetters;
   }
 
   /*
@@ -65,5 +75,27 @@ public class ContentDataUtil
       }
     }
     return subContentDatas;
+  }
+  
+  public static boolean isValidSubContentDataSetter( Method method )
+  {
+    if( method == null || !ReflectionUtil.isTypicalSetterMethod( method ) )
+      return false;
+    
+    // the parameter should be compatible to UIContentData
+    Class< ? > parameterType = method.getParameterTypes()[0];
+    
+    return ReflectionUtil.isParameterTypeCompatible( parameterType, UIContentData.class );
+  }
+  
+  public static boolean isValidSubContentDataGetter( Method method )
+  {
+    if( method == null || !ReflectionUtil.isTypicalGetterMethod( method ) )
+      return false;
+    
+    // the return type
+    Class< ? > returnType = method.getReturnType();
+    
+    return ReflectionUtil.isParameterTypeCompatible( returnType, UIContentData.class );
   }
 }
