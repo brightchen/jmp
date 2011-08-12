@@ -9,5 +9,6 @@ import cg.gwt.components.shared.data.UIContentData;
  */
 public interface ISubContentDataLookupStrategy
 {
+  @SuppressWarnings( "rawtypes" ) 
   public List< UIContentData > getSubContentData( UIContentData contentData );
 }

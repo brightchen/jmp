@@ -164,6 +164,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
    * @see cg.usermanagement.gwt.client.IUserManagement#changeLocale(java.lang.String)
    */
   @Override
+  @SuppressWarnings( "unchecked" )
   public List< ResponseData<?> > changeLocale( String localeName )
   {
     Locale locale = LocaleUtil.getLocale( localeName );

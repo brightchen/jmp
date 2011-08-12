@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+@SuppressWarnings( "rawtypes" ) 
 public class SystemUserLoginTransformer extends UIObjectBuilder< LoginData, FlexTable > implements IUIObjectDigester
 {
   private TextBox nameField;

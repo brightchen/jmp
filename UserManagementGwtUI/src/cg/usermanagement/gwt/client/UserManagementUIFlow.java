@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
  * for the first page, the UIFlow from the client will send a ajax call to the server side to get the startPage
  * for every request send to the web server, the response will contain the information of next UI ( include the required data )
  */
+@SuppressWarnings( "rawtypes" ) 
 public class UserManagementUIFlow
 {
   //the static attribute is safe as this is client code and run in the web browser.
@@ -76,6 +77,7 @@ public class UserManagementUIFlow
   /*
    * the responseDatas should be control section data and the data for the client section
    */
+  @SuppressWarnings( "unchecked" ) 
   public static Widget buildUI( List< ResponseData<?> > responseDatas )
   {
     UserManagementControlSectionUI controlSectionUI = null;

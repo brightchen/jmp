@@ -20,27 +20,7 @@ public class AddRoleData extends UIContentData< AddRoleResourceData > implements
   //add or update
   private ButtonData saveButtonData;
   
-  public AddRoleData()
-  {
-    //can't set resource data to button data as button data hasn't inject at this time
-    saveButtonData = new ButtonData()
-                    {
-                      private static final long serialVersionUID = 4303935827119829977L;
-                
-                      @Override
-                      public String getText()
-                      {
-                        return getResourceData().getSaveRoleText();
-                      }
-                      
-                      public String getTitle()
-                      {
-                        return getResourceData().getSaveRoleTitle();
-                      }
-                      
-                    };  
-                    saveButtonData.setEnabled( true );
-                  }
+  public AddRoleData(){}
   
   public Long getId()
   {
@@ -59,12 +39,13 @@ public class AddRoleData extends UIContentData< AddRoleResourceData > implements
     this.name = name;
   }
 
-  @IContentDataIndicator( isContentData = true )  //the saveButtonData is sub-content-data
-  @IResourceKey( className = "saverolebutton" )  //the className of this ButtonData is saverolebutton
   public ButtonData getSaveButtonData()
   {
     return saveButtonData;
   }
+
+  @IContentDataIndicator( isContentData = true )  //the saveButtonData is sub-content-data
+  @IResourceKey( className = "saverolebutton" )  //the className of this ButtonData is saverolebutton
   public void setSaveButtonData( ButtonData saveButtonData )
   {
     this.saveButtonData = saveButtonData;

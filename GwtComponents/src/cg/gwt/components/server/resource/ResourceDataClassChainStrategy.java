@@ -24,6 +24,7 @@ public class ResourceDataClassChainStrategy implements IResourceDataClassStrateg
   }
 
   @Override
+  @SuppressWarnings( "rawtypes" ) 
   public Class< ? extends ResourceData > getResourceDataClass( UIContentData contentData )
   {
     if( contentData.getResourceData() != null )

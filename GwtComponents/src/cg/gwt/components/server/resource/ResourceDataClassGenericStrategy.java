@@ -12,6 +12,7 @@ public class ResourceDataClassGenericStrategy implements IResourceDataClassStrat
   public static final ResourceDataClassGenericStrategy defaultInstance = new ResourceDataClassGenericStrategy();
 
   @Override
+  @SuppressWarnings( "rawtypes" ) 
   public Class< ? extends ResourceData > getResourceDataClass( UIContentData contentData )
   {
     return ReflectionUtil.getGenericActualTypeArgumentClass( contentData.getClass(), UIContentData.class, ResourceData.class );

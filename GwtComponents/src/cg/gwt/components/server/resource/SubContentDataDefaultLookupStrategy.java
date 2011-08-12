@@ -1,15 +1,14 @@
 package cg.gwt.components.server.resource;
 
-import java.util.List;
-
-import cg.gwt.components.shared.data.UIContentData;
+import java.lang.reflect.Method;
+import java.util.Set;
 
 /*
  * If there are any getter/setter which annotated with IContentDataIndicator, delegate to the SubContentDataAnnotationLookupStrategy
  * else delegate to the SubContentDataTypeLookupStategy.
  * namely, it is not allowed to use both SubContentDataAnnotationLookupStrategy and SubContentDataTypeLookupStategy for one class
  */
-public class SubContentDataDefaultLookupStrategy implements ISubContentDataLookupStrategy
+public class SubContentDataDefaultLookupStrategy extends AbstractSubContentDataLookup
 {
   private static SubContentDataDefaultLookupStrategy defaultInstance;
   
@@ -29,12 +28,13 @@ public class SubContentDataDefaultLookupStrategy implements ISubContentDataLooku
     return defaultInstance;
   }
 
-
-  @Override
-  public List< UIContentData > getSubContentData( UIContentData contentData )
+  /*
+   * all getters/setters for UIContentData are valid
+   * @see cg.gwt.components.server.resource.AbstractSubContentDataLookup#filterGetterSetters(java.util.Set, java.util.Set)
+   */
+  public void filterGetterSetters( Set< Method > getters, Set< Method > setters )
   {
-    // IContentDataIndicator
-    return null;
+    
   }
 
 }

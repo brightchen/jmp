@@ -12,6 +12,7 @@ import cg.resourcemanagement.ResourceKeyManager;
 /*
  * the builder can be looked as a type of lookup strategy
  */
+@SuppressWarnings( "rawtypes" ) 
 public class ResourceDataBuilder implements IResourceDataLookupStrategy
 {
 

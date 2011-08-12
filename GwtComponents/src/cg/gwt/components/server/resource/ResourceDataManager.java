@@ -8,6 +8,7 @@ import cg.gwt.components.shared.data.ResourceData;
 import cg.gwt.components.shared.data.UICompositeContentData;
 import cg.gwt.components.shared.data.UIContentData;
 
+@SuppressWarnings( "rawtypes" )
 public class ResourceDataManager
 {
   public static final ResourceDataManager defaultInstance = new ResourceDataManager();
@@ -42,6 +43,7 @@ public class ResourceDataManager
    * create - should we create the ResourceData if the resourceData of the contentData is null
    * this methods go through the contentData and find the resource data which need to fill and then delegate to buildResourceData
    */
+  @SuppressWarnings( "unchecked" )
   public void fillResourceDatas( Locale locale, UIContentData contentData, boolean create )
   {
     ResourceData resourceData = contentData.getResourceData();
@@ -95,6 +97,7 @@ public class ResourceDataManager
   }
   
   // get the list of the sub-content-data of contentData
+  @SuppressWarnings( "unchecked" )
   public List< ? extends UIContentData > getSubContentDatas( UIContentData contentData )
   {
     if( contentData == null )
@@ -104,7 +107,7 @@ public class ResourceDataManager
     if( contentData instanceof UICompositeContentData )
     {
       UICompositeContentData compositeData = (UICompositeContentData)contentData;
-      return compositeData.getSubContentDatas();
+      return  compositeData.getSubContentDatas();
     }
     
     Class< ? extends ISubContentDataLookupStrategy > lookupStrategyClass = null;

@@ -7,6 +7,7 @@ import cg.gwt.components.shared.data.UIContentData;
 
 public interface IResourceDataLookupStrategy
 {
+  @SuppressWarnings( "rawtypes" ) 
   public < RD extends ResourceData > RD getResourceData( Locale locale, UIContentData contentData, Class< RD > resourceDataClass );
   
 }

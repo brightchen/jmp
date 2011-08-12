@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@SuppressWarnings( "rawtypes" ) 
 public class LoginUI extends PanelCompositeUI< LoginData< ? extends LoginResourceData >, VerticalPanel >
 {
   private TextBox userNameField;

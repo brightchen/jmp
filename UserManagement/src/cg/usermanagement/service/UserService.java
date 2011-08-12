@@ -81,6 +81,7 @@ public class UserService extends GenericJpaDaoService implements IUserService
   }
   
   @Override
+  @SuppressWarnings( "unchecked" )
   public Set< PermissionView > getPermissionsByUser( long userId )
   {
     String hsql = String.format( "select rolePermission from %s account, %s accountRole, %s role, %s rolePermission " +
@@ -90,6 +91,7 @@ public class UserService extends GenericJpaDaoService implements IUserService
     return convertToPermissions( rolePermissions );
   }
   
+  @SuppressWarnings( "unchecked" )
   @Override
   public Set< PermissionView > getPermissionsByAccount( long accountId )
   {
