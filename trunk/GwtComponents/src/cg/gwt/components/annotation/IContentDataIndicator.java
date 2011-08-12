@@ -1,9 +1,13 @@
 package cg.gwt.components.annotation;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /*
  * this annotation annotated the setter/getter content-data method to represent the parameter/return-value is a content-data
  * the resource injection can use this indicator to find the sub-content-datas of a contend-data 
  */
+@Retention(RetentionPolicy.RUNTIME) // this annotation accessible at runtime via reflection.
 public @interface IContentDataIndicator
 {
   /*

@@ -15,11 +15,14 @@ public class ResourceDataCacheLookupStrategy implements IResourceDataLookupStrat
 {
   // the key is <resourceDataClass name> + "." + localeName
   private Map< String, ResourceData > resourceDatas = new HashMap< String, ResourceData >();
+  private boolean useCache = false;
   
   @Override
   @SuppressWarnings( { "rawtypes", "unchecked" } ) 
   public < RD extends ResourceData > RD getResourceData( Locale locale, UIContentData contentData, Class< RD > resourceDataClass )
   {
+    if( !isUseCache() )
+      return null;
     return (RD)resourceDatas.get( getCacheKey( locale, resourceDataClass ) );
   }
 
@@ -34,4 +37,16 @@ public class ResourceDataCacheLookupStrategy implements IResourceDataLookupStrat
       return;
     resourceDatas.put( getCacheKey( locale, resourceData.getClass() ), resourceData );
   }
+
+  public boolean isUseCache()
+  {
+    return useCache;
+  }
+
+  public void setUseCache( boolean useCache )
+  {
+    this.useCache = useCache;
+  }
+  
+  
 }
