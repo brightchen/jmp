@@ -19,7 +19,6 @@ public class NormalMenuItemBuilder extends UIObjectBuilder< NormalMenuItemData, 
     //the data should be set
     NormalMenuItemData data = getData();
     String title = data.getTitle();
-    String commandKey = data.getCommandKey();
     return new NormalMenuItem( title );
   }
 

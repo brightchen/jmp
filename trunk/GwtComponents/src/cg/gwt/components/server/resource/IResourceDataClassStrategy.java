@@ -12,6 +12,7 @@ public interface IResourceDataClassStrategy
   /*
    * get the real class of resource data of the contentData
    */
+  @SuppressWarnings( "rawtypes" ) 
   public Class< ? extends ResourceData > getResourceDataClass( UIContentData contentData );
 
 }

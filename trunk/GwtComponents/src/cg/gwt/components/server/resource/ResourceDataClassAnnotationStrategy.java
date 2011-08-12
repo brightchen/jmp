@@ -12,6 +12,7 @@ public class ResourceDataClassAnnotationStrategy implements IResourceDataClassSt
   public static final ResourceDataClassAnnotationStrategy defaultInstance = new ResourceDataClassAnnotationStrategy();
   
   @Override
+  @SuppressWarnings( "rawtypes" ) 
   public Class< ? extends ResourceData > getResourceDataClass( UIContentData contentData )
   {
     IResourceDataClass resourceDataClass = contentData.getClass().getAnnotation( IResourceDataClass.class );

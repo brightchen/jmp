@@ -10,6 +10,7 @@ import cg.usermanagement.gwt.client.UserManagementUIFlow;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.LoginType;
 
+@SuppressWarnings( "rawtypes" ) 
 public abstract class LoginEvent extends UserManagementEvent< LoginData >
 {
   public LoginEvent()

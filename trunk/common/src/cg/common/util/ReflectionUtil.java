@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+@SuppressWarnings( "rawtypes" ) 
 public class ReflectionUtil
 {
   public static final String GET_METHOD_PATTERN = "get.+";
@@ -257,6 +258,7 @@ public class ReflectionUtil
    * class A< T >{}
    * class B extends A< String >{}
    */
+  @SuppressWarnings( "unchecked" )
   public static <T, A> Class< ? extends A > getGenericActualTypeArgumentClass( Class<T> clazz, Class< ? super T > genericClass, Class< A > actualTypeArgumentsClass )
   {
     for( Class< ? super T > superClass = clazz; !superClass.equals( genericClass ); superClass = superClass.getSuperclass()  )

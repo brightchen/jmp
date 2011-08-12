@@ -17,6 +17,7 @@ public class ResourceDataCacheLookupStrategy implements IResourceDataLookupStrat
   private Map< String, ResourceData > resourceDatas = new HashMap< String, ResourceData >();
   
   @Override
+  @SuppressWarnings( { "rawtypes", "unchecked" } ) 
   public < RD extends ResourceData > RD getResourceData( Locale locale, UIContentData contentData, Class< RD > resourceDataClass )
   {
     return (RD)resourceDatas.get( getCacheKey( locale, resourceDataClass ) );

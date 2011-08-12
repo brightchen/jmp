@@ -1,26 +1,28 @@
 package cg.gwt.components.server.resource;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Set;
 
 import cg.gwt.components.shared.data.UIContentData;
 
-public class AbstractSubContentDataLookup
+@SuppressWarnings( "rawtypes" ) 
+public abstract class AbstractSubContentDataLookup implements ISubContentDataLookupStrategy
 {
-  /*
-   * get the all get method of sub content data
-   */
-  public Set< Method > getSubContentDataGetters( UIContentData contentData )
+
+  @Override
+  public List< UIContentData > getSubContentData( UIContentData contentData )
   {
+    Class< ? extends UIContentData > contentDataClass = contentData.getClass();
+    Set< Method > getters = ContentDataUtil.getSubContentDataGetters( contentDataClass );
+    //setter only take one parameter
+    Set< Method > setters = ContentDataUtil.getSubContentDataSetters( contentDataClass );
+
+    filterGetterSetters( getters, setters );
     
+    return ContentDataUtil.getSubContentDatas( contentData, getters, setters );
   }
 
-  /*
-   * get the all get method of sub content data
-   */
-  public Set< Method > getSubContentDataSetters( UIContentData contentData )
-  {
-    
-  }
+  public abstract void filterGetterSetters( Set< Method > getters, Set< Method > setters );
 
 }

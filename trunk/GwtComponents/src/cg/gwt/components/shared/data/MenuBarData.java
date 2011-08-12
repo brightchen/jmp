@@ -31,6 +31,7 @@ public class MenuBarData extends NormalMenuItemData implements ICompositeContent
   }
   
   @Override
+  @SuppressWarnings( "rawtypes" ) 
   public List< ? extends UIContentData > getSubContentDatas()
   {
     return menuItemDatas;
