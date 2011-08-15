@@ -7,8 +7,6 @@ import cg.common.property.ClassProperty;
  */
 public class ResourcePropertyKeyDefaultLookupStrategy implements IResourcePropertyKeyLookupStrategy
 {
-  private final String SEPERATOR = ".";
-
   private IResourceModuleNameStrategy resourceModuleNameStrategy = ResourceModuleNameChainStrategy.defaultInstance;
   private IResourceClassNameStrategy resourceClassNameStrategy = ResourceClassNameChainStrategy.defaultInstance;
   private IResourcePropertyNameStrategy resourcePropertyNameStrategy = ResourcePropertyNameChainStrategy.defaultInstance; 
@@ -22,21 +20,21 @@ public class ResourcePropertyKeyDefaultLookupStrategy implements IResourceProper
    * the resource owner class maybe different from the property declaring class 
    */
   @Override
-  public String getResourceKey( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
+  public ResourceKey getResourceKey( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
-    return getResourceModuleName( ownerContentDataClass, ownerResourceDataClass ) + SEPERATOR 
-          + getResourceClassName( resourceDataProperty, ownerContentDataClass, ownerResourceDataClass ) 
-          + SEPERATOR + getResourcePropertyName( resourceDataProperty );
+    return new ResourceKey( getResourceModuleName( resourceDataProperty, context ),
+                            getResourceClassName( resourceDataProperty, context ),
+                            getResourcePropertyName( resourceDataProperty ) );
   }
 
-  protected String getResourceModuleName( Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
+  protected String getResourceModuleName( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
-    return resourceModuleNameStrategy.getResourceModuleName( null, ownerContentDataClass, ownerResourceDataClass );
+    return resourceModuleNameStrategy.getResourceModuleName( null, context );
   }
   
-  protected String getResourceClassName( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceClass )
+  protected String getResourceClassName( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
-    return resourceClassNameStrategy.getResourceClassName( resourceDataProperty, ownerContentDataClass, ownerResourceClass );
+    return resourceClassNameStrategy.getResourceClassName( resourceDataProperty, context );
   }
   
   protected String getResourcePropertyName( ClassProperty resourceDataProperty )

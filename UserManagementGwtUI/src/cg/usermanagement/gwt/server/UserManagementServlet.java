@@ -89,7 +89,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     rd.setFlowData( UIIdentity.CONTROL_SECTION );
     
     MenuBarData menuBarData = new LocaleMenuBarData(); 
-    ResourceDataManager.defaultInstance.fillResourceDatas( locale, menuBarData, true );
+    ResourceDataManager.defaultInstance.injectResourceDatas( locale, menuBarData, true );
     fillLocaleMenuItems( menuBarData );
     
     ControlSectionData controlSectionData = new ControlSectionData();
@@ -127,7 +127,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       //userRegisterData.setResourceData( UserManagementResourceDataBuilder.b() );
       
       UserManagementStartData data = new UserManagementStartData( userLoginData, accountLoginData, userRegisterData );
-      ResourceDataManager.defaultInstance.fillResourceDatas( locale, data, true );
+      ResourceDataManager.defaultInstance.injectResourceDatas( locale, data, true );
       rd.setContentData( data );
       
       rds.add( rd );
@@ -176,7 +176,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       return rds;
     for( ResponseData<?> rd : rds )
     {
-      ResourceDataManager.defaultInstance.fillResourceDatas( locale, rd.getContentData(), false );
+      ResourceDataManager.defaultInstance.injectResourceDatas( locale, rd.getContentData(), false );
       
       //handle locale menu specially
       if( UIIdentity.CONTROL_SECTION.equals( rd.getFlowData().getUiIdentity() ) )
@@ -248,7 +248,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       rd.setFlowData( UIIdentity.UM_CONTROL_PANEL );
 
       UserManagementPanelData data = new UserManagementPanelData();
-      ResourceDataManager.defaultInstance.fillResourceDatas( getCurrentLocale(), data, true );
+      ResourceDataManager.defaultInstance.injectResourceDatas( getCurrentLocale(), data, true );
       rd.setContentData( data );
       
       rds.add( rd );
@@ -298,7 +298,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       rd.setFlowData( UIIdentity.UM_ADD_ROLE );
 
       AddRoleData data = new AddRoleData();
-      ResourceDataManager.defaultInstance.fillResourceDatas( getCurrentLocale(), data, true );
+      ResourceDataManager.defaultInstance.injectResourceDatas( getCurrentLocale(), data, true );
       rd.setContentData( data );
       
       rds.add( rd );

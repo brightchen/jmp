@@ -9,7 +9,7 @@ public class ResourceModuleNameAnnotationStrategy implements IResourceModuleName
 {
   //TODO: implement this
   @Override
-  public String getResourceModuleName( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
+  public String getResourceModuleName( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
     return null;
   }

@@ -4,5 +4,5 @@ import cg.common.property.ClassProperty;
 
 public interface IResourceModuleNameStrategy
 {
-  public String getResourceModuleName( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass );
+  public String getResourceModuleName( ClassProperty resourceDataProperty, ResourcePropertyContext context );
 }

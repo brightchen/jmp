@@ -33,9 +33,9 @@ public class ResourceDataManager
     this.lookupStrategy = lookupStrategy;
   }
 
-  public < RD extends ResourceData > RD getResourceData( Locale locale, UIContentData contentData, Class< RD > resourceDataClass )
+  public < RD extends ResourceData > RD getResourceData( Locale locale, Class< RD > resourceDataClass, ResourceDataContext context )
   {
-    return lookupStrategy.getResourceData( locale, contentData, resourceDataClass );
+    return lookupStrategy.getResourceData( locale, resourceDataClass, context );
   }
   
   /*
@@ -44,7 +44,7 @@ public class ResourceDataManager
    * this methods go through the contentData and find the resource data which need to fill and then delegate to buildResourceData
    */
   @SuppressWarnings( "unchecked" )
-  public void fillResourceDatas( Locale locale, UIContentData contentData, boolean create )
+  public void injectResourceDatas( Locale locale, UIContentData contentData, boolean create )
   {
     ResourceData resourceData = contentData.getResourceData();
     if( resourceData != null || create )
@@ -53,7 +53,8 @@ public class ResourceDataManager
       Class< ? extends ResourceData > resourceDataClass = getResourceDataClass( contentData );
       if( resourceDataClass != null )
       {
-        resourceData = getResourceData( locale, contentData, resourceDataClass );
+        ResourceDataContext context = new ResourceDataContext( contentData, null );
+        resourceData = getResourceData( locale, resourceDataClass, context );
         contentData.setResourceData( resourceData );
       }
     }
@@ -69,7 +70,7 @@ public class ResourceDataManager
     
     for( UIContentData subContentData : subContentDatas )
     {
-      fillResourceDatas( locale, subContentData, create );
+      injectResourceDatas( locale, subContentData, create );
     }
   }
   

@@ -26,11 +26,11 @@ public class ResourceClassNameChainStrategy implements IResourceClassNameStrateg
   }
 
   @Override
-  public String getResourceClassName( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
+  public String getResourceClassName( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
     for( IResourceClassNameStrategy strategy : lookupChain )
     {
-      String value = strategy.getResourceClassName( resourceDataProperty, ownerContentDataClass, ownerResourceDataClass );
+      String value = strategy.getResourceClassName( resourceDataProperty, context );
       if( value != null )
         return value;
     }
