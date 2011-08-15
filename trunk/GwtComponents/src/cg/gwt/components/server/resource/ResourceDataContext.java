@@ -38,8 +38,15 @@ public class ResourceDataContext
   {
     this.ownerContentData = ownerContentData;
   }
+  
   public ResourceKey getResourceKey()
   {
+    return resourceKey;
+  }
+  public ResourceKey getNonNullResourceKey()
+  {
+    if( resourceKey == null )
+      resourceKey = new ResourceKey();
     return resourceKey;
   }
   public void setResourceKey( ResourceKey resourceKey )
