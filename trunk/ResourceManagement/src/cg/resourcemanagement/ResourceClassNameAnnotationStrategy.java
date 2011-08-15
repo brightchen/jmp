@@ -11,14 +11,16 @@ public class ResourceClassNameAnnotationStrategy implements IResourceClassNameSt
   public static final ResourceClassNameAnnotationStrategy defaultInstance = new ResourceClassNameAnnotationStrategy();
   
   @Override
-  public String getResourceClassName( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
+  public String getResourceClassName( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
+    Class<?> ownerContentDataClass = context.getOwnerContentDataClass();
     IResourceKey resourceClass = ownerContentDataClass.getAnnotation( IResourceKey.class );
     if( resourceClass != null )
     {
       return resourceClass.className();
     }
     
+    Class<?> ownerResourceDataClass = context.getResourceDataClass();
     resourceClass = ownerResourceDataClass.getAnnotation( IResourceKey.class );
     if( resourceClass != null )
     {

@@ -21,8 +21,9 @@ public class ResourceModuleNameMapStrategy implements IResourceModuleNameStrateg
   }
   
   @Override
-  public String getResourceModuleName( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
+  public String getResourceModuleName( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
+    Class<?> ownerContentDataClass = context.getOwnerContentDataClass();
     if( ownerContentDataClass != null )
     {
       String moduleName = packageModuleMap.get( ownerContentDataClass.getPackage().getName() );
@@ -30,6 +31,7 @@ public class ResourceModuleNameMapStrategy implements IResourceModuleNameStrateg
         return moduleName;
     }
 
+    Class<?> ownerResourceDataClass = context.getResourceDataClass();
     if( ownerResourceDataClass != null )
     {
       String moduleName = packageModuleMap.get( ownerResourceDataClass.getPackage().getName() );

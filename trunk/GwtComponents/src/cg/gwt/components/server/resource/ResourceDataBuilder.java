@@ -6,8 +6,9 @@ import java.util.Set;
 import cg.common.property.ClassProperty;
 import cg.common.property.ClassPropertyUtil;
 import cg.gwt.components.shared.data.ResourceData;
-import cg.gwt.components.shared.data.UIContentData;
+import cg.resourcemanagement.ResourceKey;
 import cg.resourcemanagement.ResourceKeyManager;
+import cg.resourcemanagement.ResourcePropertyContext;
 
 /*
  * the builder can be looked as a type of lookup strategy
@@ -17,11 +18,11 @@ public class ResourceDataBuilder implements IResourceDataLookupStrategy
 {
 
   @Override
-  public < RD extends ResourceData > RD getResourceData( Locale locale, UIContentData contentData, Class< RD > resourceDataClass )
+  public < RD extends ResourceData > RD getResourceData( Locale locale, Class< RD > resourceDataClass, ResourceDataContext context )
   {
     try
     {
-      return buildResourceData( locale, contentData, resourceDataClass.newInstance() );
+      return buildResourceData( locale, resourceDataClass.newInstance(), context );
     }
     catch( Exception e )
     {
@@ -36,7 +37,7 @@ public class ResourceDataBuilder implements IResourceDataLookupStrategy
    * 
    * ResourceData class ==> resource data class properties ==> resource keys ==> resource values
    */
-  public static  < RD extends ResourceData > RD buildResourceData( Locale locale, UIContentData contentData, RD resourceData )
+  public static  < RD extends ResourceData > RD buildResourceData( Locale locale, RD resourceData, ResourceDataContext context )
   {
     if( resourceData == null )
       return null;
@@ -45,8 +46,10 @@ public class ResourceDataBuilder implements IResourceDataLookupStrategy
     Set< ClassProperty > classProperties = ClassPropertyUtil.getClassProperties( resourceDataClass, ResourceData.class );
     for( ClassProperty classProperty : classProperties )
     {
-      String resourceKey = ResourceKeyManager.defaultInstance.getResourceKey( classProperty, contentData.getClass(), resourceData.getClass() );
-      String resourceValue = ResourceUtil.getResourceValue( locale, resourceKey );
+      ResourcePropertyContext propertyContext = new ResourcePropertyContext( context.getOwnerContentData().getClass(), 
+                                                                             context.getSuperResourceKey(), resourceData.getClass() );
+      ResourceKey resourceKey = ResourceKeyManager.defaultInstance.getResourceKey( classProperty, propertyContext );
+      String resourceValue = ResourceUtil.getResourceValue( locale, resourceKey.getKey() );
       ResourceDataUtil.setResourceValue( resourceData, classProperty, resourceValue );
     }
     return resourceData;

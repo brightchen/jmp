@@ -21,9 +21,9 @@ public class ResourceKeyManager
     setLookupStrategy( lookupStrategy );
   }
   
-  public String getResourceKey( ClassProperty resourceDataProperty )
+  public ResourceKey getResourceKey( ClassProperty resourceDataProperty )
   {
-    return getResourceKey( resourceDataProperty, null, resourceDataProperty.getDeclaringClass() );
+    return getResourceKey( resourceDataProperty, null );
   }
   
   /*
@@ -31,10 +31,12 @@ public class ResourceKeyManager
    * resourceDataProperty - the property of the resource data, one property corresponding to one field/getter/setter
    * ownerContentDataClass: the content data class which owns the resource data class of this property
    * ownerResourceDataClass: the resource data class which owns this property
+   * superResourceKey: the resource key of super content data class, this parameter is used 
+   *   if part of all the resource key is inherited from super
    */
-  public String getResourceKey( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
+  public ResourceKey getResourceKey( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
-    return lookupStrategy.getResourceKey( resourceDataProperty, ownerContentDataClass, ownerResourceDataClass );
+    return lookupStrategy.getResourceKey( resourceDataProperty, context );
   }
 
   public IResourcePropertyKeyLookupStrategy getLookupStrategy()

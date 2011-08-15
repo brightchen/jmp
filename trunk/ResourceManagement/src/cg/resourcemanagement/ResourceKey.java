@@ -1,5 +1,7 @@
 package cg.resourcemanagement;
 
+import cg.common.util.StringUtil;
+
 public class ResourceKey
 {
   private final String SEPERATOR = ".";
@@ -7,7 +9,16 @@ public class ResourceKey
   private String moduleName;
   private String className;
   private String propertyName;
+
+  public ResourceKey(){}
   
+  public ResourceKey( String moduleName, String className, String propertyName )
+  {
+    setModuleName( moduleName );
+    setClassName( className );
+    setPropertyName( propertyName );
+  }
+
   public String getModuleName()
   {
     return moduleName;
@@ -36,5 +47,11 @@ public class ResourceKey
   public String getKey()
   {
     return moduleName + SEPERATOR + className + SEPERATOR + propertyName;
+  }
+  
+  public boolean isValid()
+  {
+    return !StringUtil.isNullOrEmpty( moduleName ) && !StringUtil.isNullOrEmpty( className ) 
+        && !StringUtil.isNullOrEmpty( propertyName );
   }
 }

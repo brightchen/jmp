@@ -22,11 +22,11 @@ public class ResourceModuleNameChainStrategy implements IResourceModuleNameStrat
   }
 
   @Override
-  public String getResourceModuleName( ClassProperty resourceDataProperty, Class<?> ownerContentDataClass, Class<?> ownerResourceDataClass )
+  public String getResourceModuleName( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
     for( IResourceModuleNameStrategy strategy : lookupChain )
     {
-      String value = strategy.getResourceModuleName( resourceDataProperty, ownerContentDataClass, ownerResourceDataClass );
+      String value = strategy.getResourceModuleName( resourceDataProperty, context );
       if( value != null )
         return value;
     }

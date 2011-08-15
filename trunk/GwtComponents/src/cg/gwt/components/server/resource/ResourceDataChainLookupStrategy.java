@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Locale;
 
 import cg.gwt.components.shared.data.ResourceData;
-import cg.gwt.components.shared.data.UIContentData;
 
 public class ResourceDataChainLookupStrategy implements IResourceDataLookupStrategy
 {
@@ -26,11 +25,11 @@ public class ResourceDataChainLookupStrategy implements IResourceDataLookupStrat
 
   @SuppressWarnings( "rawtypes" ) 
   @Override
-  public < RD extends ResourceData > RD getResourceData( Locale locale, UIContentData contentData, Class< RD > resourceDataClass )
+  public < RD extends ResourceData > RD getResourceData( Locale locale, Class< RD > resourceDataClass, ResourceDataContext context )
   {
     for( IResourceDataLookupStrategy strategy : lookupChain )
     {
-      RD resourceData = strategy.getResourceData( locale, contentData, resourceDataClass );
+      RD resourceData = strategy.getResourceData( locale, resourceDataClass, context );
       if( resourceData != null )
       {
         if( !cache.equals( strategy ) )
