@@ -47,7 +47,7 @@ public class ResourceDataBuilder implements IResourceDataLookupStrategy
     for( ClassProperty classProperty : classProperties )
     {
       ResourcePropertyContext propertyContext = new ResourcePropertyContext( context.getOwnerContentData().getClass(), 
-                                                                             context.getSuperResourceKey(), resourceData.getClass() );
+                                                                             context.getResourceKey(), resourceData.getClass() );
       ResourceKey resourceKey = ResourceKeyManager.defaultInstance.getResourceKey( classProperty, propertyContext );
       String resourceValue = ResourceUtil.getResourceValue( locale, resourceKey.getKey() );
       ResourceDataUtil.setResourceValue( resourceData, classProperty, resourceValue );
