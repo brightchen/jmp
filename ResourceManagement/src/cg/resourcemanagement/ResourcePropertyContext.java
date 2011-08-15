@@ -13,6 +13,9 @@ public class ResourcePropertyContext
 {
   private Class<?> ownerContentDataClass;
   private Class<?> resourceDataClass;
+  /*
+   * the resource key which inherited from ResourceData/ResourceContent
+   */
   private ResourceKey superResourceKey;
   
   public ResourcePropertyContext(){}
