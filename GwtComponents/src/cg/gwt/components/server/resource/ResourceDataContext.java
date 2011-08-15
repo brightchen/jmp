@@ -12,14 +12,21 @@ import cg.resourcemanagement.ResourceKey;
  */
 public class ResourceDataContext
 {
-  private UIContentData ownerContentData; 
-  private ResourceKey superResourceKey;
+  /*
+   * the content data which owns this resource data
+   */
+  private UIContentData ownerContentData;
+  /*
+   * the resource key of this resource data, it can be injected by IResourceKey( ContentData, ResourceData, getter/setter )
+   * or get from the name of ownerContentData
+   */
+  private ResourceKey resourceKey;
 
   public ResourceDataContext(){}
-  public ResourceDataContext( UIContentData ownerContentData, ResourceKey superResourceKey )
+  public ResourceDataContext( UIContentData ownerContentData, ResourceKey resourceKey )
   {
     setOwnerContentData( ownerContentData );
-    setSuperResourceKey( superResourceKey );
+    setResourceKey( resourceKey );
   }
   
 
@@ -31,13 +38,13 @@ public class ResourceDataContext
   {
     this.ownerContentData = ownerContentData;
   }
-  public ResourceKey getSuperResourceKey()
+  public ResourceKey getResourceKey()
   {
-    return superResourceKey;
+    return resourceKey;
   }
-  public void setSuperResourceKey( ResourceKey superResourceKey )
+  public void setResourceKey( ResourceKey resourceKey )
   {
-    this.superResourceKey = superResourceKey;
+    this.resourceKey = resourceKey;
   }
 
 }

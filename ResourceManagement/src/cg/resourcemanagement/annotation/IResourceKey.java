@@ -3,6 +3,10 @@ package cg.resourcemanagement.annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+/*
+ * the IResourceKey annotation can annotate on UIContentData class, the ResourceData class, 
+ * or the setter/getter method of super-content-data or getter/setter of resource data
+ */
 @Retention(RetentionPolicy.RUNTIME) // this annotation accessible at runtime via reflection.
 public @interface IResourceKey
 {

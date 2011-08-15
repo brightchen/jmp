@@ -64,7 +64,7 @@ public class ResourceDataManager
     
 //    ICompositeContentData compositeData = ( ICompositeContentData )contentData;
 //    List< ? extends UIContentData > subContentDatas = compositeData.getSubContentDatas();
-    List< ? extends UIContentData > subContentDatas = getSubContentDatas( contentData );
+    List< ? extends UIContentData > subContentDatas = getSubResourceDataContexts( contentData );
     if( subContentDatas == null )
       return;
     
@@ -96,14 +96,18 @@ public class ResourceDataManager
       return null;
     }
   }
-  
-  // get the list of the sub-content-data of contentData
+
+  /*
+   * get the contexts( ownerContentData, superResourceKey ) of sub-content-resource data 
+   */
   @SuppressWarnings( "unchecked" )
-  public List< ? extends UIContentData > getSubContentDatas( UIContentData contentData )
+  public List< ResourceDataContext > getSubResourceDataContexts( ResourceDataContext context )
   {
+    UIContentData contentData = context.getOwnerContentData();
     if( contentData == null )
       return null;
     
+    ++++
     //for composite content data, use the getSubContentDatas
     if( contentData instanceof UICompositeContentData )
     {
