@@ -1,6 +1,7 @@
 package cg.resourcemanagement;
 
 import cg.common.util.StringUtil;
+import cg.resourcemanagement.annotation.IResourceKey;
 
 public class ResourceKey
 {
@@ -19,6 +20,13 @@ public class ResourceKey
     setPropertyName( propertyName );
   }
 
+  public ResourceKey( IResourceKey resourceKey )
+  {
+    this( resourceKey == null ? null : resourceKey.moduleName(), 
+          resourceKey == null ? null : resourceKey.className(), 
+          null );
+  }
+  
   public String getModuleName()
   {
     return moduleName;

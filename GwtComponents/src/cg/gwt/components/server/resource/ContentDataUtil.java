@@ -3,6 +3,7 @@ package cg.gwt.components.server.resource;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,8 @@ import java.util.Set;
 
 import cg.common.util.ReflectionUtil;
 import cg.gwt.components.shared.data.UIContentData;
+import cg.resourcemanagement.ResourceKey;
+import cg.resourcemanagement.annotation.IResourceKey;
 
 @SuppressWarnings( "rawtypes" ) 
 public class ContentDataUtil
@@ -26,6 +29,9 @@ public class ContentDataUtil
     {
       if( !isValidSubContentDataGetter( getter ) )
         continue;
+      
+      //get the resource key for this getter
+      
       validGetters.add( getter );
     }
     return validGetters;
@@ -44,10 +50,12 @@ public class ContentDataUtil
    * the input getters/setters should be valid
    */
   @SuppressWarnings( "unchecked" )
-  public static List< UIContentData > getSubContentDatas( UIContentData contentData, Set< Method > getters, Set< Method > setters )
+  public static List< ResourceDataContext > getSubResourceDataContexts( ResourceDataContext context, 
+                                                                        Map< Method, ResourceKey > getterMap, 
+                                                                        Map< Method, ResourceKey > setterMap )
   {
     //for getters, should get its corresponding setter method in order to set sub-content-datas
-    Map< Method, Method > map = ReflectionUtil.getCorrespondingSetters( getters );
+    Map< Method, Method > map = ReflectionUtil.getCorrespondingSetters( getterMap.keySet() );
     for( Map.Entry< Method, Method > entry : map.entrySet() )
     {
       Method setter = entry.getValue();
@@ -56,25 +64,30 @@ public class ContentDataUtil
       if( !ReflectionUtil.isParameterTypeCompatible( setter.getParameterTypes()[0], UIContentData.class ) )
         continue;
 
+      mergeMethodRe
       setters.add( setter );
     }
 
-    List< UIContentData > subContentDatas = new ArrayList< UIContentData >();
+    List< ResourceDataContext > subResourceContexts = new ArrayList< ResourceDataContext >();
+    UIContentData contentData = context.getOwnerContentData();
     for( Method setter : setters )
     {
       try
       {
         Class< ? extends UIContentData > subContentDataClass = (Class< ? extends UIContentData >)setter.getParameterTypes()[0];
         UIContentData subContentData = subContentDataClass.newInstance();
-        setter.invoke( contentData, subContentData );   //should call the setter method to set the sub-content-data into this contentData
-        subContentDatas.add( subContentData );
+      //should call the setter method to set the sub-content-data into this contentData
+        setter.invoke( contentData, subContentData );
+        
+        //get the resource key
+        subResourceContexts.add( subContentData );
       }
       catch( Exception e )
       {
         e.printStackTrace();
       }
     }
-    return subContentDatas;
+    return subResourceContexts;
   }
   
   public static boolean isValidSubContentDataSetter( Method method )
@@ -97,5 +110,21 @@ public class ContentDataUtil
     Class< ? > returnType = method.getReturnType();
     
     return ReflectionUtil.isParameterTypeCompatible( returnType, UIContentData.class );
+  }
+  
+  public static Map< Method, ResourceKey > getMethodResourceKeyMap( Set< Method > methods )
+  {
+    Map< Method, ResourceKey > map = new HashMap< Method, ResourceKey >();
+    for( Method method : methods )
+    {
+      map.put( method, getResourceKeyFromMethod( method ) );
+    }
+    return map;
+  }
+  
+  public static ResourceKey getResourceKeyFromMethod( Method method )
+  {
+    IResourceKey resourceKey = method.getAnnotation( IResourceKey.class );
+    return new ResourceKey( resourceKey );
   }
 }
