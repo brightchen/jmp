@@ -3,6 +3,7 @@ package cg.gwt.components.server.resource;
 import java.lang.reflect.Method;
 
 import cg.common.property.ClassProperty;
+import cg.common.property.ClassPropertyUtil;
 import cg.common.util.ReflectionUtil;
 import cg.gwt.components.shared.data.ResourceData;
 
@@ -14,7 +15,7 @@ public class ResourceDataUtil
    */
   public static < RD extends ResourceData > void setResourceValue( RD resourceData, ClassProperty classProperty, String resourceValue )
   {
-    Method setterMethod = ReflectionUtil.getMethod( resourceData.getClass(), classProperty.getSetterMethodName(), new Class<?>[]{ String.class } );
+    Method setterMethod = ReflectionUtil.getMethod( resourceData.getClass(), ClassPropertyUtil.getSetterName( classProperty.getName() ), new Class<?>[]{ Object.class } );
     try
     {
       setterMethod.invoke( resourceData, resourceValue );

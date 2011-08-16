@@ -15,12 +15,12 @@ public class ReflectionUtil
 {
   public static final String GET_METHOD_PATTERN = "get.+";
   public static final String SET_METHOD_PATTERN = "set.+";
+  public static final String GET_METHOD_PREFIX = "get";
+  public static final String SET_METHOD_PREFIX = "set";
   
   public static final Class<?>[] NO_PARAMETER = new Class<?>[]{};
   public static final Object[] IGNORE_PARAMETERS = null;     //don't care about the parameters
   
-  private static final String GET_METHOD_PREFIX = "get";
-  private static final String SET_METHOD_PREFIX = "set";
 
   /*
    * the source object and destination object have the same getter/setter method 

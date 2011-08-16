@@ -8,19 +8,18 @@ import cg.common.property.ClassProperty;
 /*
  * get the resource module name from the configure map
  */
-public class ResourceModuleNameMapStrategy implements IResourceModuleNameStrategy
+public class ResourceModuleNameConfigurator
 {
-  public static ResourceModuleNameMapStrategy defaultInstance = new ResourceModuleNameMapStrategy();
+  public static ResourceModuleNameConfigurator defaultInstance = new ResourceModuleNameConfigurator();
   
   //keep the map packageName ==> module name
   private Map< String, String > packageModuleMap = new HashMap< String, String >();
 
-  public ResourceModuleNameMapStrategy()
+  public ResourceModuleNameConfigurator()
   {
     putBuildinPackageModule();
   }
   
-  @Override
   public String getResourceModuleName( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
     Class<?> ownerContentDataClass = context.getOwnerContentDataClass();

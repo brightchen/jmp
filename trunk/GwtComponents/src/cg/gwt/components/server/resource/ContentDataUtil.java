@@ -64,23 +64,24 @@ public class ContentDataUtil
       if( !ReflectionUtil.isParameterTypeCompatible( setter.getParameterTypes()[0], UIContentData.class ) )
         continue;
 
-      mergeMethodRe
-      setters.add( setter );
+      setterMap.put( setter, mergeResourceKey( getResourceKeyFromMethod( setter ), getResourceKeyFromMethod( entry.getKey() ) ) );
     }
 
     List< ResourceDataContext > subResourceContexts = new ArrayList< ResourceDataContext >();
     UIContentData contentData = context.getOwnerContentData();
-    for( Method setter : setters )
+    for( Map.Entry< Method, ResourceKey > entry : setterMap.entrySet() )
     {
       try
       {
+        Method setter = entry.getKey();
+        
         Class< ? extends UIContentData > subContentDataClass = (Class< ? extends UIContentData >)setter.getParameterTypes()[0];
         UIContentData subContentData = subContentDataClass.newInstance();
       //should call the setter method to set the sub-content-data into this contentData
         setter.invoke( contentData, subContentData );
         
-        //get the resource key
-        subResourceContexts.add( subContentData );
+        //add the ( sub-content-data, resource key ) into list
+        subResourceContexts.add( new ResourceDataContext( subContentData, entry.getValue() ) );
       }
       catch( Exception e )
       {
@@ -126,5 +127,14 @@ public class ContentDataUtil
   {
     IResourceKey resourceKey = method.getAnnotation( IResourceKey.class );
     return new ResourceKey( resourceKey );
+  }
+  
+  /*
+   * merge the resource key annotated in the getter/setter for same property
+   * only one method should be annotated
+   */
+  public static ResourceKey mergeResourceKey( ResourceKey resourceKey1, ResourceKey resourceKey2 )
+  {
+    return ( resourceKey1 == null ) ? resourceKey2 : resourceKey1;
   }
 }

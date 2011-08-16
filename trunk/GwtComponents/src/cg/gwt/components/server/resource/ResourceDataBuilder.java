@@ -13,7 +13,6 @@ import cg.resourcemanagement.ResourcePropertyContext;
 /*
  * the builder can be looked as a type of lookup strategy
  */
-@SuppressWarnings( "rawtypes" ) 
 public class ResourceDataBuilder implements IResourceDataLookupStrategy
 {
 
