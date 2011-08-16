@@ -1,6 +1,8 @@
 package cg.gwt.components.server.resource;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -112,21 +114,29 @@ public class ResourceDataManager
   /*
    * get the contexts( ownerContentData, superResourceKey ) of sub-content-resource data 
    */
-  @SuppressWarnings( "unchecked" )
+//  @SuppressWarnings( "unchecked" )
   public List< ResourceDataContext > getSubResourceDataContexts( ResourceDataContext context )
   {
     UIContentData contentData = context.getOwnerContentData();
     if( contentData == null )
       return null;
     
-    ++++
     //for composite content data, use the getSubContentDatas
     if( contentData instanceof UICompositeContentData )
     {
       UICompositeContentData compositeData = (UICompositeContentData)contentData;
-      return  compositeData.getSubContentDatas();
+      List< ? extends UIContentData > subContentDatas = compositeData.getSubContentDatas();
+      if( subContentDatas == null || subContentDatas.size() == 0 )
+        return Collections.emptyList();
+      List< ResourceDataContext > resourDataContexts = new ArrayList< ResourceDataContext >();
+      for( UIContentData subContentData : subContentDatas )
+      {
+        resourDataContexts.add( new ResourceDataContext( subContentData, context.getResourceKey() ) );
+      }
+      return resourDataContexts;
     }
     
+    //get the ISubContentDataLookupStrategy
     Class< ? extends ISubContentDataLookupStrategy > lookupStrategyClass = null;
     Class< ? extends UIContentData > contentDataClass = contentData.getClass();
     IContentDataAttributes attributes = contentDataClass.getAnnotation( IContentDataAttributes.class );
@@ -155,8 +165,9 @@ public class ResourceDataManager
         e.printStackTrace();
       }
     }
+    
     //get contentData's @IContentDataAttributes
-    return lookupStrategy.getSubContentData( contentData );
+    return lookupStrategy.getSubResourceDataContexts( context );
   }
   
   /*
