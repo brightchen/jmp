@@ -85,9 +85,24 @@ public class ClassPropertyUtil
     return properties;
   }
 
+  /*
+   * get the property name from setter/getter;
+   */
   public static String getPropertyName( Method method )
   {
     String methodName = method.getName();
-    return methodName.substring( 3 );
+    String propertyName = methodName.substring( 3 );
+    return propertyName.substring( 0, 1 ).toLowerCase() + propertyName.substring( 1 );
   }
+  
+  public static String getGetterName( String propertyName )
+  {
+    return ReflectionUtil.GET_METHOD_PREFIX + propertyName.substring( 0, 1 ).toUpperCase() + propertyName.substring( 1 );
+  }
+
+  public static String getSetterName( String propertyName )
+  {
+    return ReflectionUtil.SET_METHOD_PREFIX + propertyName.substring( 0, 1 ).toUpperCase() + propertyName.substring( 1 );
+  }
+
 }

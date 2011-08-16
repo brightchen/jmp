@@ -186,7 +186,7 @@ public class ResourceDataManager
 
     //check whether resource-data setter/getter is annotated by @IResourceKey
     {
-      Method getResourceDataMethod = ReflectionUtil.getMethod( contentDataClass, "getResourceData", new Class<?>[]{ ResourceData.class } );
+      Method getResourceDataMethod = ReflectionUtil.getMethod( contentDataClass, "getResourceData", ReflectionUtil.NO_PARAMETER );
       IResourceKey resourceKey = getResourceDataMethod.getAnnotation( IResourceKey.class );
       applyResourceKey( resourceKey, context );
     }

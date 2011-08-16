@@ -7,9 +7,26 @@ import cg.common.property.ClassProperty;
  */
 public class ResourcePropertyKeyDefaultLookupStrategy implements IResourcePropertyKeyLookupStrategy
 {
-  private IResourceModuleNameStrategy resourceModuleNameStrategy = ResourceModuleNameChainStrategy.defaultInstance;
-  private IResourceClassNameStrategy resourceClassNameStrategy = ResourceClassNameChainStrategy.defaultInstance;
-  private IResourcePropertyNameStrategy resourcePropertyNameStrategy = ResourcePropertyNameChainStrategy.defaultInstance; 
+  private static ResourcePropertyKeyDefaultLookupStrategy defaultInstance;
+  private final String RESOURCE_CALSS_POSTFIX = "resourcedata";
+
+  public static ResourcePropertyKeyDefaultLookupStrategy defaultInstance()
+  {
+    if( defaultInstance == null )
+    {
+      synchronized( ResourcePropertyKeyDefaultLookupStrategy.class )
+      {
+        if( defaultInstance == null )
+        {
+          defaultInstance = new ResourcePropertyKeyDefaultLookupStrategy();
+        }
+      }
+    }
+    return defaultInstance;
+  }
+
+//  private IResourceClassNameStrategy resourceClassNameStrategy = ResourceClassNameChainStrategy.defaultInstance;
+//  private IResourcePropertyNameStrategy resourcePropertyNameStrategy = ResourcePropertyNameChainStrategy.defaultInstance; 
   
   public ResourcePropertyKeyDefaultLookupStrategy()
   {
@@ -22,24 +39,28 @@ public class ResourcePropertyKeyDefaultLookupStrategy implements IResourceProper
   @Override
   public ResourceKey getResourceKey( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
-    return new ResourceKey( getResourceModuleName( resourceDataProperty, context ),
-                            getResourceClassName( resourceDataProperty, context ),
-                            getResourcePropertyName( resourceDataProperty ) );
+    String moduleName = ResourceModuleNameConfigurator.defaultInstance.getResourceModuleName( resourceDataProperty, context );
+    String className = getResourceClassName( resourceDataProperty, context );
+    return new ResourceKey( moduleName, className, getResourcePropertyName( resourceDataProperty ) );
   }
 
-  protected String getResourceModuleName( ClassProperty resourceDataProperty, ResourcePropertyContext context )
+
+  public String getResourceClassName( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
-    return resourceModuleNameStrategy.getResourceModuleName( null, context );
+    if( context == null || context.getResourceDataClass() == null )
+      return null;
+    Class<?> ownerResourceDataClass = context.getResourceDataClass();
+    String ownerClassShortName = ownerResourceDataClass.getSimpleName();
+    ownerClassShortName = ownerClassShortName.toLowerCase();
+    ownerClassShortName = ownerClassShortName.endsWith( RESOURCE_CALSS_POSTFIX ) 
+                        ? ownerClassShortName.substring( 0, ownerClassShortName.length() - RESOURCE_CALSS_POSTFIX.length() )
+                        : ownerClassShortName;
+    return ownerClassShortName;
   }
-  
-  protected String getResourceClassName( ClassProperty resourceDataProperty, ResourcePropertyContext context )
+
+  public String getResourcePropertyName( ClassProperty resourceDataProperty )
   {
-    return resourceClassNameStrategy.getResourceClassName( resourceDataProperty, context );
+    return resourceDataProperty.getName().toLowerCase();
   }
-  
-  protected String getResourcePropertyName( ClassProperty resourceDataProperty )
-  {
-    return resourcePropertyNameStrategy.getResourcePropertyName( resourceDataProperty, null );
-  }
-  
+
 }

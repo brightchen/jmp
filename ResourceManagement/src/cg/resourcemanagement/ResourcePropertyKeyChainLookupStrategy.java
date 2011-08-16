@@ -13,6 +13,22 @@ public class ResourcePropertyKeyChainLookupStrategy implements IResourceProperty
 {
   private List< IResourcePropertyKeyLookupStrategy > lookupChain = new ArrayList< IResourcePropertyKeyLookupStrategy >();
   
+  private static ResourcePropertyKeyChainLookupStrategy defaultInstance;
+  public static ResourcePropertyKeyChainLookupStrategy defaultInstance()
+  {
+    if( defaultInstance == null )
+    {
+      synchronized( ResourcePropertyKeyChainLookupStrategy.class )
+      {
+        if( defaultInstance == null )
+        {
+          defaultInstance = new ResourcePropertyKeyChainLookupStrategy();
+        }
+      }
+    }
+    return defaultInstance;
+  }
+
   public ResourcePropertyKeyChainLookupStrategy()
   {
     initChain();
@@ -20,18 +36,21 @@ public class ResourcePropertyKeyChainLookupStrategy implements IResourceProperty
   
   public void initChain()
   {
-    lookupChain.add( new ResourcePropertyKeyMapLookupStrategy() );
-    lookupChain.add( new ResourcePropertyKeyDefaultLookupStrategy() );
+    lookupChain.add( ResourcePropertyKeyCacheLookupStrategy.defaultInstance() );
+    lookupChain.add( ResourcePropertyKeyAnnotationLookupStrategy.defaultInstance() );
+    lookupChain.add( ResourcePropertyKeyDefaultLookupStrategy.defaultInstance() );
   }
 
   //also need to cache the correct result to the map strategy 
   @Override
   public ResourceKey getResourceKey( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
+    // the resource key is merged by strategies
+    ResourceKey key = null;
     for( IResourcePropertyKeyLookupStrategy strategy : lookupChain )
     {
-      ResourceKey key = strategy.getResourceKey( resourceDataProperty, context );
-      if( key != null && key.isValid() )
+      key = ResourceKeyUtil.mergeResourceKey( key, strategy.getResourceKey( resourceDataProperty, context ) );
+      if( ResourceKeyUtil.isValidKey( key ) )
         return key;
     }
     return null;
