@@ -147,7 +147,7 @@ public class ResourceManager
         catch( MissingResourceException mre )
         {
           mre.printStackTrace();
-          return null;
+          return key;   //return key when resource not found
         }
       }
     }

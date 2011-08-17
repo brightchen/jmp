@@ -45,7 +45,7 @@ public class AddRoleData extends UIContentData< AddRoleResourceData > implements
   }
 
   @IContentDataIndicator( isContentData = true )  //the saveButtonData is sub-content-data
-  @IResourceKey( inheritModuleName = true, className = "saverolebutton" )  //the className of this ButtonData is saverolebutton
+  @IResourceKey( inheritModuleName = true, moduleName = "um", className = "saverolebutton" )  //the className of this ButtonData is saverolebutton
   public void setSaveButtonData( ButtonData saveButtonData )
   {
     this.saveButtonData = saveButtonData;
