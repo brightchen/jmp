@@ -45,6 +45,8 @@ public class ResourcePropertyKeyChainLookupStrategy implements IResourceProperty
   @Override
   public ResourceKey getResourceKey( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
+    if( ResourceKeyUtil.isValidKey( context.getSuperResourceKey()  ) )
+      return context.getSuperResourceKey();
     // the resource key is merged by strategies
     ResourceKey key = null;
     for( IResourcePropertyKeyLookupStrategy strategy : lookupChain )

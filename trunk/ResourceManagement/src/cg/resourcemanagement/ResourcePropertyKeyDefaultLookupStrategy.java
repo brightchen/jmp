@@ -41,7 +41,8 @@ public class ResourcePropertyKeyDefaultLookupStrategy implements IResourceProper
   {
     String moduleName = ResourceModuleNameConfigurator.defaultInstance.getResourceModuleName( resourceDataProperty, context );
     String className = getResourceClassName( resourceDataProperty, context );
-    return new ResourceKey( moduleName, className, getResourcePropertyName( resourceDataProperty ) );
+    return ResourceKeyUtil.mergeResourceKey( context.getSuperResourceKey(),
+                                             new ResourceKey( moduleName, className, getResourcePropertyName( resourceDataProperty ) ) );
   }
 
 
