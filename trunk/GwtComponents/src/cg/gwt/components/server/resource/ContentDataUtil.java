@@ -75,10 +75,30 @@ public class ContentDataUtil
       {
         Method setter = entry.getKey();
         
+        //if the getter of this sub-content-data returns not null, it mean the sub-content-data already set to this content-data
+        // should inject the sub-resource-data into the sub-content-data directly instead of creating a new instance of sub-content-data in this case
+        UIContentData subContentData = null;
         Class< ? extends UIContentData > subContentDataClass = (Class< ? extends UIContentData >)setter.getParameterTypes()[0];
-        UIContentData subContentData = subContentDataClass.newInstance();
-      //should call the setter method to set the sub-content-data into this contentData
-        setter.invoke( contentData, subContentData );
+        Method getter = ReflectionUtil.getCorrespondingGetter( setter );
+        if( getter != null )
+        {
+          try
+          {
+            subContentData = (UIContentData)getter.invoke( context.getOwnerContentData(), null );
+          }
+          catch( Exception e )
+          {
+            e.printStackTrace();
+          }
+        }
+        if( subContentData == null )
+        {
+          
+          subContentData = subContentDataClass.newInstance();
+          
+          //should call the setter method to set the sub-content-data into this contentData
+          setter.invoke( contentData, subContentData );
+        }
         
         //add the ( sub-content-data, resource key ) into list
         subResourceContexts.add( new ResourceDataContext( subContentData, entry.getValue() ) );
