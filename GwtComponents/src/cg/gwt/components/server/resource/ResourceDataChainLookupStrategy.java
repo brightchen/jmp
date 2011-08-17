@@ -23,7 +23,6 @@ public class ResourceDataChainLookupStrategy implements IResourceDataLookupStrat
     lookupChain.add( new ResourceDataBuilder() );
   }
 
-  @SuppressWarnings( "rawtypes" ) 
   @Override
   public < RD extends ResourceData > RD getResourceData( Locale locale, Class< RD > resourceDataClass, ResourceDataContext context )
   {

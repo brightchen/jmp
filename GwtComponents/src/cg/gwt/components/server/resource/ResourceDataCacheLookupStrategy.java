@@ -17,7 +17,7 @@ public class ResourceDataCacheLookupStrategy implements IResourceDataLookupStrat
   private boolean useCache = false;
   
   @Override
-  @SuppressWarnings( { "rawtypes", "unchecked" } ) 
+  @SuppressWarnings( "unchecked" ) 
   public < RD extends ResourceData > RD getResourceData( Locale locale, Class< RD > resourceDataClass, ResourceDataContext context )
   {
     if( !isUseCache() )
