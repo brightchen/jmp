@@ -29,7 +29,13 @@ public class ResourceDataContext
     setResourceKey( resourceKey );
   }
   
-
+  //shallow copy
+  @Override
+  public ResourceDataContext clone()
+  {
+    return new ResourceDataContext( ownerContentData, resourceKey );
+  }
+  
   public UIContentData<?> getOwnerContentData()
   {
     return ownerContentData;
