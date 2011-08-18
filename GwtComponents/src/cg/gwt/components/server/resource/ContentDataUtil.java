@@ -12,6 +12,7 @@ import java.util.Set;
 import cg.common.util.ReflectionUtil;
 import cg.gwt.components.shared.data.UIContentData;
 import cg.resourcemanagement.ResourceKey;
+import cg.resourcemanagement.ResourceKeyUtil;
 import cg.resourcemanagement.annotation.IResourceKey;
 
 @SuppressWarnings( "rawtypes" ) 
@@ -101,7 +102,8 @@ public class ContentDataUtil
         }
         
         //add the ( sub-content-data, resource key ) into list
-        subResourceContexts.add( new ResourceDataContext( subContentData, entry.getValue() ) );
+        subResourceContexts.add( new ResourceDataContext( subContentData, 
+                                                          ResourceKeyUtil.mergeResourceKey( context.getResourceKey(), entry.getValue() ) ) );
       }
       catch( Exception e )
       {

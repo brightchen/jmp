@@ -9,8 +9,8 @@ import java.util.Locale;
 import cg.common.util.ReflectionUtil;
 import cg.common.util.StringUtil;
 import cg.gwt.components.annotation.IContentDataAttributes;
+import cg.gwt.components.shared.data.ICompositeContentData;
 import cg.gwt.components.shared.data.ResourceData;
-import cg.gwt.components.shared.data.UICompositeContentData;
 import cg.gwt.components.shared.data.UIContentData;
 import cg.resourcemanagement.annotation.IResourceKey;
 
@@ -52,7 +52,7 @@ public class ResourceDataManager
   public void injectResourceDatas( Locale locale, UIContentData contentData, boolean create )
   {
     ResourceDataContext context = new ResourceDataContext();
-    getResourceDataContext( contentData, context );
+    context.setOwnerContentData( contentData );
     injectResourceDatas( locale, context, create );
   }
   
@@ -61,6 +61,10 @@ public class ResourceDataManager
   {
     UIContentData contentData = context.getOwnerContentData();
     ResourceData resourceData = contentData.getResourceData();
+
+    // the context passed from caller only have to context of parent-context-data,
+    // should merge resource-data-context of current-content-data
+    getResourceDataContext( contentData, context );
 
     if( resourceData != null || create )
     {
@@ -123,15 +127,16 @@ public class ResourceDataManager
       return null;
     
     //for composite content data, use the getSubContentDatas
-    if( contentData instanceof UICompositeContentData )
+    if( contentData instanceof ICompositeContentData )
     {
-      UICompositeContentData compositeData = (UICompositeContentData)contentData;
+      ICompositeContentData compositeData = (ICompositeContentData)contentData;
       List< ? extends UIContentData > subContentDatas = compositeData.getSubContentDatas();
       if( subContentDatas == null || subContentDatas.size() == 0 )
         return Collections.emptyList();
       List< ResourceDataContext > resourDataContexts = new ArrayList< ResourceDataContext >();
       for( UIContentData subContentData : subContentDatas )
       {
+        // the sub-content-data class can also be annotated, 
         resourDataContexts.add( new ResourceDataContext( subContentData, context.getResourceKey() ) );
       }
       return resourDataContexts;
@@ -173,10 +178,13 @@ public class ResourceDataManager
   
   /*
    * get the resource data context from the content data, 
+   * the IResourceKey annotation can be annotated to ContentData class, the the get/setResourceData method
+   * or the getter/setter sub-content-data method( which will be parsed when getting sub-content-data )
+   * 
+   *  this method only care about the context which apply to this content-data ( not care about the sub-content-data )
    */
   public void getResourceDataContext( UIContentData contentData, ResourceDataContext context )
   {
-    context.setOwnerContentData( contentData );
     Class<?> contentDataClass = contentData.getClass();
     
     //check whether the content-data-class is annotated by @IResourceKey
