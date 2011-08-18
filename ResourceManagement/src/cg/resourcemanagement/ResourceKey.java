@@ -20,6 +20,12 @@ public class ResourceKey
     setPropertyName( propertyName );
   }
 
+  @Override
+  public ResourceKey clone()
+  {
+    return new ResourceKey( moduleName, className, propertyName );
+  }
+  
   public ResourceKey( IResourceKey resourceKey )
   {
     this( resourceKey == null ? null : resourceKey.moduleName(), 

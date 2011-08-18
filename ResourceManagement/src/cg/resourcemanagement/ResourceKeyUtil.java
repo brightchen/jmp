@@ -4,10 +4,14 @@ import cg.common.util.StringUtil;
 
 public class ResourceKeyUtil
 {
+  /*
+   * return the preferkey
+   */
   public static ResourceKey mergeResourceKey( ResourceKey preferKey, ResourceKey key )
   {
     if( preferKey == null )
-      return key;
+      throw new IllegalArgumentException( "the preferKey should not null" );
+    
     if( key == null )
       return preferKey;
     

@@ -48,7 +48,7 @@ public class ResourcePropertyKeyChainLookupStrategy implements IResourceProperty
     if( ResourceKeyUtil.isValidKey( context.getSuperResourceKey()  ) )
       return context.getSuperResourceKey();
     // the resource key is merged by strategies
-    ResourceKey key = null;
+    ResourceKey key = new ResourceKey();
     for( IResourcePropertyKeyLookupStrategy strategy : lookupChain )
     {
       key = ResourceKeyUtil.mergeResourceKey( key, strategy.getResourceKey( resourceDataProperty, context ) );

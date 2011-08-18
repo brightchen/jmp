@@ -68,7 +68,8 @@ public class ResourceDataManager
       Class< ? extends ResourceData > resourceDataClass = getResourceDataClass( contentData );
       if( resourceDataClass != null )
       {
-        resourceData = getResourceData( locale, resourceDataClass, context );
+        // the context maybe changed during processing, so clone the context;
+        resourceData = getResourceData( locale, resourceDataClass, context.clone() );
         contentData.setResourceData( resourceData );
       }
     }
