@@ -3,7 +3,6 @@ package cg.usermanagement.gwt.server;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -15,25 +14,17 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import cg.common.util.DataConverter;
 import cg.gwt.components.server.resource.ResourceDataManager;
-import cg.gwt.components.shared.data.MenuBarData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.resourcemanagement.util.LocaleUtil;
 import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IUserManagement;
-import cg.usermanagement.gwt.server.resource.UserManagementResourceDataBuilder;
-import cg.usermanagement.gwt.shared.data.AccountLoginData;
 import cg.usermanagement.gwt.shared.data.AddRoleData;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
-import cg.usermanagement.gwt.shared.data.LocaleMenuBarData;
-import cg.usermanagement.gwt.shared.data.LocaleMenuItemData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
-import cg.usermanagement.gwt.shared.data.UserLoginData;
-import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
-import cg.usermanagement.gwt.shared.data.UserManagementStartData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
 import cg.usermanagement.model.view.RoleView;
@@ -78,87 +69,25 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     return locale == null ? LocaleUtil.TOP_LOCALE : locale;
   }
   
-  public ResponseData< ControlSectionData > buildControlSectionData()
-  {
-    return buildControlSectionData( getCurrentLocale() );
-  }
-  
-  public ResponseData< ControlSectionData > buildControlSectionData( Locale locale )
-  {
-    ResponseData< ControlSectionData > rd = new ResponseData< ControlSectionData >();
-    rd.setFlowData( UIIdentity.CONTROL_SECTION );
-    
-    MenuBarData menuBarData = new LocaleMenuBarData(); 
-    ResourceDataManager.defaultInstance.injectResourceDatas( locale, menuBarData, true );
-    fillLocaleMenuItems( menuBarData );
-    
-    ControlSectionData controlSectionData = new ControlSectionData();
-    controlSectionData.addMenuBarData( menuBarData );
-    rd.setContentData( controlSectionData );
-
-    return rd;
-  }
-  
+  @Override
   public List< ResponseData<?> > getStartUI( String localeName )
   {
-    SessionManager.startSession();
-    Locale locale = getCurrentLocale();
-
-    List< ResponseData<?> > rds = new ArrayList< ResponseData<?> >();
-    
-    // control section data
-    {
-      rds.add( buildControlSectionData( locale ) );
-    }
-    
-    // user management data
-    {
-      ResponseData< UserManagementStartData > rd = new ResponseData< UserManagementStartData >();
-      rd.setFlowData( UIIdentity.UM_START );
-
-      UserLoginData userLoginData = new UserLoginData();
-//      userLoginData.setResourceData( UserManagementResourceDataBuilder.buildUserLoginResourceData( locale ) );
-      
-      AccountLoginData accountLoginData = new AccountLoginData();
-//      accountLoginData.setResourceData( UserManagementResourceDataBuilder.buildAccountLoginResourceData( locale ) );
-      
-      UserRegisterData userRegisterData = new UserRegisterData();
-      //set resource data later
-      //userRegisterData.setResourceData( UserManagementResourceDataBuilder.b() );
-      
-      UserManagementStartData data = new UserManagementStartData( userLoginData, accountLoginData, userRegisterData );
-      ResourceDataManager.defaultInstance.injectResourceDatas( locale, data, true );
-      rd.setContentData( data );
-      
-      rds.add( rd );
-    }    
-
+    List< ResponseData<?> > responseDatas = ResponseBuilder.buildStartUI( LocaleUtil.getLocale( localeName ) );
     
     //put into the session
     String sessionId = SessionManager.startSession();
     setSessionId( sessionId );
-    SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, rds );
+    SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, responseDatas );
 
-    return rds;
+    return responseDatas;
   }
+  
+//  public ResponseData< ControlSectionData > buildControlSectionData( Locale locale )
+//  {
+//    return buildControlSectionData( locale );
+//  }
 
-  /*
-   * the locale menu item is different from typical menu item as the resource data is not depended on the locale at all.
-   * this method fill the information of these locale menu items
-   */
-  protected void fillLocaleMenuItems( MenuBarData menuBarData )
-  {
-    menuBarData.setMenuItemDatas( null );
-    
-    Map< String, String > localeDatas = UserManagementResourceDataBuilder.getSupportedLocalesData();
-    for( Map.Entry< String, String > localeData : localeDatas.entrySet() )
-    {
-      //use locale name as the command key and locale name's resource value as menu item's title
-      LocaleMenuItemData menuItemData = new LocaleMenuItemData( localeData.getValue(), localeData.getKey() );
-      menuBarData.addMenuItemData( menuItemData );
-    }
 
-  }
   /*
    * when the locale changed, the server should response with resource data of new locale and refresh the page
    * @see cg.usermanagement.gwt.client.IUserManagement#changeLocale(java.lang.String)
@@ -180,7 +109,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       
       //handle locale menu specially
       if( UIIdentity.CONTROL_SECTION.equals( rd.getFlowData().getUiIdentity() ) )
-        fillLocaleMenuItems( ( (ControlSectionData)rd.getContentData() ).getMenuPanelData().get( 0 ) );
+        ResponseBuilder.fillLocaleMenuItems( ( (ControlSectionData)rd.getContentData() ).getMenuPanelData().get( 0 ) );
     }
     return rds;
   }
@@ -200,7 +129,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     // cache the user permissions in the session as it is a very frequently used 
     SessionManager.putAttribute( UserManagementSessionKey.userPermissions, permissions );
     
-    List< ResponseData<?> > responseDatas = getUserManagementPanelDatas();
+    List< ResponseData<?> > responseDatas = ResponseBuilder.getUserManagementPanelDatas( getCurrentLocale() );
     SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, responseDatas );
     
     return responseDatas;
@@ -223,39 +152,14 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     // cache the role permissions in the session as it is a very frequently used 
     SessionManager.putAttribute( UserManagementSessionKey.accountPermissions, permissions );
     
-    List< ResponseData<?> > responseDatas = getUserManagementPanelDatas();
+    List< ResponseData<?> > responseDatas = ResponseBuilder.getUserManagementPanelDatas( getCurrentLocale() );
     SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, responseDatas );
     
     return responseDatas;
 
   }
   
-  /*
-   * get the response data to let the client build User Management Panel
-   */
-  public List< ResponseData<?> > getUserManagementPanelDatas()
-  {
-    List< ResponseData<?> > rds = new ArrayList< ResponseData<?> >();
-    
-    // control section data
-    {
-      rds.add( buildControlSectionData() );
-    }
-    
-     
-    {
-      ResponseData< UserManagementPanelData > rd = new ResponseData< UserManagementPanelData >();
-      rd.setFlowData( UIIdentity.UM_CONTROL_PANEL );
 
-      UserManagementPanelData data = new UserManagementPanelData();
-      ResourceDataManager.defaultInstance.injectResourceDatas( getCurrentLocale(), data, true );
-      rd.setContentData( data );
-      
-      rds.add( rd );
-    }    
-    
-    return rds;
-  }
   
   @Override
   public void registerUser( UserRegisterData data ) throws RegisterUserException
