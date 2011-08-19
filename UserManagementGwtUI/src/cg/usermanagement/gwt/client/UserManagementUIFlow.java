@@ -5,8 +5,6 @@ import java.util.List;
 import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.client.ui.decorator.PopupDecorator;
 import cg.gwt.components.client.ui.decorator.PopupWithCancelButtonDecorator;
-import cg.gwt.components.shared.data.ButtonData;
-import cg.gwt.components.shared.data.ButtonResourceData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIContentData;
 import cg.gwt.components.shared.data.UIFlowData;
@@ -39,8 +37,9 @@ public class UserManagementUIFlow
 //  private static UserManagementControlSectionUI controlSectionUI;
 //  private static ClientSectionUI clientSectionUI = new ClientSectionUI();
   
-  private static PopupDecorator<?,?> addRolePopup;
-  private static PopupDecorator<?,?> roleDetailPopup;
+  //it should only have one popup at any time
+  private static PopupDecorator<?,?> currentPopup;    
+//  private static PopupDecorator<?,?> roleDetailPopup;
   
   private static final String cookieLocale = "locale";
   
@@ -172,8 +171,8 @@ public class UserManagementUIFlow
   
   protected static void onUserManagementPanelOperationSuccess( UserManagementPanelOperation operation, List< ResponseData<?> > responseDatas )
   {
-    PopupWithCancelButtonDecorator popup = new PopupWithCancelButtonDecorator< Widget >( "", buildUI( responseDatas ) );
-    popup.centre();
+    currentPopup = new PopupWithCancelButtonDecorator< Widget >( "", buildUI( responseDatas ) );
+    currentPopup.centre();
   }
   
   public static void onUserManagementPanelSearchUser()
@@ -199,20 +198,20 @@ public class UserManagementUIFlow
   /*
    * the system behavior when user clicking the add role button
    */
-  public static void onUserManagementPanelAddRole()
-  {
-    //the addRolePopup should be recreate even if addRolePopup is not null, 
-    //as addRolePopup can be already closed( for example, one user create two roles ),
-    //which made any operation to addRolePopup is invalid
-    AddRoleData roleData = new AddRoleData();
-    ButtonData buttonData = roleData.getSaveButtonData();
-    ButtonResourceData resourceData = new ButtonResourceData();
-    resourceData.setText( "Add Role" );
-    resourceData.setTitle( "Add a new Role" );
-    buttonData.setResourceData( resourceData );
-    addRolePopup = new PopupWithCancelButtonDecorator< AddRoleUI >( "Add Role", new AddRoleUI( roleData ) );
-    addRolePopup.centre();
-  }
+//  public static void onUserManagementPanelAddRole()
+//  {
+//    //the addRolePopup should be recreate even if addRolePopup is not null, 
+//    //as addRolePopup can be already closed( for example, one user create two roles ),
+//    //which made any operation to addRolePopup is invalid
+//    AddRoleData roleData = new AddRoleData();
+//    ButtonData buttonData = roleData.getSaveButtonData();
+//    ButtonResourceData resourceData = new ButtonResourceData();
+//    resourceData.setText( "Add Role" );
+//    resourceData.setTitle( "Add a new Role" );
+//    buttonData.setResourceData( resourceData );
+//    addRolePopup = new PopupWithCancelButtonDecorator< AddRoleUI >( "Add Role", new AddRoleUI( roleData ) );
+//    addRolePopup.centre();
+//  }
 
   public static void onUserManagementPanelAddPermission()
   {
@@ -224,10 +223,10 @@ public class UserManagementUIFlow
    */
   public static void onAddRoleSuccess( AddRoleData addRoleData )
   {
-    addRolePopup.hide( true );
+    currentPopup.hide( true );
     
-    roleDetailPopup = new PopupWithCancelButtonDecorator< Widget >( "Role Detail", buildRoleDetailUI( addRoleData.getId(), addRoleData.getName() ) );
-    roleDetailPopup.centre();
+    currentPopup = new PopupWithCancelButtonDecorator< Widget >( "Role Detail", buildRoleDetailUI( addRoleData.getId(), addRoleData.getName() ) );
+    currentPopup.centre();
   }
   
   
