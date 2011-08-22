@@ -8,25 +8,25 @@ public class RoleDetailResourceData extends ResourceData implements Serializable
 {
   private static final long serialVersionUID = -3519251032463810421L;
 
-  private String roleId;
-  private String roleName;
+  // the text for role-detail section
+  private String roleDetailSectionText;
+  // the text for assign-permissions section
+  private String assignPermissionSectionText;
   
-  public String getRoleId()
+  public String getRoleDetailSectionText()
   {
-    return roleId;
+    return roleDetailSectionText;
   }
-  public void setRoleId( String roleId )
+  public void setRoleDetailSectionText( String roleDetailSectionText )
   {
-    this.roleId = roleId;
+    this.roleDetailSectionText = roleDetailSectionText;
   }
-  public String getRoleName()
+  public String getAssignPermissionSectionText()
   {
-    return roleName;
+    return assignPermissionSectionText;
   }
-  public void setRoleName( String roleName )
+  public void setAssignPermissionSectionText( String assignPermissionSectionText )
   {
-    this.roleName = roleName;
+    this.assignPermissionSectionText = assignPermissionSectionText;
   }
-
-  
 }

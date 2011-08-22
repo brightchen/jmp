@@ -14,7 +14,7 @@ public class AddRoleData extends UIContentData< AddRoleResourceData > implements
 {
   private static final long serialVersionUID = -6940977542611194133L;
 
-  private Long id;
+  private Long id;        //role id;
   private String name;    //role name
   
   //add or update
