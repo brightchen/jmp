@@ -20,8 +20,8 @@ import cg.resourcemanagement.util.LocaleUtil;
 import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.gwt.client.IUserManagement;
-import cg.usermanagement.gwt.shared.data.AddRoleData;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
+import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
@@ -198,10 +198,10 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   
     if( UserManagementPanelOperation.AddRole.equals( operation ) )
     {
-      ResponseData< AddRoleData > rd = new ResponseData< AddRoleData >();
+      ResponseData< RoleDetailData > rd = new ResponseData< RoleDetailData >();
       rd.setFlowData( UIIdentity.UM_ADD_ROLE );
 
-      AddRoleData data = new AddRoleData();
+      RoleDetailData data = new RoleDetailData();
       ResourceDataManager.defaultInstance.injectResourceDatas( getCurrentLocale(), data, true );
       rd.setContentData( data );
       

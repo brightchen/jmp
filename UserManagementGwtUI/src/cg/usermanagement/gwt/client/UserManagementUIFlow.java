@@ -9,9 +9,7 @@ import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIContentData;
 import cg.gwt.components.shared.data.UIFlowData;
 import cg.gwt.components.shared.data.UIIdentity;
-import cg.usermanagement.gwt.client.role.AddRoleUI;
 import cg.usermanagement.gwt.client.role.RoleDetailUI;
-import cg.usermanagement.gwt.shared.data.AddRoleData;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
@@ -135,7 +133,7 @@ public class UserManagementUIFlow
     }
     if( UIIdentity.UM_ADD_ROLE.equals( identity ) )
     {
-      return new AddRoleUI( (AddRoleData)contentData );
+      return new RoleDetailUI( (RoleDetailData)contentData );
     }
     if( UIIdentity.UM_ADD_PERMISSION.equals( identity ) )
     {
@@ -221,7 +219,7 @@ public class UserManagementUIFlow
   /*
    * switch to role detail ui to assign permissions
    */
-  public static void onAddRoleSuccess( AddRoleData addRoleData )
+  public static void onSaveRoleSuccess( RoleDetailData addRoleData )
   {
     currentPopup.hide( true );
     

@@ -5,11 +5,11 @@ import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.client.IUserManagementAsync;
 import cg.usermanagement.gwt.client.UserManagementUIFlow;
-import cg.usermanagement.gwt.shared.data.AddRoleData;
+import cg.usermanagement.gwt.shared.data.RoleDetailData;
 
 import com.google.gwt.core.client.GWT;
 
-public abstract class AddRoleEvent extends UIEvent< AddRoleData >
+public abstract class SaveRoleEvent extends UIEvent< RoleDetailData >
 {
   private IUserManagementAsync userManagement = GWT.create( IUserManagement.class );
   
@@ -21,7 +21,7 @@ public abstract class AddRoleEvent extends UIEvent< AddRoleData >
 
   protected void onAddRole()
   {
-    final AddRoleData data = getData();
+    final RoleDetailData data = getData();
     userManagement.addRole( data.getName(),
                              new PopupFailureReasonCallback< Long >()
                              {
@@ -29,14 +29,14 @@ public abstract class AddRoleEvent extends UIEvent< AddRoleData >
                                public void onSuccess( Long roleId )
                                {
                                  data.setId( roleId );
-                                 onAddRoleSuccess( data );
+                                 onSaveRoleSuccess( data );
                                }
                              } );
                             
   }
   
-  protected void onAddRoleSuccess( AddRoleData data )
+  protected void onSaveRoleSuccess( RoleDetailData data )
   {
-    UserManagementUIFlow.onAddRoleSuccess( data );
+    UserManagementUIFlow.onSaveRoleSuccess( data );
   }
 }
