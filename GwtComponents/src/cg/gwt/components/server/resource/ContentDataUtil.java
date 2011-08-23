@@ -85,7 +85,7 @@ public class ContentDataUtil
         {
           try
           {
-            subContentData = (UIContentData)getter.invoke( context.getOwnerContentData(), null );
+            subContentData = (UIContentData)getter.invoke( context.getOwnerContentData(), ( Object[] )null );
           }
           catch( Exception e )
           {

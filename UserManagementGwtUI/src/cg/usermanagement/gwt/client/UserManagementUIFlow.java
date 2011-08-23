@@ -36,7 +36,7 @@ public class UserManagementUIFlow
 //  private static ClientSectionUI clientSectionUI = new ClientSectionUI();
   
   //it should only have one popup at any time
-  private static PopupDecorator<?,?> currentPopup;    
+  private static PopupDecorator< ?, Widget > currentPopup;    
 //  private static PopupDecorator<?,?> roleDetailPopup;
   
   private static final String cookieLocale = "locale";
@@ -193,24 +193,6 @@ public class UserManagementUIFlow
     
   }
 
-  /*
-   * the system behavior when user clicking the add role button
-   */
-//  public static void onUserManagementPanelAddRole()
-//  {
-//    //the addRolePopup should be recreate even if addRolePopup is not null, 
-//    //as addRolePopup can be already closed( for example, one user create two roles ),
-//    //which made any operation to addRolePopup is invalid
-//    AddRoleData roleData = new AddRoleData();
-//    ButtonData buttonData = roleData.getSaveButtonData();
-//    ButtonResourceData resourceData = new ButtonResourceData();
-//    resourceData.setText( "Add Role" );
-//    resourceData.setTitle( "Add a new Role" );
-//    buttonData.setResourceData( resourceData );
-//    addRolePopup = new PopupWithCancelButtonDecorator< AddRoleUI >( "Add Role", new AddRoleUI( roleData ) );
-//    addRolePopup.centre();
-//  }
-
   public static void onUserManagementPanelAddPermission()
   {
     
@@ -219,20 +201,16 @@ public class UserManagementUIFlow
   /*
    * switch to role detail ui to assign permissions
    */
-  public static void onSaveRoleSuccess( RoleDetailData addRoleData )
+  public static void onSaveRoleSuccess( RoleDetailData roleDetailData )
   {
     currentPopup.hide( true );
-    
-    currentPopup = new PopupWithCancelButtonDecorator< Widget >( "Role Detail", buildRoleDetailUI( addRoleData.getId(), addRoleData.getName() ) );
+    currentPopup = new PopupWithCancelButtonDecorator< Widget >( "", buildRoleDetailUI( roleDetailData ) );
     currentPopup.centre();
   }
   
   
-  public static Widget buildRoleDetailUI( Long roleId, String roleName )
+  public static Widget buildRoleDetailUI( RoleDetailData roleDetailData )
   {
-    RoleDetailData roleDetailData = new RoleDetailData();
-    roleDetailData.setId( roleId );
-    roleDetailData.setName( roleName );
     RoleDetailUI roleDetailUI = new RoleDetailUI( roleDetailData );
     return roleDetailUI;
   }

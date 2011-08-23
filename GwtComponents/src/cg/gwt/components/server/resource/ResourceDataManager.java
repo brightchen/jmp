@@ -119,7 +119,7 @@ public class ResourceDataManager
   /*
    * get the contexts( ownerContentData, superResourceKey ) of sub-content-resource data 
    */
-  @SuppressWarnings( "unchecked" )
+  
   public List< ResourceDataContext > getSubResourceDataContexts( ResourceDataContext context )
   {
     UIContentData contentData = context.getOwnerContentData();
