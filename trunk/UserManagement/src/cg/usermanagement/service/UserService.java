@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import cg.common.util.StringUtil;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.config.PropertyKeys;
 import cg.usermanagement.config.UserManagementConfigurator;
@@ -140,6 +141,10 @@ public class UserService extends GenericJpaDaoService implements IUserService
   @Transactional
   public RoleView addRole( String roleName ) throws RoleException
   {
+    if( StringUtil.isNullOrEmpty( roleName ) )
+    {
+      throw new RoleException( RoleException.ROLE_ERROR.ROLE_NAME_IS_EMPTY );
+    }
     if( findRoleByName( roleName ) != null )
     {
       throw new RoleException( RoleException.ROLE_ERROR.ROLE_WITH_SAME_NAME_EXISTS );

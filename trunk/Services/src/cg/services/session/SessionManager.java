@@ -71,6 +71,7 @@ public class SessionManager
     String sessionId = threadSessionIdMap.get( getCurrentThreadId() );
     if( sessionId == null )
     {
+      // the session hasn't created or the session time-out ( thread shutdown ) and a new thread handling 
       throw new RuntimeException( "sessionId should not be null. please call startSession() before using session." );
     }
 

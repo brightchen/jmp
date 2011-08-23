@@ -7,6 +7,7 @@ public class RoleException extends Exception
   
   public static enum ROLE_ERROR
   {
+    ROLE_NAME_IS_EMPTY( "The role name is empty" ),
     ROLE_WITH_SAME_NAME_EXISTS( "There is already a role with same name" ),
     
     ;

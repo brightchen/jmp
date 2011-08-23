@@ -9,6 +9,7 @@ public class PopupWithButtonBarDecorator< UB extends Widget, UC extends Widget >
 {
   private UB buttonBar;
   private Panel middlePanel;    //this is the panel which the decoratedComponent and buttonBar will be added as the popup panel is a SimplePanel
+  private boolean isMiddlePanelAttached = false;
 
   public PopupWithButtonBarDecorator( String title, UC decoratedComponent )
   {
@@ -61,8 +62,12 @@ public class PopupWithButtonBarDecorator< UB extends Widget, UC extends Widget >
   @Override
   protected void afterAddingChildren()
   {
-    middlePanel.add( buttonBar );
-    getDecoratorComponent().add( middlePanel );
+    if( !isMiddlePanelAttached )
+    {
+      middlePanel.add( buttonBar );
+      getDecoratorComponent().add( middlePanel );
+      isMiddlePanelAttached = true;
+    }
   }
   
   public UB getButtonBar()
