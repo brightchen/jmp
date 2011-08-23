@@ -10,6 +10,9 @@ public class RoleDetailResourceData extends ResourceData implements Serializable
 
   // the text for role-detail section
   private String roleDetailSectionText;
+  private String roleId;
+  private String roleName;
+  
   // the text for assign-permissions section
   private String assignPermissionSectionText;
   
@@ -29,4 +32,21 @@ public class RoleDetailResourceData extends ResourceData implements Serializable
   {
     this.assignPermissionSectionText = assignPermissionSectionText;
   }
+  public String getRoleId()
+  {
+    return roleId;
+  }
+  public void setRoleId( String roleId )
+  {
+    this.roleId = roleId;
+  }
+  public String getRoleName()
+  {
+    return roleName;
+  }
+  public void setRoleName( String roleName )
+  {
+    this.roleName = roleName;
+  }
+  
 }
