@@ -5,5 +5,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ResourceManagement"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ContentData"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

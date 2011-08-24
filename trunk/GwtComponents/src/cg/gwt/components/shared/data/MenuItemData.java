@@ -2,6 +2,8 @@ package cg.gwt.components.shared.data;
 
 import java.io.Serializable;
 
+import cg.contentdata.shared.UIContentData;
+
 /*
  * separator is a kind of menu item which don't need any data
  */

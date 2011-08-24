@@ -2,11 +2,11 @@ package cg.usermanagement.gwt.client;
 
 import java.util.List;
 
+import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.client.ui.decorator.PopupDecorator;
 import cg.gwt.components.client.ui.decorator.PopupWithCancelButtonDecorator;
 import cg.gwt.components.shared.data.ResponseData;
-import cg.gwt.components.shared.data.UIContentData;
 import cg.gwt.components.shared.data.UIFlowData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.usermanagement.gwt.client.role.RoleDetailUI;

@@ -2,7 +2,7 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
-import cg.gwt.components.shared.data.UIContentData;
+import cg.contentdata.shared.UIContentData;
 
 public class PermissionData extends UIContentData< PermissionResourceData > implements Serializable
 {

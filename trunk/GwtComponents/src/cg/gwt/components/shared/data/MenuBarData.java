@@ -3,6 +3,9 @@ package cg.gwt.components.shared.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import cg.contentdata.shared.ICompositeContentData;
+import cg.contentdata.shared.UIContentData;
+
 
 //MenuBar is a collection of menuitems
 //MenuBar can contain sub-MenuBar(s)

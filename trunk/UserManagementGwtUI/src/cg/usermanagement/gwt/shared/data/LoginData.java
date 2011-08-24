@@ -2,8 +2,8 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
+import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.shared.data.IValidatable;
-import cg.gwt.components.shared.data.UIContentData;
 import cg.gwt.components.shared.data.ValidateException;
 
 //user or account login data

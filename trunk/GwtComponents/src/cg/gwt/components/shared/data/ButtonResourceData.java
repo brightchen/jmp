@@ -2,6 +2,8 @@ package cg.gwt.components.shared.data;
 
 import java.io.Serializable;
 
+import cg.contentdata.shared.ResourceData;
+
 public class ButtonResourceData extends ResourceData implements Serializable
 {
   private static final long serialVersionUID = -5059566369895945697L;

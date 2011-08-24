@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.shared.data.ButtonData;
-import cg.gwt.components.shared.data.UIContentData;
 import cg.resourcemanagement.annotation.IResourceKey;
 
 public class UserManagementPanelData extends UIContentData<UserManagementPanelResourceData> implements Serializable

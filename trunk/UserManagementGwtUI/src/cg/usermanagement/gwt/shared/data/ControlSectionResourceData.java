@@ -1,6 +1,6 @@
 package cg.usermanagement.gwt.shared.data;
 
-import cg.gwt.components.shared.data.ResourceData;
+import cg.contentdata.shared.ResourceData;
 
 public class ControlSectionResourceData extends ResourceData
 {

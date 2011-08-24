@@ -2,7 +2,7 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
-import cg.gwt.components.shared.data.ResourceData;
+import cg.contentdata.shared.ResourceData;
 
 public class SearchUserResourceData extends ResourceData implements Serializable
 {

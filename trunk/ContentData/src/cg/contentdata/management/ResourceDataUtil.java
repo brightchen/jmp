@@ -1,11 +1,11 @@
-package cg.gwt.components.server.resource;
+package cg.contentdata.management;
 
 import java.lang.reflect.Method;
 
 import cg.common.property.ClassProperty;
 import cg.common.property.ClassPropertyUtil;
 import cg.common.util.ReflectionUtil;
-import cg.gwt.components.shared.data.ResourceData;
+import cg.contentdata.shared.ResourceData;
 
 public class ResourceDataUtil
 {

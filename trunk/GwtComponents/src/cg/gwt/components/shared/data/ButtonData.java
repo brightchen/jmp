@@ -2,6 +2,8 @@ package cg.gwt.components.shared.data;
 
 import java.io.Serializable;
 
+import cg.contentdata.shared.UIContentData;
+
 /*
  * the title and text have different meaning, see gwt Button
  * text: is the text display in the button

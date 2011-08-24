@@ -1,11 +1,11 @@
-package cg.gwt.components.server.resource;
+package cg.contentdata.management;
 
 import java.util.Locale;
 import java.util.Set;
 
 import cg.common.property.ClassProperty;
 import cg.common.property.ClassPropertyUtil;
-import cg.gwt.components.shared.data.ResourceData;
+import cg.contentdata.shared.ResourceData;
 import cg.resourcemanagement.ResourceKey;
 import cg.resourcemanagement.ResourceKeyManager;
 import cg.resourcemanagement.ResourcePropertyContext;

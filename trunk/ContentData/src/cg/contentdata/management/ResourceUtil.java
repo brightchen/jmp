@@ -1,4 +1,4 @@
-package cg.gwt.components.server.resource;
+package cg.contentdata.management;
 
 import java.util.Locale;
 

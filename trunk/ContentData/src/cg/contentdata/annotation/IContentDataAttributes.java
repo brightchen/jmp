@@ -1,11 +1,11 @@
-package cg.gwt.components.annotation;
+package cg.contentdata.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import cg.gwt.components.server.resource.ISubContentDataLookupStrategy;
+import cg.contentdata.management.ISubContentDataLookupStrategy;
 
 /*
  * this annotation annotated the UIContentData class

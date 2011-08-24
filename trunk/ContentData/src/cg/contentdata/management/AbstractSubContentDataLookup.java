@@ -1,11 +1,11 @@
-package cg.gwt.components.server.resource;
+package cg.contentdata.management;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import cg.gwt.components.shared.data.UIContentData;
+import cg.contentdata.shared.UIContentData;
 import cg.resourcemanagement.ResourceKey;
 
 @SuppressWarnings( "rawtypes" ) 

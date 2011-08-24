@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.shared.data.ButtonData;
-import cg.gwt.components.shared.data.UIContentData;
 import cg.resourcemanagement.annotation.IResourceKey;
 
 public class RoleDetailData extends UIContentData< RoleDetailResourceData > implements Serializable

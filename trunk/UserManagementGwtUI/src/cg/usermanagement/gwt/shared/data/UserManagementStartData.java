@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.shared.data.UICompositeContentData;
-import cg.gwt.components.shared.data.UIContentData;
 
 
 public class UserManagementStartData extends UICompositeContentData< UserManagementStartResourceData > implements Serializable

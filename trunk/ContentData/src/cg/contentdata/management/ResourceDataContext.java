@@ -1,6 +1,6 @@
-package cg.gwt.components.server.resource;
+package cg.contentdata.management;
 
-import cg.gwt.components.shared.data.UIContentData;
+import cg.contentdata.shared.UIContentData;
 import cg.resourcemanagement.ResourceKey;
 
 /*

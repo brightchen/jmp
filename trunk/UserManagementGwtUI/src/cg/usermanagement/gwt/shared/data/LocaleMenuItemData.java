@@ -2,7 +2,7 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
-import cg.gwt.components.annotation.IResourceDataClass;
+import cg.contentdata.annotation.IResourceDataClass;
 import cg.gwt.components.shared.data.MenuItemResourceData;
 import cg.gwt.components.shared.data.NormalMenuItemData;
 import cg.resourcemanagement.annotation.IResourceKey;
