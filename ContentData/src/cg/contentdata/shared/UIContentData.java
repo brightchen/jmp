@@ -1,4 +1,4 @@
-package cg.gwt.components.shared.data;
+package cg.contentdata.shared;
 
 import java.io.Serializable;
 

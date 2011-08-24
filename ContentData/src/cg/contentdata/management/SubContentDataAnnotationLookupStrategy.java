@@ -1,10 +1,11 @@
-package cg.gwt.components.server.resource;
+package cg.contentdata.management;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-import cg.gwt.components.annotation.IContentDataIndicator;
+import cg.contentdata.annotation.IContentDataIndicator;
+
 
 /*
  * get the list of sub content data by annotation which annotated in the getter/setter

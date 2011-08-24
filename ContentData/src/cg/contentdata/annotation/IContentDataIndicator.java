@@ -1,4 +1,4 @@
-package cg.gwt.components.annotation;
+package cg.contentdata.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

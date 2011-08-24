@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cg.contentdata.shared.ICompositeContentData;
+import cg.contentdata.shared.ResourceData;
+import cg.contentdata.shared.UIContentData;
+
 /*
  * there are a lot of strategies to get the list of list of sub-content-data
  * such as SubContentDataAnnotationLookupStrategy, SubContentDataTypeLookupStrategy, SubContentDataDefaultLookupStrategy etc.

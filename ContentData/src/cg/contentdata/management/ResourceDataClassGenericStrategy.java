@@ -1,8 +1,8 @@
-package cg.gwt.components.server.resource;
+package cg.contentdata.management;
 
 import cg.common.util.ReflectionUtil;
-import cg.gwt.components.shared.data.ResourceData;
-import cg.gwt.components.shared.data.UIContentData;
+import cg.contentdata.shared.ResourceData;
+import cg.contentdata.shared.UIContentData;
 
 /*
  * get the class of resource data from the generic definition

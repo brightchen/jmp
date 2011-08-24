@@ -2,6 +2,8 @@ package cg.gwt.components.shared.data;
 
 import java.io.Serializable;
 
+import cg.contentdata.shared.UIContentData;
+
 /*
  * the data response from web server to the client side, it includes
  *   - the content data: the data required to build the next content UI

@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import cg.gwt.components.shared.data.ICompositeContentData;
+import cg.contentdata.shared.ICompositeContentData;
+import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.shared.data.MenuBarData;
-import cg.gwt.components.shared.data.UIContentData;
 
 @SuppressWarnings( "rawtypes" ) 
 public class ControlSectionData extends UIContentData< ControlSectionResourceData > implements ICompositeContentData, Serializable

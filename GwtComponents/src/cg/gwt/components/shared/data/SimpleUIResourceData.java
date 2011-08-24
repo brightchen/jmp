@@ -2,6 +2,8 @@ package cg.gwt.components.shared.data;
 
 import java.io.Serializable;
 
+import cg.contentdata.shared.ResourceData;
+
 /*
  * simple resource data only has one value
  */

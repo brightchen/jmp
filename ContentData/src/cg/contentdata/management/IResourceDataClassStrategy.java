@@ -1,7 +1,7 @@
-package cg.gwt.components.server.resource;
+package cg.contentdata.management;
 
-import cg.gwt.components.shared.data.ResourceData;
-import cg.gwt.components.shared.data.UIContentData;
+import cg.contentdata.shared.ResourceData;
+import cg.contentdata.shared.UIContentData;
 
 /*
  * get the actual type of resource data of a content data, it only take care of the resource data of this content data

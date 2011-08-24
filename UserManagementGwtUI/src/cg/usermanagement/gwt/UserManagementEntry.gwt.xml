@@ -6,6 +6,7 @@
 
   <inherits name='cg.gwt.components.GwtComponents'/>
   <inherits name='cg.usermanagement.usermanagementshared'/>
+  <inherits name='cg.contentdata.contentdatashared'/>
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='cg.usermanagement.gwt.client.UserManagementPage'/>

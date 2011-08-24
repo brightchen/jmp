@@ -13,7 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import cg.common.util.DataConverter;
-import cg.gwt.components.server.resource.ResourceDataManager;
+import cg.contentdata.management.ResourceDataManager;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.resourcemanagement.util.LocaleUtil;

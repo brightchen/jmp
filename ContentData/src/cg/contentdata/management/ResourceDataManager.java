@@ -1,4 +1,4 @@
-package cg.gwt.components.server.resource;
+package cg.contentdata.management;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -8,11 +8,12 @@ import java.util.Locale;
 
 import cg.common.util.ReflectionUtil;
 import cg.common.util.StringUtil;
-import cg.gwt.components.annotation.IContentDataAttributes;
-import cg.gwt.components.shared.data.ICompositeContentData;
-import cg.gwt.components.shared.data.ResourceData;
-import cg.gwt.components.shared.data.UIContentData;
+import cg.contentdata.annotation.IContentDataAttributes;
+import cg.contentdata.shared.ICompositeContentData;
+import cg.contentdata.shared.ResourceData;
+import cg.contentdata.shared.UIContentData;
 import cg.resourcemanagement.annotation.IResourceKey;
+
 
 @SuppressWarnings( "rawtypes" )
 public class ResourceDataManager

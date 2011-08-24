@@ -1,10 +1,10 @@
-package cg.gwt.components.server.resource;
+package cg.contentdata.management;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cg.gwt.components.shared.data.ResourceData;
-import cg.gwt.components.shared.data.UIContentData;
+import cg.contentdata.shared.ResourceData;
+import cg.contentdata.shared.UIContentData;
 
 public class ResourceDataClassChainStrategy implements IResourceDataClassStrategy
 {

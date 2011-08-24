@@ -1,8 +1,9 @@
-package cg.gwt.components.server.resource;
+package cg.contentdata.management;
 
 import java.util.Locale;
 
-import cg.gwt.components.shared.data.ResourceData;
+import cg.contentdata.shared.ResourceData;
+
 
 public interface IResourceDataLookupStrategy
 {

@@ -1,4 +1,4 @@
-package cg.gwt.components.server.resource;
+package cg.contentdata.management;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import cg.common.util.ReflectionUtil;
-import cg.gwt.components.shared.data.UIContentData;
+import cg.contentdata.shared.UIContentData;
 import cg.resourcemanagement.ResourceKey;
 import cg.resourcemanagement.ResourceKeyUtil;
 import cg.resourcemanagement.annotation.IResourceKey;

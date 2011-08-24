@@ -2,7 +2,7 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
-import cg.gwt.components.shared.data.ResourceData;
+import cg.contentdata.shared.ResourceData;
 
 /*
  * this class is the super class of ResourceData class of UserManagement module

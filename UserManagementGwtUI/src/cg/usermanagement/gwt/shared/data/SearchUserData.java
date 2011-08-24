@@ -2,8 +2,8 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
+import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.shared.data.ButtonData;
-import cg.gwt.components.shared.data.UIContentData;
 
 public class SearchUserData extends UIContentData< SearchUserResourceData > implements Serializable
 {

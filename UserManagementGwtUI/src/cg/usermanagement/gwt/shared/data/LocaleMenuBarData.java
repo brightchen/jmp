@@ -1,6 +1,6 @@
 package cg.usermanagement.gwt.shared.data;
 
-import cg.gwt.components.annotation.IResourceDataClass;
+import cg.contentdata.annotation.IResourceDataClass;
 import cg.gwt.components.shared.data.MenuBarData;
 import cg.gwt.components.shared.data.MenuItemResourceData;
 import cg.resourcemanagement.annotation.IResourceKey;
