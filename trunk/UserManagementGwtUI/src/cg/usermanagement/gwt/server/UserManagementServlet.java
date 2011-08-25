@@ -185,6 +185,17 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
 
     if( UserManagementPanelOperation.SearchUser.equals( operation ) )
     {
+      ResponseData< SearchUserData > rd = new ResponseData< SearchUserData >();
+      rd.setFlowData( UIIdentity.UM_SEARCH_USER );
+
+      SearchUserData data = new SearchUserData();
+      ResourceDataManager.defaultInstance.injectResourceDatas( getCurrentLocale(), data, true );
+      rd.setContentData( data );
+      
+      rds.add( rd );
+      
+      return rds;
+
     }
     if( UserManagementPanelOperation.SearchAccount.equals( operation ) )
     {
@@ -226,6 +237,8 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   
   public List< UserListData > searchUser( SearchUserData searchUserData )
   {
+    IUserService service = getUserService();
+    service.s
     return null;
   }
   
