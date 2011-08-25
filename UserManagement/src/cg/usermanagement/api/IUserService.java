@@ -8,6 +8,7 @@ import cg.usermanagement.model.User;
 import cg.usermanagement.model.view.PermissionView;
 import cg.usermanagement.model.view.RoleView;
 import cg.usermanagement.model.view.UserRegisterView;
+import cg.usermanagement.model.view.UserSearchView;
 import cg.usermanagement.shared.LoginException;
 import cg.usermanagement.shared.RoleException;
 
@@ -17,6 +18,8 @@ public interface IUserService
   public Set< PermissionView > accountLogin( String accountName, String password ) throws LoginException;
   
   public User findUserByName( String name );
+  public UserSearchView findUser( UserSearchCriteria criteria );
+  
   public Account findAccountByName( String accountId );
   public boolean registerUser( UserRegisterView userRegisterView );
   

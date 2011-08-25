@@ -1,23 +1,19 @@
-package cg.usermanagement.gwt.shared.data;
+package cg.usermanagement.api;
 
 import java.io.Serializable;
 
-import cg.contentdata.shared.UIContentData;
-import cg.gwt.components.shared.data.ButtonData;
-import cg.resourcemanagement.annotation.IResourceKey;
+import cg.usermanagement.model.UserStatus;
 
-public class SearchUserData extends UIContentData< SearchUserResourceData > implements Serializable
+public class UserSearchCriteria implements Serializable
 {
-  private static final long serialVersionUID = 1831023655018104109L;
+  private static final long serialVersionUID = -1436323169886517734L;
 
   private String name;
   private String firstName;
   private String lastName;
-  private String status;
+  private UserStatus status;
   private String phone;
   private String email;
-
-  private ButtonData searchButtonData;
   
   public String getName()
   {
@@ -43,14 +39,27 @@ public class SearchUserData extends UIContentData< SearchUserResourceData > impl
   {
     this.lastName = lastName;
   }
-  public String getStatus()
+  public UserStatus getStatus()
   {
     return status;
   }
-  public void setStatus( String status )
+  public void setStatus( UserStatus userStatus )
   {
     this.status = status;
   }
+  public void setStatus( String status )
+  {
+    for( UserStatus userStatus : UserStatus.values() )
+    {
+      if( userStatus.name().equals( status ) )
+      {
+        setStatus( userStatus );
+        break;
+      }
+    }
+  }
+  
+  
   public String getPhone()
   {
     return phone;
@@ -67,15 +76,6 @@ public class SearchUserData extends UIContentData< SearchUserResourceData > impl
   {
     this.email = email;
   }
-    
-  public ButtonData getSearchButtonData()
-  {
-    return searchButtonData;
-  }
-  @IResourceKey( moduleName = "um", className = "searchuserbutton" )
-  public void setSearchButtonData( ButtonData searchButtonData )
-  {
-    this.searchButtonData = searchButtonData;
-  }
+
   
 }

@@ -67,6 +67,8 @@ public class SearchUserUI extends UIFlexTableComposite< SearchUserData >
     };
     
     searchButton.addClickEvent( event );
+    
+    addChild( searchButton );
   }
   
   /*

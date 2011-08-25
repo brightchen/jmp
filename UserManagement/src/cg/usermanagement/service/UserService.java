@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cg.common.util.StringUtil;
 import cg.usermanagement.api.IUserService;
+import cg.usermanagement.api.UserSearchCriteria;
 import cg.usermanagement.config.PropertyKeys;
 import cg.usermanagement.config.UserManagementConfigurator;
 import cg.usermanagement.model.Account;
@@ -21,6 +22,7 @@ import cg.usermanagement.model.User;
 import cg.usermanagement.model.view.PermissionView;
 import cg.usermanagement.model.view.RoleView;
 import cg.usermanagement.model.view.UserRegisterView;
+import cg.usermanagement.model.view.UserSearchView;
 import cg.usermanagement.permission.UserManagementPermission;
 import cg.usermanagement.shared.LoginException;
 import cg.usermanagement.shared.RoleException;
@@ -62,6 +64,12 @@ public class UserService extends GenericJpaDaoService implements IUserService
   public User findUserByName( String name )
   {
     return findEntityByName( User.class, name, false );
+  }
+  
+  @Override
+  public UserSearchView findUser( UserSearchCriteria criteria )
+  {
+    
   }
 
   @Override

@@ -10,9 +10,11 @@ import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIFlowData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.usermanagement.gwt.client.role.RoleDetailUI;
+import cg.usermanagement.gwt.client.user.SearchUserUI;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
+import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserManagementStartData;
@@ -121,6 +123,7 @@ public class UserManagementUIFlow
     }
     if( UIIdentity.UM_SEARCH_USER.equals( identity ) )
     {
+      return new SearchUserUI( (SearchUserData)contentData );
     }
     if( UIIdentity.UM_SEARCH_ACCOUNT.equals( identity ) )
     {
