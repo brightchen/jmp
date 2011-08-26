@@ -5,8 +5,16 @@ package cg.query;
  */
 public class SmartQueryBuilder
 {
-  public <E> String buildHsql( Class< E > entityClass, QueryCriteria criteria )
+  public <E> String buildSearchHsql( Class< E > objectiveClass, QueryCriteria criteria )
   {
-    return null;
+    final String objectiveAlias = getAlias( objectiveClass );
+    return "select " + objectiveAlias + " from " + buildAliasList( objectiveClass, criteria ) 
+        + " where " + buildRelationClause( objectiveClass, criteria ) + buildCriteriaClause( criteria );
+  }
+  
+  public String getAlias( Class<?> entityClass )
+  {
+    String className = entityClass.getSimpleName();
+    return className.substring( 0, 1 ).toLowerCase() + className.substring( 1 );
   }
 }
