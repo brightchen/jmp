@@ -17,4 +17,12 @@ public class SmartQueryBuilder
     String className = entityClass.getSimpleName();
     return className.substring( 0, 1 ).toLowerCase() + className.substring( 1 );
   }
+  
+  /*
+   * build the alias list of search query
+   */
+  public <E> String buildAliasList( Class< E > objectiveClass, QueryCriteria criteria )
+  {
+    
+  }
 }
