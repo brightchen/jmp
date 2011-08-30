@@ -7,6 +7,7 @@ public class ClassProperty
 {
   private String name;
   private Class<?> declaringClass;
+  private Class<?> propertyType;
   
   public ClassProperty(){}
   
@@ -34,6 +35,16 @@ public class ClassProperty
   public void setDeclaringClass( Class< ? > declaringClass )
   {
     this.declaringClass = declaringClass;
+  }
+
+  public Class< ? > getPropertyType()
+  {
+    return propertyType;
+  }
+
+  public void setPropertyType( Class< ? > propertyType )
+  {
+    this.propertyType = propertyType;
   }
 
   @Override

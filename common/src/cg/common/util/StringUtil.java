@@ -11,4 +11,19 @@ public class StringUtil
   {
     return ( str == null || str.length() == 0 );
   }
+  
+  public static String toString( Object obj )
+  {
+    if( obj == null )
+      return "null";
+    if( obj instanceof Number )
+    {
+      return String.valueOf( (Number)obj );
+    }
+    if( obj instanceof String )
+    {
+      return (String)obj;
+    }
+    return obj.toString();
+  }
 }

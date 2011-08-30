@@ -3,6 +3,7 @@ package cg.query;
 import java.util.List;
 
 import cg.common.property.ClassProperty;
+import cg.common.util.StringUtil;
 
 
 public class QueryCriteria<E> implements IQueryCriteria
@@ -15,19 +16,37 @@ public class QueryCriteria<E> implements IQueryCriteria
   @Override
   public String getHsql()
   {
-    String hsql = String.format( "( %s.%s %s %s )", beanAlias, property.getName(), operator.getKeyword(), getParameterList() );
+    String hsql = String.format( "( %s.%s %s %s )", beanAlias, property.getName(), operator.getKeyword(), getSqlParameterList() );
     return hsql;
   }
 
   /*
    * need to get the type of property in order to determine if should add quote
    */
-  public String getParameterList()
+  public String getSqlParameterList()
   {
     if( NumberOfParameter.One.equals( operator.getNumberOfParameter() ) )
     {
-      return parameters[0];
+      return getSqlParameter( parameters.get( 0 ) );
     }
+    
+    
+    {
+      StringBuilder sqlParameter = new StringBuilder( "( " );
+      for( Object parameter : parameters )
+      {
+        sqlParameter.append( getSqlParameter( parameter ) + ", " );
+      }
+      sqlParameter.setCharAt( sqlParameter.length() - 2, ')' ); //replace the last ',' to ')'
+      
+      return sqlParameter.toString();
+    }
+  }
+
+  protected String getSqlParameter( Object parameter )
+  {
+    String parameterString = StringUtil.toString( parameter );
+    return String.class.equals( property.getPropertyType() ) ? "'" + parameterString + "'" : parameterString;
   }
   
   public String getBeanAlias()
