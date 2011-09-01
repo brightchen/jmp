@@ -1,12 +1,13 @@
 package cg.query;
 
 import java.util.List;
+import java.util.Map;
 
 import cg.common.property.ClassProperty;
 import cg.common.util.StringUtil;
 
 
-public class QueryCriteria<E> implements IQueryCriteria
+public class QueryCriteria implements IQueryCriteria
 {
   private String beanAlias;
   private ClassProperty property;
@@ -16,10 +17,27 @@ public class QueryCriteria<E> implements IQueryCriteria
   @Override
   public String getHsql()
   {
-    String hsql = String.format( "( %s.%s %s %s )", beanAlias, property.getName(), operator.getKeyword(), getSqlParameterList() );
+    String hsql = String.format( "( % %s %s )", getFunctionForProperty( beanAlias, property.getName() ), 
+                                 operator.getKeyword(), getSqlParameterList() );
     return hsql;
   }
 
+  @Override
+  public void addAliases( Map< String, Class<?> > aliases ) 
+  {
+    aliases.put( beanAlias, property.getDeclaringClass() );
+  }
+
+  /*
+   * this method provides an opportunities to use the sql functions, for example upper();
+   * the sub-class can override this method to use different sql functions
+   * this implementation return no function
+   */
+  public String getFunctionForProperty( String beanAlias, String propertyName )
+  {
+    return String.format( "%s.%s", beanAlias, propertyName );
+  }
+  
   /*
    * need to get the type of property in order to determine if should add quote
    */

@@ -2,6 +2,7 @@ package cg.query;
 
 public enum Operator
 {
+  Equal( "=" ),
   Between( "between", NumberOfParameter.Two ),
   GreatThan( ">" ),
   GreatEqual( ">=" ),
