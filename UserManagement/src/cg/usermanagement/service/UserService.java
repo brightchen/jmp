@@ -69,7 +69,7 @@ public class UserService extends GenericJpaDaoService implements IUserService
   @Override
   public UserSearchView findUser( UserSearchCriteria criteria )
   {
-    
+    return null;
   }
 
   @Override
