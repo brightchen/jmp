@@ -1,14 +1,26 @@
 package cg.query.relation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BeanRelationship
 {
-  // the beans which are connected by the connectors forms a connected graphic
-  private List< BeanConnector > connectedGraphic;
+  // beans which are connected by the beanLine
+  private List< BeanConnector > beanLine = new ArrayList< BeanConnector >();
   
   public String toSqlRelationshipClause()
   {
     return null;
   }
+  
+  public List< BeanConnector > getBeanLine()
+  {
+    return beanLine;
+  }
+  
+  public void addConnector( BeanConnector beanConnector )
+  {
+    beanLine.add( beanConnector );
+  }
+  
 }
