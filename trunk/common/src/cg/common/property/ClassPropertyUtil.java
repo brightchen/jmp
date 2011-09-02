@@ -13,19 +13,40 @@ public class ClassPropertyUtil
   // where the property come from
   public static enum PropertyCriteria
   {
+    Field,            //has field
     Getter,           //has getter method
     Setter,           //has setter method
     GetterAndSetter,  //has both getter and setter
-    GetterOrSetter    //has either getter or setter
+    GetterOrSetter,   //has either getter or setter
+    FieldOrGetterOrSetter
   }
   
   public static PropertyCriteria defaultPropertyCriteria = PropertyCriteria.GetterAndSetter;
+  
+  public static <T> Set< ClassProperty > getClassProperties( Class<T> clazz )
+  {
+    return getClassProperties( clazz, clazz );
+  }
   
   public static <T> Set< ClassProperty > getClassProperties( Class<T> clazz, Class< ? super T > rootSuperClass )
   {
     return getClassProperties( clazz, rootSuperClass, defaultPropertyCriteria );
   }
   
+  // return true if the criteria depended on getter
+  public static boolean dependedOnGetter( PropertyCriteria criteria )
+  {
+    return criteria.name().indexOf( PropertyCriteria.Getter.name() ) >= 0;
+  }
+  public static boolean dependedOnSetter( PropertyCriteria criteria )
+  {
+    return criteria.name().indexOf( PropertyCriteria.Setter.name() ) >= 0;
+  }
+  public static boolean dependedOnField( PropertyCriteria criteria )
+  {
+    return criteria.name().indexOf( PropertyCriteria.Field.name() ) >= 0;
+  }
+
   /*
    * get properties from class clazz and its super classes until rootSuperClass.
    * the reflection getMethod() will get all the methods defined in class hierarchy
@@ -33,8 +54,7 @@ public class ClassPropertyUtil
   public static <T> Set< ClassProperty > getClassProperties( Class<T> clazz, Class< ? super T > rootSuperClass, PropertyCriteria criteria )
   {
     Set< ClassProperty > getters = null;
-    if( PropertyCriteria.Getter.equals( criteria ) || PropertyCriteria.GetterAndSetter.equals( criteria ) 
-        || PropertyCriteria.GetterOrSetter.equals( criteria ) )
+    if( dependedOnGetter( criteria ) )
     {
       getters = getClassGetterProperties( clazz, rootSuperClass );
       if( PropertyCriteria.Getter.equals( criteria ) )
@@ -42,19 +62,30 @@ public class ClassPropertyUtil
     }
     
     Set< ClassProperty > setters = null;
-    if( PropertyCriteria.Setter.equals( criteria ) || PropertyCriteria.GetterAndSetter.equals( criteria ) 
-        || PropertyCriteria.GetterOrSetter.equals( criteria ) )
+    if( dependedOnSetter( criteria ) )
     {
       setters = getClassSetterProperties( clazz, rootSuperClass );
       if( PropertyCriteria.Setter.equals( criteria ) )
           return setters;
     }
-    
+
+    Set< ClassProperty > fields = null;
+    if( dependedOnField( criteria ) )
+    {
+      fields = getClassFieldProperties( clazz, rootSuperClass );
+      if( PropertyCriteria.Field.equals( criteria ) )
+          return fields;
+    }
+
     if( PropertyCriteria.GetterAndSetter.equals( criteria ) )
       CollectionUtil.retainAllByValue( getters, setters );
-    else  // PropertyCriteria.GetterOrSetter
+    else if( PropertyCriteria.GetterOrSetter.equals( criteria ) ) // PropertyCriteria.GetterOrSetter
       CollectionUtil.addAllByValue( getters, setters );
-    
+    else //FieldOrGetterOrSetter
+    {
+      CollectionUtil.addAllByValue( getters, setters );
+      CollectionUtil.addAllByValue( getters, fields );
+    }
     return getters;
   }
   
@@ -72,6 +103,11 @@ public class ClassPropertyUtil
   {
     Set< Method > setterMethods = ReflectionUtil.getMethods( clazz, rootSuperClass, ReflectionUtil.SET_METHOD_PATTERN, null, Modifier.PUBLIC );
     return getProperties( setterMethods );
+  }
+  
+  public static <T> Set< ClassProperty> getClassFieldProperties( Class<T> clazz, Class< ? super T > rootSuperClass )
+  {
+    //get fields from class
   }
   
   public static Set< ClassProperty > getProperties( Set< Method > methods )
