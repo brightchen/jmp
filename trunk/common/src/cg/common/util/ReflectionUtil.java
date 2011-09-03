@@ -1,9 +1,11 @@
 package cg.common.util;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -92,7 +94,6 @@ public class ReflectionUtil
     return methods;
   }
 
-
   
   /*
    * get the method from class which the method name is <methodName>, and the parameters are compatible to <parameters> 
@@ -102,6 +103,17 @@ public class ReflectionUtil
   {
     Set< Method > methods = getMethods( clazz, methodName, parameterTypes, Modifier.PUBLIC );
     return ( methods == null || methods.size() == 0 ) ? null : methods.iterator().next();
+  }
+  
+  public static <T> Set< Field > getFields( Class<T> clazz, Class< ? super T > rootSuperClass )
+  {
+    Set< Field > allFields = new HashSet< Field >();
+    for( Class< ? super T > curClazz = clazz; rootSuperClass.isAssignableFrom( clazz ); curClazz = curClazz.getSuperclass() )
+    {
+      Field[] fields = clazz.getFields();
+      allFields.addAll( Arrays.asList( fields ) );
+    }
+    return allFields;
   }
   
   public static boolean isMethodMetch( Method method, String methodNamePattern, Class<?>[] expectedParameterTypes, int expectedModifiers )

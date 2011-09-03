@@ -11,10 +11,11 @@ public class ClassProperty
   
   public ClassProperty(){}
   
-  public ClassProperty( String name, Class<?> declaringClass )
+  public ClassProperty( String name, Class<?> declaringClass, Class<?> propertyType )
   {
     setName( name );
     setDeclaringClass( declaringClass );
+    setPropertyType( propertyType );
   }
 
   public String getName()

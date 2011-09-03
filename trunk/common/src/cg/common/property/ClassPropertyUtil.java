@@ -1,5 +1,6 @@
 package cg.common.property;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
@@ -92,7 +93,7 @@ public class ClassPropertyUtil
   public static <T> Set< ClassProperty > getClassGetterProperties( Class<T> clazz, Class< ? super T > rootSuperClass )
   {
     Set< Method > getterMethods = ReflectionUtil.getMethods( clazz, rootSuperClass, ReflectionUtil.GET_METHOD_PATTERN, new Class<?>[]{}, Modifier.PUBLIC );
-    return getProperties( getterMethods );
+    return getPropertiesOfGetters( getterMethods );
   }
 
   /*
@@ -102,25 +103,49 @@ public class ClassPropertyUtil
   public static <T> Set< ClassProperty > getClassSetterProperties( Class<T> clazz, Class< ? super T > rootSuperClass )
   {
     Set< Method > setterMethods = ReflectionUtil.getMethods( clazz, rootSuperClass, ReflectionUtil.SET_METHOD_PATTERN, null, Modifier.PUBLIC );
-    return getProperties( setterMethods );
+    return getPropertiesOfSetters( setterMethods );
   }
   
   public static <T> Set< ClassProperty> getClassFieldProperties( Class<T> clazz, Class< ? super T > rootSuperClass )
   {
-    //get fields from class
+    Set< Field > fields = ReflectionUtil.getFields( clazz, rootSuperClass );
+    return getPropertiesOfFields( fields );
   }
   
-  public static Set< ClassProperty > getProperties( Set< Method > methods )
+  public static Set< ClassProperty > getPropertiesOfGetters( Set< Method > methods )
   {
     Set< ClassProperty > properties = new HashSet< ClassProperty >();
     for( Method method : methods )
     {
-      ClassProperty property = new ClassProperty( getPropertyName( method ), method.getDeclaringClass() );
+      ClassProperty property = new ClassProperty( getPropertyName( method ), method.getDeclaringClass(), method.getReturnType() );
       properties.add( property );
     }
     return properties;
   }
 
+  public static Set< ClassProperty > getPropertiesOfSetters( Set< Method > methods )
+  {
+    Set< ClassProperty > properties = new HashSet< ClassProperty >();
+    for( Method method : methods )
+    {
+      ClassProperty property = new ClassProperty( getPropertyName( method ), method.getDeclaringClass(), method.getParameterTypes()[0] );
+      properties.add( property );
+    }
+    return properties;
+  }
+
+  public static Set< ClassProperty > getPropertiesOfFields( Set< Field > fields )
+  {
+    Set< ClassProperty > properties = new HashSet< ClassProperty >();
+    for( Field field : fields )
+    {
+      ClassProperty property = new ClassProperty( field.getName(), field.getDeclaringClass(), field.getType() );
+      properties.add( property );
+    }
+    return properties;
+    
+  }
+  
   /*
    * get the property name from setter/getter;
    */
