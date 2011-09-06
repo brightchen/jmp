@@ -194,7 +194,7 @@ public class ClassPropertyUtil
     }
     
     {
-      Field field = ReflectionUtil.getField( declaringClass, declaringClass, propertyName, type );
+      Field field = ReflectionUtil.getField( declaringClass, propertyName, type );
       if( field != null )
         classPropertyExt.setField( field );
     }

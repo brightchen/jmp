@@ -116,6 +116,12 @@ public class ReflectionUtil
     return allFields;
   }
 
+  @SuppressWarnings( "unchecked")
+  public static Field getField( Class<?> clazz, String propertyName, Class<?> type )
+  {
+    return getField( (Class)clazz, (Class)clazz, propertyName, type );
+  }
+
   public static <T> Field getField( Class<T> clazz, Class< ? super T > rootSuperClass, String propertyName, Class<?> type )
   {
     return getField( getFields( clazz, rootSuperClass ), propertyName, type );
