@@ -1,8 +1,13 @@
 package cg.query.relation;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import cg.common.property.ClassProperty;
+import cg.common.property.ClassPropertyExt;
+import cg.common.property.ClassPropertyUtil;
 
 /*
  * resolve the relationship by bean annotation
@@ -43,7 +48,23 @@ public class BeanRelationshipAnnotationResolver implements IBeanRelationshipReso
     for( Class<?> beanClass : beanClasses )
     {
       //check all the relationship annotations
+      Set< ClassProperty >  properties = ClassPropertyUtil.getClassProperties( beanClass );
+      if( properties == null || properties.isEmpty() )
+      {
+        //better to throw exception?
+        continue;
+      }
+      
+      for( ClassProperty property : properties )
+      {
+        ClassPropertyExt propertyExt = ClassPropertyUtil.toClassPropertyExt( property );
+        Field field = propertyExt.getField();
+        field.getAnnotations();
+        //++++
+      }
+      
     }
+    
     //then get the best line from the graphic
   }
 
