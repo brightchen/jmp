@@ -115,7 +115,24 @@ public class ReflectionUtil
     }
     return allFields;
   }
+
+  public static <T> Field getField( Class<T> clazz, Class< ? super T > rootSuperClass, String propertyName, Class<?> type )
+  {
+    return getField( getFields( clazz, rootSuperClass ), propertyName, type );
+  }
   
+  public static <T> Field getField( Set< Field > fields, String propertyName, Class<?> type )
+  {
+    if( fields == null || fields.size() == 0 )
+      return null;
+    for( Field  field : fields )
+    {
+      if( field.getName().equals( propertyName ) && isParameterTypeCompatible( field.getType(), type ) )
+        return field;
+    }
+    return null;
+  }
+
   public static boolean isMethodMetch( Method method, String methodNamePattern, Class<?>[] expectedParameterTypes, int expectedModifiers )
   {
     if( methodNamePattern != null && methodNamePattern.length() > 0 && !method.getName().matches( methodNamePattern ) )

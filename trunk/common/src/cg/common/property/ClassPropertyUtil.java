@@ -165,5 +165,43 @@ public class ClassPropertyUtil
   {
     return ReflectionUtil.SET_METHOD_PREFIX + propertyName.substring( 0, 1 ).toUpperCase() + propertyName.substring( 1 );
   }
+  
+  public static ClassPropertyExt toClassPropertyExt( ClassProperty property )
+  {
+    if( (property instanceof ClassPropertyExt) && ((ClassPropertyExt)property).valueHasSet() )
+    {
+      return (ClassPropertyExt)property;
+    }
+    
+    ClassPropertyExt classPropertyExt = new ClassPropertyExt();
+    
+    //get the getter/setter/field from declaring class 
+    Class<?> declaringClass = property.getDeclaringClass();
+    Class<?> type = property.getPropertyType();
+    String propertyName = property.getName();
+    
+    //get the getter/setter/field from the declaring class
+    {
+      Method getter = ReflectionUtil.getMethod( declaringClass, getGetterName( propertyName ), new Class<?>[]{ type } );
+      if( getter != null )
+        classPropertyExt.setGetter( getter );
+    }
+    
+    {
+      Method setter = ReflectionUtil.getMethod( declaringClass, getSetterName( propertyName ), ReflectionUtil.NO_PARAMETER );
+      if( setter != null && ReflectionUtil.isParameterTypeCompatible( setter.getReturnType(), type ) )
+        classPropertyExt.setSetter( setter );
+    }
+    
+    {
+      Field field = ReflectionUtil.getField( declaringClass, declaringClass, propertyName, type );
+      if( field != null )
+        classPropertyExt.setField( field );
+    }
+    
+    return classPropertyExt;
+  }
+  
+
 
 }
