@@ -238,7 +238,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   public List< UserListData > searchUser( SearchUserData searchUserData )
   {
     IUserService service = getUserService();
-    service.s
+    service. 
     return null;
   }
   
