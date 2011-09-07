@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.ManyToOne;
+
 import cg.common.property.ClassProperty;
 import cg.common.property.ClassPropertyExt;
 import cg.common.property.ClassPropertyUtil;
@@ -59,6 +61,13 @@ public class BeanRelationshipAnnotationResolver implements IBeanRelationshipReso
       {
         ClassPropertyExt propertyExt = ClassPropertyUtil.toClassPropertyExt( property );
         Field field = propertyExt.getField();
+        
+        ManyToOne manyToOne = field.getAnnotation( ManyToOne.class );
+        if( manyToOne != null )
+        {
+          //this property connected to field type's id property
+          BeanNetwork.instance().addConnector( new BeanConnector( property, field.getType() ) )
+        }
         field.getAnnotations();
         //++++
       }
