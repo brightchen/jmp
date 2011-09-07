@@ -5,22 +5,22 @@ import java.util.List;
 
 public class BeanRelationship
 {
-  // beans which are connected by the beanLine
-  private List< BeanConnector > beanLine = new ArrayList< BeanConnector >();
+  // beanRoute is a route from the start bean to the end bean
+  private List< BeanConnector > beanRoute = new ArrayList< BeanConnector >();
   
   public String toSqlRelationshipClause()
   {
     return null;
   }
   
-  public List< BeanConnector > getBeanLine()
+  public List< BeanConnector > getBeanRoute()
   {
-    return beanLine;
+    return beanRoute;
   }
   
   public void addConnector( BeanConnector beanConnector )
   {
-    beanLine.add( beanConnector );
+    beanRoute.add( beanConnector );
   }
   
 }
