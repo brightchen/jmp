@@ -87,6 +87,7 @@ public class BeanRelationshipAnnotationResolver implements IBeanRelationshipReso
             }
             
             //get the type of collection
+            TypeVariable<Class<T>>[] fieldType.getTypeParameters();
           }
         }
       }
