@@ -76,7 +76,13 @@ public class ReflectionUtil
                                               Class<?>[] expectedParameterTypes, int expectedModifiers ) 
   {
     Set< Method > methods = new HashSet< Method >(); 
-    Method[] allMethods = clazz.getMethods();
+    
+    //Class.getMethods() only returns the public methods
+    Method[] allMethods;
+    if( Modifier.isPublic( expectedModifiers ) )
+      allMethods = clazz.getDeclaredMethods();
+    else
+      allMethods = clazz.getDeclaredMethods();
     if( allMethods == null || allMethods.length == 0 )
       return methods;
     
@@ -110,7 +116,8 @@ public class ReflectionUtil
     Set< Field > allFields = new HashSet< Field >();
     for( Class< ? super T > curClazz = clazz; rootSuperClass.isAssignableFrom( clazz ); curClazz = curClazz.getSuperclass() )
     {
-      Field[] fields = clazz.getFields();
+      //most fields are declared as private, use getDeclaredFields() instead of getFields()
+      Field[] fields = clazz.getDeclaredFields();
       allFields.addAll( Arrays.asList( fields ) );
     }
     return allFields;

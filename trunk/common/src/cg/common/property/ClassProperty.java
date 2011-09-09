@@ -1,5 +1,8 @@
 package cg.common.property;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 /*
  * class property reflects the attributes/getter/setter of a class
  */
@@ -7,7 +10,8 @@ public class ClassProperty
 {
   private String name;
   private Class<?> declaringClass;
-  private Class<?> propertyType;
+  private Class<?> propertyType;    //A for A< String, Integer >
+  private Type[] typeArguments;     //[String, Integer] for A< String, Integer >
   
   public ClassProperty(){}
   
@@ -38,6 +42,19 @@ public class ClassProperty
     this.declaringClass = declaringClass;
   }
 
+  public void setGenericType( Type genericType )
+  {
+    if( genericType instanceof ParameterizedType )
+    {
+      setPropertyType( (Class<?>)( (ParameterizedType)genericType).getOwnerType() );
+      setTypeArguments( ((ParameterizedType)genericType).getActualTypeArguments() );
+    }
+    else if( genericType instanceof Class )
+    {
+      setPropertyType( (Class<?>)genericType );
+    }
+  }
+
   public Class< ? > getPropertyType()
   {
     return propertyType;
@@ -46,6 +63,17 @@ public class ClassProperty
   public void setPropertyType( Class< ? > propertyType )
   {
     this.propertyType = propertyType;
+  }
+
+  
+  public Type[] getTypeArguments()
+  {
+    return typeArguments;
+  }
+
+  public void setTypeArguments( Type[] typeArguments )
+  {
+    this.typeArguments = typeArguments;
   }
 
   @Override
