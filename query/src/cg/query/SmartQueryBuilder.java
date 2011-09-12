@@ -69,6 +69,6 @@ public class SmartQueryBuilder
    */
   public String buildRelationClause( Map< String, Class<?> > aliasBeanMap )
   {
-    return BeanManager.defaultInstance().resolveRelationship( aliasBeanMap ).toSqlRelationshipClause();
+    return EntityManager.defaultInstance().resolveRelationship( aliasBeanMap ).toSqlRelationshipClause();
   }
 }

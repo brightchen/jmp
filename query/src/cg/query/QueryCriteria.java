@@ -64,7 +64,7 @@ public class QueryCriteria implements IQueryCriteria
   protected String getSqlParameter( Object parameter )
   {
     String parameterString = StringUtil.toString( parameter );
-    return String.class.equals( property.getPropertyType() ) ? "'" + parameterString + "'" : parameterString;
+    return String.class.equals( property.getPropertyRawType() ) ? "'" + parameterString + "'" : parameterString;
   }
   
   public String getBeanAlias()

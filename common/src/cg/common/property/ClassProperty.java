@@ -10,16 +10,16 @@ public class ClassProperty
 {
   private String name;
   private Class<?> declaringClass;
-  private Class<?> propertyType;    //A for A< String, Integer >
+  private Class<?> propertyRawType;    //A for A< String, Integer >
   private Type[] typeArguments;     //[String, Integer] for A< String, Integer >
   
   public ClassProperty(){}
   
-  public ClassProperty( String name, Class<?> declaringClass, Class<?> propertyType )
+  public ClassProperty( String name, Class<?> declaringClass, Type genericPropertyType )
   {
     setName( name );
     setDeclaringClass( declaringClass );
-    setPropertyType( propertyType );
+    setGenericType( genericPropertyType );
   }
 
   public String getName()
@@ -46,23 +46,23 @@ public class ClassProperty
   {
     if( genericType instanceof ParameterizedType )
     {
-      setPropertyType( (Class<?>)( (ParameterizedType)genericType).getOwnerType() );
+      setPropertyRawType( (Class<?>)( (ParameterizedType)genericType).getOwnerType() );
       setTypeArguments( ((ParameterizedType)genericType).getActualTypeArguments() );
     }
     else if( genericType instanceof Class )
     {
-      setPropertyType( (Class<?>)genericType );
+      setPropertyRawType( (Class<?>)genericType );
     }
   }
 
-  public Class< ? > getPropertyType()
+  public Class< ? > getPropertyRawType()
   {
-    return propertyType;
+    return propertyRawType;
   }
 
-  public void setPropertyType( Class< ? > propertyType )
+  public void setPropertyRawType( Class< ? > propertyRawType )
   {
-    this.propertyType = propertyType;
+    this.propertyRawType = propertyRawType;
   }
 
   
