@@ -117,7 +117,7 @@ public class ClassPropertyUtil
     Set< ClassProperty > properties = new HashSet< ClassProperty >();
     for( Method method : methods )
     {
-      ClassProperty property = new ClassProperty( getPropertyName( method ), method.getDeclaringClass(), method.getReturnType() );
+      ClassProperty property = new ClassProperty( getPropertyName( method ), method.getDeclaringClass(), method.getGenericReturnType() );
       properties.add( property );
     }
     return properties;
@@ -177,7 +177,8 @@ public class ClassPropertyUtil
     
     //get the getter/setter/field from declaring class 
     Class<?> declaringClass = property.getDeclaringClass();
-    Class<?> type = property.getPropertyType();
+    Class<?> type = property.getPropertyRawType();
+                             
     String propertyName = property.getName();
     
     //get the getter/setter/field from the declaring class

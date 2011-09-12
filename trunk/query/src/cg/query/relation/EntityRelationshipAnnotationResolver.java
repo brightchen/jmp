@@ -1,6 +1,7 @@
 package cg.query.relation;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -17,30 +18,30 @@ import cg.model.api.IEntity;
 /*
  * resolve the relationship by bean annotation
  */
-public class BeanRelationshipAnnotationResolver implements IBeanRelationshipResolver
+public class EntityRelationshipAnnotationResolver implements IEntityRelationshipResolver
 {
-  private static BeanRelationshipAnnotationResolver defaultInstance;
+  private static EntityRelationshipAnnotationResolver defaultInstance;
   
-  public static BeanRelationshipAnnotationResolver defaultInstance()
+  public static EntityRelationshipAnnotationResolver defaultInstance()
   {
     if( defaultInstance == null )
     {
-      synchronized( BeanRelationshipAnnotationResolver.class )
+      synchronized( EntityRelationshipAnnotationResolver.class )
       {
         if( defaultInstance == null )
         {
-          defaultInstance = new BeanRelationshipAnnotationResolver();
+          defaultInstance = new EntityRelationshipAnnotationResolver();
         }
       }
     }
     return defaultInstance;
   }
 
-  private BeanRelationshipAnnotationResolver(){}
+  private EntityRelationshipAnnotationResolver(){}
   
 
   @Override
-  public BeanRelationship resolveRelationship( Map< String, Class< ? >> aliasBeanMap )
+  public EntityRelationship resolveRelationship( Map< String, Class< ? >> aliasBeanMap )
   {
     //build the graphic
     //when resolve the relationship via annotation, we hard to tell the bean with different alias ( living/mail address )
@@ -69,7 +70,7 @@ public class BeanRelationshipAnnotationResolver implements IBeanRelationshipReso
         if( manyToOne != null )
         {
           //this property connected to field type's id property
-          BeanNetwork.instance().addConnector( new BeanConnector( property, getIdProperty( field.getType() ) ) );
+          EntityNetwork.instance().addConnector( new EntityConnector( property, getIdProperty( field.getType() ) ) );
         }
         
         ManyToMany manyToMany = field.getAnnotation( ManyToMany.class );
@@ -87,14 +88,23 @@ public class BeanRelationshipAnnotationResolver implements IBeanRelationshipReso
             }
             
             //get the type of collection
-            TypeVariable<Class<T>>[] fieldType.getTypeParameters();
+            if( !Collection.class.isAssignableFrom( property.getPropertyRawType() ) )
+            {
+              //it should be error
+            }
+            Type[] typeArguments = property.getTypeArguments();
+            if( typeArguments == null || typeArguments.length != 1 )
+            {
+              //error
+            }
+            EntityNetwork.instance().addConnector( new EntityConnector( property, getIdProperty( (Class)typeArguments[0] ) ) );
           }
         }
       }
       
     }
     
-    //then get the best line from the graphic
+    //then get the best route from the graphic
   }
 
   protected ClassProperty getIdProperty( Class< ? > entityClass )
