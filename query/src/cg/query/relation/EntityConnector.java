@@ -58,4 +58,15 @@ public class EntityConnector
     throw new RuntimeException( "No entity of connctor equals to input entity" );
   }
 
+  @Override
+  public boolean equals( Object other )
+  {
+    if( this == other )
+      return true;
+    if( !( other instanceof EntityConnector ) )
+      return false;
+    EntityConnector otherConnector = ( EntityConnector )other;
+    return ( ( otherConnector.getEntityProperty1().equals( getEntityProperty1() ) && otherConnector.getEntityProperty2().equals( getEntityProperty2() ) )
+          || ( otherConnector.getEntityProperty2().equals( getEntityProperty1() ) && otherConnector.getEntityProperty1().equals( getEntityProperty2() ) ) );
+  }
 }

@@ -135,9 +135,73 @@ public class EntityNetwork
   /*
    * precondition: all the entity of entitiesToResolve already merged into the network
    */
-  protected EntityRelationship findShortestRoute( Set< Class > entitiesToResolve )
+  protected Set< Class > findShortestRoute( Set< Class > entitiesToResolve )
   {
-    Set< Class > 
+    Set< Class > resolvedEntities = new HashSet< Class >();
+    Class solvingEntity = entitiesToResolve.iterator().next();
+    resolvedEntities.add( solvingEntity );
+    entitiesToResolve.remove( solvingEntity );
     
+    return findShortestRoute( resolvedEntities, entitiesToResolve );
+  }
+  
+  protected Set< Class > findShortestRoute( Set< Class > resolvedEntities, Set< Class > entitiesToResolve )
+  {
+    if( entitiesToResolve.isEmpty() )
+      return resolvedEntities;
+    
+    
+    //find the direct connected entities and add them into resolvedEntites
+    int numOfResolvedEntity;
+    do
+    {
+      Set< Class > thisResolvedEntities = new HashSet< Class >();  //the entities resolved this run
+      for( Class resolvingEntity : entitiesToResolve )
+      {
+        //check if any of entitiesToResolve can direct connected to the resolvedEntities
+        Map< Class, EntityConnector > connectedEntites = getConnectedEntities( resolvingEntity );
+        for( Class connectedEntity : connectedEntites.keySet() )
+        {
+          if( resolvedEntities.contains( connectedEntity ) )
+          {
+            resolvedEntities.add( resolvingEntity );
+            thisResolvedEntities.add( resolvingEntity );
+          }
+        }
+      }
+      numOfResolvedEntity = thisResolvedEntities.size();
+      if( numOfResolvedEntity > 0 )
+        entitiesToResolve.removeAll( thisResolvedEntities );
+    }while( numOfResolvedEntity > 0 );
+    
+    if( entitiesToResolve.isEmpty() )
+    {
+      //all the entities of entitiesToResolve have been resolved.
+      return resolvedEntities;
+    }
+    
+    // get the indirct connection by add other entity of network
+    // get the entity from the network which doesn't belong to resolvedEntities/entitiesToResolve
+    Set< Class > networkEntities = network.keySet();
+    networkEntities.removeAll( resolvedEntities );
+    networkEntities.removeAll( entitiesToResolve );
+    if( networkEntities.isEmpty() )
+    {
+      //
+      throw new RuntimeException( "the route can't be found" );
+    }
+    
+    +++++
+  }
+  
+  protected  Map< Class, EntityConnector > getConnectedEntities( Class entity )
+  {
+    Set< EntityConnector > connectors = network.get( entity );
+    Map< Class, EntityConnector > connectedEntities = new HashMap< Class, EntityConnector >();
+    for( EntityConnector connector : connectors )
+    {
+      connectedEntities.put( connector.getPropertyOfOtherEntity( entity ).getDeclaringClass(), connector );
+    }
+    return connectedEntities;
   }
 }

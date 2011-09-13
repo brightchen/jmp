@@ -3,6 +3,8 @@ package cg.common.property;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import cg.common.util.ObjectUtil;
+
 /*
  * class property reflects the attributes/getter/setter of a class
  */
@@ -89,15 +91,8 @@ public class ClassProperty
       return false;
     ClassProperty otherProperty = ( ClassProperty )obj;
     
-    return equals( otherProperty.name, name ) && equals( otherProperty.declaringClass, declaringClass );
+    return ObjectUtil.equals( otherProperty.name, name ) && ObjectUtil.equals( otherProperty.declaringClass, declaringClass ) 
+        && ObjectUtil.equals( otherProperty.propertyRawType, propertyRawType );
   }
   
-  protected static boolean equals( Object obj1, Object obj2 )
-  {
-    if( obj1 == obj2 )
-      return true;
-    if( obj1 == null || obj2 == null )
-      return false;
-    return obj1.equals( obj2 );
-  }
 }
