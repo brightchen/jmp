@@ -180,18 +180,56 @@ public class EntityNetwork
       return resolvedEntities;
     }
     
-    // get the indirct connection by add other entity of network
-    // get the entity from the network which doesn't belong to resolvedEntities/entitiesToResolve
-    Set< Class > networkEntities = network.keySet();
-    networkEntities.removeAll( resolvedEntities );
-    networkEntities.removeAll( entitiesToResolve );
-    if( networkEntities.isEmpty() )
+    // get the indirct connection ( second level ) by add other entity of network
+    // get the entity from the network which doesn't belong to resolvedEntities/entitiesToResolve, 
+    // and which connect to both resolvedEntities and entitiesToResolve
+    Set< Class > otherEntities = new HashSet< Class >();  // the entities which not belongs to resolvedEntities/entitiesToResolve
+    otherEntities = network.keySet();
+    otherEntities.removeAll( resolvedEntities );
+    otherEntities.removeAll( entitiesToResolve );
+    if( otherEntities.isEmpty() )
     {
       //
       throw new RuntimeException( "the route can't be found" );
     }
     
-    +++++
+    do
+    {
+      numOfResolvedEntity = 0;
+      for( Class entity : otherEntities )
+      {
+        Map< Class, EntityConnector > connectedEntites = getConnectedEntities( entity );
+
+        Set< Class > resolvedEntitiesCopy = new HashSet< Class >();
+        resolvedEntitiesCopy.addAll( resolvedEntities );
+        Set< Class > entitiesToResolveCopy = new HashSet< Class >();
+        entitiesToResolveCopy.addAll( entitiesToResolve );
+        
+        resolvedEntitiesCopy.retainAll( connectedEntites.keySet() );
+        if( resolvedEntitiesCopy.isEmpty() )
+        {
+          continue;   // this entity doesn't connect to any of entity of resolvedEntities
+        }
+        entitiesToResolveCopy.retainAll( connectedEntites.keySet() );
+        if( entitiesToResolveCopy.isEmpty() )
+        {
+          continue;  // this entity doesn't connect to any of entity of entitiesToResolveCopy
+        }
+        
+        resolvedEntities.add( entity );
+        resolvedEntities.addAll( entitiesToResolveCopy );
+        entitiesToResolve.removeAll( entitiesToResolveCopy );
+        if( entitiesToResolve.isEmpty() )
+        {
+          // all the entities of entitiesToResolve have been resolved.
+          return resolvedEntities;
+        }
+
+        ++numOfResolvedEntity;
+      }
+    }
+    while( numOfResolvedEntity > 0 );
+    
   }
   
   protected  Map< Class, EntityConnector > getConnectedEntities( Class entity )
