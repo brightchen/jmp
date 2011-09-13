@@ -9,6 +9,7 @@ import java.util.Set;
  * the methods of Collection which need comparing are compared by instance instead of value
  * this util implements some methods by compare by value 
  */
+@SuppressWarnings( "rawtypes" )
 public class CollectionUtil
 {
   
@@ -51,6 +52,30 @@ public class CollectionUtil
     {
       if( i.equals( item ) )
         return true;
+    }
+    return false;
+  }
+  
+  /*
+   * compare by reference;
+   */
+  public static boolean hasIntersection( Collection c1, Collection c2 )
+  {
+    return hasIntersection( c1, c2, false );
+  }
+  
+  public static boolean hasIntersection( Collection c1, Collection c2, boolean compareByValue )
+  {
+    if( c1 == null || c2 == null || c1.isEmpty() || c2.isEmpty() )
+      return false;
+    for( Object o1 : c1 )
+    {
+      for( Object o2 : c2 )
+      {
+        boolean isEqual = compareByValue ? ObjectUtil.equals( o1, o2 ) : o1==o2;
+        if( isEqual )
+          return true;
+      }
     }
     return false;
   }
