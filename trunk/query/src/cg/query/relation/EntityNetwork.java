@@ -10,41 +10,23 @@ import java.util.Set;
 import cg.common.property.ClassProperty;
 
 /*
- * BeanNetwork keeps all the relationship among beans
+ * EntityNetwork keeps the relationship among beans
+ * it can be partial of WholeEntityNetwork
  */
 @SuppressWarnings( "rawtypes" )
 public class EntityNetwork
 {
-  private static EntityNetwork instance;
-  
   private IEntityRelationshipResolver entityRelationshipResolver;
   
 //  private Set< Class<?> > entities = new HashSet< Class<?> >();   // all the entities in this network
 //  private List< EntityConnector > network = new ArrayList< EntityConnector >();
-  private Map< Class, Set< EntityConnector > > network = new HashMap< Class, Set< EntityConnector > >();
-  
-  public static EntityNetwork instance()
-  {
-    if( instance == null )
-    {
-      synchronized( EntityNetwork.class )
-      {
-        if( instance == null )
-        {
-          instance = new EntityNetwork();
-          instance.entityRelationshipResolver = EntityRelationshipAnnotationResolver.defaultInstance();
-        }
-      }
-    }
-    return instance;
-  }
-  
-  private List< EntityConnector > connectors = new ArrayList< EntityConnector >();
-
-  public void addConnector( EntityConnector connector )
-  {
-    connectors.add( connector );
-  }
+  protected Map< Class, Set< EntityConnector > > network = new HashMap< Class, Set< EntityConnector > >();
+//  protected List< EntityConnector > connectors = new ArrayList< EntityConnector >();
+//
+//  public void addConnector( EntityConnector connector )
+//  {
+//    connectors.add( connector );
+//  }
 
   /*
    * 1. try to find the shortest route which cover all the entities in the aliasEntityMap
@@ -57,7 +39,7 @@ public class EntityNetwork
   /*
    * this interface is used when there are no same entity in the criteria
    */
-  public EntityRelationship resolveRelationship( Set< Class > entitiesToResolve )
+  public EntityNetwork resolveRelationship( Set< Class > entitiesToResolve )
   {
     if( entitiesToResolve == null || entitiesToResolve.size() < 2 )
       return null;    //no relationship if less than 2 entities
@@ -76,7 +58,7 @@ public class EntityNetwork
       }
     }
     
-    return findShortestRoute( entitiesToResolve );
+    return findSmallestNetwork( entitiesToResolve );
   }
   
   protected void mergeEntityToNetwork( Class entity )
@@ -133,54 +115,61 @@ public class EntityNetwork
   }
   
   /*
+   * add the entity to current network
+   * Parameters:
+   * entity - the entity going to add to this EntityNetwork 
+   * containerNetwork - the network which contains entity and its relationship
+   * 
+   * return:
+   * whether add entity successful
+   */
+  public boolean addEntity( Class entity, EntityNetwork containerNetwork )
+  {
+    Map< Class, EntityConnector > connectedEntities = containerNetwork.getConnectedEntities( entity );
+    //the entities of this network
+    Set< Class > entities = network.keySet();
+    entities.retainAll( connectedEntities.keySet() );
+    if( entities.isEmpty() )    //this network don't have intersection with connectedEntities
+      return false;
+    Set< EntityConnector > connectors = new HashSet< EntityConnector >();
+    for( Class connectedEntity : entities )
+    {
+      connectors.add( connectedEntities.get( connectedEntity ) );
+    }
+    network.put( entity, connectors );
+    return true;
+  }
+  
+  /*
    * precondition: all the entity of entitiesToResolve already merged into the network
    */
-  protected Set< Class > findShortestRoute( Set< Class > entitiesToResolve )
+  protected EntityNetwork findSmallestNetwork( Set< Class > entitiesToResolve )
   {
     Set< Class > resolvedEntities = new HashSet< Class >();
     Class solvingEntity = entitiesToResolve.iterator().next();
     resolvedEntities.add( solvingEntity );
     entitiesToResolve.remove( solvingEntity );
     
-    return findShortestRoute( resolvedEntities, entitiesToResolve );
+    return findSmallestNetwork( resolvedEntities, entitiesToResolve );
   }
   
-  protected Set< Class > findShortestRoute( Set< Class > resolvedEntities, Set< Class > entitiesToResolve )
+  protected EntityNetwork findSmallestNetwork( EntityNetwork resolvedNetwork, Set< Class > entitiesToResolve )
   {
     if( entitiesToResolve.isEmpty() )
-      return resolvedEntities;
+      return resolvedNetwork;
     
+    /////////////////////////////////////////////////////////////////////////////////
+    //find the direct connected entities and add them into resolvedNetwork
+    /////////////////////////////////////////////////////////////////////////////////
+    if( resolveDirectConnectedEntities( resolvedNetwork, entitiesToResolve ) )
+      return resolvedNetwork;
     
-    //find the direct connected entities and add them into resolvedEntites
-    int numOfResolvedEntity;
-    do
-    {
-      Set< Class > thisResolvedEntities = new HashSet< Class >();  //the entities resolved this run
-      for( Class resolvingEntity : entitiesToResolve )
-      {
-        //check if any of entitiesToResolve can direct connected to the resolvedEntities
-        Map< Class, EntityConnector > connectedEntites = getConnectedEntities( resolvingEntity );
-        for( Class connectedEntity : connectedEntites.keySet() )
-        {
-          if( resolvedEntities.contains( connectedEntity ) )
-          {
-            resolvedEntities.add( resolvingEntity );
-            thisResolvedEntities.add( resolvingEntity );
-          }
-        }
-      }
-      numOfResolvedEntity = thisResolvedEntities.size();
-      if( numOfResolvedEntity > 0 )
-        entitiesToResolve.removeAll( thisResolvedEntities );
-    }while( numOfResolvedEntity > 0 );
-    
-    if( entitiesToResolve.isEmpty() )
-    {
-      //all the entities of entitiesToResolve have been resolved.
-      return resolvedEntities;
-    }
-    
-    // get the indirct connection ( second level ) by add other entity of network
+    /////////////////////////////////////////////////////////////////////////////////
+    // get the  connection ( second level ) by add other entity of network
+    /////////////////////////////////////////////////////////////////////////////////
+    if( resolveBridgeConnectedEntities( resolvedNetwork, entitiesToResolve ) )
+      return resolvedNetwork;
+
     // get the entity from the network which doesn't belong to resolvedEntities/entitiesToResolve, 
     // and which connect to both resolvedEntities and entitiesToResolve
     Set< Class > otherEntities = new HashSet< Class >();  // the entities which not belongs to resolvedEntities/entitiesToResolve
@@ -230,6 +219,98 @@ public class EntityNetwork
     }
     while( numOfResolvedEntity > 0 );
     
+    /////////////////////////////////////////////////////////////////////////////////
+    // add any of the remained entity which connected to any of entity of resolved and resolve
+    /////////////////////////////////////////////////////////////////////////////////
+
+  }
+  
+  /*
+   * this method resolve the entities by put the entities which directly connected to the resolvedNetwork
+   * return whether the entitiesToResolve being completely resolved
+   */
+  protected boolean resolveDirectConnectedEntities( EntityNetwork resolvedNetwork, Set< Class > entitiesToResolve )
+  {
+    if( entitiesToResolve == null || entitiesToResolve.isEmpty() )
+      return true;
+  
+    int numOfResolvedEntity;
+    do
+    {
+      Set< Class > thisResolvedEntities = new HashSet< Class >();  //the entities resolved this run
+      for( Class resolvingEntity : entitiesToResolve )
+      {
+        boolean added = resolvedNetwork.addEntity( resolvingEntity, this );
+        if( added )
+        {
+          thisResolvedEntities.add( resolvingEntity );
+        }
+      }
+      numOfResolvedEntity = thisResolvedEntities.size();
+      if( numOfResolvedEntity > 0 )
+        entitiesToResolve.removeAll( thisResolvedEntities );
+    }while( numOfResolvedEntity > 0 );
+    
+    return entitiesToResolve.isEmpty();
+  }
+  
+  /*
+   * in this step, all the entities of entitiesToResolve are not directly connected to resolvedNetwork
+   * we should try to find a bridge entity from this EntityNetwork to connect both resolvedNetwork and entitiesToResolve
+   */
+  protected boolean resolveBridgeConnectedEntities( EntityNetwork resolvedNetwork, Set< Class > entitiesToResolve )
+  {
+    if( entitiesToResolve.isEmpty() )
+      return true;
+    
+    // get the entity from the network which doesn't belong to resolvedEntities/entitiesToResolve, 
+    // and which connect to both resolvedEntities and entitiesToResolve
+    Set< Class > otherEntities = new HashSet< Class >();  // the entities which not belongs to resolvedEntities/entitiesToResolve
+    otherEntities = network.keySet();
+    otherEntities.removeAll( resolvedNetwork.getEntities() );
+    otherEntities.removeAll( entitiesToResolve );
+    if( otherEntities.isEmpty() )
+    {
+      throw new RuntimeException( "the entities can't be resolved" );
+    }
+    
+    ///+++++++++++++++++
+    do
+    {
+      numOfResolvedEntity = 0;
+      for( Class entity : otherEntities )
+      {
+        Map< Class, EntityConnector > connectedEntites = getConnectedEntities( entity );
+
+        Set< Class > resolvedEntitiesCopy = new HashSet< Class >();
+        resolvedEntitiesCopy.addAll( resolvedEntities );
+        Set< Class > entitiesToResolveCopy = new HashSet< Class >();
+        entitiesToResolveCopy.addAll( entitiesToResolve );
+        
+        resolvedEntitiesCopy.retainAll( connectedEntites.keySet() );
+        if( resolvedEntitiesCopy.isEmpty() )
+        {
+          continue;   // this entity doesn't connect to any of entity of resolvedEntities
+        }
+        entitiesToResolveCopy.retainAll( connectedEntites.keySet() );
+        if( entitiesToResolveCopy.isEmpty() )
+        {
+          continue;  // this entity doesn't connect to any of entity of entitiesToResolveCopy
+        }
+        
+        resolvedEntities.add( entity );
+        resolvedEntities.addAll( entitiesToResolveCopy );
+        entitiesToResolve.removeAll( entitiesToResolveCopy );
+        if( entitiesToResolve.isEmpty() )
+        {
+          // all the entities of entitiesToResolve have been resolved.
+          return resolvedEntities;
+        }
+
+        ++numOfResolvedEntity;
+      }
+    }
+    while( numOfResolvedEntity > 0 );
   }
   
   protected  Map< Class, EntityConnector > getConnectedEntities( Class entity )
@@ -241,5 +322,10 @@ public class EntityNetwork
       connectedEntities.put( connector.getPropertyOfOtherEntity( entity ).getDeclaringClass(), connector );
     }
     return connectedEntities;
+  }
+  
+  public Set< Class > getEntities()
+  {
+    return network.keySet();
   }
 }
