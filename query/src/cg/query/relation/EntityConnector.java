@@ -49,7 +49,7 @@ public class EntityConnector
     return null;
   }
 
-  public ClassProperty getPropertyOfOtherEntity( Class<?> entity )
+  public ClassProperty getPropertyOfAnotherEntity( Class<?> entity )
   {
     if( entity.equals( entityProperty1.getDeclaringClass() ) )
       return entityProperty2;
@@ -58,6 +58,14 @@ public class EntityConnector
     throw new RuntimeException( "No entity of connctor equals to input entity" );
   }
 
+  public Class[] getEntities()
+  {
+    Class[] entities = new Class[2];
+    entities[0] = entityProperty1.getDeclaringClass();
+    entities[1] = entityProperty2.getDeclaringClass();
+    return entities;
+  }
+  
   @Override
   public boolean equals( Object other )
   {
