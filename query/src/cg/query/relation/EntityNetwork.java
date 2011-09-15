@@ -15,6 +15,7 @@ import cg.common.property.ClassProperty;
 @SuppressWarnings( "rawtypes" )
 public class EntityNetwork
 {
+  private String name;
   private IEntityRelationshipResolver entityRelationshipResolver;
   
   protected Map< Class, Set< EntityConnector > > network = new HashMap< Class, Set< EntityConnector > >();
@@ -32,8 +33,8 @@ public class EntityNetwork
       return false;
     }
 
-    addEntityConnectorPart( connector, connector.getEntityProperty1() );
-    addEntityConnectorPart( connector, connector.getEntityProperty2() );
+    addEntityConnectorPartially( connector, connector.getEntityProperty1() );
+    addEntityConnectorPartially( connector, connector.getEntityProperty2() );
     
     return true;
   }
@@ -41,7 +42,7 @@ public class EntityNetwork
   /*
    * precondition: at least one entity of this connector is already inside the network
    */
-  private void addEntityConnectorPart( EntityConnector connector, ClassProperty classProperty )
+  private void addEntityConnectorPartially( EntityConnector connector, ClassProperty classProperty )
   {
     Class entity = classProperty.getDeclaringClass();
     Set< EntityConnector > connectors = network.get( entity );
@@ -58,17 +59,18 @@ public class EntityNetwork
     }
   }
   
-  /*
-   * add the entity to current network
-   * Parameters:
-   * entity - the entity going to add to this EntityNetwork 
-   * containerNetwork - the network which contains entity and its relationship
+  /**
+   * add the entity which directly connected to this network into it.
    * 
-   * return:
-   * whether add entity successful
+   * @param entity: the entity going to add to this EntityNetwork 
+   * @param containerNetwork: the network which contains entity and its connectors, we can get this entity's connectors from containerNetwork
+   * @return whether add entity successful
    */
   public boolean addDirectlyConnectedEntity( Class entity, EntityNetwork containerNetwork )
   {
+    if( addEntityToEmptyOrContainerNetwork( entity ) )
+      return true;
+
     Map< Class, EntityConnector > connectedEntities = containerNetwork.getConnectedEntities( entity );
     //the entities of this network
     Set< Class > entities = network.keySet();
@@ -86,49 +88,86 @@ public class EntityNetwork
     return true;
   }
   
-  /*
-   * add the entity which directly connected network into it,
-   * this method use entityRelationshipResolver to resolve the connectors of this entity 
-   * return true if add entity into network successful
+  /**
+   * add the entity which directly connected to this network into it.
+   * 
+   * @param entity the entity going to add to this EntityNetwork 
+   * @return true if add entity into network successful
    */
   protected boolean addDirectlyConnectedEntity( Class entity )
+  {
+    if( addEntityToEmptyOrContainerNetwork( entity ) )
+      return true;
+    
+    //check
+    List< EntityConnector > allConnectors = getDirectConnectors( entity );
+    if( allConnectors == null || allConnectors.isEmpty() )
+      return false;
+    
+    Set< Class > entities = network.keySet();
+    Set<Class> connectedEntities = EntityRelationUtil.getDirectConnectedEntities( entity, allConnectors );
+    entities.retainAll( connectedEntities );
+    if( entities.isEmpty() )
+      return false;   //only the entities connected to this entity are not inside network;
+
+    return addDirectlyConnectedEntity( entity, allConnectors );
+  }
+  
+  /**
+   * add the entity to this network if the network is empty or the network already contains this entity
+   * @param entity
+   * @return
+   */
+  protected boolean addEntityToEmptyOrContainerNetwork( Class entity )
   {
     Set< Class > entities = network.keySet();
     if( entities.contains( entity ) )
       return true;
     if( entities.isEmpty() )
     {
-      // network was empty, simply add this entity, no network yet
+      // this network was empty, simply add this entity, no network yet
       entities.add( entity );
       return true;
     }
-    
-    if( entityRelationshipResolver == null )
-      return false;   //can't get the connectors;
-    
-    //check
-    List< EntityConnector > allConnectors = entityRelationshipResolver.getDirectConnectors( entity );
-    Set<Class> connectedEntities = EntityRelationUtil.getDirectConnectedEntities( entity, allConnectors );
-    entities.retainAll( connectedEntities );
-    if( entities.isEmpty() )
-      return false;   //only the entities connected to this entity are not inside network;
+    return false;
+  }
 
+  /**
+   * add entity and its connector into the network, the caller should make sure the connectorsOfEntity are the connectors of this entity
+   * @param entity: the entity going to add to the network
+   * @param connectorsOfEntity: the connectors of this entity
+   * @return whether add entity to network successful.
+   */
+  protected boolean addDirectlyConnectedEntity( Class entity, List< EntityConnector > connectorsOfEntity )
+  {
+    Set< Class > entities = network.keySet();
     //we only add the connectors which connect to the entities of network instead of all the connectors of this entity
     Set< EntityConnector > connectors = new HashSet< EntityConnector >();
-    for( EntityConnector connector : allConnectors )
+    for( EntityConnector connector : connectorsOfEntity )
     {
       Class anotherEntity = connector.getPropertyOfAnotherEntity( entity ).getDeclaringClass();
       if( entities.contains( anotherEntity ) )
         connectors.add( connector );
     }
     network.put( entity, connectors );
+
     return true;
   }
   
+  /**
+   * get the connectors which directly connected to the entity.
+   * this class just simply returns null 
+   * @param entity
+   * @return
+   */
+  protected List< EntityConnector > getDirectConnectors( Class entity )
+  {
+    return null;
+  }
   /*
    * this interface is used when there are no same entity in the criteria
    */
-  public EntityNetwork resolveRelationship( Set< Class > entitiesToResolve )
+  public RefinedEntityNetwork resolveNetwork( Set< Class > entitiesToResolve )
   {
     if( entitiesToResolve == null || entitiesToResolve.size() < 2 )
       return null;    //no relationship if less than 2 entities
@@ -148,17 +187,7 @@ public class EntityNetwork
       }
     }
     
-    return resolveNetwork( entitiesToResolve );
-  }
-  
-
-
-  /*
-   * precondition: all the entity of entitiesToResolve already merged into the network
-   */
-  protected EntityNetwork resolveNetwork( Set< Class > entitiesToResolve )
-  {
-    EntityNetwork resolvedNetwork = new EntityNetwork();
+    RefinedEntityNetwork resolvedNetwork = new RefinedEntityNetwork();
     Class solvingEntity = entitiesToResolve.iterator().next();
     resolvedNetwork.addDirectlyConnectedEntity( solvingEntity, this );
     entitiesToResolve.remove( solvingEntity );
@@ -166,7 +195,9 @@ public class EntityNetwork
     return resolveNetwork( resolvedNetwork, entitiesToResolve );
   }
   
-  protected EntityNetwork resolveNetwork( EntityNetwork resolvedNetwork, Set< Class > entitiesToResolve )
+
+  
+  protected RefinedEntityNetwork resolveNetwork( RefinedEntityNetwork resolvedNetwork, Set< Class > entitiesToResolve )
   {
     if( entitiesToResolve.isEmpty() )
       return resolvedNetwork;
@@ -328,5 +359,14 @@ public class EntityNetwork
   public Set< Class > getEntities()
   {
     return network.keySet();
+  }
+  
+  public String getName()
+  {
+    return name;
+  }
+  public void setName( String name )
+  {
+    this.name = name;
   }
 }
