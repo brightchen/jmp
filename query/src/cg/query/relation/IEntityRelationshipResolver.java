@@ -1,7 +1,7 @@
 package cg.query.relation;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public interface IEntityRelationshipResolver
 {
@@ -10,5 +10,8 @@ public interface IEntityRelationshipResolver
    */
   public List< EntityConnector > getDirectConnectors( Class<?> entity );
   
-  public EntityRelationship resolveRelationship( Map< String, Class<?> > aliasBeanMap );
+  /*
+   * build the network for entities
+   */
+  public boolean buildNetwork( EntityNetwork entityNetwork, Set< Class > entities );
 }
