@@ -16,7 +16,6 @@ import cg.common.property.ClassProperty;
 public class EntityNetwork
 {
   private String name;
-  private IEntityRelationshipResolver entityRelationshipResolver;
   
   protected Map< Class, Set< EntityConnector > > network = new HashMap< Class, Set< EntityConnector > >();
 
