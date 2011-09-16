@@ -9,6 +9,6 @@ package cg.query.relation;
  */
 public class WholeEntityNetwork extends EntityNetwork
 {
-  
+
   
 }

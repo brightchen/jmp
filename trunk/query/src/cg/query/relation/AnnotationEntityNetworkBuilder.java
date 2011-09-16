@@ -16,28 +16,28 @@ import cg.common.property.ClassPropertyUtil;
 import cg.model.api.IEntity;
 
 /*
- * resolve the relationship by bean annotation
+ * build the EntityNetwork by parsing the annotation
  */
-public class EntityRelationshipAnnotationResolver implements IEntityRelationshipResolver
+public class AnnotationEntityNetworkBuilder implements IEntityNetworkBuilder
 {
-  private static EntityRelationshipAnnotationResolver defaultInstance;
+  private static AnnotationEntityNetworkBuilder defaultInstance;
   
-  public static EntityRelationshipAnnotationResolver defaultInstance()
+  public static AnnotationEntityNetworkBuilder defaultInstance()
   {
     if( defaultInstance == null )
     {
-      synchronized( EntityRelationshipAnnotationResolver.class )
+      synchronized( AnnotationEntityNetworkBuilder.class )
       {
         if( defaultInstance == null )
         {
-          defaultInstance = new EntityRelationshipAnnotationResolver();
+          defaultInstance = new AnnotationEntityNetworkBuilder();
         }
       }
     }
     return defaultInstance;
   }
 
-  private EntityRelationshipAnnotationResolver(){}
+  private AnnotationEntityNetworkBuilder(){}
   
 
   @Override
