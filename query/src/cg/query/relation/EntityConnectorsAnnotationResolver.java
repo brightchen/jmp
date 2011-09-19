@@ -18,26 +18,26 @@ import cg.model.api.IEntity;
 /*
  * build the EntityNetwork by parsing the annotation
  */
-public class AnnotationEntityNetworkBuilder implements IEntityNetworkBuilder
+public class EntityConnectorsAnnotationResolver implements IEntityConnectorsResolver
 {
-  private static AnnotationEntityNetworkBuilder defaultInstance;
+  private static EntityConnectorsAnnotationResolver defaultInstance;
   
-  public static AnnotationEntityNetworkBuilder defaultInstance()
+  public static EntityConnectorsAnnotationResolver defaultInstance()
   {
     if( defaultInstance == null )
     {
-      synchronized( AnnotationEntityNetworkBuilder.class )
+      synchronized( EntityConnectorsAnnotationResolver.class )
       {
         if( defaultInstance == null )
         {
-          defaultInstance = new AnnotationEntityNetworkBuilder();
+          defaultInstance = new EntityConnectorsAnnotationResolver();
         }
       }
     }
     return defaultInstance;
   }
 
-  private AnnotationEntityNetworkBuilder(){}
+  private EntityConnectorsAnnotationResolver(){}
   
 
   @Override
