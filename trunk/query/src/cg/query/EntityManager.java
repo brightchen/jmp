@@ -4,8 +4,6 @@ import java.util.Map;
 
 import cg.query.relation.EntityNetwork;
 import cg.query.relation.EntityRelationship;
-import cg.query.relation.EntityConnectorsAnnotationResolver;
-import cg.query.relation.IEntityRelationshipResolver;
 
 public class EntityManager
 {

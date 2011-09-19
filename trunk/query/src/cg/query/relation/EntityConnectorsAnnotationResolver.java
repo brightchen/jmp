@@ -3,8 +3,8 @@ package cg.query.relation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.ManyToMany;
@@ -13,12 +13,14 @@ import javax.persistence.ManyToOne;
 import cg.common.property.ClassProperty;
 import cg.common.property.ClassPropertyExt;
 import cg.common.property.ClassPropertyUtil;
-import cg.model.api.IEntity;
 
-/*
- * build the EntityNetwork by parsing the annotation
+/**
+ * resolve the entity connectors by parsing the annotations
+ * @author bchen
+ * 
  */
-public class EntityConnectorsAnnotationResolver implements IEntityConnectorsResolver
+@SuppressWarnings( "rawtypes" )
+public class EntityConnectorsAnnotationResolver extends EntityConnectorAbstractResolver
 {
   private static EntityConnectorsAnnotationResolver defaultInstance;
   
@@ -40,79 +42,80 @@ public class EntityConnectorsAnnotationResolver implements IEntityConnectorsReso
   private EntityConnectorsAnnotationResolver(){}
   
 
+  /**
+   * get connectors( entity, property ) which directly connected to the entity
+   * @param entity
+   * @return the list of connectors which directly connected to the entity 
+   */
   @Override
-  public EntityRelationship resolveRelationship( Map< String, Class< ? >> aliasBeanMap )
+  public Set< EntityConnector > getDirectConnectors( Class entity )
   {
-    //build the graphic
-    //when resolve the relationship via annotation, we hard to tell the bean with different alias ( living/mail address )
-    Set< Class<?> > beanClasses = new HashSet< Class<?> >();
-    for( Map.Entry< String, Class<?> > entry : aliasBeanMap.entrySet() )
+    Set< EntityConnector > entityConnectors = new HashSet< EntityConnector >();
+    
+    //check all the relationship annotations
+    Set< ClassProperty >  properties = ClassPropertyUtil.getClassProperties( entity );
+    if( properties == null || properties.isEmpty() )
     {
-      beanClasses.add( entry.getValue() );
+      //better to throw exception?
+      return Collections.emptySet();
     }
     
-    for( Class<?> beanClass : beanClasses )
+    for( ClassProperty property : properties )
     {
-      //check all the relationship annotations
-      Set< ClassProperty >  properties = ClassPropertyUtil.getClassProperties( beanClass );
-      if( properties == null || properties.isEmpty() )
+      ClassPropertyExt propertyExt = ClassPropertyUtil.toClassPropertyExt( property );
+      Field field = propertyExt.getField();
+      
+      // resolve ManyToOne relationship
+      ManyToOne manyToOne = field.getAnnotation( ManyToOne.class );
+      if( manyToOne != null )
       {
-        //better to throw exception?
-        continue;
+        //this property connected to field type's id property
+        entityConnectors.add( new EntityConnector( property, getIdProperty( field.getType() ) ) );
       }
       
-      for( ClassProperty property : properties )
+      //resolve ManyToMany relationship
+      ManyToMany manyToMany = field.getAnnotation( ManyToMany.class );
+      if( manyToMany != null )
       {
-        ClassPropertyExt propertyExt = ClassPropertyUtil.toClassPropertyExt( property );
-        Field field = propertyExt.getField();
-        
-        ManyToOne manyToOne = field.getAnnotation( ManyToOne.class );
-        if( manyToOne != null )
+        //get the type of another entity
+        Class targetEntity = manyToMany.targetEntity();
+        if( targetEntity == null )
         {
-          //this property connected to field type's id property
-          EntityNetwork.instance().addConnector( new EntityConnector( property, getIdProperty( field.getType() ) ) );
-        }
-        
-        ManyToMany manyToMany = field.getAnnotation( ManyToMany.class );
-        if( manyToMany != null )
-        {
-          //get the type of another entity
-          Class targetEntity = manyToMany.targetEntity();
-          if( targetEntity == null )
+          //this field should a collection
+          Class<?> fieldType = field.getType();
+          if( !Collection.class.isAssignableFrom( fieldType ) )
           {
-            //this field should a collection
-            Class<?> fieldType = field.getType();
-            if( !Collection.class.isAssignableFrom( fieldType ) )
-            {
-              throw new RuntimeException( "the field type of ManyToMany should be a Collection." );
-            }
-            
-            //get the type of collection
-            if( !Collection.class.isAssignableFrom( property.getPropertyRawType() ) )
-            {
-              //it should be error
-            }
-            Type[] typeArguments = property.getTypeArguments();
-            if( typeArguments == null || typeArguments.length != 1 )
-            {
-              //error
-            }
-            EntityNetwork.instance().addConnector( new EntityConnector( property, getIdProperty( (Class)typeArguments[0] ) ) );
+            throw new RuntimeException( "the field type of ManyToMany should be a Collection." );
           }
+          
+          //get the type of collection
+          if( !Collection.class.isAssignableFrom( property.getPropertyRawType() ) )
+          {
+            //it should be error
+          }
+          Type[] typeArguments = property.getTypeArguments();
+          if( typeArguments == null || typeArguments.length != 1 )
+          {
+            //error
+          }
+          entityConnectors.add( new EntityConnector( property, getIdProperty( (Class)typeArguments[0] ) ) );
         }
       }
       
+      //should we resolve OneToMany relationship??
     }
     
-    //then get the best route from the graphic
+    return entityConnectors;
+  
   }
+
 
   protected ClassProperty getIdProperty( Class< ? > entityClass )
   {
     ClassProperty property = new ClassProperty();
     property.setDeclaringClass( entityClass );
     property.setName( "id" );
-    property.setPropertyType( Long.class );
+    property.setPropertyRawType( Long.class );
     return property;
   }
 }
