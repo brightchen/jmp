@@ -1,6 +1,5 @@
 package cg.query.relation;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +11,7 @@ public interface IEntityConnectorsResolver
    * @param entity
    * @return the list of connectors which directly connected to the entity 
    */
-  public List< EntityConnector > getDirectConnectors( Class entity );
+  public Set< EntityConnector > getDirectConnectors( Class entity );
 
   /**
    * 
