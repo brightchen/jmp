@@ -2,7 +2,6 @@ package cg.query.relation;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import cg.common.property.ClassProperty;
@@ -13,7 +12,7 @@ public class EntityRelationUtil
   /*
    * get the direct connected entities of entity 
    */
-  public static Set< Class > getDirectConnectedEntities( Class entity, List< EntityConnector > connectors )
+  public static Set< Class > getDirectConnectedEntities( Class entity, Set< EntityConnector > connectors )
   {
     if( connectors == null || connectors.isEmpty() )
       return Collections.emptySet();
