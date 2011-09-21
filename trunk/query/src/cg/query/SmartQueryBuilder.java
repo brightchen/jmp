@@ -2,7 +2,10 @@ package cg.query;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import cg.common.property.ClassProperty;
+import cg.query.relation.EntityConnector;
 import cg.query.relation.EntityNetwork;
 import cg.query.relation.EntityNetworkManager;
 
@@ -25,10 +28,11 @@ public class SmartQueryBuilder
         + buildCriteriaClause( criteria );
   }
   
-  public String getAlias( Class<?> entityClass )
+  
+  public String getAlias( Class entity )
   {
-    String className = entityClass.getSimpleName();
-    return className.substring( 0, 1 ).toLowerCase() + className.substring( 1 );
+    String simpleName = entity.getSimpleName();
+    return simpleName.substring( 0, 1 ).toLowerCase() + simpleName.substring( 1 );
   }
 
   
@@ -73,6 +77,38 @@ public class SmartQueryBuilder
   public String buildRelationClause( Map< String, Class<?> > aliasEntityMap )
   {
     EntityNetwork network = EntityNetworkManager.defaultInstance().resolveNetwork( aliasEntityMap );
+    Set< EntityConnector > connectors = network.getConnectors();
+    if( connectors == null || connectors.isEmpty() )
+      return "";
+    StringBuilder relationClause = new StringBuilder();
+    for( EntityConnector connector : connectors )
+    {
+      relationClause.append( buildRelationClause( connector ) ).append( " and " );
+    }
+    return relationClause.toString();
+  }
+  
+  /**
+   * build the relation clause for the connector
+   * @param connector: the connector which the relation clause corresponding to
+   * @return
+   */
+  public String buildRelationClause( EntityConnector connector )
+  {
+    if( connector == null )
+      return "";
+    
+    StringBuilder relationClause = new StringBuilder();
+    
+    {
+      ClassProperty property1 = connector.getEntityProperty1();
+      relationClause.append(  getAlias( property1.getDeclaringClass() ) + "." + property1.getName() );
+    }
+    {
+      ClassProperty property2 = connector.getEntityProperty2();
+      relationClause.append(  getAlias( property2.getDeclaringClass() ) + "." + property2.getName() );
+    }
+    return relationClause.toString();
   }
   
   /**

@@ -1,7 +1,9 @@
 package cg.query.relation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,6 +49,26 @@ public class EntityNetworkManager
   public WholeEntityNetwork lookupWholeEntityNetwork( Class entity )
   {
     return wholeEntityNetworkMap.get( entity );
+  }
+  
+  /**
+   * lookup the networks which covers all the entities
+   * @param entities: the entities which the networks should cover
+   * @return: the networks which meet the criteria
+   */
+  public EntityNetwork[] lookupEntityNetworks( Set< Class > entities )
+  {
+    if( entityNetworks == null || entityNetworks.isEmpty() )
+      return null;
+    
+    //use list instead of set as entityNetworks already make sure there is no duplicate, list can increase the performance
+    List< EntityNetwork > networks = new ArrayList< EntityNetwork >();
+    for( EntityNetwork network : entityNetworks )
+    {
+      if( network.getEntities().containsAll( entities ) )
+        networks.add( network );
+    }
+    return networks.toArray( new EntityNetwork[ networks.size() ] );
   }
   
   public EntityNetwork getEntityNetworkByName( String name )
@@ -99,12 +121,70 @@ public class EntityNetworkManager
   }
   
   /**
-   * 
-   * @param aliasEntityMap
-   * @return
+   * build a network which covers all the entities.
+   * the built network will be added into this manager
+   * @param entities
+   * @return: the built network 
    */
-  public EntityNetwork resolveNetwork( Map< String, Class<?> > aliasEntityMap )
+  public EntityNetwork buildEntityNetwork( Set< Class > entities )
   {
+    BuildableEntityNetwork buildingNetwork = new BuildableEntityNetwork();
+    if( buildingNetwork.buildEntityNetwork( entities ) )
+      return buildingNetwork;
+    else 
+      return null;
+  }
+  
+  /**
+   * resolve the network of the alias entity map
+   * @param aliasEntityMap
+   * @return the EntityNetwork which keep the relationship of aliasEntityMap
+   */
+  public RefinedEntityNetwork resolveNetwork( Map< String, Class > aliasEntityMap )
+  {
+    //we haven't supported user specified alias yet
+    
+    //get all entity set and delegate to resolveNetwork( Set< Class > entities )
+    Set< Class > entities = new HashSet< Class >();
+    for( Map.Entry< String, Class > entry : aliasEntityMap.entrySet()  )
+    {
+      entities.add( entry.getValue() );
+    }
+    return resolveNetwork( entities );
+  }
+
+  /**
+   * 
+   * @param entities
+   * @return EntityNetwork which keep the relationship of aliasEntityMap
+   */
+  public RefinedEntityNetwork resolveNetwork( Set< Class > entities )
+  {
+    //search the cache
+    EntityNetwork[] networks = lookupEntityNetworks( entities );
+    EntityNetwork containerNetwork = null;
+    if( networks == null || networks.length == 0 )
+    {
+      // there is no network which covers all the entities
+      // try to build the network which covers all the entities
+      containerNetwork = buildEntityNetwork( entities );
+    }
+    else
+    {
+      for( EntityNetwork network : networks )
+      {
+        if( network instanceof RefinedEntityNetwork )
+          return (RefinedEntityNetwork)network;   //found the network which meets the criteria
+      }
+      
+      containerNetwork = networks[0];
+    }
+    
+    if( containerNetwork == null )
+      return null;
+    
+    return containerNetwork.resolveNetwork( entities );
     
   }
+
 }
