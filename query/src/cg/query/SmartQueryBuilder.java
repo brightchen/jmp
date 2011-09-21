@@ -3,13 +3,16 @@ package cg.query;
 import java.util.HashMap;
 import java.util.Map;
 
+import cg.query.relation.EntityNetwork;
+import cg.query.relation.EntityNetworkManager;
+
 /*
  * this class provides service to build query according to the QueryCriteria
  */
 public class SmartQueryBuilder
 {
   /*
-   * ObjectiveClass: the class of the bean which we want to retrieve
+   * ObjectiveClass: the class of the entity which we want to retrieve
    * criteria: the criteria for the query
    */
   public <E> String buildSearchHsql( Class< ? > objectiveClass, IQueryCriteria criteria )
@@ -18,7 +21,7 @@ public class SmartQueryBuilder
     Map< String, Class<?> > aliasMap = buildAliasMap( criteria );
     
     return "select " + objectiveAlias + " from " + buildAliasList( aliasMap )
-        + " where " + buildRelationClause( getAllBeanAliasMap( aliasMap, objectiveAlias, objectiveClass ) ) 
+        + " where " + buildRelationClause( getAllEntityAliasMap( aliasMap, objectiveAlias, objectiveClass ) ) 
         + buildCriteriaClause( criteria );
   }
   
@@ -57,18 +60,28 @@ public class SmartQueryBuilder
     return aliasesList.substring( 0, aliasesList.length() - 2 );
   }
 
-  protected Map< String, Class<?> > getAllBeanAliasMap( Map< String, Class<?> > aliasMap, String objectiveAlias, Class<?> objectiveBean )
+  protected Map< String, Class<?> > getAllEntityAliasMap( Map< String, Class<?> > aliasMap, String objectiveAlias, Class<?> objectiveBean )
   {
     aliasMap.put( objectiveAlias, objectiveBean );
     return aliasMap;
   }
   /*
    * the relationship between the entity classes
-   * parameter: aliasBeanMap the map ( alias ==> bean class )
+   * parameter: aliasBeanMap the map ( alias ==> entity class )
    * for example role.account = account.id and account.user = user.id 
    */
-  public String buildRelationClause( Map< String, Class<?> > aliasBeanMap )
+  public String buildRelationClause( Map< String, Class<?> > aliasEntityMap )
   {
-    return EntityManager.defaultInstance().resolveRelationship( aliasBeanMap ).toSqlRelationshipClause();
+    EntityNetwork network = EntityNetworkManager.defaultInstance().resolveNetwork( aliasEntityMap );
+  }
+  
+  /**
+   * build the sql criteria clause according to IQueryCriteria
+   * @param criteria
+   * @return
+   */
+  public String buildCriteriaClause( IQueryCriteria criteria )
+  {
+    return criteria.getHsql();
   }
 }

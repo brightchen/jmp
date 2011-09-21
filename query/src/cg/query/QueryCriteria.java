@@ -14,10 +14,14 @@ public class QueryCriteria implements IQueryCriteria
   private Operator operator;
   private List<Object> parameters;
   
+  /**
+   * get the hsql for the criteria
+   * for example sum( user1.age between ( 10, 20 )
+   */
   @Override
   public String getHsql()
   {
-    String hsql = String.format( "( % %s %s )", getFunctionForProperty( beanAlias, property.getName() ), 
+    String hsql = String.format( "( %s %s %s )", getFunctionForProperty( beanAlias, property.getName() ), 
                                  operator.getKeyword(), getSqlParameterList() );
     return hsql;
   }

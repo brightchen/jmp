@@ -2,11 +2,11 @@ package cg.query.relation;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import cg.common.property.ClassProperty;
+import cg.common.util.ObjectUtil;
 
 /*
  * EntityNetwork keeps the relationship among beans
@@ -99,7 +99,7 @@ public class EntityNetwork
       return true;
     
     //check
-    List< EntityConnector > allConnectors = getDirectConnectors( entity );
+    Set< EntityConnector > allConnectors = getDirectConnectors( entity );
     if( allConnectors == null || allConnectors.isEmpty() )
       return false;
     
@@ -137,7 +137,7 @@ public class EntityNetwork
    * @param connectorsOfEntity: the connectors of this entity
    * @return whether add entity to network successful.
    */
-  protected boolean addDirectlyConnectedEntity( Class entity, List< EntityConnector > connectorsOfEntity )
+  protected boolean addDirectlyConnectedEntity( Class entity, Set< EntityConnector > connectorsOfEntity )
   {
     Set< Class > entities = network.keySet();
     //we only add the connectors which connect to the entities of network instead of all the connectors of this entity
@@ -154,15 +154,30 @@ public class EntityNetwork
   }
   
   /**
+   * get all connectors of this network
+   * @return
+   */
+  public Set< EntityConnector > getConnectors()
+  {
+    Set< EntityConnector > connectors = new HashSet< EntityConnector >();
+    for( Map.Entry< Class, Set< EntityConnector > > entry : network.entrySet() )
+    {
+      connectors.addAll( entry.getValue() );
+    }
+    return connectors;
+  }
+  
+  /**
    * get the connectors which directly connected to the entity.
    * this class just simply returns null 
    * @param entity
    * @return
    */
-  protected List< EntityConnector > getDirectConnectors( Class entity )
+  protected Set< EntityConnector > getDirectConnectors( Class entity )
   {
     return null;
   }
+
   /*
    * this interface is used when there are no same entity in the criteria
    */
@@ -368,4 +383,29 @@ public class EntityNetwork
   {
     this.name = name;
   }
+  
+  @Override
+  public boolean equals( Object other )
+  {
+    if( this == other )
+      return true;
+    if( !( other instanceof EntityNetwork ) )
+      return false;
+    EntityNetwork otherNetwork = ( EntityNetwork )other;
+    Set< Class > entities = network.keySet();
+    Set< Class > otherEntities = otherNetwork.network.keySet();
+    if( !ObjectUtil.equals( entities, otherEntities ) )
+      return false;
+    
+    //the entities are same, as the entities class is class, should be same reference
+    for( Class entity : entities )
+    {
+      Set< EntityConnector > connectors = network.get( entity );
+      Set< EntityConnector > otherConnectors = otherNetwork.network.get( entity );
+      if( !ObjectUtil.equals( connectors, otherConnectors ) )
+        return false;
+    }
+    return true;
+  }
+
 }
