@@ -1,5 +1,7 @@
 package cg.query.relation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -16,6 +18,37 @@ public class BuildableEntityNetwork extends EntityNetwork
 //  network.addDirectlyConnectedEntity( entity );
 //}
 
+  /**
+   * build a network which covers all the entities.
+   * the built network will be added into this manager
+   * @param entities
+   * @return: the built network 
+   */
+  public boolean buildEntityNetwork( Set< Class > entities )
+  {
+    int totalResolvedEntities = 0;
+    List< Class > notAddedEntities = new ArrayList< Class >();
+    boolean hasEntityResolved = false;
+    do
+    {
+      notAddedEntities.clear();
+      hasEntityResolved = false;
+      
+      for( Class entity : entities )
+      {
+        boolean addSuccessful = addDirectlyConnectedEntity( entity );
+        if( !addSuccessful )
+          notAddedEntities.add( entity );
+        else
+        {
+          hasEntityResolved = true;
+          ++totalResolvedEntities;
+        }
+      }
+    }while( notAddedEntities.size() > 0 && hasEntityResolved );
+    
+    return ( totalResolvedEntities == entities.size() );
+  }
   
   /**
    * get the connectors which directly connected to the entity.
