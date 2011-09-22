@@ -11,6 +11,28 @@ public class CompositeQueryCriteria implements IQueryCriteria
   private IQueryCriteria criteria2;
   private CriteriaOperator criteriaOperator;
 
+  /**
+   * build CompositeQueryCriteria for criterias with operator criteriaOperator
+   * @param criteriaOperator
+   * @param criterias
+   * @return
+   */
+  public CompositeQueryCriteria buildQuery( CriteriaOperator criteriaOperator, IQueryCriteria ... criterias )
+  {
+    if( criterias == null || criteriaOperator == null )
+      return null;
+    if( criterias.length < 2 )
+      throw new IllegalArgumentException( "the length of criterias should great than or equal to 2" );
+    
+    CompositeQueryCriteria compositeCriteria = new CompositeQueryCriteria();
+    for( IQueryCriteria queryCriteria : criterias )
+    {
+      
+    }
+  }
+  
+  public CompositeQueryCriteria(){}
+  
   public CompositeQueryCriteria( IQueryCriteria criteria1, IQueryCriteria criteria2, CriteriaOperator criteriaOperator )
   {
     setCriteria1( criteria1 );
@@ -25,7 +47,8 @@ public class CompositeQueryCriteria implements IQueryCriteria
   }
   
   @Override
-  public void addAliases( Map< String, Class<?> > aliases ) 
+  @SuppressWarnings( "rawtypes" )
+  public void addAliases( Map< String, Class > aliases ) 
   {
     criteria1.addAliases( aliases );
     criteria2.addAliases( aliases );

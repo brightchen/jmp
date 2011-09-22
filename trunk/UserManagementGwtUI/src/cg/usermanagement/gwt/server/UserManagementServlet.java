@@ -13,12 +13,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import cg.common.util.DataConverter;
+import cg.common.util.EntityUtil;
 import cg.contentdata.management.ResourceDataManager;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.resourcemanagement.util.LocaleUtil;
 import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
+import cg.usermanagement.api.UserSearchCriteria;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
@@ -237,8 +239,11 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   
   public List< UserListData > searchUser( SearchUserData searchUserData )
   {
+    UserSearchCriteria criteria = new UserSearchCriteria();
+    EntityUtil.shallowCopyEntity( searchUserData, criteria );
     IUserService service = getUserService();
-    service. 
+    
+    service.findUser( criteria );
     return null;
   }
   

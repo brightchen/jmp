@@ -24,40 +24,6 @@ public class ReflectionUtil
   public static final Object[] IGNORE_PARAMETERS = null;     //don't care about the parameters
   
 
-  /*
-   * the source object and destination object have the same getter/setter method 
-   * the method copy the data from source to the destination
-   */
-  public static void shallowCopy( Object source, Object dest )
-  {
-    if( source == null || dest == null )
-      return;
-    
-    Class<?> sourceClass = source.getClass();
-    Method[] sourceMethods = sourceClass.getMethods();
-    
-    Class<?> destClass = dest.getClass();
-
-    for( Method method : sourceMethods )
-    {
-      if( !isTypicalGetterMethod( method ) )
-        continue;
-      String setMethodName = getCorrespondingSetMethodName( method.getName() );
-      try
-      {
-        Object data = method.invoke( source, (Object[])null );
-        Method setMethod = getMethod( destClass, setMethodName, getParameterTypes( new Object[]{ data } ) ); //destClass.getMethod( setMethodName, (Class<?>[])null );
-        if( setMethod == null )
-          continue;
-        setMethod.invoke( dest, data );
-      }
-      catch( Exception e )
-      {
-        e.printStackTrace();
-      }
-      
-    }
-  }
   
   
   public static Set< Method > getMethods( Class<?> clazz, String methodNamePattern, Class<?>[] expectedParameterTypes, int expectedModifiers )

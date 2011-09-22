@@ -27,7 +27,8 @@ public class QueryCriteria implements IQueryCriteria
   }
 
   @Override
-  public void addAliases( Map< String, Class<?> > aliases ) 
+  @SuppressWarnings( "rawtypes" )
+  public void addAliases( Map< String, Class > aliases ) 
   {
     aliases.put( beanAlias, property.getDeclaringClass() );
   }

@@ -12,6 +12,7 @@ import cg.query.relation.EntityNetworkManager;
 /*
  * this class provides service to build query according to the QueryCriteria
  */
+@SuppressWarnings( "rawtypes" )
 public class SmartQueryBuilder
 {
   /*
@@ -21,7 +22,7 @@ public class SmartQueryBuilder
   public <E> String buildSearchHsql( Class< ? > objectiveClass, IQueryCriteria criteria )
   {
     final String objectiveAlias = getAlias( objectiveClass );
-    Map< String, Class<?> > aliasMap = buildAliasMap( criteria );
+    Map< String, Class > aliasMap = buildAliasMap( criteria );
     
     return "select " + objectiveAlias + " from " + buildAliasList( aliasMap )
         + " where " + buildRelationClause( getAllEntityAliasMap( aliasMap, objectiveAlias, objectiveClass ) ) 
@@ -45,17 +46,17 @@ public class SmartQueryBuilder
     return buildAliasList( buildAliasMap( criteria ) );
   }
   
-  protected Map< String, Class<?> > buildAliasMap( IQueryCriteria criteria )
+  protected Map< String, Class > buildAliasMap( IQueryCriteria criteria )
   {
-    Map< String, Class<?> > aliasMap = new HashMap< String, Class<?> >();
+    Map< String, Class > aliasMap = new HashMap< String, Class >();
     criteria.addAliases( aliasMap );
     return aliasMap;
   }
   
-  protected String buildAliasList( Map< String, Class<?> > aliasMap )
+  protected String buildAliasList( Map< String, Class > aliasMap )
   {
     StringBuilder aliasesList = new StringBuilder();
-    for( Map.Entry< String, Class<?> > entry : aliasMap.entrySet() )
+    for( Map.Entry< String, Class > entry : aliasMap.entrySet() )
     {
       aliasesList.append( String.format( "%s %s, ", entry.getValue().getName(), entry.getKey() ) );
     }
@@ -64,7 +65,7 @@ public class SmartQueryBuilder
     return aliasesList.substring( 0, aliasesList.length() - 2 );
   }
 
-  protected Map< String, Class<?> > getAllEntityAliasMap( Map< String, Class<?> > aliasMap, String objectiveAlias, Class<?> objectiveBean )
+  protected Map< String, Class > getAllEntityAliasMap( Map< String, Class > aliasMap, String objectiveAlias, Class objectiveBean )
   {
     aliasMap.put( objectiveAlias, objectiveBean );
     return aliasMap;
@@ -74,7 +75,7 @@ public class SmartQueryBuilder
    * parameter: aliasBeanMap the map ( alias ==> entity class )
    * for example role.account = account.id and account.user = user.id 
    */
-  public String buildRelationClause( Map< String, Class<?> > aliasEntityMap )
+  public String buildRelationClause( Map< String, Class > aliasEntityMap )
   {
     EntityNetwork network = EntityNetworkManager.defaultInstance().resolveNetwork( aliasEntityMap );
     Set< EntityConnector > connectors = network.getConnectors();
