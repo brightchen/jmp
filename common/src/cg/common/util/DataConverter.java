@@ -9,6 +9,6 @@ public class DataConverter
    */
   public static void shallowCopyConvert( Object source, Object dest )
   {
-    ReflectionUtil.shallowCopy( source, dest );
+    EntityUtil.shallowCopyEntity( source, dest );
   }
 }

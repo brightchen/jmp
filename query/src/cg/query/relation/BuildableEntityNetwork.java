@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-
+@SuppressWarnings( "rawtypes" )
 public class BuildableEntityNetwork extends EntityNetwork
 {
   private IEntityConnectorsResolver entityConnectorsResolver;

@@ -10,5 +10,5 @@ public interface IQueryCriteria
    * parameter aliases map ( alias ==> beanClass )
    * use addAliases instead of getAliases can improve the performance and eliminate the memory frictions.
    */
-  public void addAliases( Map< String, Class<?> > aliases ); 
+  public void addAliases( Map< String, Class > aliases ); 
 }
