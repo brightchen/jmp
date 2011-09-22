@@ -13,8 +13,8 @@ public class CompositeQueryCriteria implements IQueryCriteria
 
   /**
    * build CompositeQueryCriteria for criterias with operator criteriaOperator
-   * @param criteriaOperator
-   * @param criterias
+   * @param criteriaOperator: the operator among the criterias
+   * @param criterias: the criterias, which length should be great than 2
    * @return
    */
   public CompositeQueryCriteria buildQuery( CriteriaOperator criteriaOperator, IQueryCriteria ... criterias )
@@ -24,11 +24,12 @@ public class CompositeQueryCriteria implements IQueryCriteria
     if( criterias.length < 2 )
       throw new IllegalArgumentException( "the length of criterias should great than or equal to 2" );
     
-    CompositeQueryCriteria compositeCriteria = new CompositeQueryCriteria();
-    for( IQueryCriteria queryCriteria : criterias )
+    CompositeQueryCriteria compositeCriteria = new CompositeQueryCriteria( criterias[0], criterias[1], criteriaOperator );
+    for( int index = 2; index < criterias.length; ++index )
     {
-      
+      compositeCriteria = new CompositeQueryCriteria( compositeCriteria, criterias[index], criteriaOperator );
     }
+    return compositeCriteria;
   }
   
   public CompositeQueryCriteria(){}

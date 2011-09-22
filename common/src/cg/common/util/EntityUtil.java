@@ -37,8 +37,7 @@ public class EntityUtil
       catch( Exception e )
       {
         e.printStackTrace();
-      }
-      
+      }      
     }
   }
 

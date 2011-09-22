@@ -4,6 +4,11 @@ import java.util.Map;
 
 public interface IQueryCriteria
 {
+  /**
+   * get the hsql for the criteria
+   * for example sum( user1.age between ( 10, 20 )
+   * @return: the generated hsql
+   */
   public String getHsql();
   
   /*
