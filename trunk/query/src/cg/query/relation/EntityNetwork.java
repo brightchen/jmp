@@ -125,7 +125,7 @@ public class EntityNetwork
     if( entities.isEmpty() )
     {
       // this network was empty, simply add this entity, no network yet
-      entities.add( entity );
+      network.put( entity, null );
       return true;
     }
     return false;
