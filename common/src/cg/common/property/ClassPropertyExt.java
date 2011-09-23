@@ -11,6 +11,20 @@ public class ClassPropertyExt extends ClassProperty
   
   public ClassPropertyExt(){}
   
+  /**
+   * get the property value
+   * @param object: the class instance this property belongs to
+   */
+  public Object getPropertyValue( Object object )
+  {
+    if( !object.getClass().isAssignableFrom( getDeclaringClass()  ) )
+    {
+      throw new IllegalArgumentException( "The object should be the instanceof " + getDeclaringClass().getName() );
+    }
+    
+    // get the null getter/setter/field and get value
+  }
+  
   public boolean valueHasSet()
   {
     return ( getter != null || setter != null || field != null );
