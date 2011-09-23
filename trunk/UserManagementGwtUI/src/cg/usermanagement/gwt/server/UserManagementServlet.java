@@ -243,7 +243,9 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     EntityUtil.shallowCopyEntity( searchUserData, criteria );
     IUserService service = getUserService();
     
-    service.findUser( criteria );
+    service.findUsers( criteria );
+    
+    //TODO: convert from view to data
     return null;
   }
   

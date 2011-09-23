@@ -7,5 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Config"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/query"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

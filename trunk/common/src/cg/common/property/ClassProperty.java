@@ -17,11 +17,19 @@ public class ClassProperty
   
   public ClassProperty(){}
   
-  public ClassProperty( String name, Class<?> declaringClass, Type genericPropertyType )
+  public ClassProperty( String name, Class declaringClass, Type genericPropertyType )
   {
     setName( name );
     setDeclaringClass( declaringClass );
     setGenericType( genericPropertyType );
+  }
+
+  public ClassProperty( String name, Class declaringClass, Class propertyRawType, Type[] typeArguments )
+  {
+    setName( name );
+    setDeclaringClass( declaringClass );
+    setPropertyRawType( propertyRawType );
+    setTypeArguments( typeArguments );
   }
 
   public String getName()
@@ -95,4 +103,17 @@ public class ClassProperty
         && ObjectUtil.equals( otherProperty.propertyRawType, propertyRawType );
   }
   
+  @Override
+  public ClassProperty clone()
+  {
+    return new ClassProperty( name, declaringClass, propertyRawType, typeArguments );
+  }
+  
+  public void cloneTo( ClassProperty classProperty )
+  {
+    classProperty.setName( getName() );
+    classProperty.setDeclaringClass( getDeclaringClass() );
+    classProperty.setPropertyRawType( getPropertyRawType() );
+    classProperty.setTypeArguments( getTypeArguments() );
+  }
 }

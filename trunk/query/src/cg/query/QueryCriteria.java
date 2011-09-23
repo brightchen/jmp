@@ -1,18 +1,35 @@
 package cg.query;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import cg.common.property.ClassProperty;
+import cg.common.util.EntityUtil;
 import cg.common.util.StringUtil;
 
 
 public class QueryCriteria implements IQueryCriteria
 {
-  private String beanAlias;
+  private String entityAlias;
   private ClassProperty property;
   private Operator operator;
   private List<Object> parameters;
+  
+  public QueryCriteria(){}
+  
+  public QueryCriteria( ClassProperty property, Operator operator, Object ... parameters )
+  {
+    this( EntityUtil.getPropertyStyleName( property.getDeclaringClass() ), property, operator, parameters );
+  }
+  
+  public QueryCriteria( String entityAlias, ClassProperty property, Operator operator, Object ... parameters )
+  {
+    setEntityAlias( entityAlias );
+    setProperty( property );
+    setOperator( operator );
+    setParameters( parameters );
+  }
   
   /**
    * get the hsql for the criteria
@@ -21,7 +38,7 @@ public class QueryCriteria implements IQueryCriteria
   @Override
   public String getHsql()
   {
-    String hsql = String.format( "( %s %s %s )", getFunctionForProperty( beanAlias, property.getName() ), 
+    String hsql = String.format( "( %s %s %s )", getFunctionForProperty( entityAlias, property.getName() ), 
                                  operator.getKeyword(), getSqlParameterList() );
     return hsql;
   }
@@ -30,7 +47,7 @@ public class QueryCriteria implements IQueryCriteria
   @SuppressWarnings( "rawtypes" )
   public void addAliases( Map< String, Class > aliases ) 
   {
-    aliases.put( beanAlias, property.getDeclaringClass() );
+    aliases.put( entityAlias, property.getDeclaringClass() );
   }
 
   /*
@@ -71,18 +88,16 @@ public class QueryCriteria implements IQueryCriteria
     String parameterString = StringUtil.toString( parameter );
     return String.class.equals( property.getPropertyRawType() ) ? "'" + parameterString + "'" : parameterString;
   }
-  
-  public String getBeanAlias()
+
+  public String getEntityAlias()
   {
-    return beanAlias;
+    return entityAlias;
   }
 
-
-  public void setBeanAlias( String beanAlias )
+  public void setEntityAlias( String entityAlias )
   {
-    this.beanAlias = beanAlias;
+    this.entityAlias = entityAlias;
   }
-
 
   public ClassProperty getProperty()
   {
@@ -108,10 +123,13 @@ public class QueryCriteria implements IQueryCriteria
   {
     return parameters;
   }
-
   public void setParameters( List< Object > parameters )
   {
     this.parameters = parameters;
+  }
+  public void setParameters( Object ... parameters )
+  {
+    setParameters( Arrays.asList( parameters ) );
   }
   
   
