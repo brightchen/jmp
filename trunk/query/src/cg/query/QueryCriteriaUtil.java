@@ -1,9 +1,12 @@
 package cg.query;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import cg.common.property.ClassProperty;
+import cg.common.property.ClassPropertyExt;
 import cg.common.property.ClassPropertyUtil;
 import cg.common.util.ConvertUtil;
 import cg.common.util.ObjectUtil;
@@ -26,6 +29,7 @@ public class QueryCriteriaUtil
     if( entityProperties == null || entityProperties.isEmpty() || criteriaProperties == null || criteriaProperties.isEmpty() )
       return null;
     
+    List< IQueryCriteria > queryCriterias = new ArrayList< IQueryCriteria >();
     for( ClassProperty entityProperty : entityProperties )
     {
       ClassProperty criteriaProperty = getCompatibleProperty( entityProperty, criteriaProperties );
@@ -33,11 +37,15 @@ public class QueryCriteriaUtil
         continue;
       
       //build the query criteria for this property
-      buildEqualCriteria( entityProperty, criteriaProperty, criteria );
-      +++;
+      queryCriterias.add( buildEqualCriteria( entityProperty, criteriaProperty, criteria ) );
     }
+    return CompositeQueryCriteria.buildQuery( CriteriaOperator.And, queryCriterias.toArray( new IQueryCriteria[ queryCriterias.size() ] ) );
   }
   
+  public static IQueryCriteria buildEqualCriteria( ClassProperty entityProperty, ClassProperty criteriaProperty, Object criteria )
+  {
+    ClassPropertyExt criteriaPropertyExt = ClassPropertyUtil.toClassPropertyExt( criteriaProperty );
+  }
   
   /**
    * get the property form properties which compatible with compareProperty( same name, type compatible )

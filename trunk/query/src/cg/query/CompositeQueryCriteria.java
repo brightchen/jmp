@@ -17,7 +17,7 @@ public class CompositeQueryCriteria implements IQueryCriteria
    * @param criterias: the criterias, which length should be great than 2
    * @return
    */
-  public CompositeQueryCriteria buildQuery( CriteriaOperator criteriaOperator, IQueryCriteria ... criterias )
+  public static CompositeQueryCriteria buildQuery( CriteriaOperator criteriaOperator, IQueryCriteria ... criterias )
   {
     if( criterias == null || criteriaOperator == null )
       return null;
