@@ -26,7 +26,8 @@ public class ObjectUtil
   {
     if( obj == null )
       return false;
-    return obj.getClass().getName().startsWith( "[" );
+    return obj.getClass().isArray();
+//    return obj.getClass().getName().startsWith( "[" );
   }
   
   public static boolean arrayEquals( Object obj1, Object obj2 )

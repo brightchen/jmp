@@ -174,6 +174,7 @@ public class ClassPropertyUtil
     }
     
     ClassPropertyExt classPropertyExt = new ClassPropertyExt();
+    property.cloneTo( classPropertyExt );
     
     //get the getter/setter/field from declaring class 
     Class<?> declaringClass = property.getDeclaringClass();
@@ -183,13 +184,13 @@ public class ClassPropertyUtil
     
     //get the getter/setter/field from the declaring class
     {
-      Method getter = ReflectionUtil.getMethod( declaringClass, getGetterName( propertyName ), new Class<?>[]{ type } );
+      Method getter = ReflectionUtil.getMethod( declaringClass, getGetterName( propertyName ), ReflectionUtil.NO_PARAMETER );
       if( getter != null )
         classPropertyExt.setGetter( getter );
     }
     
     {
-      Method setter = ReflectionUtil.getMethod( declaringClass, getSetterName( propertyName ), ReflectionUtil.NO_PARAMETER );
+      Method setter = ReflectionUtil.getMethod( declaringClass, getSetterName( propertyName ), new Class<?>[]{ type } );
       if( setter != null && ReflectionUtil.isParameterTypeCompatible( setter.getReturnType(), type ) )
         classPropertyExt.setSetter( setter );
     }

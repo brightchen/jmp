@@ -40,5 +40,17 @@ public class EntityUtil
       }      
     }
   }
+  
+  
+  /**
+   *
+   * @param entity
+   * @return: the property style entity name( first character small case )
+   */
+  public static String getPropertyStyleName( Class entity )
+  {
+    String simpleName = entity.getSimpleName();
+    return simpleName.substring( 0, 1 ).toLowerCase() + simpleName.substring( 1 );
+  }
 
 }

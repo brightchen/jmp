@@ -22,7 +22,30 @@ public class ClassPropertyExt extends ClassProperty
       throw new IllegalArgumentException( "The object should be the instanceof " + getDeclaringClass().getName() );
     }
     
-    // get the null getter/setter/field and get value
+    // get the null getter/field and get value
+    Object value = null;
+    if( getter != null )
+    {
+      try
+      {
+        value = getter.invoke( object );
+      }
+      catch( Exception e )
+      {
+      }
+    }
+    if( field != null )
+    {
+      field.setAccessible( true );
+      try
+      {
+        value = field.get( object );
+      }
+      catch( Exception e )
+      {
+      }
+    }
+    return value;
   }
   
   public boolean valueHasSet()

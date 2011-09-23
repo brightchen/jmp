@@ -80,7 +80,7 @@ public class ReflectionUtil
   public static <T> Set< Field > getFields( Class<T> clazz, Class< ? super T > rootSuperClass )
   {
     Set< Field > allFields = new HashSet< Field >();
-    for( Class< ? super T > curClazz = clazz; rootSuperClass.isAssignableFrom( clazz ); curClazz = curClazz.getSuperclass() )
+    for( Class< ? super T > curClazz = clazz; rootSuperClass.isAssignableFrom( curClazz ); curClazz = curClazz.getSuperclass() )
     {
       //most fields are declared as private, use getDeclaredFields() instead of getFields()
       Field[] fields = clazz.getDeclaredFields();

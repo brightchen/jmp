@@ -19,6 +19,7 @@ public class QueryCriteriaUtil
    * @param criteria: the criteria which can get the value of query criteria
    * @return: IQueryCriteria
    */
+  @SuppressWarnings( { "rawtypes" } )
   public static IQueryCriteria buildEqualsCriteria( Class entityClass, Object criteria )
   {
     if( entityClass == null || criteria == null )
@@ -37,14 +38,27 @@ public class QueryCriteriaUtil
         continue;
       
       //build the query criteria for this property
-      queryCriterias.add( buildEqualCriteria( entityProperty, criteriaProperty, criteria ) );
+      IQueryCriteria queryCriteria = buildEqualCriteria( entityProperty, criteriaProperty, criteria );
+      if( queryCriteria != null )
+        queryCriterias.add( queryCriteria );
     }
     return CompositeQueryCriteria.buildQuery( CriteriaOperator.And, queryCriterias.toArray( new IQueryCriteria[ queryCriterias.size() ] ) );
   }
   
+  /**
+   * build the equal criteria for an property
+   * @param entityProperty: the entity property
+   * @param criteriaProperty: the criteria property
+   * @param criteria: the criteria which can get the criteria value
+   * @return
+   */
   public static IQueryCriteria buildEqualCriteria( ClassProperty entityProperty, ClassProperty criteriaProperty, Object criteria )
   {
     ClassPropertyExt criteriaPropertyExt = ClassPropertyUtil.toClassPropertyExt( criteriaProperty );
+    Object propertyValue = criteriaPropertyExt.getPropertyValue( criteria );
+    if( propertyValue == null )
+      return null;  // propertyValue equals means not need to care this property;
+    return new QueryCriteria( entityProperty, Operator.Equal, propertyValue );
   }
   
   /**
@@ -58,14 +72,14 @@ public class QueryCriteriaUtil
     if( properties == null || properties.isEmpty() )
       return null;
     final String propertyName = compareProperty.getName();
-    final Class rawType = compareProperty.getPropertyRawType();
     final Type[] typeArguments = compareProperty.getTypeArguments();
     
     for( ClassProperty property : properties )
     {
       if( !propertyName.equals( property.getName() ) )
         continue;
-      if( !ConvertUtil.isConvertable( property.getPropertyRawType(), compareProperty ) )
+      //check raw type
+      if( !ConvertUtil.isConvertable( property.getPropertyRawType(), compareProperty.getPropertyRawType() ) )
         continue;
       
       Type[] theTypeArguments = property.getTypeArguments();

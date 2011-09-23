@@ -19,16 +19,16 @@ public class T1
     try
     {
       {
-      Field[] fields = A.class.getDeclaredFields();
-      Field list = A.class.getDeclaredField( "list" );
-//      list.setAccessible( true );
-      Class<?> type = list.getType();
-      Type genericType = list.getGenericType();
-      if( genericType instanceof ParameterizedType )
-      {
-        Type ownerType = ((ParameterizedType)genericType).getRawType();
-        Type[] parameters = ((ParameterizedType)genericType).getActualTypeArguments();
-      }
+        Field[] fields = A.class.getDeclaredFields();
+        Field list = A.class.getDeclaredField( "list" );
+  //      list.setAccessible( true );
+        Class<?> type = list.getType();
+        Type genericType = list.getGenericType();
+        if( genericType instanceof ParameterizedType )
+        {
+          Type ownerType = ((ParameterizedType)genericType).getRawType();
+          Type[] parameters = ((ParameterizedType)genericType).getActualTypeArguments();
+        }
       }
       
       {

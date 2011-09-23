@@ -1,5 +1,6 @@
 package cg.usermanagement.api;
 
+import java.util.List;
 import java.util.Set;
 
 import cg.usermanagement.model.Account;
@@ -18,7 +19,7 @@ public interface IUserService
   public Set< PermissionView > accountLogin( String accountName, String password ) throws LoginException;
   
   public User findUserByName( String name );
-  public UserSearchView findUser( UserSearchCriteria criteria );
+  public List< UserSearchView > findUsers( UserSearchCriteria criteria );
   
   public Account findAccountByName( String accountId );
   public boolean registerUser( UserRegisterView userRegisterView );

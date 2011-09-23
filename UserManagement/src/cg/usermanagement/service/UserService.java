@@ -10,6 +10,9 @@ import javax.persistence.EntityManager;
 import org.springframework.transaction.annotation.Transactional;
 
 import cg.common.util.StringUtil;
+import cg.model.util.ViewUtil;
+import cg.query.IQueryCriteria;
+import cg.query.QueryCriteriaUtil;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.api.UserSearchCriteria;
 import cg.usermanagement.config.PropertyKeys;
@@ -67,9 +70,11 @@ public class UserService extends GenericJpaDaoService implements IUserService
   }
   
   @Override
-  public UserSearchView findUser( UserSearchCriteria criteria )
+  public List< UserSearchView > findUsers( UserSearchCriteria criteria )
   {
-    return null;
+    IQueryCriteria queryCriteria = QueryCriteriaUtil.buildEqualsCriteria( User.class, criteria );
+    List<User> users = (List<User>)getEntityManager().createQuery( queryCriteria.getHsql()  ).getResultList();
+    return ViewUtil.entitiesToReadableViews( users, UserSearchView.class );
   }
 
   @Override
