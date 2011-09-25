@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * try to create BuildableEntityNetwork as interface, as both RefinedEntityNetwork and WholeEntityNetwork can be buildable
+ * @author Administrator
+ *
+ */
 @SuppressWarnings( "rawtypes" )
 public class BuildableEntityNetwork extends EntityNetwork
 {
