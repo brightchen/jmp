@@ -7,7 +7,7 @@ package cg.query.relation;
  * 
  * this network will add all the connected entities into the network when adding an entity into it
  */
-public class WholeEntityNetwork extends BuildableEntityNetwork
+public class WholeEntityNetwork extends EntityNetwork
 {
 
   
