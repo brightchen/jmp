@@ -15,7 +15,7 @@ public class EntityNetworkTester
     Set< Class > entities = new HashSet< Class >();
     entities.add( User.class );
     entities.add( Permission.class );
-    EntityNetwork entityNetwork = EntityNetworkManager.defaultInstance().buildEntityNetwork( entities );
+    EntityNetwork entityNetwork = EntityNetworkManager.defaultInstance().buildWholeEntityNetwork( entities );
     entityNetwork.getEntities();
   }
 }

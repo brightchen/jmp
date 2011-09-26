@@ -122,13 +122,14 @@ public class EntityNetworkManager
   
   /**
    * build a network which covers all the entities.
+   * this method get connectors of entities from the EntityConnectorsResolver instead of another EntityNetwork.
    * the built network will be added into this manager
    * @param entities
    * @return: the built network 
    */
-  public EntityNetwork buildEntityNetwork( Set< Class > entities )
+  public WholeEntityNetwork buildWholeEntityNetwork( Set< Class > entities )
   {
-    BuildableEntityNetwork buildingNetwork = new BuildableEntityNetwork();
+    WholeEntityNetwork buildingNetwork = new WholeEntityNetwork();
     if( buildingNetwork.buildEntityNetwork( entities ) )
       return buildingNetwork;
     else 
@@ -137,6 +138,8 @@ public class EntityNetworkManager
   
   /**
    * resolve the network of the alias entity map
+   * resolveNetwork will find a network which includes all the entities which are being resolved, 
+   * and use this network's relationship to build a refined entity network. 
    * @param aliasEntityMap
    * @return the EntityNetwork which keep the relationship of aliasEntityMap
    */
@@ -167,7 +170,7 @@ public class EntityNetworkManager
     {
       // there is no network which covers all the entities
       // try to build the network which covers all the entities
-      containerNetwork = buildEntityNetwork( entities );
+      containerNetwork = buildWholeEntityNetwork( entities );
     }
     else
     {
