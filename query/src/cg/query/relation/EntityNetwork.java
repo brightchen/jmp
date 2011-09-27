@@ -70,26 +70,25 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
    */
   public boolean addDirectlyConnectedEntity( Class entity, IEntityConnectorsResolver connectorsResolver )
   {
-    if( addEntityToEmptyOrContainerNetwork( entity ) )
+    //the entity simply added to the network when network was empty or the network already contain this entity.
+    //we didn't get the connectors of this entity when connectorsResolver is EntityConnectorsAnnotationResolver
+    Set< Class > entities = network.keySet();
+    if( entities.contains( entity ) )
       return true;
+
     if( connectorsResolver == null )
       return false;
+    
+    //call connectorsResolver.getDirectConnectors even if network was empty to notify the connectorsResolver this entity
     Set< EntityConnector > connectedEntities = connectorsResolver.getDirectConnectors(  entity );
-    return addDirectlyConnectedEntity( entity, connectedEntities );
-  }
 
-  /**
-   * add the entity which directly connected to this network into it.
-   * this method get the entities which directly connect to this entity by getConnectedEntities( entity ) instead from the containerNetwork.
-   * @param entity the entity going to add to this EntityNetwork
-   * @return
-   */
-  public boolean addDirectlyConnectedEntity( Class entity )
-  {
-    if( addEntityToEmptyOrContainerNetwork( entity ) )
+    if( entities.isEmpty() )
+    {
+      // this network was empty, simply add this entity, no network yet
+      network.put( entity, null );
       return true;
+    }
 
-    Map< Class, EntityConnector > connectedEntities = getConnectedEntities( entity );
     return addDirectlyConnectedEntity( entity, connectedEntities );
   }
 
@@ -126,22 +125,23 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
    * @param entity
    * @return
    */
-  protected boolean addEntityToEmptyOrContainerNetwork( Class entity )
-  {
-    Set< Class > entities = network.keySet();
-    if( entities.contains( entity ) )
-      return true;
-    if( entities.isEmpty() )
-    {
-      // this network was empty, simply add this entity, no network yet
-      network.put( entity, null );
-      return true;
-    }
-    return false;
-  }
+//  protected boolean addEntityToEmptyOrContainerNetwork( Class entity )
+//  {
+//    Set< Class > entities = network.keySet();
+//    if( entities.contains( entity ) )
+//      return true;
+//    if( entities.isEmpty() )
+//    {
+//      // this network was empty, simply add this entity, no network yet
+//      network.put( entity, null );
+//      return true;
+//    }
+//    return false;
+//  }
 
   /**
-   * add entity and its connector into the network, the caller should make sure the connectorsOfEntity are the connectors of this entity
+   * add entity and its connector into the network, 
+   * @precondition the caller should make sure the connectorsOfEntity are the connectors of this entity
    * @param entity: the entity going to add to the network
    * @param connectorsOfEntity: the connectors of this entity
    * @return whether add entity to network successful.
@@ -154,6 +154,8 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     for( EntityConnector connector : connectorsOfEntity )
     {
       Class anotherEntity = connector.getPropertyOfAnotherEntity( entity ).getDeclaringClass();
+      
+      //if the connector's another entity already inside the network, this entity can be added to the network.
       if( entities.contains( anotherEntity ) )
         connectors.add( connector );
     }
@@ -295,7 +297,7 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
       numOfResolvedEntity = thisResolvedEntities.size();
       if( numOfResolvedEntity > 0 )
         entitiesToResolve.removeAll( thisResolvedEntities );
-    }while( numOfResolvedEntity > 0 );
+    }while( numOfResolvedEntity > 0 && entitiesToResolve.isEmpty() );
     
     return entitiesToResolve.isEmpty();
   }
@@ -402,6 +404,11 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     return resolveNetworkByEnlargeIt( resolvedNetwork, entitiesToResolve, connectorsResolver );
   }
   
+  /**
+   * 
+   * @param entity
+   * @return the map( entity ==> entity connectors ) this entity directed to 
+   */
   protected  Map< Class, EntityConnector > getConnectedEntities( Class entity )
   {
     Set< EntityConnector > connectors = network.get( entity );

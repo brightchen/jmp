@@ -5,7 +5,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.ManyToMany;
@@ -26,6 +28,7 @@ import cg.common.property.ClassPropertyUtil;
 public class EntityConnectorsAnnotationResolver extends EntityConnectorAbstractResolver
 {
   private static EntityConnectorsAnnotationResolver defaultInstance;
+  protected Map< Class, Set< EntityConnector > > cachedEntityConnectorMap = new HashMap< Class, Set< EntityConnector > >();
   
   public static EntityConnectorsAnnotationResolver defaultInstance()
   {
@@ -53,6 +56,12 @@ public class EntityConnectorsAnnotationResolver extends EntityConnectorAbstractR
   @Override
   public Set< EntityConnector > getDirectConnectors( Class entity )
   {
+    if( cachedEntityConnectorMap.containsKey( entity ) )
+    {
+      //this entity already cached
+      cachedEntityConnectorMap.get( entity );
+    }
+    
     Set< EntityConnector > entityConnectors = new HashSet< EntityConnector >();
     
     //check all the relationship annotations
@@ -88,6 +97,7 @@ public class EntityConnectorsAnnotationResolver extends EntityConnectorAbstractR
         entityConnectors.add( entityConnector );
     }
     
+    cachedEntityConnectorMap.put( entity, entityConnectors );
     return entityConnectors;
   }
   
