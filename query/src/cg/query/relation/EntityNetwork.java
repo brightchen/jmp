@@ -1,5 +1,6 @@
 package cg.query.relation;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -63,6 +64,8 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
   
   /**
    * add the entity which directly connected to this network into it.
+   * this method will check if the entity directly connected to the network, 
+   * do nothing and return false if entity doesn't directly connected to the network
    * 
    * @param entity the entity going to add to this EntityNetwork 
    * @param containerNetwork the network which contains entity and its connectors, we can get this entity's connectors from containerNetwork
@@ -81,14 +84,6 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     
     //call connectorsResolver.getDirectConnectors even if network was empty to notify the connectorsResolver this entity
     Set< EntityConnector > connectedEntities = connectorsResolver.getDirectConnectors(  entity );
-
-    if( entities.isEmpty() )
-    {
-      // this network was empty, simply add this entity, no network yet
-      network.put( entity, null );
-      return true;
-    }
-
     return addDirectlyConnectedEntity( entity, connectedEntities );
   }
 
@@ -150,14 +145,22 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
   {
     Set< Class > entities = network.keySet();
     //we only add the connectors which connect to the entities of network instead of all the connectors of this entity
-    Set< EntityConnector > connectors = new HashSet< EntityConnector >();
-    for( EntityConnector connector : connectorsOfEntity )
+    Set< EntityConnector > connectors;
+    if( entities.isEmpty() || connectorsOfEntity.isEmpty() )
     {
-      Class anotherEntity = connector.getPropertyOfAnotherEntity( entity ).getDeclaringClass();
-      
-      //if the connector's another entity already inside the network, this entity can be added to the network.
-      if( entities.contains( anotherEntity ) )
-        connectors.add( connector );
+      connectors = Collections.emptySet();
+    }
+    else
+    {
+      connectors = new HashSet< EntityConnector >();
+      for( EntityConnector connector : connectorsOfEntity )
+      {
+        Class anotherEntity = connector.getPropertyOfAnotherEntity( entity ).getDeclaringClass();
+        
+        //if the connector's another entity already inside the network, this entity can be added to the network.
+        if( entities.contains( anotherEntity ) )
+          connectors.add( connector );
+      }
     }
     network.put( entity, connectors );
 
@@ -168,7 +171,7 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
    * get all connectors of this network
    * @return
    */
-  public Set< EntityConnector > getConnectors()
+  public Set< EntityConnector > getAllConnectors()
   {
     Set< EntityConnector > connectors = new HashSet< EntityConnector >();
     for( Map.Entry< Class, Set< EntityConnector > > entry : network.entrySet() )

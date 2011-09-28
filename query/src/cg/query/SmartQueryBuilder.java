@@ -78,7 +78,7 @@ public class SmartQueryBuilder
   public String buildRelationClause( Map< String, Class > aliasEntityMap )
   {
     EntityNetwork network = EntityNetworkManager.defaultInstance().resolveNetwork( aliasEntityMap );
-    Set< EntityConnector > connectors = network.getConnectors();
+    Set< EntityConnector > connectors = network.getAllConnectors();
     if( connectors == null || connectors.isEmpty() )
       return "";
     StringBuilder relationClause = new StringBuilder();
