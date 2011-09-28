@@ -84,7 +84,7 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     
     //call connectorsResolver.getDirectConnectors even if network was empty to notify the connectorsResolver this entity
     Set< EntityConnector > connectedEntities = connectorsResolver.getDirectConnectors(  entity );
-    return addDirectlyConnectedEntity( entity, connectedEntities );
+    return addDirectlyConnectedEntity( entity, connectedEntities, connectorsResolver.isRelationMutual() );
   }
 
   /**
@@ -135,35 +135,62 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
 //  }
 
   /**
-   * add entity and its connector into the network, 
+   * add entity and its connector into the network.
+   * this method should make sure the added entity directly connected to the network.
+   * do nothing and return false if the entity doesn't directly connected to the network. 
    * @precondition the caller should make sure the connectorsOfEntity are the connectors of this entity
    * @param entity: the entity going to add to the network
    * @param connectorsOfEntity: the connectors of this entity
+   * @param isRelationMutual is the relationship mutual, namely, A connect to B then B must connect to A 
    * @return whether add entity to network successful.
    */
-  protected boolean addDirectlyConnectedEntity( Class entity, Set< EntityConnector > connectorsOfEntity )
+  protected boolean addDirectlyConnectedEntity( Class entity, Set< EntityConnector > connectorsOfEntity, boolean isRelationMutual )
   {
     Set< Class > entities = network.keySet();
-    //we only add the connectors which connect to the entities of network instead of all the connectors of this entity
     Set< EntityConnector > connectors;
     if( entities.isEmpty() || connectorsOfEntity.isEmpty() )
     {
       connectors = Collections.emptySet();
+      network.put( entity, connectors );
+      return true;
     }
-    else
+
+    //we only add the connectors which connect to the entities of network instead of all the connectors of this entity
+    connectors = new HashSet< EntityConnector >();
+    // get the connectors which connects to the entity and check if the another entity is already inside the network
+    for( EntityConnector connector : connectorsOfEntity )
     {
-      connectors = new HashSet< EntityConnector >();
-      for( EntityConnector connector : connectorsOfEntity )
+      Class anotherEntity = connector.getPropertyOfAnotherEntity( entity ).getDeclaringClass();
+      
+      //if the connector's another entity already inside the network, this entity can be added to the network.
+      if( entities.contains( anotherEntity ) )
+        connectors.add( connector );
+    }
+    
+    if( isRelationMutual )
+    {
+      network.put( entity, connectors );
+      return true;
+    }
+    
+    // relationship is not mutual, also have to check if there are any entities inside network connected to this entity
+    for( Class networkEntity : entities )
+    {
+      Set< EntityConnector > networkEntityConnectors = network.get( networkEntity );
+      if( networkEntityConnectors == null )
+        continue;
+      
+      for( EntityConnector networkEntityConnector : networkEntityConnectors )
       {
-        Class anotherEntity = connector.getPropertyOfAnotherEntity( entity ).getDeclaringClass();
-        
-        //if the connector's another entity already inside the network, this entity can be added to the network.
-        if( entities.contains( anotherEntity ) )
-          connectors.add( connector );
+        Class[] connectorEntities = networkEntityConnector.getEntities();
+        if( entity.equals( connectorEntities[0] ) || entity.equals( connectorEntities[1] ) )
+        {
+          //this is the correct connector
+          connectors.add( networkEntityConnector );
+        }
       }
     }
     network.put( entity, connectors );
-
     return true;
   }
   
@@ -193,6 +220,12 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     return network.get( entity );
   }
 
+  @Override
+  public boolean isRelationMutual()
+  {
+    return true;
+  }
+  
   public static IEntityConnectorsResolver getDefaultEntityConnectorsResolver()
   {
     return EntityConnectorsAnnotationResolver.defaultInstance();

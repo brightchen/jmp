@@ -11,6 +11,28 @@ import java.util.Set;
  */
 public class WholeEntityNetwork extends EntityNetwork
 {
+  
+  /**
+   * build a network which covers all the entities.
+   * the built network will be added into this manager
+   * @param entities
+   * @return: the built network 
+   */
+  @Override
+  public boolean buildEntityNetwork( Set< Class > entities )
+  {
+    if( !super.buildEntityNetwork( entities ) )
+      return false;
+    
+    // handle the connectors which only one entity added into the WholeEntityNetwork.
+    return completeWholeEntityNetwork();
+  }
+
+  protected boolean completeWholeEntityNetwork()
+  {
+    return true;
+  }
+  
   /**
    * add entity and its connector into the network
    * the WholeEntityNetwork will add as more entity/connector as possible 
@@ -21,7 +43,7 @@ public class WholeEntityNetwork extends EntityNetwork
    * @return whether add entity to network successful.
    */
   @Override
-  protected boolean addDirectlyConnectedEntity( Class entity, Set< EntityConnector > connectorsOfEntity )
+  protected boolean addDirectlyConnectedEntity( Class entity, Set< EntityConnector > connectorsOfEntity, boolean isRelationMutual )
   {
     Set< Class > entities = network.keySet();
     //add all the connectors of this entity

@@ -14,9 +14,14 @@ public interface IEntityConnectorsResolver
   public Set< EntityConnector > getDirectConnectors( Class entity );
 
   /**
-   * 
    * @param entities: the entities which need to get the connectors
    * @return: a map of entity to its directly connectors
    */
   public Map< Class, Set< EntityConnector > > getDirectConnectors( Set< Class > entities );
+  
+  /**
+   * is the relationship mutual, namely, A connect to B then B must connect to A 
+   * @return return true if relation is mutual
+   */
+  public boolean isRelationMutual();
 }
