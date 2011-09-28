@@ -47,6 +47,11 @@ public class EntityConnectorsAnnotationResolver extends EntityConnectorAbstractR
 
   private EntityConnectorsAnnotationResolver(){}
   
+  @Override
+  public boolean isRelationMutual()
+  {
+    return false;
+  }
 
   /**
    * get connectors( entity, property ) which directly connected to the entity
