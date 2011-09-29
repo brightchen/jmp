@@ -63,6 +63,26 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
   }
   
   /**
+   * add the entity to this network if the network is empty or the network already contains this entity
+   * @param entity
+   * @return
+   */
+  protected boolean addEntityToEmptyOrContainerNetwork( Class entity )
+  {
+    Set< Class > entities = network.keySet();
+    if( entities.contains( entity ) )
+      return true;
+    if( entities.isEmpty() )
+    {
+      // this network was empty, simply add this entity, no network yet
+      Set< EntityConnector > connectors = Collections.emptySet();
+      network.put( entity, connectors );
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * add the entity which directly connected to this network into it.
    * this method will check if the entity directly connected to the network, 
    * do nothing and return false if entity doesn't directly connected to the network
@@ -73,22 +93,74 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
    */
   public boolean addDirectlyConnectedEntity( Class entity, IEntityConnectorsResolver connectorsResolver )
   {
-    //the entity simply added to the network when network was empty or the network already contain this entity.
-    //we didn't get the connectors of this entity when connectorsResolver is EntityConnectorsAnnotationResolver
-    Set< Class > entities = network.keySet();
-    if( entities.contains( entity ) )
+    if( addEntityToEmptyOrContainerNetwork( entity ) )
       return true;
-
+    
     if( connectorsResolver == null )
       return false;
     
-    //call connectorsResolver.getDirectConnectors even if network was empty to notify the connectorsResolver this entity
-    Set< EntityConnector > connectedEntities = connectorsResolver.getDirectConnectors(  entity );
-    return addDirectlyConnectedEntity( entity, connectedEntities, connectorsResolver.isRelationMutual() );
+    Set< Class > networkEntities = network.keySet();
+    Set< EntityConnector > entityConnectors = connectorsResolver.getDirectConnectors(  entity );
+    //we only add the connectors which connect to the entities of network instead of all the connectors of this entity
+    Set< EntityConnector > connectors = new HashSet< EntityConnector >();
+    // get the connectors which connects to the entity and check if the another entity is already inside the network
+    for( EntityConnector connector : entityConnectors )
+    {
+      Class anotherEntity = connector.getPropertyOfAnotherEntity( entity ).getDeclaringClass();
+      
+      //if the connector's another entity already inside the network, this entity can be added to the network.
+      if( networkEntities.contains( anotherEntity ) )
+        connectors.add( connector );
+    }
+
+    if( !connectors.isEmpty() )
+    {
+      // found connectors of this entity directly connnected to network
+      network.put( entity, connectors );
+      return true;
+    }
+    
+    boolean isRelationMutual = connectorsResolver.isRelationMutual();
+    if( isRelationMutual )
+    {
+      // can't the connectors of this entity directly connected to network
+      // and the relationship is mutual, which mean no entity of network directly connected to this entity neither.
+      return false;
+    }
+    
+    // relationship is not mutual, also have to check if there are any entities inside network connected to this entity
+    // the connectors of the entities inside of network should get from the connectorsResolver instead of this network
+    // as this network in fact is Refined ( namely, all the connectors of the entities of the network just connect to these entities ) 
+    for( Class networkEntity : networkEntities )
+    {
+      Set< EntityConnector > networkEntityConnectors = connectorsResolver.getDirectConnectors( networkEntity );
+      if( networkEntityConnectors == null || networkEntityConnectors.isEmpty() )
+        continue;
+      
+      for( EntityConnector networkEntityConnector : networkEntityConnectors )
+      {
+        Class[] connectorEntities = networkEntityConnector.getEntities();
+        if( entity.equals( connectorEntities[0] ) || entity.equals( connectorEntities[1] ) )
+        {
+          //this is the correct connector
+          connectors.add( networkEntityConnector );
+        }
+      }
+    }
+    
+    if( !connectors.isEmpty() )
+    {
+      network.put( entity, connectors );
+      return true;
+    }
+    
+    return false;
   }
 
   /**
-   * add the entity into this network
+   * add entity and its connector into the network.
+   * do nothing and return false if the entity doesn't directly connected to the network. 
+   *
    * @param entity the entity going to add to this network
    * @param connectedEntities the entities which the adding entity directly connected with
    * @return true if the entity add to this network successful.
@@ -134,65 +206,6 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
 //    return false;
 //  }
 
-  /**
-   * add entity and its connector into the network.
-   * this method should make sure the added entity directly connected to the network.
-   * do nothing and return false if the entity doesn't directly connected to the network. 
-   * @precondition the caller should make sure the connectorsOfEntity are the connectors of this entity
-   * @param entity: the entity going to add to the network
-   * @param connectorsOfEntity: the connectors of this entity
-   * @param isRelationMutual is the relationship mutual, namely, A connect to B then B must connect to A 
-   * @return whether add entity to network successful.
-   */
-  protected boolean addDirectlyConnectedEntity( Class entity, Set< EntityConnector > connectorsOfEntity, boolean isRelationMutual )
-  {
-    Set< Class > entities = network.keySet();
-    Set< EntityConnector > connectors;
-    if( entities.isEmpty() || connectorsOfEntity.isEmpty() )
-    {
-      connectors = Collections.emptySet();
-      network.put( entity, connectors );
-      return true;
-    }
-
-    //we only add the connectors which connect to the entities of network instead of all the connectors of this entity
-    connectors = new HashSet< EntityConnector >();
-    // get the connectors which connects to the entity and check if the another entity is already inside the network
-    for( EntityConnector connector : connectorsOfEntity )
-    {
-      Class anotherEntity = connector.getPropertyOfAnotherEntity( entity ).getDeclaringClass();
-      
-      //if the connector's another entity already inside the network, this entity can be added to the network.
-      if( entities.contains( anotherEntity ) )
-        connectors.add( connector );
-    }
-    
-    if( isRelationMutual )
-    {
-      network.put( entity, connectors );
-      return true;
-    }
-    
-    // relationship is not mutual, also have to check if there are any entities inside network connected to this entity
-    for( Class networkEntity : entities )
-    {
-      Set< EntityConnector > networkEntityConnectors = network.get( networkEntity );
-      if( networkEntityConnectors == null )
-        continue;
-      
-      for( EntityConnector networkEntityConnector : networkEntityConnectors )
-      {
-        Class[] connectorEntities = networkEntityConnector.getEntities();
-        if( entity.equals( connectorEntities[0] ) || entity.equals( connectorEntities[1] ) )
-        {
-          //this is the correct connector
-          connectors.add( networkEntityConnector );
-        }
-      }
-    }
-    network.put( entity, connectors );
-    return true;
-  }
   
   /**
    * get all connectors of this network
