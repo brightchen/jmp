@@ -309,43 +309,43 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
   /**
    * 
    * @param resolvedNetwork the EntityNetwork which partial of entities have been resolved
-   * @param entitiesToResolve the entities which haven't been resolved and going to be resolved
+   * @param resolvingEntities the entities which haven't been resolved and going to be resolved
    * @return return true if resolve successful
    */
-  protected boolean resolveNetwork( EntityNetwork resolvedNetwork, Set< Class > entitiesToResolve, IEntityConnectorsResolver connectorsResolver  )
+  protected boolean resolveNetwork( EntityNetwork resolvedNetwork, Set< Class > resolvingEntities, IEntityConnectorsResolver connectorsResolver  )
   {
-    if( entitiesToResolve.isEmpty() )
+    if( resolvingEntities.isEmpty() )
       return true;
     
     //find the direct connected entities and add them into resolvedNetwork
-    if( resolveDirectConnectedEntities( resolvedNetwork, entitiesToResolve, connectorsResolver ) )
+    if( resolveDirectConnectedEntities( resolvedNetwork, resolvingEntities, connectorsResolver ) )
       return true;
     
     // introduce a bridge entity from this network to resolve the entities
-    if( resolveBridgeConnectedEntities( resolvedNetwork, entitiesToResolve, connectorsResolver ) )
+    if( resolveBridgeConnectedEntities( resolvedNetwork, resolvingEntities, connectorsResolver ) )
       return true;
     
     // add any of the remained entity which connected to any of entity of resolved and resolve
-    if( resolveNetworkByEnlargeIt( resolvedNetwork, entitiesToResolve, connectorsResolver ) )
+    if( resolveNetworkByEnlargeScope( resolvedNetwork, resolvingEntities, connectorsResolver ) )
       return true;
 
     return false;
   }
   
   /*
-   * this method resolve the entities by put the entities which directly connected to the resolvedNetwork
+   * this method resolve the entities by put the entities of resolvingEntities which directly connected to the resolvedNetwork
    * return whether the entitiesToResolve being completely resolved
    */
-  protected boolean resolveDirectConnectedEntities( EntityNetwork resolvedNetwork, Set< Class > entitiesToResolve, IEntityConnectorsResolver connectorsResolver )
+  protected boolean resolveDirectConnectedEntities( EntityNetwork resolvedNetwork, Set< Class > resolvingEntities, IEntityConnectorsResolver connectorsResolver )
   {
-    if( entitiesToResolve == null || entitiesToResolve.isEmpty() )
+    if( resolvingEntities == null || resolvingEntities.isEmpty() )
       return true;
   
     int numOfResolvedEntity;
     do
     {
       Set< Class > thisResolvedEntities = new HashSet< Class >();  //the entities resolved this run
-      for( Class resolvingEntity : entitiesToResolve )
+      for( Class resolvingEntity : resolvingEntities )
       {
         boolean added = resolvedNetwork.addDirectlyConnectedEntity( resolvingEntity, connectorsResolver );
         if( added )
@@ -355,19 +355,19 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
       }
       numOfResolvedEntity = thisResolvedEntities.size();
       if( numOfResolvedEntity > 0 )
-        entitiesToResolve.removeAll( thisResolvedEntities );
-    }while( numOfResolvedEntity > 0 && entitiesToResolve.isEmpty() );
+        resolvingEntities.removeAll( thisResolvedEntities );
+    }while( numOfResolvedEntity > 0 && resolvingEntities.isEmpty() );
     
-    return entitiesToResolve.isEmpty();
+    return resolvingEntities.isEmpty();
   }
   
   /*
    * in this step, all the entities of entitiesToResolve are not directly connected to resolvedNetwork
    * we should try to find a bridge entity from this EntityNetwork to connect both resolvedNetwork and entitiesToResolve
    */
-  protected boolean resolveBridgeConnectedEntities( EntityNetwork resolvedNetwork, Set< Class > entitiesToResolve, IEntityConnectorsResolver connectorsResolver )
+  protected boolean resolveBridgeConnectedEntities( EntityNetwork resolvedNetwork, Set< Class > resolvingEntities, IEntityConnectorsResolver connectorsResolver )
   {
-    if( entitiesToResolve.isEmpty() )
+    if( resolvingEntities.isEmpty() )
       return true;
     
     if( connectorsResolver == null )
@@ -378,7 +378,7 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     Set< Class > otherEntities = new HashSet< Class >();  // the entities which not belongs to resolvedEntities/entitiesToResolve
     otherEntities = connectorsResolver.getAllEntities();
     otherEntities.removeAll( resolvedNetwork.getEntities() );
-    otherEntities.removeAll( entitiesToResolve );
+    otherEntities.removeAll( resolvingEntities );
     if( otherEntities.isEmpty() )
     {
       return false;
@@ -396,15 +396,15 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
 
         Set< Class > resolvedEntitiesCopy = new HashSet< Class >();
         resolvedEntitiesCopy.addAll( resolvedNetwork.getEntities() );
-        Set< Class > entitiesToResolveCopy = new HashSet< Class >();
-        entitiesToResolveCopy.addAll( entitiesToResolve );
-        
-        resolvedEntitiesCopy.retainAll( connectedEntites );
+        resolvedEntitiesCopy.retainAll( EntityRelationUtil.getAllEntities( connectedEntites ) );
         if( resolvedEntitiesCopy.isEmpty() )
         {
           continue;   // this entity doesn't connect to any of entity of resolvedEntities
         }
-        entitiesToResolveCopy.retainAll( connectedEntites );
+
+        Set< Class > entitiesToResolveCopy = new HashSet< Class >();
+        entitiesToResolveCopy.addAll( resolvingEntities );
+        entitiesToResolveCopy.retainAll( EntityRelationUtil.getAllEntities( connectedEntites ) );
         if( entitiesToResolveCopy.isEmpty() )
         {
           continue;  // this entity doesn't connect to any of entity of entitiesToResolveCopy
@@ -417,9 +417,9 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
           resolvedNetwork.addDirectlyConnectedEntity( entityToResolve, this );
         }
 
-        entitiesToResolve.removeAll( entitiesToResolveCopy );
+        resolvingEntities.removeAll( entitiesToResolveCopy );
 
-        if( entitiesToResolve.isEmpty() )
+        if( resolvingEntities.isEmpty() )
         {
           // all the entities of entitiesToResolve have been resolved.
           return true;
@@ -434,33 +434,24 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
   }
   
   /*
-   * resolve connected entities by add more entities into the resolvedNetwork.
+   * resolve connected entities by adding more entities into resolvedNetwork/resolvingEntities.
    * this method should be called after directly resolving and bridge resolving
    * so, add only one entity to resolvedNetwork can not be resolved by directly resolving
    *   ( if can, it can be resolved by bridge resolving without adding entity to resolvedNetwork
    */
-  protected boolean resolveNetworkByEnlargeIt( EntityNetwork resolvedNetwork, Set< Class > entitiesToResolve, IEntityConnectorsResolver connectorsResolver )
+  protected boolean resolveNetworkByEnlargeScope( EntityNetwork resolvedNetwork, Set< Class > resolvingEntities, IEntityConnectorsResolver connectorsResolver )
   {
     //pick any entity from this network which connected to resolvedNetwork and add to it
-    Set< Class > otherEntities = new HashSet< Class >();  // the entities which not belongs to resolvedEntities/entitiesToResolve
-    otherEntities = connectorsResolver.getAllEntities();
-    otherEntities.removeAll( resolvedNetwork.getEntities() );
-    otherEntities.removeAll( entitiesToResolve );
-    if( otherEntities.isEmpty() )
+    Class addedEntity = ScopeEnlargeManager.defaultInstance().enlargeScope( resolvedNetwork, resolvingEntities, connectorsResolver );
+    if( addedEntity == null )
     {
       throw new RuntimeException( "the entities can't be resolved" );
     }
-
-    for( Class otherEntity : otherEntities )
-    {
-      if( resolvedNetwork.addDirectlyConnectedEntity( otherEntity, this ) )
-        break;
-    }
     
-    if( resolveBridgeConnectedEntities( resolvedNetwork, entitiesToResolve, connectorsResolver ) )
+    if( resolveBridgeConnectedEntities( resolvedNetwork, resolvingEntities, connectorsResolver ) )
       return true;
     
-    return resolveNetworkByEnlargeIt( resolvedNetwork, entitiesToResolve, connectorsResolver );
+    return resolveNetworkByEnlargeScope( resolvedNetwork, resolvingEntities, connectorsResolver );
   }
   
   /**

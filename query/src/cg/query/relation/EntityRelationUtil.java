@@ -1,5 +1,7 @@
 package cg.query.relation;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +26,19 @@ public class EntityRelationUtil
       if( otherProperty == null )
         continue;
       entities.add( otherProperty.getDeclaringClass() );
+    }
+    return entities;
+  }
+  
+  public static Set< Class > getAllEntities( Collection< EntityConnector > connectors )
+  {
+    if( connectors == null || connectors.isEmpty() )
+      return Collections.emptySet();
+    
+    Set< Class > entities = new HashSet< Class >();
+    for( EntityConnector connector : connectors )
+    {
+      entities.addAll( Arrays.asList( connector.getEntities() ) );
     }
     return entities;
   }

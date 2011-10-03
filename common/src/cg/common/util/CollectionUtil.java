@@ -79,4 +79,12 @@ public class CollectionUtil
     }
     return false;
   }
+  
+  public static < I, T extends Collection<I> > T shallowCloneTo( Collection<I> srcCollection, T destCollection )
+  {
+    if( srcCollection == null || srcCollection.isEmpty() )
+      return destCollection;
+    destCollection.addAll( srcCollection );
+    return destCollection;
+  }
 }

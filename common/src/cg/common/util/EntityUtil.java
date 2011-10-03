@@ -47,6 +47,7 @@ public class EntityUtil
    * @param entity
    * @return: the property style entity name( first character small case )
    */
+  @SuppressWarnings( "rawtypes" )
   public static String getPropertyStyleName( Class entity )
   {
     String simpleName = entity.getSimpleName();
