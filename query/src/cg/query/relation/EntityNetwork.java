@@ -239,6 +239,16 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     return true;
   }
   
+  /**
+   * get all entities of this resolver
+   * @return
+   */
+  public Set< Class > getAllEntities()
+  {
+    return network.keySet();
+  }
+
+  
   public static IEntityConnectorsResolver getDefaultEntityConnectorsResolver()
   {
     return EntityConnectorsAnnotationResolver.defaultInstance();
@@ -366,7 +376,7 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     // get the entity from the network which doesn't belong to resolvedEntities/entitiesToResolve, 
     // and which connect to both resolvedEntities and entitiesToResolve
     Set< Class > otherEntities = new HashSet< Class >();  // the entities which not belongs to resolvedEntities/entitiesToResolve
-    otherEntities = network.keySet();
+    otherEntities = connectorsResolver.getAllEntities();
     otherEntities.removeAll( resolvedNetwork.getEntities() );
     otherEntities.removeAll( entitiesToResolve );
     if( otherEntities.isEmpty() )
@@ -433,7 +443,7 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
   {
     //pick any entity from this network which connected to resolvedNetwork and add to it
     Set< Class > otherEntities = new HashSet< Class >();  // the entities which not belongs to resolvedEntities/entitiesToResolve
-    otherEntities = network.keySet();
+    otherEntities = connectorsResolver.getAllEntities();
     otherEntities.removeAll( resolvedNetwork.getEntities() );
     otherEntities.removeAll( entitiesToResolve );
     if( otherEntities.isEmpty() )

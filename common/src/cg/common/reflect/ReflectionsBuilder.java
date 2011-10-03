@@ -3,15 +3,33 @@ package cg.common.reflect;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
 public class ReflectionsBuilder
 {
+  private static ReflectionsBuilder defaultInstance;
+  
   private String includeRegex;
   private String excludeRegex;
 
+  public static ReflectionsBuilder defaultInstance()
+  {
+    if( defaultInstance == null )
+    {
+      synchronized( ReflectionsBuilder.class )
+      {
+        if( defaultInstance == null )
+        {
+          defaultInstance = new ReflectionsBuilder();
+        }
+      }
+    }
+    return defaultInstance;
+  }
+  
   public ConfigurationBuilder getTypicalConfigurationBuilder()
   {
     return new ConfigurationBuilder().filterInputsBy( getFilterBuilder() ).setUrls( ClasspathHelper.getUrlsForCurrentClasspath() );
@@ -28,6 +46,11 @@ public class ReflectionsBuilder
     return new Reflections( getTypicalConfigurationBuilder().setScanners( new ResourcesScanner() ) );
   }
 
+  public Reflections buildAnnotationReflections()
+  {
+    return new Reflections( getTypicalConfigurationBuilder().setScanners( new TypeAnnotationsScanner() ) );
+  }
+  
   protected FilterBuilder getFilterBuilder()
   {
     FilterBuilder fb = new FilterBuilder();

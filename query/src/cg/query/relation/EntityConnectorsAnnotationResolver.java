@@ -272,6 +272,17 @@ public class EntityConnectorsAnnotationResolver extends EntityConnectorAbstractR
     return new EntityConnector( property, getIdProperty( targetEntityType ) );
   }
 
+  
+  /**
+   * get all entities of this resolver
+   * @return
+   */
+  @Override
+  public Set< Class > getAllEntities()
+  {
+    return EntityLookup.defaultInstance().getAllEntityClasses();
+  }
+
   protected ClassProperty getIdProperty( Class< ? > entityClass )
   {
     ClassProperty property = new ClassProperty();

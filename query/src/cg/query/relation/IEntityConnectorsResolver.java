@@ -24,4 +24,10 @@ public interface IEntityConnectorsResolver
    * @return return true if relation is mutual
    */
   public boolean isRelationMutual();
+  
+  /**
+   * get all entities of this resolver
+   * @return
+   */
+  public Set< Class > getAllEntities();
 }
