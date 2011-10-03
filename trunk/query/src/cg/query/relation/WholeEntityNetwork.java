@@ -1,6 +1,5 @@
 package cg.query.relation;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,11 +58,9 @@ public class WholeEntityNetwork extends EntityNetwork
     
     //call connectorsResolver.getDirectConnectors even if network was empty to notify the connectorsResolver this entity
     Set< EntityConnector > entityConnectors = connectorsResolver.getDirectConnectors(  entity );
-    Set< EntityConnector > connectors;
-    if( networkEntities.isEmpty() || entityConnectors.isEmpty() )
+    if( networkEntities.isEmpty() )
     {
-      connectors = Collections.emptySet();
-      network.put( entity, connectors );
+      network.put( entity, entityConnectors );
       return true;
     }
 
@@ -95,7 +92,7 @@ public class WholeEntityNetwork extends EntityNetwork
     // relationship is not mutual, also have to check if there are any entities inside network connected to this entity
     // the connectors of the entities inside of network can get from this network
     // as this network in fact is WholeEntityNetwork ( namely, all the connectors of the entities of the network have been added ) 
-    connectors = new HashSet< EntityConnector >();
+    Set< EntityConnector > connectors = new HashSet< EntityConnector >();
 
     for( Class networkEntity : networkEntities )
     {
