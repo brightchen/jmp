@@ -12,6 +12,7 @@ public class EntityNetworkTester
 {
   public static void main( String[] argvs )
   {
+    @SuppressWarnings( "rawtypes" )
     Set< Class > entities = new HashSet< Class >();
     entities.add( User.class );
     entities.add( Permission.class );

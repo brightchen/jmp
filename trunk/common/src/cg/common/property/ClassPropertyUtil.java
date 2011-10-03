@@ -23,8 +23,9 @@ public class ClassPropertyUtil
   }
   
   public static PropertyCriteria defaultPropertyCriteria = PropertyCriteria.GetterAndSetter;
-  
-  public static <T> Set< ClassProperty > getClassProperties( Class<T> clazz )
+
+  @SuppressWarnings( { "unchecked", "rawtypes" } )
+  public static Set< ClassProperty > getClassProperties( Class clazz )
   {
     return getClassProperties( clazz, clazz );
   }

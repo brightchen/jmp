@@ -58,6 +58,7 @@ public class EntityConnector
     throw new RuntimeException( "No entity of connctor equals to input entity" );
   }
 
+  @SuppressWarnings( "rawtypes" )
   public Class[] getEntities()
   {
     Class[] entities = new Class[2];

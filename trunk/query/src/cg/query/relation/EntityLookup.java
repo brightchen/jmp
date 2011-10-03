@@ -8,10 +8,15 @@ import javax.persistence.Entity;
 import org.reflections.Reflections;
 
 import cg.common.reflect.ReflectionsBuilder;
+import cg.common.util.CollectionUtil;
 
+@SuppressWarnings( "rawtypes" )
 public class EntityLookup
 {
   private static EntityLookup defaultInstance;
+  
+  //cache all entities;
+  private Set< Class > allEntities = null;
   
   public static EntityLookup defaultInstance()
   {
@@ -30,15 +35,30 @@ public class EntityLookup
 
   private EntityLookup(){}
   
+  /**
+   * 
+   * @return the clone of the allEntities in case the client change the allEntities
+   */
   public Set< Class > getAllEntityClasses()
   {
-    Reflections reflections = ReflectionsBuilder.defaultInstance().buildAnnotationReflections();
-    Set< Class > entities = new HashSet< Class >();
-    Set< Class<?> > entityClasses = reflections.getTypesAnnotatedWith( Entity.class );
-    for( Class<?> entityClass : entityClasses )
+    if( allEntities != null )
+      return CollectionUtil.shallowCloneTo( allEntities, new HashSet< Class >() );
+    
+    synchronized( this )
     {
-      entities.add( entityClass );
+      if( allEntities != null )
+        return CollectionUtil.shallowCloneTo( allEntities, new HashSet< Class >() );
+      
+      allEntities = new HashSet< Class >();
+
+      Reflections reflections = ReflectionsBuilder.defaultInstance().buildAnnotationReflections();
+      
+      Set< Class<?> > entityClasses = reflections.getTypesAnnotatedWith( Entity.class );
+      for( Class<?> entityClass : entityClasses )
+      {
+        allEntities.add( entityClass );
+      }
+      return allEntities;
     }
-    return entities;
   }
 }

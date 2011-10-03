@@ -45,7 +45,7 @@ public class UserSearchCriteria implements Serializable
   }
   public void setStatus( UserStatus userStatus )
   {
-    this.status = status;
+    this.status = userStatus;
   }
   public void setStatus( String status )
   {

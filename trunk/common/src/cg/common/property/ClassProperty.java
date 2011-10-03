@@ -8,6 +8,7 @@ import cg.common.util.ObjectUtil;
 /*
  * class property reflects the attributes/getter/setter of a class
  */
+@SuppressWarnings( "rawtypes" )
 public class ClassProperty
 {
   private String name;

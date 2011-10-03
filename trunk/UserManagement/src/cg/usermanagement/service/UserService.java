@@ -73,6 +73,7 @@ public class UserService extends GenericJpaDaoService implements IUserService
   public List< UserSearchView > findUsers( UserSearchCriteria criteria )
   {
     IQueryCriteria queryCriteria = QueryCriteriaUtil.buildEqualsCriteria( User.class, criteria );
+    @SuppressWarnings( "unchecked" )
     List<User> users = (List<User>)getEntityManager().createQuery( queryCriteria.getHsql()  ).getResultList();
     return ViewUtil.entitiesToReadableViews( users, UserSearchView.class );
   }

@@ -10,6 +10,7 @@ import java.util.Set;
  * 
  * this network will add all the connected entities into the network when adding an entity into it
  */
+@SuppressWarnings( "rawtypes" )
 public class WholeEntityNetwork extends EntityNetwork
 {
   
@@ -94,12 +95,9 @@ public class WholeEntityNetwork extends EntityNetwork
     // as this network in fact is WholeEntityNetwork ( namely, all the connectors of the entities of the network have been added ) 
     Set< EntityConnector > connectors = new HashSet< EntityConnector >();
 
-    for( Class networkEntity : networkEntities )
+    Set< EntityConnector > networkEntityConnectors = getAllConnectors();
+    if( networkEntityConnectors != null && !networkEntityConnectors.isEmpty() )
     {
-      Set< EntityConnector > networkEntityConnectors = getAllConnectors();
-      if( networkEntityConnectors == null || networkEntityConnectors.isEmpty() )
-        continue;
-      
       for( EntityConnector networkEntityConnector : networkEntityConnectors )
       {
         Class[] connectorEntities = networkEntityConnector.getEntities();
