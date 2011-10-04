@@ -10,6 +10,7 @@ import cg.common.util.CollectionUtil;
  * @author bchen
  *
  */
+@SuppressWarnings( "rawtypes" )
 public class ScopeEnlargeManager
 {
   private static ScopeEnlargeManager defaultInstance;

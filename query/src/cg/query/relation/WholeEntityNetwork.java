@@ -23,30 +23,41 @@ public class WholeEntityNetwork extends EntityNetwork
   @Override
   public boolean buildEntityNetwork( Set< Class > entities )
   {
-    if( !super.buildEntityNetwork( entities ) )
-      return false;
-    
-    // handle the connectors which only one entity added into the WholeEntityNetwork.
-    return completeWholeEntityNetwork();
+    return super.buildEntityNetwork( entities );
+  }
+  
+  public boolean buildWholeEntityNetwork( Class entity )
+  {
+    Set< Class > entities = new HashSet< Class >();
+    entities.add( entity );
+    return buildEntityNetwork( entities );
   }
 
-  protected boolean completeWholeEntityNetwork()
-  {
-    return true;
-  }
+  /**
+   * the WholeEntityNetwork suppose expanded as large as possible
+   * @return
+   */
+//  protected boolean completeWholeEntityNetwork()
+//  {
+//    // add all entities of connectors into the network
+//    Set< EntityConnector > entityConnectors = getAllConnectors();
+//    
+//    return true;
+//  }
   
 
   /**
    * add the entity which directly connected to this network into it.
    * this method will check if the entity directly connected to the network, 
    * do nothing and return false if entity doesn't directly connected to the network
+   * we should make sure the entity network is valid after this method.
    * 
    * @param entity the entity going to add to this EntityNetwork 
    * @param containerNetwork the network which contains entity and its connectors, we can get this entity's connectors from containerNetwork
    * @return return true if add entity successful
    */
   @Override
-  public boolean addDirectlyConnectedEntity( Class entity, IEntityConnectorsResolver connectorsResolver )
+  protected boolean addDirectlyConnectedEntity( Class entity, IEntityConnectorsResolver connectorsResolver )
   {
     //the entity simply added to the network when network was empty or the network already contain this entity.
     //we didn't get the connectors of this entity when connectorsResolver is EntityConnectorsAnnotationResolver
@@ -61,8 +72,7 @@ public class WholeEntityNetwork extends EntityNetwork
     Set< EntityConnector > entityConnectors = connectorsResolver.getDirectConnectors(  entity );
     if( networkEntities.isEmpty() )
     {
-      network.put( entity, entityConnectors );
-      return true;
+      return addEntityToNetwork( entity, entityConnectors, connectorsResolver );
     }
 
     boolean isEntityDirectlyConnectToNetwork = false;
@@ -85,8 +95,7 @@ public class WholeEntityNetwork extends EntityNetwork
       // the relationship is mutual, which mean no entity of network directly connected to this entity neither.
       if( !isEntityDirectlyConnectToNetwork )
         return false;
-      network.put( entity, entityConnectors );
-      return true;
+      return addEntityToNetwork( entity, entityConnectors, connectorsResolver );
     }
 
 
@@ -111,10 +120,62 @@ public class WholeEntityNetwork extends EntityNetwork
     
     if( !connectors.isEmpty() )
     {
-      network.put( entity, connectors );
-      return true;
+      return addEntityToNetwork( entity, connectors, connectorsResolver );
     }
     
     return false;
   }
+  
+  
+  /**
+   * add entity and its connectors into the network
+   * @precondition the caller should make sure that entityConnectors connect to the entity and this entity can add to the network
+   * @param entity
+   * @param entityConnectors
+   * @return true if add entity successful
+   */
+  protected boolean addEntityToNetwork( Class entity, Set< EntityConnector > entityConnectors, IEntityConnectorsResolver connectorsResolver )
+  {
+    network.put( entity, entityConnectors );
+
+    // make sure the network integrity.    
+    // get all entities which inside the connectors but haven't added into the network 
+    Set< Class > entities = EntityRelationUtil.getAllEntities( entityConnectors );
+    Set< Class > entitiesOfNetwork = getAllEntities();
+    entities.removeAll( entitiesOfNetwork );
+    
+    return resolveNetwork( this, entities, connectorsResolver );
+  }
+  
+  /**
+   * add entity and its connector into the network.
+   * do nothing and return false if the entity doesn't directly connected to the network. 
+   *
+   * @param entity the entity going to add to this network
+   * @param connectedEntities the entities which the adding entity directly connected with
+   * @return true if the entity add to this network successful.
+   */
+//  @Override
+//  protected boolean addDirectlyConnectedEntity( Class entity, Map< Class, EntityConnector > connectedEntities )
+//  {
+//    if( connectedEntities == null )
+//      return false;
+//    
+//    //the entities of this network
+//    Set< Class > entities = network.keySet();
+//    entities.retainAll( connectedEntities.keySet() );
+//    if( entities.isEmpty() )    //this network don't have intersection with connectedEntities
+//      return false;
+//    
+//    //we only add the connectors which connect to the entities of network instead of all the connectors of this entity
+//    Set< EntityConnector > connectors = new HashSet< EntityConnector >();
+//    for( Class connectedEntity : entities )
+//    {
+//      connectors.add( connectedEntities.get( connectedEntity ) );
+//    }
+//    network.put( entity, connectors );
+//    return true;
+//    
+//  }
+
 }
