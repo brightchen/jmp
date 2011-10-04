@@ -91,7 +91,7 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
    * @param containerNetwork the network which contains entity and its connectors, we can get this entity's connectors from containerNetwork
    * @return return true if add entity successful
    */
-  public boolean addDirectlyConnectedEntity( Class entity, IEntityConnectorsResolver connectorsResolver )
+  protected boolean addDirectlyConnectedEntity( Class entity, IEntityConnectorsResolver connectorsResolver )
   {
     if( addEntityToEmptyOrContainerNetwork( entity ) )
       return true;
@@ -156,7 +156,7 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     
     return false;
   }
-
+  
   /**
    * add entity and its connector into the network.
    * do nothing and return false if the entity doesn't directly connected to the network. 
@@ -165,27 +165,27 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
    * @param connectedEntities the entities which the adding entity directly connected with
    * @return true if the entity add to this network successful.
    */
-  protected boolean addDirectlyConnectedEntity( Class entity, Map< Class, EntityConnector > connectedEntities )
-  {
-    if( connectedEntities == null )
-      return false;
-    
-    //the entities of this network
-    Set< Class > entities = network.keySet();
-    entities.retainAll( connectedEntities.keySet() );
-    if( entities.isEmpty() )    //this network don't have intersection with connectedEntities
-      return false;
-    
-    //we only add the connectors which connect to the entities of network instead of all the connectors of this entity
-    Set< EntityConnector > connectors = new HashSet< EntityConnector >();
-    for( Class connectedEntity : entities )
-    {
-      connectors.add( connectedEntities.get( connectedEntity ) );
-    }
-    network.put( entity, connectors );
-    return true;
-    
-  }
+//  protected boolean addDirectlyConnectedEntity( Class entity, Map< Class, EntityConnector > connectedEntities )
+//  {
+//    if( connectedEntities == null )
+//      return false;
+//    
+//    //the entities of this network
+//    Set< Class > entities = network.keySet();
+//    entities.retainAll( connectedEntities.keySet() );
+//    if( entities.isEmpty() )    //this network don't have intersection with connectedEntities
+//      return false;
+//    
+//    //we only add the connectors which connect to the entities of network instead of all the connectors of this entity
+//    Set< EntityConnector > connectors = new HashSet< EntityConnector >();
+//    for( Class connectedEntity : entities )
+//    {
+//      connectors.add( connectedEntities.get( connectedEntity ) );
+//    }
+//    network.put( entity, connectors );
+//    return true;
+//    
+//  }
   
   /**
    * add the entity to this network if the network is empty or the network already contains this entity
@@ -356,7 +356,7 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
       numOfResolvedEntity = thisResolvedEntities.size();
       if( numOfResolvedEntity > 0 )
         resolvingEntities.removeAll( thisResolvedEntities );
-    }while( numOfResolvedEntity > 0 && resolvingEntities.isEmpty() );
+    }while( numOfResolvedEntity > 0 && !resolvingEntities.isEmpty() );
     
     return resolvingEntities.isEmpty();
   }

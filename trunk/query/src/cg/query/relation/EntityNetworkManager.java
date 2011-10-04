@@ -39,7 +39,31 @@ public class EntityNetworkManager
   }
 
   private EntityNetworkManager(){}
+
   
+  /**
+   * get the WholeEntityNetwork instance which cover the entity 
+   * @param entity
+   * @return the WholeEntityNetwork instance which cover the entity, return null if the WholeEntityNetwork instance can't be found/built
+   */
+  public WholeEntityNetwork getWholeEntityNetwork( Class entity )
+  {
+    WholeEntityNetwork wholeEntityNetwork = wholeEntityNetworkMap.get( entity );
+    if( wholeEntityNetwork != null )
+      return wholeEntityNetwork;
+    
+    //try to build it
+    wholeEntityNetwork = buildWholeEntityNetwork( entity );
+    if( wholeEntityNetwork != null )
+    {
+      //cache it
+      this.addEntityNetwork( wholeEntityNetwork );
+      return wholeEntityNetwork;
+    }
+    
+    return null;
+  }
+
   /**
    * the WholeEntityNetworks should not have any intersection.
    * So we can lookup the WholeEntityNetwork by any entity which supposes inside of it. 
@@ -127,10 +151,10 @@ public class EntityNetworkManager
    * @param entities
    * @return: the built network 
    */
-  public WholeEntityNetwork buildWholeEntityNetwork( Set< Class > entities )
+  protected WholeEntityNetwork buildWholeEntityNetwork( Class entity )
   {
     WholeEntityNetwork buildingNetwork = new WholeEntityNetwork();
-    if( buildingNetwork.buildEntityNetwork( entities ) )
+    if( buildingNetwork.buildWholeEntityNetwork( entity ) )
       return buildingNetwork;
     else 
       return null;
@@ -170,7 +194,7 @@ public class EntityNetworkManager
     {
       // there is no network which covers all the entities
       // try to build the network which covers all the entities
-      containerNetwork = buildWholeEntityNetwork( entities );
+      containerNetwork = buildWholeEntityNetwork( entities.iterator().next() );
     }
     else
     {

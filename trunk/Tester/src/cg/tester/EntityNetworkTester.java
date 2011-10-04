@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import cg.query.relation.EntityNetwork;
 import cg.query.relation.EntityNetworkManager;
+import cg.query.relation.WholeEntityNetwork;
 import cg.usermanagement.model.Account;
 import cg.usermanagement.model.Role;
 import cg.usermanagement.model.User;
@@ -14,7 +14,8 @@ import cg.usermanagement.model.User;
 @SuppressWarnings( "rawtypes" )
 public class EntityNetworkTester
 {
-  public static List< Set< Class > > getEntitySets() 
+  private static Class[] entities = { User.class, Account.class, Role.class };
+  public static  List< Set< Class > > getEntitySets() 
   {
     List< Set< Class > > entitySets = new ArrayList< Set< Class > >();
 
@@ -47,10 +48,9 @@ public class EntityNetworkTester
   
   public static void main( String[] argvs )
   {
-    List< Set< Class > > entitySets  = getEntitySets();
-    for( Set< Class > entitySet : entitySets )
+    for( Class entity : entities )
     {
-      EntityNetwork entityNetwork = EntityNetworkManager.defaultInstance().buildWholeEntityNetwork( entitySet );
+      WholeEntityNetwork entityNetwork = EntityNetworkManager.defaultInstance().getWholeEntityNetwork( entity );
       entityNetwork.getEntities();
     }
   }
