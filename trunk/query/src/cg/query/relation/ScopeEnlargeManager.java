@@ -42,8 +42,11 @@ public class ScopeEnlargeManager
   public Class enlargeScope( EntityNetwork resolvedNetwork, Set< Class > resolvingEntities, IEntityConnectorsResolver connectorsResolver )
   {
     Set< Class > entities = connectorsResolver.getAllEntities();
-    entities.removeAll( resolvedNetwork.getEntities() );
-    entities.removeAll( resolvingEntities );
+    if( resolvedNetwork != null )
+      entities.removeAll( resolvedNetwork.getEntities() );
+    if( resolvingEntities != null && !resolvingEntities.isEmpty() )
+      entities.removeAll( resolvingEntities );
+    
     if( entities.isEmpty() )
     {
       // can't enlarge the scope
@@ -51,23 +54,29 @@ public class ScopeEnlargeManager
     }
 
     //first, pick one which can directly add to the resolvedNetwork
-    for( Class entity : entities )
+    if( resolvedNetwork != null )
     {
-      if( resolvedNetwork.addDirectlyConnectedEntity( entity, connectorsResolver ) )
-        return entity;
+      for( Class entity : entities )
+      {
+        if( resolvedNetwork.addDirectlyConnectedEntity( entity, connectorsResolver ) )
+          return entity;
+      }
     }
       
     //second, pick one which can directly add to any of the entities of resolvingEntities
-    for( Class entity : entities )
+    if( resolvingEntities != null )
     {
-      Set< EntityConnector > connectors = connectorsResolver.getDirectConnectors( entity );
-      if( connectors == null || connectors.isEmpty() )
-        continue;
-      
-      Set< Class > intersectionEntities = CollectionUtil.shallowCloneTo( resolvingEntities, new HashSet<Class>() );
-      intersectionEntities.retainAll( EntityRelationUtil.getAllEntities( connectors ) );
-      if( !intersectionEntities.isEmpty() )
-        return entity;
+      for( Class entity : entities )
+      {
+        Set< EntityConnector > connectors = connectorsResolver.getDirectConnectors( entity );
+        if( connectors == null || connectors.isEmpty() )
+          continue;
+        
+        Set< Class > intersectionEntities = CollectionUtil.shallowCloneTo( resolvingEntities, new HashSet<Class>() );
+        intersectionEntities.retainAll( EntityRelationUtil.getAllEntities( connectors ) );
+        if( !intersectionEntities.isEmpty() )
+          return entity;
+      }
     }
     
     return null;
