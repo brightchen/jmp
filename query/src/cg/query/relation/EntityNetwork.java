@@ -30,7 +30,7 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
   {
     Class[] entities = connector.getEntities();
     Set< Class > allEntities = getEntities();
-    if( !allEntities.contains( entities[0] ) && !allEntities.contains( entities[0] ) )
+    if( !allEntities.contains( entities[0] ) && !allEntities.contains( entities[1] ) )
     {
       //this connector should not be added into network as it will be orphan it added
       return false;
