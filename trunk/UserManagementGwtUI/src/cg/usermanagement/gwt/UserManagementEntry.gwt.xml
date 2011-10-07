@@ -4,10 +4,10 @@
   <inherits name='com.google.gwt.user.User'/>
   <inherits name='com.google.gwt.user.theme.standard.Standard'/>
 
+  <inherits name='cg.contentdata.ContentDataShared'/>
   <inherits name='cg.gwt.components.GwtComponents'/>
-  <inherits name='cg.usermanagement.usermanagementshared'/>
-  <inherits name='cg.contentdata.contentdatashared'/>
-
+  <inherits name='cg.usermanagement.UserManagementShared'/>
+  
   <!-- Specify the app entry point class.                         -->
   <entry-point class='cg.usermanagement.gwt.client.UserManagementPage'/>
 

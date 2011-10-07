@@ -1,7 +1,9 @@
 package cg.usermanagement.shared;
 
+import java.io.Serializable;
 
-public class RoleException extends Exception
+
+public class RoleException extends Exception implements Serializable
 {
   private static final long serialVersionUID = 7603859164972807729L;
   

@@ -1,6 +1,8 @@
 package cg.usermanagement.shared;
 
-public class LoginException extends Exception
+import java.io.Serializable;
+
+public class LoginException extends Exception implements Serializable
 {
   private static final long serialVersionUID = 8831901658228075396L;
 

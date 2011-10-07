@@ -1,7 +1,9 @@
 package cg.usermanagement.shared;
 
+import java.io.Serializable;
 
-public class RegisterUserException extends Exception
+
+public class RegisterUserException extends Exception implements Serializable
 {
   private static final long serialVersionUID = 5862851831030440808L;
 
