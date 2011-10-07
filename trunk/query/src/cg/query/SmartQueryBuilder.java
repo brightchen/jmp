@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import cg.common.property.ClassProperty;
+import cg.common.util.EntityUtil;
 import cg.query.relation.EntityConnector;
 import cg.query.relation.EntityNetwork;
 import cg.query.relation.EntityNetworkManager;
@@ -15,6 +16,25 @@ import cg.query.relation.EntityNetworkManager;
 @SuppressWarnings( "rawtypes" )
 public class SmartQueryBuilder
 {
+  private static SmartQueryBuilder defaultInstance;
+  
+  public static SmartQueryBuilder defaultInstance()
+  {
+    if( defaultInstance == null )
+    {
+      synchronized( SmartQueryBuilder.class )
+      {
+        if( defaultInstance == null )
+        {
+          defaultInstance = new SmartQueryBuilder();
+        }
+      }
+    }
+    return defaultInstance;
+  }
+  
+  private SmartQueryBuilder(){}
+  
   /*
    * ObjectiveClass: the class of the entity which we want to retrieve
    * criteria: the criteria for the query
@@ -70,6 +90,18 @@ public class SmartQueryBuilder
     aliasMap.put( objectiveAlias, objectiveBean );
     return aliasMap;
   }
+  
+  public String buildRelationClause( Set< Class > entities )
+  {
+    Map< String, Class > aliasEntityMap = new HashMap< String, Class >();
+    for( Class entity : entities )
+    {
+      aliasEntityMap.put( EntityUtil.getPropertyStyleName( entity ), entity );
+    }
+    return buildRelationClause( aliasEntityMap );
+  }
+  
+  
   /*
    * the relationship between the entity classes
    * parameter: aliasBeanMap the map ( alias ==> entity class )
@@ -86,6 +118,9 @@ public class SmartQueryBuilder
     {
       relationClause.append( buildRelationClause( connector ) ).append( " and " );
     }
+    int length = relationClause.length();
+    if( length >= 4 )
+      relationClause.delete( length - 4, length );
     return relationClause.toString();
   }
   
@@ -105,6 +140,9 @@ public class SmartQueryBuilder
       ClassProperty property1 = connector.getEntityProperty1();
       relationClause.append(  getAlias( property1.getDeclaringClass() ) + "." + property1.getName() );
     }
+    
+    relationClause.append( " = " );
+    
     {
       ClassProperty property2 = connector.getEntityProperty2();
       relationClause.append(  getAlias( property2.getDeclaringClass() ) + "." + property2.getName() );

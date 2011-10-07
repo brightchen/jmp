@@ -1,12 +1,12 @@
 package cg.query.relation;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import cg.common.property.ClassProperty;
+import cg.common.util.CollectionUtil;
 import cg.common.util.ObjectUtil;
 
 /*
@@ -75,7 +75,7 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     if( entities.isEmpty() )
     {
       // this network was empty, simply add this entity, no network yet
-      Set< EntityConnector > connectors = Collections.emptySet();
+      Set< EntityConnector > connectors = new HashSet< EntityConnector >();    //should not use Collections.emptySet(), as it can add connectors
       network.put( entity, connectors );
       return true;
     }
@@ -104,20 +104,22 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     //we only add the connectors which connect to the entities of network instead of all the connectors of this entity
     Set< EntityConnector > connectors = new HashSet< EntityConnector >();
     // get the connectors which connects to the entity and check if the another entity is already inside the network
-    for( EntityConnector connector : entityConnectors )
+    if( entityConnectors != null )
     {
-      Class anotherEntity = connector.getPropertyOfAnotherEntity( entity ).getDeclaringClass();
-      
-      //if the connector's another entity already inside the network, this entity can be added to the network.
-      if( networkEntities.contains( anotherEntity ) )
-        connectors.add( connector );
+      for( EntityConnector connector : entityConnectors )
+      {
+        Class anotherEntity = connector.getPropertyOfAnotherEntity( entity ).getDeclaringClass();
+        
+        //if the connector's another entity already inside the network, this entity can be added to the network.
+        if( networkEntities.contains( anotherEntity ) )
+          connectors.add( connector );
+      }
     }
 
     if( !connectors.isEmpty() )
     {
-      // found connectors of this entity directly connnected to network
-      network.put( entity, connectors );
-      return true;
+      // found connectors of this entity directly connected to network
+      return addEntityToNetwork( entity, connectors, connectorsResolver );
     }
     
     boolean isRelationMutual = connectorsResolver.isRelationMutual();
@@ -150,13 +152,34 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     
     if( !connectors.isEmpty() )
     {
-      network.put( entity, connectors );
-      return true;
+      return addEntityToNetwork( entity, connectors, connectorsResolver );
     }
     
     return false;
   }
   
+  /**
+   * add entity and its connectors into the network
+   * @precondition the caller should make sure that entityConnectors connect to the entity and this entity can add to the network
+   * @param entity
+   * @param entityConnectors
+   * @return true if add entity successful
+   */
+  protected boolean addEntityToNetwork( Class entity, Set< EntityConnector > entityConnectors, IEntityConnectorsResolver connectorsResolver )
+  {
+    network.put( entity, entityConnectors );
+
+    // make sure the mutual relation of entities of the network
+    if( entityConnectors != null && !entityConnectors.isEmpty() )
+    {
+      for( EntityConnector connector : entityConnectors )
+      {
+        addEntityConnector( connector );
+      }
+    }
+    return true;
+  }
+
   /**
    * add entity and its connector into the network.
    * do nothing and return false if the entity doesn't directly connected to the network. 
@@ -317,16 +340,19 @@ public class EntityNetwork extends EntityConnectorAbstractResolver
     if( resolvingEntities.isEmpty() )
       return true;
     
+    // the resolving process will change the resolvingEntities, we'd better keep the original one as it is
+    Set< Class > resolvingEntitiesCopy = CollectionUtil.shallowCloneTo( resolvingEntities, new HashSet< Class >() );
+    
     //find the direct connected entities and add them into resolvedNetwork
-    if( resolveDirectConnectedEntities( resolvedNetwork, resolvingEntities, connectorsResolver ) )
+    if( resolveDirectConnectedEntities( resolvedNetwork, resolvingEntitiesCopy, connectorsResolver ) )
       return true;
     
     // introduce a bridge entity from this network to resolve the entities
-    if( resolveBridgeConnectedEntities( resolvedNetwork, resolvingEntities, connectorsResolver ) )
+    if( resolveBridgeConnectedEntities( resolvedNetwork, resolvingEntitiesCopy, connectorsResolver ) )
       return true;
     
     // add any of the remained entity which connected to any of entity of resolved and resolve
-    if( resolveNetworkByEnlargeScope( resolvedNetwork, resolvingEntities, connectorsResolver ) )
+    if( resolveNetworkByEnlargeScope( resolvedNetwork, resolvingEntitiesCopy, connectorsResolver ) )
       return true;
 
     return false;

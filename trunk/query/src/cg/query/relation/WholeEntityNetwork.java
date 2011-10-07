@@ -3,6 +3,8 @@ package cg.query.relation;
 import java.util.HashSet;
 import java.util.Set;
 
+import cg.common.util.CollectionUtil;
+
 /*
  * WholeEntityNetwork is an EntityNetwork which includes all connected entities at a certain time.
  * namely, the WholeEntityNetwork can't be and more entity into it.
@@ -24,17 +26,20 @@ public class WholeEntityNetwork extends EntityNetwork
   @Override
   public boolean buildEntityNetwork( Set< Class > entities )
   {
+    // the resolving process will change the resolvingEntities, we'd better keep the original one as it is
+    Set< Class > entitiesCopy = CollectionUtil.shallowCloneTo( entities, new HashSet< Class >() );
+    
     boolean networkChanged = false;
     do
     {
       networkChanged = false;
       
       //find the direct connected entities and add them into resolvedNetwork
-      if( entities != null && !entities.isEmpty() )
+      if( entitiesCopy != null && !entitiesCopy.isEmpty() )
       {
-        int entitiesSize = entities.size();
-        resolveDirectConnectedEntities( this, entities, getEntityConnectorsResolver() );
-        networkChanged = ( entitiesSize > entities.size() );
+        int entitiesSize = entitiesCopy.size();
+        resolveDirectConnectedEntities( this, entitiesCopy, getEntityConnectorsResolver() );
+        networkChanged = ( entitiesSize > entitiesCopy.size() );
       }
       
       Class addedEntity = null;
@@ -49,7 +54,7 @@ public class WholeEntityNetwork extends EntityNetwork
     while( networkChanged );
     
     //need a criteria to test if the network build success or not
-    return ( entities == null || entities.isEmpty() );
+    return ( entitiesCopy == null || entitiesCopy.isEmpty() );
   }
   
   public boolean buildWholeEntityNetwork( Class entity )
