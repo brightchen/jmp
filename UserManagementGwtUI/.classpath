@@ -6,13 +6,13 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/tomcat6.0.29-bin"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/tomcat6.0.29-lib"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=build%2Fivy.xml&amp;confs=*"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/GwtComponents"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/GwtComponents"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Service"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/UserManagement"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/UserManagement"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Config"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Services"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ResourceManagement"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ContentData"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/ContentData"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
