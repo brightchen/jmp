@@ -46,9 +46,9 @@ public class ReflectionUtil
     //Class.getMethods() only returns the public methods
     Method[] allMethods;
     if( Modifier.isPublic( expectedModifiers ) )
-      allMethods = clazz.getDeclaredMethods();
+      allMethods = clazz.getMethods();
     else
-      allMethods = clazz.getDeclaredMethods();
+      allMethods = clazz.getDeclaredMethods();    //FIXME: getDeclaredMethods() only returns the methods declared in this class but not the super classes. 
     if( allMethods == null || allMethods.length == 0 )
       return methods;
     
