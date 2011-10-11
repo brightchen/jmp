@@ -6,6 +6,7 @@
 <web-app>
   
   <!-- Servlets -->
+  <!-- no servlet at all
   <servlet>
     <servlet-name>greetServlet</servlet-name>
     <servlet-class>cg.gwt.components.server.GreetingServiceImpl</servlet-class>
@@ -15,10 +16,11 @@
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/gwtcomponents/greet</url-pattern>
   </servlet-mapping>
+  -->
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>User.html</welcome-file>
+    <welcome-file>GwtComponentsEntry.html</welcome-file>
   </welcome-file-list>
 
 </web-app>
