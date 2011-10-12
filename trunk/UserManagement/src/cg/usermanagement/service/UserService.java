@@ -12,7 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import cg.common.util.StringUtil;
 import cg.model.util.ViewUtil;
 import cg.query.IQueryCriteria;
-import cg.query.QueryCriteriaUtil;
+import cg.query.QueryCriteriaBuilder;
+import cg.query.SmartQueryBuilder;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.api.UserSearchCriteria;
 import cg.usermanagement.config.PropertyKeys;
@@ -72,9 +73,10 @@ public class UserService extends GenericJpaDaoService implements IUserService
   @Override
   public List< UserSearchView > findUsers( UserSearchCriteria criteria )
   {
-    IQueryCriteria queryCriteria = QueryCriteriaUtil.buildEqualsCriteria( User.class, criteria );
+    IQueryCriteria queryCriteria = QueryCriteriaBuilder.defaultInstance().buildEqualsCriteria( User.class, criteria );
+    String query = SmartQueryBuilder.defaultInstance().buildSearchHsql( User.class, queryCriteria );
     @SuppressWarnings( "unchecked" )
-    List<User> users = (List<User>)getEntityManager().createQuery( queryCriteria.getHsql()  ).getResultList();
+    List<User> users = (List<User>)getEntityManager().createQuery( query  ).getResultList();
     return ViewUtil.entitiesToReadableViews( users, UserSearchView.class );
   }
 

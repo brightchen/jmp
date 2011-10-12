@@ -6,6 +6,7 @@ import java.util.Set;
 
 import cg.common.property.ClassProperty;
 import cg.common.util.EntityUtil;
+import cg.common.util.StringUtil;
 import cg.query.relation.EntityConnector;
 import cg.query.relation.EntityNetwork;
 import cg.query.relation.EntityNetworkManager;
@@ -44,9 +45,9 @@ public class SmartQueryBuilder
     final String objectiveAlias = getAlias( objectiveClass );
     Map< String, Class > aliasMap = buildAliasMap( criteria );
     
+    String whereClause = buildRelationClause( getAllEntityAliasMap( aliasMap, objectiveAlias, objectiveClass ) ) + buildCriteriaClause( criteria );
     return "select " + objectiveAlias + " from " + buildAliasList( aliasMap )
-        + " where " + buildRelationClause( getAllEntityAliasMap( aliasMap, objectiveAlias, objectiveClass ) ) 
-        + buildCriteriaClause( criteria );
+        + (  StringUtil.isNullOrEmpty( whereClause ) ? "" : ( " where " + whereClause ) ); 
   }
   
   
@@ -109,6 +110,10 @@ public class SmartQueryBuilder
    */
   public String buildRelationClause( Map< String, Class > aliasEntityMap )
   {
+    // relation clause is empty if number of entities less than 2
+    if( aliasEntityMap == null || aliasEntityMap.size() == 0 || aliasEntityMap.size() == 1 )
+      return "";
+    
     EntityNetwork network = EntityNetworkManager.defaultInstance().resolveNetwork( aliasEntityMap );
     Set< EntityConnector > connectors = network.getAllConnectors();
     if( connectors == null || connectors.isEmpty() )

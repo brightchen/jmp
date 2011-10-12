@@ -44,11 +44,12 @@ public class ReflectionUtil
     Set< Method > methods = new HashSet< Method >(); 
     
     //Class.getMethods() only returns the public methods
-    Method[] allMethods;
-    if( Modifier.isPublic( expectedModifiers ) )
-      allMethods = clazz.getMethods();
-    else
-      allMethods = clazz.getDeclaredMethods();    //FIXME: getDeclaredMethods() only returns the methods declared in this class but not the super classes. 
+    Method[] allMethods = clazz.getMethods();
+    if( Modifier.isProtected( expectedModifiers ) || Modifier.isPrivate( expectedModifiers ) )
+    {
+      //FIXME: getDeclaredMethods() only returns the methods declared in this class but not the super classes.
+      //allMethods = clazz.getDeclaredMethods();    
+    }
     if( allMethods == null || allMethods.length == 0 )
       return methods;
     
