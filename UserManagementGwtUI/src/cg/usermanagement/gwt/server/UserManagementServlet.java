@@ -1,6 +1,7 @@
 package cg.usermanagement.gwt.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -31,6 +32,7 @@ import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
 import cg.usermanagement.model.view.RoleView;
 import cg.usermanagement.model.view.UserRegisterView;
+import cg.usermanagement.model.view.UserSearchView;
 import cg.usermanagement.shared.LoginException;
 import cg.usermanagement.shared.RegisterUserException;
 import cg.usermanagement.shared.RoleException;
@@ -243,10 +245,19 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     EntityUtil.shallowCopyEntity( searchUserData, criteria );
     IUserService service = getUserService();
     
-    service.findUsers( criteria );
-    
+    List< UserSearchView > userSearchViews = service.findUsers( criteria );
+    if( userSearchViews == null || userSearchViews.isEmpty() )
+    {
+      return Collections.emptyList();
+    }
+
+    List< UserListData > userListDatas = new ArrayList< UserListData >();
+    for( UserSearchView userSearchView : userSearchViews )
+    {
+      
+    }
     //TODO: convert from view to data
-    return null;
+    return userListDatas;
   }
   
   protected void adjustSessionManager()

@@ -2,6 +2,11 @@ package cg.query;
 
 import java.util.Map;
 
+/**
+ * the IQueryCriteria represent the criteria of the query instead of the whole query.
+ * @author bchen
+ *
+ */
 public interface IQueryCriteria
 {
   /**
