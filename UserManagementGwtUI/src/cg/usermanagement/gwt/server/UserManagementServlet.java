@@ -254,9 +254,10 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     List< UserListData > userListDatas = new ArrayList< UserListData >();
     for( UserSearchView userSearchView : userSearchViews )
     {
-      
+      UserListData userListData = new UserListData();
+      EntityUtil.shallowCopyEntity( userSearchView, userListData );
+      userListDatas.add( userListData );
     }
-    //TODO: convert from view to data
     return userListDatas;
   }
   

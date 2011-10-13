@@ -2,17 +2,14 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
-/**
- * this class only includes the information which need to display in the user search result for one user.
- * it's not a content data as it don't include ResourceData
- * 
- * See cg.usermanagement.gwt.shared.data.ListUsersData
- * @author bchen
- *
- */
-public class UserListData implements Serializable
+import cg.contentdata.shared.ResourceData;
+
+public class ListUsersResourceData extends ResourceData implements Serializable
 {
-  private static final long serialVersionUID = 3302774388266429127L;
+  private static final long serialVersionUID = -7580056450276980136L;
+  
+  private String text;
+  private String title;
   
   private Long id;
   private String name;
@@ -21,7 +18,22 @@ public class UserListData implements Serializable
   private String status;
   private String phone;
   private String email;
-  
+  public String getText()
+  {
+    return text;
+  }
+  public void setText( String text )
+  {
+    this.text = text;
+  }
+  public String getTitle()
+  {
+    return title;
+  }
+  public void setTitle( String title )
+  {
+    this.title = title;
+  }
   public Long getId()
   {
     return id;
@@ -78,5 +90,4 @@ public class UserListData implements Serializable
   {
     this.email = email;
   }
-
 }
