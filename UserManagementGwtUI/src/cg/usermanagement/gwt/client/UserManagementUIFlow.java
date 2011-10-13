@@ -15,6 +15,7 @@ import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
+import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserManagementStartData;
@@ -176,7 +177,7 @@ public class UserManagementUIFlow
     currentPopup.centre();
   }
   
-  public static void onUserManagementPanelSearchUser()
+  public static void onSearchUserSuccess( List< UserListData > userListDatas )
   {
     
   }
