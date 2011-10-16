@@ -4,7 +4,7 @@ import cg.gwt.components.client.ui.SimplePanelCompositeUI;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public class ClientSectionUI extends SimplePanelCompositeUI< Widget >
+public class SectionUI extends SimplePanelCompositeUI< Widget >
 {
 
 }

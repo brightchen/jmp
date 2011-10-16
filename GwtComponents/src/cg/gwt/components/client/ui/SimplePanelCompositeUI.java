@@ -22,7 +22,8 @@ public class SimplePanelCompositeUI< U extends Widget > extends PanelCompositeUI
   public void setComponent( U component )
   {
     getChildren().clear();
-    addChild( component );
+    if( component != null )
+      addChild( component );
   }
 
 
