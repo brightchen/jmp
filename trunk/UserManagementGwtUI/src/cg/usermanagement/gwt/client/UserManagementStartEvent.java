@@ -55,6 +55,6 @@ public class UserManagementStartEvent extends UserManagementEvent< String >
 
   protected void onGetStartUISuccess( List< ResponseData<?> > responseDatas )
   {
-    UserManagementUIFlow.doGetStartUISuccess( responseDatas );
+    UserManagementUIFlow.onGetStartUISuccess( responseDatas );
   }
 }

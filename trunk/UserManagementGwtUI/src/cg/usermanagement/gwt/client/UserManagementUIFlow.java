@@ -4,8 +4,6 @@ import java.util.List;
 
 import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.client.ui.PanelCompositeUI;
-import cg.gwt.components.client.ui.decorator.PopupDecorator;
-import cg.gwt.components.client.ui.decorator.PopupWithCancelButtonDecorator;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIFlowData;
 import cg.gwt.components.shared.data.UIIdentity;
@@ -29,6 +27,18 @@ import com.google.gwt.user.client.ui.Widget;
  * the web server side will control the UI flow instead the client side.
  * for the first page, the UIFlow from the client will send a ajax call to the server side to get the startPage
  * for every request send to the web server, the response will contain the information of next UI ( include the required data )
+ * 
+ * interface between web client and server:
+ * 1. the web server control the page flow, the data fetched from the server decide which page/UIs should be displayed
+ * 2. the user management page can be divided into 3 section: 
+ *   control section: this is the common section could be used for all modules
+ *   user management panel: this is the common section for user management module
+ *   client section: this is the section displaying current operation/component.
+ *   
+ * In most case, only the client section need to be refreshed. But the user management panel or control section
+ * should also be refresh-able. the system should define the interface which supports both.
+ * 
+ * the response data list only contains the sections which need to be refreshed.
  */
 @SuppressWarnings( "rawtypes" ) 
 public class UserManagementUIFlow
@@ -39,25 +49,16 @@ public class UserManagementUIFlow
 //  private static ClientSectionUI clientSectionUI = new ClientSectionUI();
   
   //it should only have one popup at any time
-  private static PopupDecorator< ?, Widget > currentPopup;    
+//  private static PopupDecorator< ?, Widget > currentPopup;    
 //  private static PopupDecorator<?,?> roleDetailPopup;
   
   private static final String cookieLocale = "locale";
   
-  public static void freshPage( List< ResponseData<?> > responseDatas )
-  {
-//    UserManagementControlSectionUI controlSectionUI = (UserManagementControlSectionUI)buildUI( responseDatas.get( 0 ) );
-//    
-//    ClientSectionUI clientSectionUI = new ClientSectionUI();
-//    clientSectionUI.setComponent( buildUI( responseDatas.get( 1 ) ) );
-   
-    RootPanel rp = RootPanel.get();
-    rp.clear();
-    rp.add( buildUI( responseDatas ) );
-//    rp.add( controlSectionUI );
-//    rp.add( clientSectionUI );
+  private static PanelCompositeUI pageUI = null;
+  private static SectionUI controlSectionUI = null;
+  private static SectionUI clientSectionUI = null;
+  private static SectionUI userManagementPanelSectionUI = null;
 
-  }
   
   public static void start()
   {
@@ -73,35 +74,58 @@ public class UserManagementUIFlow
     event.fire();
   }
   
+  public static void buildPage()
+  {
+    if( pageUI != null )
+      return;
+    controlSectionUI = new SectionUI();
+    clientSectionUI = new SectionUI();
+    userManagementPanelSectionUI = new SectionUI();
+
+    //have both control section and client section
+    pageUI = new PanelCompositeUI();
+    pageUI.setContainer( new VerticalPanel() );
+    pageUI.addChild( controlSectionUI.getRealComponent() );
+//    pageUI.addChild( userManagementPanelSectionUI );
+//    pageUI.addChild( clientSectionUI );
+    
+    RootPanel.get().clear();
+    RootPanel.get().add( pageUI );
+  }
   
   /*
    * the responseDatas should be control section data and the data for the client section
    */
   @SuppressWarnings( "unchecked" ) 
-  public static Widget buildUI( List< ResponseData<?> > responseDatas )
+  public static void refreshPage( List< ResponseData<?> > responseDatas )
   {
-    UserManagementControlSectionUI controlSectionUI = null;
-    ClientSectionUI clientSectionUI = new ClientSectionUI();
+    if( pageUI == null )
+      buildPage();
+    
     for( ResponseData data : responseDatas )
     {
       UIFlowData flowData = data.getFlowData();
       UIIdentity identity = flowData.getUiIdentity();
       if( UIIdentity.CONTROL_SECTION.equals( identity ) )
-        controlSectionUI = (UserManagementControlSectionUI)buildUI( data );
+      {
+        //generic control section, maybe used by other module(s)
+        controlSectionUI.setComponent( buildUI( data ) );
+      }
+      else if( UIIdentity.UM_CONTROL_PANEL.equals( identity ) )
+      {
+        //user management control panel, for user management module only
+//        userManagementPanelSectionUI.setComponent( buildUI( data ) );
+      }
       else
-        clientSectionUI.setComponent( buildUI( data ) );    //the clientSectionUI should support multiple UI?
+      {
+//        clientSectionUI.setComponent( buildUI( data ) );    //the clientSectionUI should support multiple UI?
+      }
     }
-    
-    if( controlSectionUI == null )
-      return clientSectionUI;
-
-    //have both control section and client section
-    PanelCompositeUI ui = new PanelCompositeUI();
-    ui.setContainer( new VerticalPanel() );
-    ui.addChild( controlSectionUI );
-    ui.addChild( clientSectionUI );
-    
-    return ui;
+  }
+  
+  public static void refreshClientSection( Widget widget )
+  {
+    clientSectionUI.setComponent( widget );
   }
   
   public static Widget buildUI( ResponseData<?> responseData )
@@ -146,14 +170,14 @@ public class UserManagementUIFlow
     throw new IllegalStateException( "Invalid UIIdentity. " );
   }
   
-  public static void doGetStartUISuccess( List< ResponseData<?> > responseDatas )
+  public static void onGetStartUISuccess( List< ResponseData<?> > responseDatas )
   {
-    freshPage( responseDatas );
+    refreshPage( responseDatas );
   }
 
   public static void onLoginSuccess( LoginData loginData, List< ResponseData<?> > responseDatas )
   {
-    freshPage( responseDatas );
+    refreshPage( responseDatas );
   }
 
 
@@ -173,8 +197,7 @@ public class UserManagementUIFlow
   
   protected static void onUserManagementPanelOperationSuccess( UserManagementPanelOperation operation, List< ResponseData<?> > responseDatas )
   {
-    currentPopup = new PopupWithCancelButtonDecorator< Widget >( "", buildUI( responseDatas ) );
-    currentPopup.centre();
+    refreshPage( responseDatas );
   }
   
   public static void onSearchUserSuccess( List< UserListData > userListDatas )
@@ -207,9 +230,7 @@ public class UserManagementUIFlow
    */
   public static void onSaveRoleSuccess( RoleDetailData roleDetailData )
   {
-    currentPopup.hide( true );
-    currentPopup = new PopupWithCancelButtonDecorator< Widget >( "", buildRoleDetailUI( roleDetailData ) );
-    currentPopup.centre();
+    refreshClientSection( buildRoleDetailUI( roleDetailData ) );
   }
   
   

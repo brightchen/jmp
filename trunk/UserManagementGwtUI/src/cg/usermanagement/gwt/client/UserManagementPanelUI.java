@@ -2,6 +2,7 @@ package cg.usermanagement.gwt.client;
 
 import cg.gwt.components.client.ui.AlignedUIGroup;
 import cg.gwt.components.client.ui.ComponentUI;
+import cg.gwt.components.client.ui.UIFlexTableComposite.AlignStyle;
 import cg.gwt.components.client.ui.components.ButtonUI;
 import cg.gwt.components.shared.data.ButtonData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
@@ -37,7 +38,7 @@ public class UserManagementPanelUI extends ComponentUI< UserManagementPanelData,
         return buttonUI;
       }
     };
-    
+    buttonGroup.setAlignAttributes( AlignStyle.FixColumnSize, 5 );
     realComponent.add( buttonGroup );
     return realComponent;
   }
