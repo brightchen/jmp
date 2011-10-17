@@ -85,12 +85,10 @@ public class UserManagementUIFlow
     //have both control section and client section
     pageUI = new PanelCompositeUI();
     pageUI.setContainer( new VerticalPanel() );
-    pageUI.addChild( controlSectionUI.getRealComponent() );
-//    pageUI.addChild( userManagementPanelSectionUI );
-//    pageUI.addChild( clientSectionUI );
+    pageUI.addChild( controlSectionUI );
+    pageUI.addChild( userManagementPanelSectionUI );
+    pageUI.addChild( clientSectionUI );
     
-    RootPanel.get().clear();
-    RootPanel.get().add( pageUI );
   }
   
   /*
@@ -114,13 +112,19 @@ public class UserManagementUIFlow
       else if( UIIdentity.UM_CONTROL_PANEL.equals( identity ) )
       {
         //user management control panel, for user management module only
-//        userManagementPanelSectionUI.setComponent( buildUI( data ) );
+        userManagementPanelSectionUI.setComponent( buildUI( data ) );
       }
       else
       {
-//        clientSectionUI.setComponent( buildUI( data ) );    //the clientSectionUI should support multiple UI?
+        clientSectionUI.setComponent( buildUI( data ) );    //the clientSectionUI should support multiple UI?
       }
     }
+    
+    // the UI's onLoad will be called when adding this component to RootPanel(), which calls build() method.
+    // so, all the sub-componenets must be added to the pageUI before it added to the RootPanel();
+    RootPanel.get().clear();
+    RootPanel.get().add( pageUI );
+
   }
   
   public static void refreshClientSection( Widget widget )
