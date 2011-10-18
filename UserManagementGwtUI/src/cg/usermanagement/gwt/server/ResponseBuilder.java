@@ -88,7 +88,7 @@ public class ResponseBuilder
       rds.add( buildControlSectionData( locale ) );
     }
     
-     
+    // UM_CONTROL_PANEL
     {
       ResponseData< UserManagementPanelData > rd = new ResponseData< UserManagementPanelData >();
       rd.setFlowData( UIIdentity.UM_CONTROL_PANEL );
@@ -99,6 +99,13 @@ public class ResponseBuilder
       
       rds.add( rd );
     }    
+    
+    // the client section is emtpy
+    {
+      ResponseData rd = new ResponseData();
+      rd.setFlowData( UIIdentity.UM_EMPTY );
+      rds.add( rd );
+    }
     
     return rds;
   }

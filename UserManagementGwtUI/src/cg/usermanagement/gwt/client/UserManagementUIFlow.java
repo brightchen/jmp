@@ -3,6 +3,7 @@ package cg.usermanagement.gwt.client;
 import java.util.List;
 
 import cg.contentdata.shared.UIContentData;
+import cg.gwt.components.client.ui.EmptyUI;
 import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIFlowData;
@@ -89,6 +90,11 @@ public class UserManagementUIFlow
     pageUI.addChild( userManagementPanelSectionUI );
     pageUI.addChild( clientSectionUI );
     
+    // the UI's onLoad will be called when adding this component to RootPanel(), which calls build() method.
+    // so, all the sub-componenets must be added to the pageUI before it added to the RootPanel();
+    RootPanel.get().clear();
+    RootPanel.get().add( pageUI );
+
   }
   
   /*
@@ -108,23 +114,20 @@ public class UserManagementUIFlow
       {
         //generic control section, maybe used by other module(s)
         controlSectionUI.setComponent( buildUI( data ) );
+        controlSectionUI.refresh();
       }
       else if( UIIdentity.UM_CONTROL_PANEL.equals( identity ) )
       {
         //user management control panel, for user management module only
         userManagementPanelSectionUI.setComponent( buildUI( data ) );
+        userManagementPanelSectionUI.refresh();
       }
       else
       {
         clientSectionUI.setComponent( buildUI( data ) );    //the clientSectionUI should support multiple UI?
+        clientSectionUI.refresh();
       }
     }
-    
-    // the UI's onLoad will be called when adding this component to RootPanel(), which calls build() method.
-    // so, all the sub-componenets must be added to the pageUI before it added to the RootPanel();
-    RootPanel.get().clear();
-    RootPanel.get().add( pageUI );
-
   }
   
   public static void refreshClientSection( Widget widget )
@@ -149,6 +152,10 @@ public class UserManagementUIFlow
     if( UIIdentity.UM_CONTROL_PANEL.equals( identity ) )
     {
       return new UserManagementPanelUI( (UserManagementPanelData)contentData ); 
+    }
+    if( UIIdentity.UM_EMPTY.equals( identity ) )
+    {
+      return EmptyUI.instance();
     }
     if( UIIdentity.UM_SEARCH_USER.equals( identity ) )
     {

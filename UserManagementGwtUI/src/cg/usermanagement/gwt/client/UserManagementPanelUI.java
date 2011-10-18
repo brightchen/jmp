@@ -15,16 +15,19 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class UserManagementPanelUI extends ComponentUI< UserManagementPanelData, VerticalPanel >
 {
-  private VerticalPanel realComponent = new VerticalPanel();
-  
   public UserManagementPanelUI( UserManagementPanelData data )
   {
     setData( data );
+    setRealComponent( new VerticalPanel() );
   }
   
   @Override
   public VerticalPanel build()
   {
+    VerticalPanel realComponent = getRealComponent();
+    if( getData() == null )
+      return realComponent;
+    
     AlignedUIGroup< ButtonData > buttonGroup = new AlignedUIGroup< ButtonData >( getData().getButtonDatas(), new FlexTable() )
     {
       final UserManagementPanelOperation[] operations = UserManagementPanelOperation.values();
@@ -38,15 +41,8 @@ public class UserManagementPanelUI extends ComponentUI< UserManagementPanelData,
         return buttonUI;
       }
     };
-    buttonGroup.setAlignAttributes( AlignStyle.FixColumnSize, 5 );
+    buttonGroup.setAlignAttributes( AlignStyle.FixColumnSize, 5 );    
     realComponent.add( buttonGroup );
     return realComponent;
   }
-
-  @Override
-  public VerticalPanel getRealComponent()
-  {
-    return realComponent;
-  }
-
 }

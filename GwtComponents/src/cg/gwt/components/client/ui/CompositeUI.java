@@ -14,6 +14,7 @@ public abstract class CompositeUI< D, U extends Widget > extends ComponentUI< D,
 {
   private List< Widget > children = new ArrayList<Widget>();
   private U container;
+  private boolean isContainerInjected = false; 
   
   public CompositeUI(){}
   
@@ -57,8 +58,14 @@ public abstract class CompositeUI< D, U extends Widget > extends ComponentUI< D,
     return getContainer();
   }
   
-  
-  protected void beforeAddingChildren(){}
+  /**
+   * this UI can share the same container when refresh. 
+   * so, the child should be cleared from container( if the container is not injected by client ) when refresh.
+   */
+  protected void beforeAddingChildren()
+  {
+  }
+
   protected void afterAddingChildren(){}
   
   protected void addChildComponent( Widget child, int index )
@@ -105,6 +112,17 @@ public abstract class CompositeUI< D, U extends Widget > extends ComponentUI< D,
   public void setContainer( U container )
   {
     this.container = container;
+    isContainerInjected = true;
+  }
+
+  /**
+   * if the container is injected by the client code, it's client's responsibility to maintain this container 
+   * such as refresh, release etc
+   * @return true if the container is injected by client code
+   */
+  public boolean isContainerInjected()
+  {
+    return isContainerInjected;
   }
   
 }

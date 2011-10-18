@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class ComponentUI< D, U extends Widget > extends SimplePanel implements IDataSupport< D >
 {
   private D data;
+  private U realComponent;
   
   @Override
   public void setData( D data )
@@ -29,13 +30,29 @@ public abstract class ComponentUI< D, U extends Widget > extends SimplePanel imp
 
   //this method should be called after calling build()
   //return the real component which is wrappped by panel
-  public abstract U getRealComponent();
+  public U getRealComponent()
+  {
+    return realComponent;
+  }
+  
+  protected void setRealComponent( U realComponent )
+  {
+    this.realComponent = realComponent;
+  }
   
   @Override
   public void onLoad()
   {
     //wrapper by Panel
-    add( build() );
+    refresh();
   }
 
+  public void refresh()
+  {
+    if( realComponent != null )
+      remove( realComponent );
+    clear();
+    realComponent = build();
+    add( realComponent );
+  }
 }

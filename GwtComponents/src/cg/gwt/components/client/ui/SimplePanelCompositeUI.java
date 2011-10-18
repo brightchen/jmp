@@ -32,4 +32,5 @@ public class SimplePanelCompositeUI< U extends Widget > extends PanelCompositeUI
   {
     return new SimplePanel();
   }
+
 }
