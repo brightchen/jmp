@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import cg.common.util.CollectionUtil;
 import cg.common.util.DataConverter;
 import cg.common.util.EntityUtil;
 import cg.contentdata.management.ResourceDataManager;
@@ -27,6 +28,7 @@ import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
+import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
@@ -109,13 +111,40 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       return rds;
     for( ResponseData<?> rd : rds )
     {
-      ResourceDataManager.defaultInstance.injectResourceDatas( locale, rd.getContentData(), false );
+      if( rd.getContentData() != null )
+        ResourceDataManager.defaultInstance.injectResourceDatas( locale, rd.getContentData(), false );
       
       //handle locale menu specially
       if( UIIdentity.CONTROL_SECTION.equals( rd.getFlowData().getUiIdentity() ) )
         ResponseBuilder.fillLocaleMenuItems( ( (ControlSectionData)rd.getContentData() ).getMenuPanelData().get( 0 ) );
     }
     return rds;
+  }
+  
+  protected void updateClientSectionResponseData( ResponseData<?> clientSectionResponseData )
+  {
+    List< ResponseData<?> > rds = (List< ResponseData<?> >)SessionManager.getAttribute( UserManagementSessionKey.currentPageDatas );
+    if( rds == null )
+    {
+      rds = new ArrayList< ResponseData<?> >();
+      SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, rds );
+    }
+    
+    List< ResponseData<?> > cloneRds = CollectionUtil.shallowCloneTo( rds, new ArrayList< ResponseData<?> >() );
+    rds.clear();
+    for( ResponseData<?> rd : cloneRds ) )
+    {
+      //handle locale menu specially
+      if( UIIdentity.CONTROL_SECTION.equals( rd.getFlowData().getUiIdentity() ) )
+        continue;
+      if( UIIdentity.UM_CONTROL_PANEL.equals( rd.getFlowData().getUiIdentity() ) )
+        continue;
+      
+      //other one is client section data
+      
+        ResponseBuilder.fillLocaleMenuItems( ( (ControlSectionData)rd.getContentData() ).getMenuPanelData().get( 0 ) );
+    }
+    
   }
   
   public List< ResponseData<?> > userlogin( String userName, String password ) throws LoginException
