@@ -25,10 +25,10 @@ import cg.usermanagement.api.IUserService;
 import cg.usermanagement.api.UserSearchCriteria;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
+import cg.usermanagement.gwt.shared.data.ListUsersData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
-import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.model.view.PermissionView;
@@ -78,7 +78,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   @Override
   public List< ResponseData<?> > getStartUI( String localeName )
   {
-    List< ResponseData<?> > responseDatas = ResponseBuilder.buildStartUI( LocaleUtil.getLocale( localeName ) );
+    List< ResponseData<?> > responseDatas = ResponseUtil.buildStartUI( LocaleUtil.getLocale( localeName ) );
     
     //put into the session
     String sessionId = SessionManager.startSession();
@@ -116,36 +116,13 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       
       //handle locale menu specially
       if( UIIdentity.CONTROL_SECTION.equals( rd.getFlowData().getUiIdentity() ) )
-        ResponseBuilder.fillLocaleMenuItems( ( (ControlSectionData)rd.getContentData() ).getMenuPanelData().get( 0 ) );
+        ResponseUtil.fillLocaleMenuItems( ( (ControlSectionData)rd.getContentData() ).getMenuPanelData().get( 0 ) );
     }
     return rds;
   }
   
-  protected void updateClientSectionResponseData( ResponseData<?> clientSectionResponseData )
-  {
-    List< ResponseData<?> > rds = (List< ResponseData<?> >)SessionManager.getAttribute( UserManagementSessionKey.currentPageDatas );
-    if( rds == null )
-    {
-      rds = new ArrayList< ResponseData<?> >();
-      SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, rds );
-    }
-    
-    List< ResponseData<?> > cloneRds = CollectionUtil.shallowCloneTo( rds, new ArrayList< ResponseData<?> >() );
-    rds.clear();
-    for( ResponseData<?> rd : cloneRds ) )
-    {
-      //handle locale menu specially
-      if( UIIdentity.CONTROL_SECTION.equals( rd.getFlowData().getUiIdentity() ) )
-        continue;
-      if( UIIdentity.UM_CONTROL_PANEL.equals( rd.getFlowData().getUiIdentity() ) )
-        continue;
-      
-      //other one is client section data
-      
-        ResponseBuilder.fillLocaleMenuItems( ( (ControlSectionData)rd.getContentData() ).getMenuPanelData().get( 0 ) );
-    }
-    
-  }
+
+  
   
   public List< ResponseData<?> > userlogin( String userName, String password ) throws LoginException
   {
@@ -162,7 +139,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     // cache the user permissions in the session as it is a very frequently used 
     SessionManager.putAttribute( UserManagementSessionKey.userPermissions, permissions );
     
-    List< ResponseData<?> > responseDatas = ResponseBuilder.getUserManagementPanelDatas( getCurrentLocale() );
+    List< ResponseData<?> > responseDatas = ResponseUtil.getUserManagementPanelDatas( getCurrentLocale() );
     SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, responseDatas );
     
     return responseDatas;
@@ -185,7 +162,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     // cache the role permissions in the session as it is a very frequently used 
     SessionManager.putAttribute( UserManagementSessionKey.accountPermissions, permissions );
     
-    List< ResponseData<?> > responseDatas = ResponseBuilder.getUserManagementPanelDatas( getCurrentLocale() );
+    List< ResponseData<?> > responseDatas = ResponseUtil.getUserManagementPanelDatas( getCurrentLocale() );
     SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, responseDatas );
     
     return responseDatas;
@@ -226,7 +203,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       rd.setContentData( data );
       
       rds.add( rd );
-      
+      updateClientSectionResponseDataToSession( rd );
       return rds;
 
     }
@@ -250,7 +227,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       rd.setContentData( data );
       
       rds.add( rd );
-      
+      updateClientSectionResponseDataToSession( rd );
       return rds;
     }
     if( UserManagementPanelOperation.AddPermission.equals( operation ) )
@@ -268,7 +245,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     return roleView.getId();
   }
   
-  public List< UserListData > searchUser( SearchUserData searchUserData )
+  public List< ResponseData< ListUsersData > > searchUser( SearchUserData searchUserData )
   {
     UserSearchCriteria criteria = new UserSearchCriteria();
     EntityUtil.shallowCopyEntity( searchUserData, criteria );
@@ -280,14 +257,18 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       return Collections.emptyList();
     }
 
-    List< UserListData > userListDatas = new ArrayList< UserListData >();
+    List< UserListData > userDatas = new ArrayList< UserListData >();
     for( UserSearchView userSearchView : userSearchViews )
     {
       UserListData userListData = new UserListData();
       EntityUtil.shallowCopyEntity( userSearchView, userListData );
-      userListDatas.add( userListData );
+      userDatas.add( userListData );
     }
-    return userListDatas;
+    
+    List< ResponseData< ListUsersData > > responseDatas = ResponseUtil.getListUsersData( userDatas );
+    updateResponseDatasToSession( responseDatas );
+    
+    return responseDatas;
   }
   
   protected void adjustSessionManager()

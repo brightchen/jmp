@@ -3,8 +3,8 @@ package cg.usermanagement.gwt.client;
 import java.util.List;
 
 import cg.gwt.components.shared.data.ResponseData;
+import cg.usermanagement.gwt.shared.data.ListUsersData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
-import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
@@ -27,7 +27,7 @@ public interface IUserManagementAsync
    */
   public void addRole( String roleName, AsyncCallback< Long > callback );
   
-  public void searchUser( SearchUserData searchUserData, AsyncCallback< List< UserListData > > userListDatas );
+  public void searchUser( SearchUserData searchUserData, AsyncCallback< List< ResponseData< ListUsersData > > > userListDatas );
   
   public void onUserManagementPanelOperation( UserManagementPanelOperation operation, AsyncCallback< List< ResponseData<?> > > responseDatas );
 }
