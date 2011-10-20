@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import cg.common.util.CollectionUtil;
 import cg.contentdata.management.ResourceDataManager;
 import cg.gwt.components.shared.data.MenuBarData;
 import cg.gwt.components.shared.data.ResponseData;
@@ -23,7 +24,7 @@ import cg.usermanagement.gwt.shared.data.UserRegisterData;
 /*
  * this class provides methods to build the response to the Web client
  */
-public class ResponseBuilder
+public class ResponseUtil
 {
   public static ResponseData< ControlSectionData > buildControlSectionData( Locale locale )
   {
@@ -126,4 +127,76 @@ public class ResponseBuilder
       menuBarData.addMenuItemData( menuItemData );
     }
   }
+  
+  /**
+   * get the response data of the section which represented by uiIdentity from responseDatas
+   * @param responseDatas
+   * @param uiIdentity UI section which represented by UIIdentity
+   * @return the ResponseData found, null if not found
+   */
+  public static ResponseData<?> getResponseData( List< ResponseData<?> > responseDatas, UIIdentity uiIdentity )
+  {
+    if( responseDatas == null || responseDatas.isEmpty() )
+      return null;
+    for( ResponseData<?> rd : responseDatas )
+    {
+      if( uiIdentity.equals( rd.getFlowData().getUiIdentity() ) )
+        return rd;
+    }
+    return null;
+  }
+  
+  public static void updateClientSectionResponseDataToSession( ResponseData<?> clientSectionResponseData )
+  {
+    List< ResponseData<?> > rds = (List< ResponseData<?> >)SessionManager.getAttribute( UserManagementSessionKey.currentPageDatas );
+    if( rds == null )
+    {
+      rds = new ArrayList< ResponseData<?> >();
+      SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, rds );
+    }
+    
+    List< ResponseData<?> > clonedRds = CollectionUtil.shallowCloneTo( rds, new ArrayList< ResponseData<?> >() );
+    rds.clear();
+    for( ResponseData<?> rd : clonedRds )
+    {
+      if( UIIdentity.CONTROL_SECTION.equals( rd.getFlowData().getUiIdentity() ) )
+        rds.add( rd );
+      if( UIIdentity.UM_CONTROL_PANEL.equals( rd.getFlowData().getUiIdentity() ) )
+        rds.add( rd );
+      
+      //this one is client section data
+      rds.add( clientSectionResponseData );
+//      rd.setFlowData( clientSectionResponseData.getFlowData() );
+//      rd.setContentData( clientSectionResponseData.getContentData() );
+      //the EntityUtil.shallowCopyEntity() has problem for this, investigate
+      //EntityUtil.shallowCopyEntity( clientSectionResponseData, rd );
+    }
+  }
+
+  /**
+   * set the response datas to the session, this is useful to fresh current page, such as when location changed 
+   * compatible with the UI display, only update the section which listed in the responseDatas
+   * @param responseDatas:
+   */
+  public static void updateResponseDatasToSession( List< ResponseData<?> > responseDatas )
+  {
+    if( responseDatas == null || responseDatas.isEmpty() )
+      return;
+
+    List< ResponseData<?> > sessionRds = (List< ResponseData<?> >)SessionManager.getAttribute( UserManagementSessionKey.currentPageDatas );
+    if( sessionRds == null )
+    {
+      sessionRds = new ArrayList< ResponseData<?> >();
+      SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, sessionRds );
+    }
+    
+    List< ResponseData<?> > clonedRds = CollectionUtil.shallowCloneTo( sessionRds, new ArrayList< ResponseData<?> >() );
+    sessionRds.clear();
+    sessionRds.addAll( responseDatas );
+    
+    List< UIIdentity > identities = getResponseDatasIdentities( responseDatas );
+    removeResponseDatas( clonedRds, identities );
+    sessionRds.addAll( clonedRds );
+  }
+  
 }
