@@ -1,0 +1,11 @@
+- install eclipse
+- install eclipse plugins
+  - Gwt eclipse plugin
+  - Ivy eclipse plugin
+  - svn eclipse plugin
+- checkout projects
+- setup ivy setting: configs--invsettings.xml
+- resolve ivy
+  - extra required jars
+    - javax.activation#activation;1.0.2!activation.jar;  http://repository.jboss.org/maven2/javax/activation/activation/1.0.2/
+- manually compile gwt projects
