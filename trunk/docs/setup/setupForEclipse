@@ -6,6 +6,5 @@
 - checkout projects
 - setup ivy setting: configs--invsettings.xml
 - resolve ivy
-  - extra required jars
-    - javax.activation#activation;1.0.2!activation.jar;  http://repository.jboss.org/maven2/javax/activation/activation/1.0.2/
+  - copy other jars ( configs--ivy--otherJars ) to the ivy local repository (dev--ivyRep) 
 - manually compile gwt projects
