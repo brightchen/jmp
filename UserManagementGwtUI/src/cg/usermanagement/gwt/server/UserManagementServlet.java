@@ -203,7 +203,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       rd.setContentData( data );
       
       rds.add( rd );
-      updateClientSectionResponseDataToSession( rd );
+      ResponseUtil.updateClientSectionResponseDataToSession( rd );
       return rds;
 
     }
@@ -227,7 +227,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       rd.setContentData( data );
       
       rds.add( rd );
-      updateClientSectionResponseDataToSession( rd );
+      ResponseUtil.updateClientSectionResponseDataToSession( rd );
       return rds;
     }
     if( UserManagementPanelOperation.AddPermission.equals( operation ) )
@@ -265,8 +265,8 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       userDatas.add( userListData );
     }
     
-    List< ResponseData< ListUsersData > > responseDatas = ResponseUtil.getListUsersData( userDatas );
-    updateResponseDatasToSession( responseDatas );
+    List< ResponseData< ListUsersData > > responseDatas = UserManagementResponseUtil.getListUsersResponses( getCurrentLocale(), userDatas );
+    ResponseUtil.updateResponseDatasToSession( Frame.UMF_SEARCH_USER, ResponseUtil.toGenericResponseDataList( responseDatas ) );
     
     return responseDatas;
   }
