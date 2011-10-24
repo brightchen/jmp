@@ -1,12 +1,14 @@
 package cg.usermanagement.gwt.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import cg.common.util.CollectionUtil;
 import cg.contentdata.management.ResourceDataManager;
+import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.shared.data.MenuBarData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
@@ -178,7 +180,7 @@ public class ResponseUtil
    * compatible with the UI display, only update the section which listed in the responseDatas
    * @param responseDatas:
    */
-  public static void updateResponseDatasToSession( List< ResponseData<?> > responseDatas )
+  public static void updateResponseDatasToSession( Frame frame, List< ResponseData<?> > responseDatas )
   {
     if( responseDatas == null || responseDatas.isEmpty() )
       return;
@@ -192,11 +194,52 @@ public class ResponseUtil
     
     List< ResponseData<?> > clonedRds = CollectionUtil.shallowCloneTo( sessionRds, new ArrayList< ResponseData<?> >() );
     sessionRds.clear();
-    sessionRds.addAll( responseDatas );
     
-    List< UIIdentity > identities = getResponseDatasIdentities( responseDatas );
-    removeResponseDatas( clonedRds, identities );
-    sessionRds.addAll( clonedRds );
+    for( UIIdentity identity : frame.getUiIdentities() )
+    {
+      ResponseData rd = getResponseDataByIdentity( identity, responseDatas, clonedRds );
+      if( rd == null )
+      {
+        throw new RuntimeException( "Can't get " );
+      }
+      sessionRds.add( rd );
+    }
+  }
+
+  /**
+   * get response data from lists of response datas according to UIIdentity
+   * @param identity
+   * @param responseDataLists
+   * @return
+   */
+  public static ResponseData getResponseDataByIdentity( UIIdentity identity, List< ResponseData<?> > ... responseDataLists )
+  {
+    if( identity == null || responseDataLists == null || responseDataLists.length == 0 )
+      return null;
+    
+    for( List< ResponseData<?> > rdList : responseDataLists )
+    {
+      for( ResponseData<?> rd : rdList )
+      {
+        if( identity.equals( rd.getFlowData().getUiIdentity() ) )
+        {
+          return rd;
+        }
+      }
+    }
+    return null;
   }
   
+  public static < D extends UIContentData > List< ResponseData<?> > toGenericResponseDataList( List< ResponseData<D> > rdList )
+  {
+    if( rdList == null || rdList.isEmpty() )
+      return Collections.emptyList();
+    
+    List< ResponseData<?> > genericRdList =new ArrayList< ResponseData<?> >();
+    for( ResponseData<D> rd : rdList )
+    {
+      genericRdList.add( rd );
+    }
+    return genericRdList;
+  }
 }
