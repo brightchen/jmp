@@ -83,8 +83,8 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     //put into the session
     String sessionId = SessionManager.startSession();
     setSessionId( sessionId );
-    SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, responseDatas );
-
+    
+    ResponseUtil.updateResponseDatasToSession( Frame.UMF_START, responseDatas );
     return responseDatas;
   }
   
