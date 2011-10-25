@@ -14,6 +14,13 @@ import cg.common.util.StringUtil;
 
 public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
 {
+  // there are some query relation which need to function and change the property value
+  public static enum QueryRelation
+  {
+    EqualIgnoreCase,
+    Like,
+  }
+  
   private static QueryCriteriaBuilder defaultInstance;
   
   public static QueryCriteriaBuilder defaultInstance()
@@ -43,6 +50,20 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
   @SuppressWarnings( { "rawtypes" } )  
   public IQueryCriteria buildEqualsCriteria( Class entityClass, Object criteria )
   {
+    return buildCriteria( entityClass, criteria, Operator.Equal );
+  }
+
+  /**
+   * build the composite query criteria from the criteria and entity
+   * @param entityClass: the class of the entity which can get the field of query criteria  
+   * @param criteria: the criteria which can get the value of query criteria
+   * @param operator: the operator of the query, it must be only parameter operator
+   * @return: IQueryCriteria
+   */
+  @Override
+  @SuppressWarnings( { "rawtypes" } )  
+  public IQueryCriteria buildCriteria( Class entityClass, Object criteria, Operator operator )
+  {
     if( entityClass == null || criteria == null )
       return null;
     
@@ -56,7 +77,7 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
     {
       ClassProperty criteriaProperty = getCompatibleProperty( entityProperty, criteriaProperties );
       //build the query criteria for this property
-      IQueryCriteria queryCriteria = buildEqualCriteria( entityProperty, criteriaProperty, criteria );
+      IQueryCriteria queryCriteria = buildCriteria( entityProperty, criteriaProperty, criteria, operator );
       if( queryCriteria != null )
         queryCriterias.add( queryCriteria );
     }
@@ -84,13 +105,77 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
    */
   public IQueryCriteria buildEqualCriteria( ClassProperty entityProperty, ClassProperty criteriaProperty, Object criteria )
   {
+    return buildCriteria( entityProperty, criteriaProperty, criteria, Operator.Equal );
+  }
+
+  /**
+   * build the equal criteria for a property
+   * @param entityProperty: the entity property
+   * @param criteriaProperty: the criteria property
+   * @param criteria: the criteria which can get the criteria value, the value should be a String
+   * @return
+   */
+  public IQueryCriteria buildEqualIgnoreCaseCriteria( ClassProperty entityProperty, ClassProperty criteriaProperty, Object criteria )
+  {
     if( criteriaProperty == null )
       return null;
     ClassPropertyExt criteriaPropertyExt = ClassPropertyUtil.toClassPropertyExt( criteriaProperty );
     Object propertyValue = criteriaPropertyExt.getPropertyValue( criteria );
     if( isIgnoreProperty( criteriaProperty, propertyValue ) )
       return null;  // propertyValue equals means not need to care this property;
-    return new QueryCriteria( entityProperty, Operator.Equal, propertyValue );
+    if( !( propertyValue instanceof String ) )
+    {
+      throw new RuntimeException( "the property value of buildEqualIgnoreCaseCriteria() should be String" ); 
+    }
+    
+    return new QueryCriteria( entityProperty, Operator.Equal, ( (String)propertyValue ).toUpperCase() )
+                {
+                  @Override
+                  public String getFunctionForProperty( String beanAlias, String propertyName )
+                  {
+                    return String.format( "upper( %s.%s ) ", beanAlias, propertyName );
+                  }
+                };
+  }
+  
+  /**
+   * build the criteria for a property
+   * @param entityProperty: the entity property
+   * @param criteriaProperty: the criteria property
+   * @param criteria: the criteria which can get the criteria value
+   * @param operator: the operator of the query, it must be only parameter operator
+   * @return
+   */
+  public IQueryCriteria buildCriteria( ClassProperty entityProperty, ClassProperty criteriaProperty, Object criteria, Operator operator )
+  {
+    if( criteriaProperty == null )
+      return null;
+    ClassPropertyExt criteriaPropertyExt = ClassPropertyUtil.toClassPropertyExt( criteriaProperty );
+    Object propertyValue = criteriaPropertyExt.getPropertyValue( criteria );
+    if( isIgnoreProperty( criteriaProperty, propertyValue ) )
+      return null;  // propertyValue equals means not need to care this property;
+    return buildCriteria( entityProperty, operator, propertyValue );    
+  }
+  
+  
+  public IQueryCriteria buildCriteria( ClassProperty entityProperty, Operator operator, Object propertyValue )
+  {
+    operator = getOperator( entityProperty, propertyValue, operator );
+    return new QueryCriteria( entityProperty, operator, propertyValue );
+  }
+  
+  /**
+   * this method give a chance to override the operator
+   * @param entityProperty: the entity property
+   * @param criteriaProperty: the criteria property
+   * @param propertyValue: the value of the property
+   * @param defaultOperator: the operator of the query, it must be only parameter operator
+   * @param defaultOperator
+   * @return
+   */
+  protected Operator getOperator( ClassProperty entityProperty, Object propertyValue, Operator defaultOperator )
+  {
+    return defaultOperator;
   }
   
   /**

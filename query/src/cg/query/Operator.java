@@ -8,6 +8,7 @@ public enum Operator
   GreatEqual( ">=" ),
   LessThan( "<" ),
   LessEqual( "<=" ),
+  Like( "like" ),
   In( "in", NumberOfParameter.Variable )
   ;
   

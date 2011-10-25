@@ -73,6 +73,7 @@ public class UserService extends GenericJpaDaoService implements IUserService
   @Override
   public List< UserSearchView > findUsers( UserSearchCriteria criteria )
   {
+    // most of property is equals ignore case
     IQueryCriteria queryCriteria = QueryCriteriaBuilder.defaultInstance().buildEqualsCriteria( User.class, criteria );
     String query = SmartQueryBuilder.defaultInstance().buildSearchHsql( User.class, queryCriteria );
     @SuppressWarnings( "unchecked" )
