@@ -1,7 +1,5 @@
 package cg.usermanagement.gwt.server;
 
-import java.util.Set;
-
 import cg.gwt.components.shared.data.UIIdentity;
 
 public class FrameConfig
