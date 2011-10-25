@@ -252,10 +252,6 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     IUserService service = getUserService();
     
     List< UserSearchView > userSearchViews = service.findUsers( criteria );
-    if( userSearchViews == null || userSearchViews.isEmpty() )
-    {
-      return Collections.emptyList();
-    }
 
     List< UserListData > userDatas = new ArrayList< UserListData >();
     for( UserSearchView userSearchView : userSearchViews )
@@ -266,7 +262,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     }
     
     List< ResponseData< ListUsersData > > responseDatas = UserManagementResponseUtil.getListUsersResponses( getCurrentLocale(), userDatas );
-    ResponseUtil.updateResponseDatasToSession( Frame.UMF_SEARCH_USER, ResponseUtil.toGenericResponseDataList( responseDatas ) );
+    ResponseUtil.updateResponseDatasToSession( Frame.UMF_LIST_USERS, ResponseUtil.toGenericResponseDataList( responseDatas ) );
     
     return responseDatas;
   }
