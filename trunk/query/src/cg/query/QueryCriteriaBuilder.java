@@ -14,12 +14,6 @@ import cg.common.util.StringUtil;
 
 public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
 {
-  // there are some query relation which need to function and change the property value
-  public static enum QueryRelation
-  {
-    EqualIgnoreCase,
-    Like,
-  }
   
   private static QueryCriteriaBuilder defaultInstance;
   
@@ -39,19 +33,6 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
   }
   
   private QueryCriteriaBuilder(){}
-  
-  /**
-   * build the composite query criteria from the criteria and entity
-   * @param entityClass: the class of the entity which can get the field of query criteria  
-   * @param criteria: the criteria which can get the value of query criteria
-   * @return: IQueryCriteria
-   */
-  @Override
-  @SuppressWarnings( { "rawtypes" } )  
-  public IQueryCriteria buildEqualsCriteria( Class entityClass, Object criteria )
-  {
-    return buildCriteria( entityClass, criteria, Operator.Equal );
-  }
 
   /**
    * build the composite query criteria from the criteria and entity
@@ -63,6 +44,18 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
   @Override
   @SuppressWarnings( { "rawtypes" } )  
   public IQueryCriteria buildCriteria( Class entityClass, Object criteria, Operator operator )
+  {
+    return buildCriteria( entityClass, criteria, new RelationWrapper( operator ) );
+  }
+
+  @Override
+  @SuppressWarnings( { "rawtypes" } )  
+  public IQueryCriteria buildCriteria( Class entityClass, Object criteria, QueryRelation queryRelation )
+  {
+    return buildCriteria( entityClass, criteria, new RelationWrapper( queryRelation ) );
+  }
+
+  public IQueryCriteria buildCriteria( Class entityClass, Object criteria, RelationWrapper relationWrapper )
   {
     if( entityClass == null || criteria == null )
       return null;
@@ -77,7 +70,7 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
     {
       ClassProperty criteriaProperty = getCompatibleProperty( entityProperty, criteriaProperties );
       //build the query criteria for this property
-      IQueryCriteria queryCriteria = buildCriteria( entityProperty, criteriaProperty, criteria, operator );
+      IQueryCriteria queryCriteria = buildCriteria( entityProperty, criteriaProperty, criteria, relationWrapper );
       if( queryCriteria != null )
         queryCriterias.add( queryCriteria );
     }
@@ -96,47 +89,6 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
     return CompositeQueryCriteria.buildQuery( CriteriaOperator.And, queryCriterias.toArray( new IQueryCriteria[ queryCriterias.size() ] ) );
   }
   
-  /**
-   * build the equal criteria for an property
-   * @param entityProperty: the entity property
-   * @param criteriaProperty: the criteria property
-   * @param criteria: the criteria which can get the criteria value
-   * @return
-   */
-  public IQueryCriteria buildEqualCriteria( ClassProperty entityProperty, ClassProperty criteriaProperty, Object criteria )
-  {
-    return buildCriteria( entityProperty, criteriaProperty, criteria, Operator.Equal );
-  }
-
-  /**
-   * build the equal criteria for a property
-   * @param entityProperty: the entity property
-   * @param criteriaProperty: the criteria property
-   * @param criteria: the criteria which can get the criteria value, the value should be a String
-   * @return
-   */
-  public IQueryCriteria buildEqualIgnoreCaseCriteria( ClassProperty entityProperty, ClassProperty criteriaProperty, Object criteria )
-  {
-    if( criteriaProperty == null )
-      return null;
-    ClassPropertyExt criteriaPropertyExt = ClassPropertyUtil.toClassPropertyExt( criteriaProperty );
-    Object propertyValue = criteriaPropertyExt.getPropertyValue( criteria );
-    if( isIgnoreProperty( criteriaProperty, propertyValue ) )
-      return null;  // propertyValue equals means not need to care this property;
-    if( !( propertyValue instanceof String ) )
-    {
-      throw new RuntimeException( "the property value of buildEqualIgnoreCaseCriteria() should be String" ); 
-    }
-    
-    return new QueryCriteria( entityProperty, Operator.Equal, ( (String)propertyValue ).toUpperCase() )
-                {
-                  @Override
-                  public String getFunctionForProperty( String beanAlias, String propertyName )
-                  {
-                    return String.format( "upper( %s.%s ) ", beanAlias, propertyName );
-                  }
-                };
-  }
   
   /**
    * build the criteria for a property
@@ -146,7 +98,7 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
    * @param operator: the operator of the query, it must be only parameter operator
    * @return
    */
-  public IQueryCriteria buildCriteria( ClassProperty entityProperty, ClassProperty criteriaProperty, Object criteria, Operator operator )
+  protected IQueryCriteria buildCriteria( ClassProperty entityProperty, ClassProperty criteriaProperty, Object criteria, RelationWrapper relationWrapper )
   {
     if( criteriaProperty == null )
       return null;
@@ -154,14 +106,101 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
     Object propertyValue = criteriaPropertyExt.getPropertyValue( criteria );
     if( isIgnoreProperty( criteriaProperty, propertyValue ) )
       return null;  // propertyValue equals means not need to care this property;
-    return buildCriteria( entityProperty, operator, propertyValue );    
+    return buildCriteria( entityProperty, relationWrapper, propertyValue );    
   }
   
   
-  public IQueryCriteria buildCriteria( ClassProperty entityProperty, Operator operator, Object propertyValue )
+  protected IQueryCriteria buildCriteria( ClassProperty entityProperty, RelationWrapper relationWrapper, Object propertyValue )
   {
-    operator = getOperator( entityProperty, propertyValue, operator );
+    {
+      Operator operator = relationWrapper.getOperator();
+      if( operator != null )
+      {
+        return buildCriteria( entityProperty, operator, propertyValue );
+      }
+    }
+    
+    {
+      QueryRelation queryRelation = relationWrapper.getQueryRelation();
+      if( queryRelation == null )
+        return null;
+      
+      //all following query relation requires property value is String
+      if( !( propertyValue instanceof String ) )
+      {
+        throw new RuntimeException( "property value expected to be String for QueryRelation." );
+      }
+      
+      if( QueryRelation.EqualIgnoreCase.equals( queryRelation ) )
+      {
+        return buildEqualIgnoreCaseCriteria( entityProperty, (String)propertyValue );
+      }
+      if( QueryRelation.Like.equals( queryRelation ) )
+      {
+        return buildLikeCriteria( entityProperty, (String)propertyValue );
+      }
+      if( QueryRelation.LikeIgnoreCase.equals( queryRelation ) )
+      {
+        return buildLikeIgnoreCaseCriteria( entityProperty, (String)propertyValue );
+      }
+
+      throw new RuntimeException( "invalid QueryRelation value." );
+    
+    }
+    
+  }
+  
+  protected IQueryCriteria buildCriteria( ClassProperty entityProperty, Operator operator, Object propertyValue )
+  {
     return new QueryCriteria( entityProperty, operator, propertyValue );
+  }
+
+  /**
+   * build the like query criteria for a property
+   * @param entityProperty: the entity property
+   * @param propertyValue: the criteria/property value
+   * @return
+   */
+  public IQueryCriteria buildLikeCriteria( ClassProperty entityProperty, String propertyValue )
+  {
+    return new QueryCriteria( entityProperty, Operator.Like, propertyValue + "%" );
+  }
+  
+  /**
+   * build the like ignore case query criteria for a property
+   * @param entityProperty: the entity property
+   * @param propertyValue: the criteria/property value
+   * @return
+   */
+  public IQueryCriteria buildLikeIgnoreCaseCriteria( ClassProperty entityProperty, String propertyValue )
+  {
+    return new QueryCriteria( entityProperty, Operator.Like, propertyValue.toUpperCase() + "%" )
+                {
+                  @Override
+                  public String getFunctionForProperty( String beanAlias, String propertyName )
+                  {
+                    return String.format( "upper( %s.%s ) ", beanAlias, propertyName );
+                  }
+                };
+  }
+  
+  
+  /**
+   * build the equal ignore case query criteria for a property
+   * @param entityProperty: the entity property
+   * @param propertyValue: the criteria/property value
+   * @return
+   */
+  public IQueryCriteria buildEqualIgnoreCaseCriteria( ClassProperty entityProperty, String propertyValue )
+  {
+    return new QueryCriteria( entityProperty, Operator.Equal, propertyValue.toUpperCase() )
+                {
+                  @Override
+                  public String getFunctionForProperty( String beanAlias, String propertyName )
+                  {
+                    return String.format( "upper( %s.%s ) ", beanAlias, propertyName );
+                  }
+                };
   }
   
   /**
@@ -224,5 +263,37 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
       }
     }
     return null;
+  }
+  
+  
+  /**
+   * the logic of handle operator and QueryRelation is almost same, so, create this wrapper class to simplify the code
+   * @author bright
+   *
+   */
+  protected static class RelationWrapper
+  {
+    private Operator operator;
+    private QueryRelation queryRelation;
+    
+    public RelationWrapper( Operator operator )
+    {
+      this.operator = operator;
+    }
+    public RelationWrapper( QueryRelation queryRelation )
+    {
+      this.queryRelation = queryRelation;
+    }
+    
+    public Operator getOperator()
+    {
+      return operator;
+    }
+    public QueryRelation getQueryRelation()
+    {
+      return queryRelation;
+    }
+    
+    
   }
 }
