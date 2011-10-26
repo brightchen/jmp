@@ -11,10 +11,10 @@ import cg.gwt.components.shared.data.UIIdentity;
 import cg.usermanagement.gwt.client.role.RoleDetailUI;
 import cg.usermanagement.gwt.client.user.SearchUserUI;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
+import cg.usermanagement.gwt.shared.data.ListUsersData;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
-import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserManagementStartData;
@@ -100,34 +100,50 @@ public class UserManagementUIFlow
   /*
    * the responseDatas should be control section data and the data for the client section
    */
-  @SuppressWarnings( "unchecked" ) 
+  @SuppressWarnings( "unchecked" )
   public static void refreshPage( List< ResponseData<?> > responseDatas )
+  {
+    if( pageUI == null )
+      buildPage();
+    for( ResponseData data : responseDatas )
+    {
+      handleResponseData( data );
+    }
+  }
+  
+  @SuppressWarnings( "unchecked" ) 
+  public static < D extends UIContentData > void refreshPageTypeSafe( List< ResponseData<D> > responseDatas )
   {
     if( pageUI == null )
       buildPage();
     
     for( ResponseData data : responseDatas )
     {
-      UIFlowData flowData = data.getFlowData();
-      UIIdentity identity = flowData.getUiIdentity();
-      if( UIIdentity.CONTROL_SECTION.equals( identity ) )
-      {
-        //generic control section, maybe used by other module(s)
-        controlSectionUI.setComponent( buildUI( data ) );
-        controlSectionUI.refresh();
-      }
-      else if( UIIdentity.UM_CONTROL_PANEL.equals( identity ) )
-      {
-        //user management control panel, for user management module only
-        userManagementPanelSectionUI.setComponent( buildUI( data ) );
-        userManagementPanelSectionUI.refresh();
-      }
-      else
-      {
-        clientSectionUI.setComponent( buildUI( data ) );    //the clientSectionUI should support multiple UI?
-        clientSectionUI.refresh();
-      }
+      handleResponseData( data );
     }
+  }
+  
+  public static void handleResponseData( ResponseData responseData )
+  {
+    UIFlowData flowData = responseData.getFlowData();
+    UIIdentity identity = flowData.getUiIdentity();
+    if( UIIdentity.CONTROL_SECTION.equals( identity ) )
+    {
+      //generic control section, maybe used by other module(s)
+      controlSectionUI.setComponent( buildUI( responseData ) );
+      controlSectionUI.refresh();
+    }
+    else if( UIIdentity.UM_CONTROL_PANEL.equals( identity ) )
+    {
+      //user management control panel, for user management module only
+      userManagementPanelSectionUI.setComponent( buildUI( responseData ) );
+      userManagementPanelSectionUI.refresh();
+    }
+    else
+    {
+      clientSectionUI.setComponent( buildUI( responseData ) );    //the clientSectionUI should support multiple UI?
+      clientSectionUI.refresh();
+    }    
   }
   
   public static void refreshClientSection( Widget widget )
@@ -177,8 +193,12 @@ public class UserManagementUIFlow
     if( UIIdentity.UM_ADD_PERMISSION.equals( identity ) )
     {
     }
+    if( UIIdentity.UM_LIST_USERS.equals( identity ) )
+    {
+      
+    }
 
-    throw new IllegalStateException( "Invalid UIIdentity. " );
+    throw new IllegalStateException( "Invalid UIIdentity: " +  identity.name() );
   }
   
   public static void onGetStartUISuccess( List< ResponseData<?> > responseDatas )
@@ -211,9 +231,9 @@ public class UserManagementUIFlow
     refreshPage( responseDatas );
   }
   
-  public static void onSearchUserSuccess( List< UserListData > userListDatas )
+  public static void onSearchUserSuccess( List< ResponseData< ListUsersData > > searchUserResponse )
   {
-    
+    refreshPageTypeSafe( searchUserResponse );
   }
   
   public static void onUserManagementPanelSearchAccount()

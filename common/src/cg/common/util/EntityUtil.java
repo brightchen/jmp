@@ -21,18 +21,20 @@ public class EntityUtil
     
     Class<?> destClass = dest.getClass();
 
-    for( Method method : sourceMethods )
+    for( Method sourceGetter : sourceMethods )
     {
-      if( !ReflectionUtil.isTypicalGetterMethod( method ) )
+      if( !ReflectionUtil.isTypicalGetterMethod( sourceGetter ) )
         continue;
-      String setMethodName = ReflectionUtil.getCorrespondingSetMethodName( method.getName() );
+      String destSetterName = ReflectionUtil.getCorrespondingSetMethodName( sourceGetter.getName() );
       try
       {
-        Object data = method.invoke( source, (Object[])null );
-        Method setMethod = ReflectionUtil.getMethod( destClass, setMethodName, ReflectionUtil.getParameterTypes( new Object[]{ data } ) ); //destClass.getMethod( setMethodName, (Class<?>[])null );
-        if( setMethod == null )
+        Object data = sourceGetter.invoke( source, (Object[])null );
+//        if( data == null )
+//          continue;   //don't have to call set if data is null;
+        Method destSetter = ReflectionUtil.getMethod( destClass, destSetterName, ReflectionUtil.getParameterTypes( new Object[]{ data } ) ); //destClass.getMethod( setMethodName, (Class<?>[])null );
+        if( destSetter == null )
           continue;
-        setMethod.invoke( dest, data );
+        destSetter.invoke( dest, data );
       }
       catch( Exception e )
       {

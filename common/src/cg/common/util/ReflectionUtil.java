@@ -182,7 +182,11 @@ public class ReflectionUtil
    */
   public static boolean isParameterTypeCompatible( Class<?> parameterType, Class<?> expectedParameterType )
   {
-    if( expectedParameterType == null || parameterType == null )
+    //we can call set(null)
+    //so, isParameterTypeCompatible( any-type, null ) returns true;
+    if( expectedParameterType == null )
+      return true;
+    if( parameterType == null )
       throw new IllegalArgumentException( "Neither parameter type nor expected parameter type should be null." );
 
     //TODO: need to check primitive etc

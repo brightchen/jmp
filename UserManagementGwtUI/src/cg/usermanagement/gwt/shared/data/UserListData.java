@@ -2,6 +2,8 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
+import cg.contentdata.shared.ITextList;
+
 /**
  * this class only includes the information which need to display in the user search result for one user.
  * it's not a content data as it don't include ResourceData
@@ -10,7 +12,7 @@ import java.io.Serializable;
  * @author bchen
  *
  */
-public class UserListData implements Serializable
+public class UserListData implements ITextList, Serializable
 {
   private static final long serialVersionUID = 3302774388266429127L;
   
@@ -21,6 +23,8 @@ public class UserListData implements Serializable
   private String status;
   private String phone;
   private String email;
+  
+  private String[] texts = { name, firstName, lastName, status, phone, email };
   
   public Long getId()
   {
@@ -77,6 +81,22 @@ public class UserListData implements Serializable
   public void setEmail( String email )
   {
     this.email = email;
+  }
+  
+  public int getCount()
+  {
+    return texts.length + 1;
+  }
+  
+  @Override
+  public String getText( int index )
+  {
+    if( index <= 0 || index >= getCount() )
+      throw new RuntimeException( String.format( "Index value ( %d ) is invalid, expect between 0 and %d", index, getCount() ) );
+    if( index == 0 )
+      return String.valueOf( id );
+    
+    return texts[index-1];
   }
 
 }

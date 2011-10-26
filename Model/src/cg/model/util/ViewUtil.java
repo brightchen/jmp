@@ -26,18 +26,9 @@ public class ViewUtil
     if( entities == null || entities.isEmpty() )
       return Collections.emptyList();
     List<V> views = new ArrayList< V >();
-
     for( E entity : entities )
     {
-      V view = null;
-      try
-      {
-        view = viewClass.newInstance();
-      }
-      catch( Exception e )
-      {
-        throw new RuntimeException( "the " + viewClass.getName() + " not support default constructor." );
-      }
+      V view = ViewFactory.createReadableView( entity, viewClass );
       views.add( entityToReadableView( entity, view ) );
     }
     return views;

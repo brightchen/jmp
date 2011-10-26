@@ -11,7 +11,7 @@ public class ListUsersResourceData extends ResourceData implements Serializable
   private String text;
   private String title;
   
-  private Long id;
+  private String id;
   private String name;
   private String firstName;
   private String lastName;
@@ -34,11 +34,11 @@ public class ListUsersResourceData extends ResourceData implements Serializable
   {
     this.title = title;
   }
-  public Long getId()
+  public String getId()
   {
     return id;
   }
-  public void setId( Long id )
+  public void setId( String id )
   {
     this.id = id;
   }

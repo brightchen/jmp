@@ -112,6 +112,7 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
   
   protected IQueryCriteria buildCriteria( ClassProperty entityProperty, RelationWrapper relationWrapper, Object propertyValue )
   {
+    //for operator
     {
       Operator operator = relationWrapper.getOperator();
       if( operator != null )
@@ -120,6 +121,7 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
       }
     }
     
+    //for query relation
     {
       QueryRelation queryRelation = relationWrapper.getQueryRelation();
       if( queryRelation == null )

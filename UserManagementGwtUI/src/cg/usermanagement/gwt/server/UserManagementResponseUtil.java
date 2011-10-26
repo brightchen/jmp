@@ -99,6 +99,7 @@ public class UserManagementResponseUtil extends ResponseUtil
       listUsers.setContentData( data );
     }
     
+    listUsersResponses.add( listUsers );
     return listUsersResponses;
   }
 }

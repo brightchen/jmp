@@ -8,6 +8,7 @@ import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.client.IUserManagementAsync;
+import cg.usermanagement.gwt.client.UserManagementUIFlow;
 import cg.usermanagement.gwt.shared.data.ListUsersData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 
@@ -42,5 +43,6 @@ public abstract class SearchUserEvent extends UIEvent< SearchUserData > implemen
   
   protected void onSearchUserSuccess( List< ResponseData< ListUsersData > > searchUserResponse )
   {
+    UserManagementUIFlow.onSearchUserSuccess( searchUserResponse );
   }
 }
