@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import cg.model.api.IReadableModelView;
 import cg.usermanagement.model.User;
+import cg.usermanagement.model.UserStatus;
 
 public class UserSearchView implements IReadableModelView< User >, Serializable
 {
@@ -50,7 +51,8 @@ public class UserSearchView implements IReadableModelView< User >, Serializable
 
   public String getStatus()
   {
-    return getEntity().getStatus().name();
+    UserStatus status = getEntity().getStatus();
+    return status == null ? "" : status.name();
   }
 
   public String getPhone()
