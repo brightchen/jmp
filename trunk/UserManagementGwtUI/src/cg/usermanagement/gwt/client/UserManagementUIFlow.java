@@ -5,13 +5,14 @@ import java.util.List;
 import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.client.ui.EmptyUI;
 import cg.gwt.components.client.ui.PanelCompositeUI;
+import cg.gwt.components.client.ui.grid.GridUI;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIFlowData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.usermanagement.gwt.client.role.RoleDetailUI;
 import cg.usermanagement.gwt.client.user.SearchUserUI;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
-import cg.usermanagement.gwt.shared.data.ListUsersData;
+import cg.usermanagement.gwt.shared.data.ListUsersGridData;
 import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
@@ -195,7 +196,7 @@ public class UserManagementUIFlow
     }
     if( UIIdentity.UM_LIST_USERS.equals( identity ) )
     {
-      
+      return new GridUI( (ListUsersGridData)contentData );
     }
 
     throw new IllegalStateException( "Invalid UIIdentity: " +  identity.name() );
@@ -231,7 +232,7 @@ public class UserManagementUIFlow
     refreshPage( responseDatas );
   }
   
-  public static void onSearchUserSuccess( List< ResponseData< ListUsersData > > searchUserResponse )
+  public static void onSearchUserSuccess( List< ResponseData< ListUsersGridData > > searchUserResponse )
   {
     refreshPageTypeSafe( searchUserResponse );
   }

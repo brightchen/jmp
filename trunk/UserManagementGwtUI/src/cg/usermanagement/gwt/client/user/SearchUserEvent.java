@@ -9,7 +9,7 @@ import cg.gwt.components.shared.data.ResponseData;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.client.IUserManagementAsync;
 import cg.usermanagement.gwt.client.UserManagementUIFlow;
-import cg.usermanagement.gwt.shared.data.ListUsersData;
+import cg.usermanagement.gwt.shared.data.ListUsersGridData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 
 import com.google.gwt.core.client.GWT;
@@ -30,10 +30,10 @@ public abstract class SearchUserEvent extends UIEvent< SearchUserData > implemen
   {
     final SearchUserData data = getData();
     userManagement.searchUser( data,
-                               new PopupFailureReasonCallback< List< ResponseData< ListUsersData > > >()
+                               new PopupFailureReasonCallback< List< ResponseData< ListUsersGridData > > >()
                                {
                                  @Override
-                                 public void onSuccess( List< ResponseData< ListUsersData > > searchUserResponse )
+                                 public void onSuccess( List< ResponseData< ListUsersGridData > > searchUserResponse )
                                  {
                                    onSearchUserSuccess( searchUserResponse );
                                  }
@@ -41,7 +41,7 @@ public abstract class SearchUserEvent extends UIEvent< SearchUserData > implemen
                             
   }
   
-  protected void onSearchUserSuccess( List< ResponseData< ListUsersData > > searchUserResponse )
+  protected void onSearchUserSuccess( List< ResponseData< ListUsersGridData > > searchUserResponse )
   {
     UserManagementUIFlow.onSearchUserSuccess( searchUserResponse );
   }

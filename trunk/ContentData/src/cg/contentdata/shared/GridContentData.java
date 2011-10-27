@@ -40,7 +40,7 @@ public abstract class GridContentData< T, RD extends ResourceData > extends UICo
   {
     if( row < 0 || row >= getRowCount() )
     {
-      throw new RuntimeException( String.format( "Row value ( %d ) is invalid, expect between 0 and %d ", row, getRowCount() ) );
+      throw new RuntimeException( "Row value (" + row + ") is invalid, expect between 0 and " + getRowCount() );
     }
     return recordList.get( row );
   }
