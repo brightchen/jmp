@@ -1,6 +1,5 @@
-package cg.usermanagement.gwt.server;
+package cg.gwt.components.shared.data;
 
-import cg.gwt.components.shared.data.UIIdentity;
 
 public enum Frame
 {

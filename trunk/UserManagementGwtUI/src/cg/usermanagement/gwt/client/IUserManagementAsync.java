@@ -1,9 +1,6 @@
 package cg.usermanagement.gwt.client;
 
-import java.util.List;
-
-import cg.gwt.components.shared.data.ResponseData;
-import cg.usermanagement.gwt.shared.data.ListUsersGridData;
+import cg.gwt.components.shared.data.FrameData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
@@ -12,13 +9,13 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface IUserManagementAsync
 {
-  public void getStartUI( String localeName, AsyncCallback< List< ResponseData<?> > > callback );
+  public void getStartUI( String localeName, AsyncCallback< FrameData > callback );
   
-  public void changeLocale( String localeName, AsyncCallback< List< ResponseData<?> > > callback );
+  public void changeLocale( String localeName, AsyncCallback< FrameData > callback );
   
   //the async version should not throw any exception
-  public void userlogin( String userName, String password, AsyncCallback< List< ResponseData<?> > > callback );
-  public void accountlogin( String accountName, String password, AsyncCallback< List< ResponseData<?> > > callback  );
+  public void userlogin( String userName, String password, AsyncCallback< FrameData > callback );
+  public void accountlogin( String accountName, String password, AsyncCallback< FrameData > callback  );
   
   public void registerUser( UserRegisterData data, AsyncCallback< Void > callback );
   
@@ -27,7 +24,7 @@ public interface IUserManagementAsync
    */
   public void addRole( String roleName, AsyncCallback< Long > callback );
   
-  public void searchUser( SearchUserData searchUserData, AsyncCallback< List< ResponseData< ListUsersGridData > > > userListDatas );
+  public void searchUser( SearchUserData searchUserData, AsyncCallback< FrameData > userListDatas );
   
-  public void onUserManagementPanelOperation( UserManagementPanelOperation operation, AsyncCallback< List< ResponseData<?> > > responseDatas );
+  public void onUserManagementPanelOperation( UserManagementPanelOperation operation, AsyncCallback< FrameData > responseDatas );
 }

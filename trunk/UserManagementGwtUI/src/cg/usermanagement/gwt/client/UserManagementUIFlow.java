@@ -6,6 +6,7 @@ import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.client.ui.EmptyUI;
 import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.client.ui.grid.GridUI;
+import cg.gwt.components.shared.data.FrameData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIFlowData;
 import cg.gwt.components.shared.data.UIIdentity;
@@ -207,9 +208,9 @@ public class UserManagementUIFlow
     refreshPage( responseDatas );
   }
 
-  public static void onLoginSuccess( LoginData loginData, List< ResponseData<?> > responseDatas )
+  public static void onLoginSuccess( LoginData loginData, FrameData frameData )
   {
-    refreshPage( responseDatas );
+    refreshPage( frameData );
   }
 
 
