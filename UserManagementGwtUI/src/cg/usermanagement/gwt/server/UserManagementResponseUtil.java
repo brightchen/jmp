@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Locale;
 
 import cg.contentdata.management.ResourceDataManager;
+import cg.gwt.components.shared.data.Frame;
+import cg.gwt.components.shared.data.FrameData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.services.session.SessionManager;
@@ -59,7 +61,7 @@ public class UserManagementResponseUtil extends ResponseUtil
   /*
    * get the response data to let the client build User Management Panel
    */
-  public static List< ResponseData<?> > getUserManagementPanelDatas( Locale locale )
+  public static FrameData getUserManagementPanelDatas( Locale locale )
   {
     List< ResponseData<?> > rds = new ArrayList< ResponseData<?> >();
     
@@ -82,10 +84,10 @@ public class UserManagementResponseUtil extends ResponseUtil
       rds.add( rd );
     }
     
-    return rds;
+    return new FrameData( Frame.UMF_CONTROL_PANEL, rds );
   }
   
-  public static List< ResponseData< ListUsersGridData > > getListUsersResponses( Locale locale, List< UserListData > userDatas )
+  public static FrameData getListUsersResponses( Locale locale, List< UserListData > userDatas )
   {
     List< ResponseData< ListUsersGridData > > listUsersResponses = new ArrayList< ResponseData< ListUsersGridData > >();
     
@@ -100,6 +102,12 @@ public class UserManagementResponseUtil extends ResponseUtil
     }
     
     listUsersResponses.add( listUsers );
-    return listUsersResponses;
+    
+    FrameData frameData = new FrameData( Frame.UMF_LIST_USERS );
+    for( ResponseData< ListUsersGridData > rd : listUsersResponses )
+    {
+      frameData.addResponseData( rd );
+    }
+    return frameData;
   }
 }

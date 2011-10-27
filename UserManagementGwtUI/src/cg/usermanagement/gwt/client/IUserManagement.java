@@ -1,9 +1,7 @@
 package cg.usermanagement.gwt.client;
 
-import java.util.List;
 
-import cg.gwt.components.shared.data.ResponseData;
-import cg.usermanagement.gwt.shared.data.ListUsersGridData;
+import cg.gwt.components.shared.data.FrameData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
@@ -24,18 +22,18 @@ public interface IUserManagement extends RemoteService
   /*
    * return the information of Control Section UI and Client Section Start UI
    */
-  public List< ResponseData<?> > getStartUI( String localeName );
+  public FrameData getStartUI( String localeName );
   
-  public List< ResponseData<?> > changeLocale( String localeName );
+  public FrameData changeLocale( String localeName );
   
-  public List< ResponseData<?> > userlogin( String userName, String password ) throws LoginException;
-  public List< ResponseData<?> > accountlogin( String accountName, String password ) throws LoginException;
+  public FrameData userlogin( String userName, String password ) throws LoginException;
+  public FrameData accountlogin( String accountName, String password ) throws LoginException;
   
   public void registerUser( UserRegisterData data ) throws RegisterUserException;
   
   public long addRole( String roleName ) throws RoleException;
   
-  public List< ResponseData< ListUsersGridData > > searchUser( SearchUserData searchUserData );
+  public FrameData searchUser( SearchUserData searchUserData );
   
-  public List< ResponseData<?> > onUserManagementPanelOperation( UserManagementPanelOperation operation );
+  public FrameData onUserManagementPanelOperation( UserManagementPanelOperation operation );
 }

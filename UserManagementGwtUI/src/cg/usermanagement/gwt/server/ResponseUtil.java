@@ -9,6 +9,8 @@ import java.util.Map;
 import cg.common.util.CollectionUtil;
 import cg.contentdata.management.ResourceDataManager;
 import cg.contentdata.shared.UIContentData;
+import cg.gwt.components.shared.data.Frame;
+import cg.gwt.components.shared.data.FrameData;
 import cg.gwt.components.shared.data.MenuBarData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
@@ -44,7 +46,7 @@ public class ResponseUtil
     return rd;
   }
   
-  public static List< ResponseData<?> > buildStartUI( Locale locale )
+  public static FrameData buildStartUI( Locale locale )
   {
     SessionManager.startSession();
 
@@ -76,13 +78,16 @@ public class ResponseUtil
       
       rds.add( rd );
     }    
-    return rds;
+    
+    FrameData frameRd = new FrameData( Frame.UMF_START );
+    frameRd.setResponseDatas( rds );
+    return frameRd;
   }
   
   /*
    * get the response data to let the client build User Management Panel
    */
-  public static List< ResponseData<?> > getUserManagementPanelDatas( Locale locale )
+  public static FrameData getUserManagementPanelDatas( Locale locale )
   {
     List< ResponseData<?> > rds = new ArrayList< ResponseData<?> >();
     
@@ -110,7 +115,7 @@ public class ResponseUtil
       rds.add( rd );
     }
     
-    return rds;
+    return new FrameData( Frame.UMF_CONTROL_PANEL, rds );
   }
   
   /*
@@ -150,11 +155,11 @@ public class ResponseUtil
   
   public static void updateClientSectionResponseDataToSession( ResponseData<?> clientSectionResponseData )
   {
-    List< ResponseData<?> > rds = (List< ResponseData<?> >)SessionManager.getAttribute( UserManagementSessionKey.currentPageDatas );
+    List< ResponseData<?> > rds = (List< ResponseData<?> >)SessionManager.getAttribute( UserManagementSessionKey.currentFrameData );
     if( rds == null )
     {
       rds = new ArrayList< ResponseData<?> >();
-      SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, rds );
+      SessionManager.putAttribute( UserManagementSessionKey.currentFrameData, rds );
     }
     
     List< ResponseData<?> > clonedRds = CollectionUtil.shallowCloneTo( rds, new ArrayList< ResponseData<?> >() );
@@ -180,22 +185,23 @@ public class ResponseUtil
    * compatible with the UI display, only update the section which listed in the responseDatas
    * @param responseDatas:
    */
-  public static void updateResponseDatasToSession( Frame frame, List< ResponseData<?> > responseDatas )
+  public static void updateResponseDatasToSession( FrameData frameData )
   {
+    List<ResponseData<?>> responseDatas = frameData.getResponseDatas();
     if( responseDatas == null || responseDatas.isEmpty() )
       return;
 
-    List< ResponseData<?> > sessionRds = (List< ResponseData<?> >)SessionManager.getAttribute( UserManagementSessionKey.currentPageDatas );
+    List< ResponseData<?> > sessionRds = (List< ResponseData<?> >)SessionManager.getAttribute( UserManagementSessionKey.currentFrameData );
     if( sessionRds == null )
     {
       sessionRds = new ArrayList< ResponseData<?> >();
-      SessionManager.putAttribute( UserManagementSessionKey.currentPageDatas, sessionRds );
+      SessionManager.putAttribute( UserManagementSessionKey.currentFrameData, sessionRds );
     }
     
     List< ResponseData<?> > clonedRds = CollectionUtil.shallowCloneTo( sessionRds, new ArrayList< ResponseData<?> >() );
     sessionRds.clear();
     
-    for( UIIdentity identity : frame.getUiIdentities() )
+    for( UIIdentity identity : frameData.getFrameIdentities() )
     {
       ResponseData rd = getResponseDataByIdentity( identity, responseDatas, clonedRds );
       if( rd == null )
