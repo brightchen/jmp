@@ -9,7 +9,7 @@ import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
 import cg.services.session.SessionManager;
 import cg.usermanagement.gwt.shared.data.AccountLoginData;
-import cg.usermanagement.gwt.shared.data.ListUsersData;
+import cg.usermanagement.gwt.shared.data.ListUsersGridData;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
@@ -85,17 +85,17 @@ public class UserManagementResponseUtil extends ResponseUtil
     return rds;
   }
   
-  public static List< ResponseData< ListUsersData > > getListUsersResponses( Locale locale, List< UserListData > userDatas )
+  public static List< ResponseData< ListUsersGridData > > getListUsersResponses( Locale locale, List< UserListData > userDatas )
   {
-    List< ResponseData< ListUsersData > > listUsersResponses = new ArrayList< ResponseData< ListUsersData > >();
+    List< ResponseData< ListUsersGridData > > listUsersResponses = new ArrayList< ResponseData< ListUsersGridData > >();
     
-    ResponseData< ListUsersData >  listUsers = new ResponseData< ListUsersData >();
+    ResponseData< ListUsersGridData >  listUsers = new ResponseData< ListUsersGridData >();
     listUsers.setFlowData( UIIdentity.UM_LIST_USERS );
     
     {
-      ListUsersData data = new ListUsersData();
+      ListUsersGridData data = new ListUsersGridData();
       ResourceDataManager.defaultInstance.injectResourceDatas( locale, data, true );
-      data.setUserDatas( userDatas );
+      data.setRecordList( userDatas );
       listUsers.setContentData( data );
     }
     

@@ -92,7 +92,7 @@ public class UserListData implements ITextList, Serializable
   public String getText( int index )
   {
     if( index <= 0 || index >= getCount() )
-      throw new RuntimeException( String.format( "Index value ( %d ) is invalid, expect between 0 and %d", index, getCount() ) );
+      throw new RuntimeException( "Index value ( " + index + " ) is invalid, expect between 0 and " + getCount() );
     if( index == 0 )
       return String.valueOf( id );
     

@@ -23,7 +23,7 @@ import cg.usermanagement.api.IUserService;
 import cg.usermanagement.api.UserSearchCriteria;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
-import cg.usermanagement.gwt.shared.data.ListUsersData;
+import cg.usermanagement.gwt.shared.data.ListUsersGridData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
@@ -243,7 +243,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     return roleView.getId();
   }
   
-  public List< ResponseData< ListUsersData > > searchUser( SearchUserData searchUserData )
+  public List< ResponseData< ListUsersGridData > > searchUser( SearchUserData searchUserData )
   {
     UserSearchCriteria criteria = new UserSearchCriteria();
     EntityUtil.shallowCopyEntity( searchUserData, criteria );
@@ -259,7 +259,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       userDatas.add( userListData );
     }
     
-    List< ResponseData< ListUsersData > > responseDatas = UserManagementResponseUtil.getListUsersResponses( getCurrentLocale(), userDatas );
+    List< ResponseData< ListUsersGridData > > responseDatas = UserManagementResponseUtil.getListUsersResponses( getCurrentLocale(), userDatas );
     ResponseUtil.updateResponseDatasToSession( Frame.UMF_LIST_USERS, ResponseUtil.toGenericResponseDataList( responseDatas ) );
     
     return responseDatas;

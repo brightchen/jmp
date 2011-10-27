@@ -3,7 +3,6 @@ package cg.usermanagement.gwt.shared.data;
 import java.io.Serializable;
 
 import cg.contentdata.shared.GridContentData;
-import cg.contentdata.shared.ResourceData;
 
 public class ListUsersGridData< RD extends ListUsersResourceData > extends GridContentData< UserListData, RD > implements Serializable
 {
@@ -18,7 +17,12 @@ public class ListUsersGridData< RD extends ListUsersResourceData > extends GridC
   @Override
   public int getColumnCount()
   {
-    return ;
+    //use resource data's Count
+    RD resourceData = getResourceData();
+    if( resourceData == null )
+      return 0;
+    
+    return resourceData.getCount();
   }
 
   @Override
@@ -29,6 +33,6 @@ public class ListUsersGridData< RD extends ListUsersResourceData > extends GridC
     if( resourceData == null )
       return "";
     
-    return null;
+    return resourceData.getText( column );
   }
 }

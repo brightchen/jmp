@@ -3,7 +3,7 @@ package cg.usermanagement.gwt.client;
 import java.util.List;
 
 import cg.gwt.components.shared.data.ResponseData;
-import cg.usermanagement.gwt.shared.data.ListUsersData;
+import cg.usermanagement.gwt.shared.data.ListUsersGridData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
@@ -35,7 +35,7 @@ public interface IUserManagement extends RemoteService
   
   public long addRole( String roleName ) throws RoleException;
   
-  public List< ResponseData< ListUsersData > > searchUser( SearchUserData searchUserData );
+  public List< ResponseData< ListUsersGridData > > searchUser( SearchUserData searchUserData );
   
   public List< ResponseData<?> > onUserManagementPanelOperation( UserManagementPanelOperation operation );
 }
