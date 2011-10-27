@@ -51,7 +51,7 @@ public abstract class GridContentData< T, RD extends ResourceData > extends UICo
     return getText( rowData, column );
   }
   
-  public abstract String getText( T rowData, int Column );
+  public abstract String getText( T rowData, int column );
   public abstract int getColumnCount();
   public abstract String getHeaderText( int column );
 }
