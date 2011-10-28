@@ -1,13 +1,11 @@
 package cg.usermanagement.gwt.client.menu;
 
 import java.io.Serializable;
-import java.util.List;
 
 import cg.gwt.components.client.ui.event.UIMenuEvent;
-import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
 import cg.gwt.components.shared.data.FrameData;
 import cg.gwt.components.shared.data.MenuEventData;
-import cg.gwt.components.shared.data.ResponseData;
+import cg.gwt.components.shared.rpc.PopupFailureReasonCallback;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.client.IUserManagementAsync;
 import cg.usermanagement.gwt.client.UserManagementUIFlow;

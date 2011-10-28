@@ -2,7 +2,7 @@ package cg.usermanagement.gwt.client.register;
 
 import cg.gwt.components.client.ui.components.SimpleErrorDialogUI;
 import cg.gwt.components.client.ui.components.SimpleMessageDialogUI;
-import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
+import cg.gwt.components.shared.rpc.PopupFailureReasonCallback;
 import cg.usermanagement.gwt.client.UserManagementEvent;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 import cg.usermanagement.shared.RegisterUserException;

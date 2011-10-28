@@ -7,7 +7,7 @@ import cg.dbmanagement.gwt.shared.data.SessionAttribute;
 import cg.dbmanagement.gwt.shared.data.SqlOutputData;
 import cg.gwt.components.client.ui.old.IUIObjectDigester;
 import cg.gwt.components.client.ui.old.UIObjectBuilder;
-import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
+import cg.gwt.components.shared.rpc.PopupFailureReasonCallback;
 import cg.gwt.services.client.ISessionManagementService;
 import cg.gwt.services.client.ISessionManagementServiceAsync;
 

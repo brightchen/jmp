@@ -14,11 +14,9 @@ import cg.usermanagement.gwt.client.role.RoleDetailUI;
 import cg.usermanagement.gwt.client.user.SearchUserUI;
 import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.ListUsersGridData;
-import cg.usermanagement.gwt.shared.data.LoginData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
-import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserManagementStartData;
 
 import com.google.gwt.user.client.Cookies;
@@ -204,17 +202,6 @@ public class UserManagementUIFlow
     throw new IllegalStateException( "Invalid UIIdentity: " +  identity.name() );
   }
   
-  public static void onGetStartUISuccess( FrameData frameData )
-  {
-    refreshPage( frameData );
-  }
-
-  public static void onLoginSuccess( LoginData loginData, FrameData frameData )
-  {
-    refreshPage( frameData );
-  }
-
-
   /*
    * this is the UI allow user the manage users,
    * such as user account management; account role management; role permission management etc
@@ -228,49 +215,4 @@ public class UserManagementUIFlow
 //    }
 //    return new UserManagementPanelUI( data );
 //  }
-  
-  protected static void onUserManagementPanelOperationSuccess( UserManagementPanelOperation operation, FrameData frameData )
-  {
-    refreshPage( frameData );
-  }
-  
-  public static void onSearchUserSuccess( FrameData frameData) 
-  {
-    refreshPage( frameData );
-  }
-  
-  public static void onUserManagementPanelSearchAccount()
-  {
-    
-  }
-
-  public static void onUserManagementPanelAddAccount()
-  {
-    
-  }
-
-  public static void onUserManagementPanelSearchRole()
-  {
-    
-  }
-
-  public static void onUserManagementPanelAddPermission()
-  {
-    
-  }
-
-  /*
-   * switch to role detail ui to assign permissions
-   */
-  public static void onSaveRoleSuccess( RoleDetailData roleDetailData )
-  {
-    refreshClientSection( buildRoleDetailUI( roleDetailData ) );
-  }
-  
-  
-  public static Widget buildRoleDetailUI( RoleDetailData roleDetailData )
-  {
-    RoleDetailUI roleDetailUI = new RoleDetailUI( roleDetailData );
-    return roleDetailUI;
-  }
 }
