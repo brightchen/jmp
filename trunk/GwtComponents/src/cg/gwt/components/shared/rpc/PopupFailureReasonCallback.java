@@ -1,4 +1,4 @@
-package cg.gwt.components.shared.callback;
+package cg.gwt.components.shared.rpc;
 
 import cg.gwt.components.client.ui.components.SimpleErrorDialogUI;
 

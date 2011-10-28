@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import cg.common.util.CollectionUtil;
 import cg.contentdata.management.ResourceDataManager;
 import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.shared.data.Frame;
@@ -155,29 +154,9 @@ public class ResponseUtil
   
   public static void updateClientSectionResponseDataToSession( ResponseData<?> clientSectionResponseData )
   {
-    List< ResponseData<?> > rds = (List< ResponseData<?> >)SessionManager.getAttribute( UserManagementSessionKey.currentFrameData );
-    if( rds == null )
-    {
-      rds = new ArrayList< ResponseData<?> >();
-      SessionManager.putAttribute( UserManagementSessionKey.currentFrameData, rds );
-    }
-    
-    List< ResponseData<?> > clonedRds = CollectionUtil.shallowCloneTo( rds, new ArrayList< ResponseData<?> >() );
-    rds.clear();
-    for( ResponseData<?> rd : clonedRds )
-    {
-      if( UIIdentity.CONTROL_SECTION.equals( rd.getFlowData().getUiIdentity() ) )
-        rds.add( rd );
-      if( UIIdentity.UM_CONTROL_PANEL.equals( rd.getFlowData().getUiIdentity() ) )
-        rds.add( rd );
-      
-      //this one is client section data
-      rds.add( clientSectionResponseData );
-//      rd.setFlowData( clientSectionResponseData.getFlowData() );
-//      rd.setContentData( clientSectionResponseData.getContentData() );
-      //the EntityUtil.shallowCopyEntity() has problem for this, investigate
-      //EntityUtil.shallowCopyEntity( clientSectionResponseData, rd );
-    }
+    FrameData frameData = getCurrentFrameDataFromSession();
+    // the frame data must already put into session when calling this method
+    frameData.mergeResponseData( clientSectionResponseData );
   }
 
   /**
@@ -198,6 +177,11 @@ public class ResponseUtil
     }
  
     SessionManager.putAttribute( UserManagementSessionKey.currentFrameData, frameData );
+  }
+  
+  public static FrameData getCurrentFrameDataFromSession()
+  {
+    return (FrameData)SessionManager.getAttribute( UserManagementSessionKey.currentFrameData );
   }
 
   /**
