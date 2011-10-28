@@ -5,6 +5,7 @@ import java.util.List;
 
 import cg.gwt.components.client.ui.event.UIEvent;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
+import cg.gwt.components.shared.data.FrameData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.usermanagement.gwt.client.IUserManagement;
 import cg.usermanagement.gwt.client.IUserManagementAsync;
@@ -30,19 +31,19 @@ public abstract class SearchUserEvent extends UIEvent< SearchUserData > implemen
   {
     final SearchUserData data = getData();
     userManagement.searchUser( data,
-                               new PopupFailureReasonCallback< List< ResponseData< ListUsersGridData > > >()
+                               new PopupFailureReasonCallback< FrameData >()
                                {
                                  @Override
-                                 public void onSuccess( List< ResponseData< ListUsersGridData > > searchUserResponse )
+                                 public void onSuccess( FrameData frameData )
                                  {
-                                   onSearchUserSuccess( searchUserResponse );
+                                   onSearchUserSuccess( frameData );
                                  }
                                } );
                             
   }
   
-  protected void onSearchUserSuccess( List< ResponseData< ListUsersGridData > > searchUserResponse )
+  protected void onSearchUserSuccess( FrameData frameData )
   {
-    UserManagementUIFlow.onSearchUserSuccess( searchUserResponse );
+    UserManagementUIFlow.onSearchUserSuccess( frameData );
   }
 }

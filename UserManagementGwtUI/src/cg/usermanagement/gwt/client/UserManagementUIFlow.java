@@ -103,10 +103,11 @@ public class UserManagementUIFlow
    * the responseDatas should be control section data and the data for the client section
    */
   @SuppressWarnings( "unchecked" )
-  public static void refreshPage( List< ResponseData<?> > responseDatas )
+  public static void refreshPage( FrameData frameData )
   {
     if( pageUI == null )
       buildPage();
+    List< ResponseData<?> > responseDatas = frameData.getResponseDatas();
     for( ResponseData data : responseDatas )
     {
       handleResponseData( data );
@@ -203,9 +204,9 @@ public class UserManagementUIFlow
     throw new IllegalStateException( "Invalid UIIdentity: " +  identity.name() );
   }
   
-  public static void onGetStartUISuccess( List< ResponseData<?> > responseDatas )
+  public static void onGetStartUISuccess( FrameData frameData )
   {
-    refreshPage( responseDatas );
+    refreshPage( frameData );
   }
 
   public static void onLoginSuccess( LoginData loginData, FrameData frameData )
@@ -228,14 +229,14 @@ public class UserManagementUIFlow
 //    return new UserManagementPanelUI( data );
 //  }
   
-  protected static void onUserManagementPanelOperationSuccess( UserManagementPanelOperation operation, List< ResponseData<?> > responseDatas )
+  protected static void onUserManagementPanelOperationSuccess( UserManagementPanelOperation operation, FrameData frameData )
   {
-    refreshPage( responseDatas );
+    refreshPage( frameData );
   }
   
-  public static void onSearchUserSuccess( List< ResponseData< ListUsersGridData > > searchUserResponse )
+  public static void onSearchUserSuccess( FrameData frameData) 
   {
-    refreshPageTypeSafe( searchUserResponse );
+    refreshPage( frameData );
   }
   
   public static void onUserManagementPanelSearchAccount()

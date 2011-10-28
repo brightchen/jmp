@@ -3,6 +3,7 @@ package cg.usermanagement.gwt.client;
 import java.util.List;
 
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
+import cg.gwt.components.shared.data.FrameData;
 import cg.gwt.components.shared.data.ResponseData;
 
 /*
@@ -22,12 +23,12 @@ public class UserManagementStartEvent extends UserManagementEvent< String >
   @Override
   public void fire()
   {
-    getUserManagement().getStartUI( getLocale(), new PopupFailureReasonCallback< List< ResponseData<?> > >()
+    getUserManagement().getStartUI( getLocale(), new PopupFailureReasonCallback< FrameData >()
                                 {
                                   @Override
-                                  public void onSuccess( List< ResponseData<?> > responseDatas )
+                                  public void onSuccess( FrameData frameData )
                                   {
-                                    onGetStartUISuccess( responseDatas );
+                                    onGetStartUISuccess( frameData );
                                   }
                                 } );
   }
@@ -53,8 +54,8 @@ public class UserManagementStartEvent extends UserManagementEvent< String >
     return getLocale();
   }
 
-  protected void onGetStartUISuccess( List< ResponseData<?> > responseDatas )
+  protected void onGetStartUISuccess( FrameData frameData )
   {
-    UserManagementUIFlow.onGetStartUISuccess( responseDatas );
+    UserManagementUIFlow.onGetStartUISuccess( frameData );
   }
 }
