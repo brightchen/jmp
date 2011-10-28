@@ -1,5 +1,6 @@
 package cg.gwt.components.shared.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,12 +13,16 @@ import java.util.Set;
  * @author bchen
  *
  */
-public class FrameData
+public class FrameData implements Serializable
 {
+  private static final long serialVersionUID = -4472676609382823228L;
+  
   private Frame frame;    //don't allow to change the frame
   private List< ResponseData<?> > responseDatas;
   //cache this
   private Set<UIIdentity> responseIdentities;
+  
+  public FrameData(){}
   
   public FrameData( Frame frame )
   {
@@ -52,6 +57,25 @@ public class FrameData
   }
   
   /**
+   * merge the response data into FrameData, the rd will be added to frame data only if there don't have 
+   * other response data in the frame data with same UIIdentity
+   * @param rd
+   */
+  public void mergeResponseData( ResponseData<?> rd )
+  {
+    if( !isAccept( rd ) )
+      return;
+    
+    UIIdentity identity = rd.getFlowData().getUiIdentity();
+    for( ResponseData<?> responseData : responseDatas )
+    {
+      if( responseData.getFlowData().getUiIdentity().equals( identity ) )
+        return;
+    }
+    
+    responseDatas.add( rd );    
+  }
+  /**
    * is rd:ResponseData accept by this frame
    * @param rd
    * @return
@@ -60,10 +84,10 @@ public class FrameData
   {
     if( rd == null )
       return false;
-    return getFrameIdentities().contains( rd.getFlowData().getUiIdentity() );
+    return getFrameAllowedIdentities().contains( rd.getFlowData().getUiIdentity() );
   }
   
-  public Set<UIIdentity> getFrameIdentities()
+  public Set<UIIdentity> getFrameAllowedIdentities()
   {
     if( responseIdentities == null )
     {
@@ -79,5 +103,20 @@ public class FrameData
     }
     
     return responseIdentities;
+  }
+  
+  /**
+   * the data of this FrameData over the data of other FrameData
+   * @param otherFrameData
+   */
+  public void merger( List< ResponseData<?> > otherResponseDatas )
+  {
+    if( otherResponseDatas == null )
+      return;
+
+    for( ResponseData<?> otherRd : otherResponseDatas )
+    {
+      mergeResponseData( otherRd );
+    }
   }
 }
