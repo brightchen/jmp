@@ -5,6 +5,7 @@ import java.util.List;
 
 import cg.gwt.components.client.ui.event.UIMenuEvent;
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
+import cg.gwt.components.shared.data.FrameData;
 import cg.gwt.components.shared.data.MenuEventData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.usermanagement.gwt.client.IUserManagement;
@@ -51,19 +52,19 @@ public class UserManagementMenuEvent extends UIMenuEvent implements Serializable
   public void fireLocaleMenuEvent( final String localeKey )
   {
     getUserManagementWebService().changeLocale( localeKey,
-                                 new PopupFailureReasonCallback< List< ResponseData<?> > >()
+                                 new PopupFailureReasonCallback< FrameData >()
                                  {
                                    @Override
-                                   public void onSuccess( List< ResponseData<?> > responseDatas )
+                                   public void onSuccess( FrameData frameData )
                                    {
-                                     onChangeLocaleSuccess( responseDatas );
+                                     onChangeLocaleSuccess( frameData );
                                    }
                                  } );
   }
 
-  protected void onChangeLocaleSuccess( List< ResponseData<?> > responseDatas )
+  protected void onChangeLocaleSuccess( FrameData frameData )
   {
-    UserManagementUIFlow.refreshPage( responseDatas );
+    UserManagementUIFlow.refreshPage( frameData );
   }
   
   public UserManagementMenuEvent clone()

@@ -3,6 +3,7 @@ package cg.usermanagement.gwt.client;
 import java.util.List;
 
 import cg.gwt.components.shared.callback.PopupFailureReasonCallback;
+import cg.gwt.components.shared.data.FrameData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 
@@ -14,12 +15,12 @@ public class UserManagementButtonEvent extends UserManagementEvent< UserManageme
   public void fire()
   {
     getUserManagement().onUserManagementPanelOperation( data,
-                                                        new PopupFailureReasonCallback< List< ResponseData<?> > >()
+                                                        new PopupFailureReasonCallback< FrameData >()
                                                         {
                                                           @Override
-                                                          public void onSuccess( List< ResponseData<?> > responseDatas )
+                                                          public void onSuccess( FrameData frameData )
                                                           {
-                                                            onUserManagementPanelOperationSuccess( data, responseDatas );
+                                                            onUserManagementPanelOperationSuccess( data, frameData );
                                                           }
                                                         } );
   }
@@ -39,8 +40,8 @@ public class UserManagementButtonEvent extends UserManagementEvent< UserManageme
     this.data = data;
   }
   
-  protected void onUserManagementPanelOperationSuccess( UserManagementPanelOperation operation, List< ResponseData<?> > responseDatas )
+  protected void onUserManagementPanelOperationSuccess( UserManagementPanelOperation operation, FrameData frameData )
   {
-    UserManagementUIFlow.onUserManagementPanelOperationSuccess( operation, responseDatas );
+    UserManagementUIFlow.onUserManagementPanelOperationSuccess( operation, frameData );
   }
 }

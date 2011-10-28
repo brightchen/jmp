@@ -191,25 +191,13 @@ public class ResponseUtil
     if( responseDatas == null || responseDatas.isEmpty() )
       return;
 
-    List< ResponseData<?> > sessionRds = (List< ResponseData<?> >)SessionManager.getAttribute( UserManagementSessionKey.currentFrameData );
-    if( sessionRds == null )
+    FrameData previousFrameData = (FrameData)SessionManager.getAttribute( UserManagementSessionKey.currentFrameData );
+    if( previousFrameData != null )
     {
-      sessionRds = new ArrayList< ResponseData<?> >();
-      SessionManager.putAttribute( UserManagementSessionKey.currentFrameData, sessionRds );
+      frameData.merger( previousFrameData.getResponseDatas() );
     }
-    
-    List< ResponseData<?> > clonedRds = CollectionUtil.shallowCloneTo( sessionRds, new ArrayList< ResponseData<?> >() );
-    sessionRds.clear();
-    
-    for( UIIdentity identity : frameData.getFrameIdentities() )
-    {
-      ResponseData rd = getResponseDataByIdentity( identity, responseDatas, clonedRds );
-      if( rd == null )
-      {
-        throw new RuntimeException( "Can't get " );
-      }
-      sessionRds.add( rd );
-    }
+ 
+    SessionManager.putAttribute( UserManagementSessionKey.currentFrameData, frameData );
   }
 
   /**
