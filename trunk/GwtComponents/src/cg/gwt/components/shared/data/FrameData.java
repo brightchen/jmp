@@ -119,4 +119,15 @@ public class FrameData implements Serializable
       mergeResponseData( otherRd );
     }
   }
+
+  public Frame getFrame()
+  {
+    return frame;
+  }
+
+  protected void setFrame( Frame frame )
+  {
+    this.frame = frame;
+  }
+  
 }

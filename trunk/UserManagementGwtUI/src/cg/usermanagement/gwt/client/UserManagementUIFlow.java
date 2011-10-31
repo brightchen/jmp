@@ -1,5 +1,6 @@
 package cg.usermanagement.gwt.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cg.contentdata.shared.UIContentData;
@@ -59,6 +60,7 @@ public class UserManagementUIFlow
   private static SectionUI controlSectionUI = null;
   private static SectionUI clientSectionUI = null;
   private static SectionUI userManagementPanelSectionUI = null;
+  private static FrameData currentFrameData = null;
 
   
   public static void start()
@@ -105,26 +107,33 @@ public class UserManagementUIFlow
   {
     if( pageUI == null )
       buildPage();
+//    final Frame frame = frameData.getFrame();
+//    final boolean isInheritable = frame.isInheritable( currentFrame );
     List< ResponseData<?> > responseDatas = frameData.getResponseDatas();
-    for( ResponseData data : responseDatas )
-    {
-      handleResponseData( data );
-    }
-  }
-  
-  @SuppressWarnings( "unchecked" ) 
-  public static < D extends UIContentData > void refreshPageTypeSafe( List< ResponseData<D> > responseDatas )
-  {
-    if( pageUI == null )
-      buildPage();
+    List< ResponseData<?> > clientSectionRD = new ArrayList< ResponseData<?> >();
     
+    //handle none client section datas first;
     for( ResponseData data : responseDatas )
     {
-      handleResponseData( data );
+      if( handleNoneClientSectionResponseData( frameData, data ) )
+        continue;
+      
+      // this is the client section data;
+      clientSectionRD.add( data );
     }
+    
+    //handle client section datas
+    
+    currentFrameData = frameData;
   }
   
-  public static void handleResponseData( ResponseData responseData )
+  /**
+   * handle the none client section response data
+   * @param frameData
+   * @param responseData
+   * @return true if the response data is none client section data
+   */
+  public static boolean handleNoneClientSectionResponseData( FrameData frameData, ResponseData responseData )
   {
     UIFlowData flowData = responseData.getFlowData();
     UIIdentity identity = flowData.getUiIdentity();
@@ -133,18 +142,36 @@ public class UserManagementUIFlow
       //generic control section, maybe used by other module(s)
       controlSectionUI.setComponent( buildUI( responseData ) );
       controlSectionUI.refresh();
+      return true;
     }
-    else if( UIIdentity.UM_CONTROL_PANEL.equals( identity ) )
+    
+    if( UIIdentity.UM_CONTROL_PANEL.equals( identity ) )
     {
       //user management control panel, for user management module only
       userManagementPanelSectionUI.setComponent( buildUI( responseData ) );
       userManagementPanelSectionUI.refresh();
+      return true;
     }
-    else
-    {
-      clientSectionUI.setComponent( buildUI( responseData ) );    //the clientSectionUI should support multiple UI?
-      clientSectionUI.refresh();
-    }    
+    
+    return false;
+//    else
+//    {
+//      //the client section can contain several UIs/responses
+//      handleClientSectionResponse( frameData, responseData );
+//      clientSectionUI.setComponent( buildUI( responseData ) );    //the clientSectionUI should support multiple UI?
+//      clientSectionUI.refresh();
+//    }    
+  }
+  
+  /**
+   * the client section maybe composed by several ResponseData
+   * when handle this responseData, only update the UI-section which corresponding to this responseData
+   * @param frame
+   * @param responseData
+   */
+  public static void handleClientSectionResponse( FrameData frameData, ResponseData responseData )
+  {
+    
   }
   
   public static void refreshClientSection( Widget widget )

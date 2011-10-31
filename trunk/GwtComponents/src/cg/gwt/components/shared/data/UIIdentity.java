@@ -8,10 +8,12 @@ package cg.gwt.components.shared.data;
 public enum UIIdentity
 {
   CONTROL_SECTION,        // ControlSectionUI
-  UM_START,               //UserManagementUI
-  UM_EMPTY,               //empty page;
-
+  
   UM_CONTROL_PANEL,       //UserManagermentPanelUI
+
+  UM_START,               //UserManagementUI
+
+  UM_EMPTY,               //empty page; it should be get rid
   
   UM_SEARCH_USER,
   UM_SEARCH_ACCOUNT,

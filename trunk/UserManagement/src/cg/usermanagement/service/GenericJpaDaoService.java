@@ -4,8 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import cg.model.api.IEntity;
 import cg.model.api.INamedEntity;
 import cg.usermanagement.api.IGenericDaoService;
