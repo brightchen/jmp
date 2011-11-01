@@ -1,5 +1,7 @@
 package cg.gwt.components.client.ui;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -26,7 +28,12 @@ public class SimplePanelCompositeUI< U extends Widget > extends PanelCompositeUI
       addChild( component );
   }
 
-
+  public U getComponent()
+  {
+    List< Widget > children = getChildren();
+    return ( children == null || children.isEmpty() ) ? null : (U)children.get( 0 ); 
+  }
+  
   @Override
   protected SimplePanel buildContainer()
   {
