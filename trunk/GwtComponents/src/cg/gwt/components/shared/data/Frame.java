@@ -101,21 +101,21 @@ public enum Frame
    * get the UI identities other than CONTROL_SECTION/UMF_CONTROL_PANEL
    * @return
    */
-  public UIIdentity[] getClientSectionUiIdentities()
-  {
-    UIIdentity[] identities = getUiIdentities();
-    if( identities == null || identities.length == 0 )
-      return identities;
-    
-    //simplly copy the identities;
-    UIIdentity[] csIdentities = new UIIdentity[ identities.length ];
-    int csIdentitiesCount = 0;
-    for( UIIdentity identity : identities )
-    {
-      if( UIIdentity.CONTROL_SECTION.equals( identity ) || UIIdentity.UM_CONTROL_PANEL.equals( identity ) )
-        continue;
-      csIdentities[ csIdentitiesCount++ ] = identity;
-    }
-    return Arrays.copyOfRange( csIdentities, 0, csIdentitiesCount );
-  }
+//  public UIIdentity[] getClientSectionUiIdentities()
+//  {
+//    UIIdentity[] identities = getUiIdentities();
+//    if( identities == null || identities.length == 0 )
+//      return identities;
+//    
+//    //simplly copy the identities;
+//    UIIdentity[] csIdentities = new UIIdentity[ identities.length ];
+//    int csIdentitiesCount = 0;
+//    for( UIIdentity identity : identities )
+//    {
+//      if( UIIdentity.CONTROL_SECTION.equals( identity ) || UIIdentity.UM_CONTROL_PANEL.equals( identity ) )
+//        continue;
+//      csIdentities[ csIdentitiesCount++ ] = identity;
+//    }
+//    return Arrays.copyOfRange( csIdentities, 0, csIdentitiesCount );
+//  }
 }

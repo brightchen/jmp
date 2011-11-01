@@ -1,5 +1,6 @@
 package cg.usermanagement.service;
 
+import javax.jdo.annotations.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;

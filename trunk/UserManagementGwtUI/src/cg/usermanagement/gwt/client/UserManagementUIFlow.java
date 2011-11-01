@@ -7,6 +7,7 @@ import cg.contentdata.shared.UIContentData;
 import cg.gwt.components.client.ui.EmptyUI;
 import cg.gwt.components.client.ui.PanelCompositeUI;
 import cg.gwt.components.client.ui.grid.GridUI;
+import cg.gwt.components.shared.data.Frame;
 import cg.gwt.components.shared.data.FrameData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIFlowData;
@@ -58,7 +59,7 @@ public class UserManagementUIFlow
   
   private static PanelCompositeUI pageUI = null;
   private static SectionUI controlSectionUI = null;
-  private static SectionUI clientSectionUI = null;
+  private static SectionUI< VerticalPanel > clientSectionUI = null;
   private static SectionUI userManagementPanelSectionUI = null;
   private static FrameData currentFrameData = null;
 
@@ -110,7 +111,7 @@ public class UserManagementUIFlow
 //    final Frame frame = frameData.getFrame();
 //    final boolean isInheritable = frame.isInheritable( currentFrame );
     List< ResponseData<?> > responseDatas = frameData.getResponseDatas();
-    List< ResponseData<?> > clientSectionRD = new ArrayList< ResponseData<?> >();
+    List< ResponseData<?> > clientSectionResponseDatas = new ArrayList< ResponseData<?> >();
     
     //handle none client section datas first;
     for( ResponseData data : responseDatas )
@@ -119,11 +120,12 @@ public class UserManagementUIFlow
         continue;
       
       // this is the client section data;
-      clientSectionRD.add( data );
+      clientSectionResponseDatas.add( data );
     }
     
     //handle client section datas
-    
+    buildClientSection( frameData, clientSectionResponseDatas );
+    clientSectionUI.refresh();
     currentFrameData = frameData;
   }
   
@@ -163,6 +165,26 @@ public class UserManagementUIFlow
 //    }    
   }
   
+  public static void buildClientSection( FrameData frameData, List< ResponseData<?> > responseDatas )
+  {
+    Frame frame = frameData.getFrame();
+    Frame currentFrame = currentFrameData == null ? null : currentFrameData.getFrame();
+    boolean isInheritable = frame.isInheritable( currentFrame );
+    //all the client section real component using VerticalPanel now, refactor it later
+    VerticalPanel realClientSectionUI = null;
+    if( isInheritable )
+      realClientSectionUI = clientSectionUI.getComponent();
+    else
+    {
+      realClientSectionUI = new VerticalPanel();
+      clientSectionUI.setComponent( realClientSectionUI );
+    }
+    for( ResponseData data : responseDatas )
+    {
+      realClientSectionUI.add( buildUI( data ) );
+    }
+  }
+  
   /**
    * the client section maybe composed by several ResponseData
    * when handle this responseData, only update the UI-section which corresponding to this responseData
@@ -172,11 +194,6 @@ public class UserManagementUIFlow
   public static void handleClientSectionResponse( FrameData frameData, ResponseData responseData )
   {
     
-  }
-  
-  public static void refreshClientSection( Widget widget )
-  {
-    clientSectionUI.setComponent( widget );
   }
   
   public static Widget buildUI( ResponseData<?> responseData )
