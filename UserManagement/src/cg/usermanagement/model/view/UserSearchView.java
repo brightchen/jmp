@@ -34,6 +34,11 @@ public class UserSearchView implements IReadableModelView< User >, Serializable
   {
   }
 
+  public Long getId()
+  {
+    return getEntity().getId();
+  }
+  
   public String getName()
   {
     return getEntity().getName();
