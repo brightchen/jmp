@@ -10,8 +10,6 @@ public class GridUI< T, RD extends TextListResourceData, D extends GridContentDa
 {
   public GridUI()
   {
-    Grid grid = new Grid();
-    setRealComponent( grid );
   }
   
   public GridUI( D data )
@@ -24,16 +22,24 @@ public class GridUI< T, RD extends TextListResourceData, D extends GridContentDa
   public Grid build()
   {
     Grid grid = getRealComponent();
+    if( grid == null )
+    {
+      grid = new Grid();
+      setRealComponent( grid );
+    }
     
     D contentData = getData();
     if( contentData == null )
       return grid;
     
     int columnCount = contentData.getColumnCount();
-    RD resourceData = contentData.getResourceData();
-    boolean buildHeader = buildHeader( grid, resourceData, columnCount );
-    
+    grid.resizeColumns( columnCount );
     int rowCount = contentData.getRowCount();
+    grid.resizeRows( rowCount+1 );    //the first row is header which didn't take into account
+    
+//    RD resourceData = contentData.getResourceData();
+    boolean buildHeader = buildHeader( grid, contentData, columnCount );
+    
 
     //the first row is header
     int startRowIndex = buildHeader ? 1 : 0;
@@ -41,10 +47,10 @@ public class GridUI< T, RD extends TextListResourceData, D extends GridContentDa
     {
       for( int columnIndex = 0; columnIndex < columnCount; ++columnIndex )
       {
-        grid.setText( rowIndex, columnIndex, contentData.getText( rowIndex, columnIndex ) );
+        grid.setText( rowIndex, columnIndex, contentData.getText( rowIndex-startRowIndex, columnIndex ) );
       }
     }
-    return null;
+    return grid;
   }
 
   /**
@@ -53,13 +59,13 @@ public class GridUI< T, RD extends TextListResourceData, D extends GridContentDa
    * @param resourceData
    * @return whether buildHeader success or not, returns true if successful
    */
-  public boolean buildHeader( Grid grid, RD resourceData, int columnCount )
+  public boolean buildHeader( Grid grid, D contentData, int columnCount )
   {
-    if( resourceData == null )
+    if( contentData == null )
       return false;
     for( int columnIndex = 0; columnIndex < columnCount; ++columnIndex )
     {
-      grid.setText( 0, columnIndex, resourceData.getText( columnIndex ) );
+      grid.setText( 0, columnIndex, contentData.getHeaderText( columnIndex ) );
     }
     return true;
   }
