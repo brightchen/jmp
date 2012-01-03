@@ -2,8 +2,6 @@ package cg.usermanagement.gwt.shared.data;
 
 import java.io.Serializable;
 
-import cg.contentdata.shared.ITextList;
-import cg.contentdata.shared.ResourceData;
 import cg.contentdata.shared.TextListResourceData;
 
 public class ListUsersGridResourceData extends TextListResourceData implements Serializable

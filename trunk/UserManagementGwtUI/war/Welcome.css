@@ -2,6 +2,10 @@
 
 
 /** Example rules used by the template application (remove for your app) */
+table {margin: 0 0 0 0; border: 1 1 1 1; padding: 0 0 0 0; width: 100%; align: left;}
+tr {margin: 0 0 0 0; border: 1 1 1 1; padding: 0 0 0 0; width: 100%; align: left; }
+td {margin: 0 0 0 0; border: 1 1 1 1; padding: 0 0 0 0; text-align: left;}
+
 h1 {
   font-size: 2em;
   font-weight: bold;

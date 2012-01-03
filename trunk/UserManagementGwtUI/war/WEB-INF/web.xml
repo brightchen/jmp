@@ -30,6 +30,10 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
    
+  <session-config>
+    <session-timeout>1</session-timeout>    <!-- unit minutes -->
+  </session-config>
+   
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Welcome.html</welcome-file>

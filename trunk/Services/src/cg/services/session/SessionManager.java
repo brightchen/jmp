@@ -45,7 +45,7 @@ public class SessionManager
   
   //this method is called when receive a new request;
   //make sure the data get from ThreadLocal is corresponding to the sessionId
-  //this method is used in case the thread which handles the different request of same session changed.
+  //this method is used in case the thread which handles the different requests of same session changed.
   public static void adjust( String sessionId )
   {
     Long threadId = getCurrentThreadId();
