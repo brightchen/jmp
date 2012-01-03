@@ -191,6 +191,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   @Override
   public FrameData onUserManagementPanelOperation( UserManagementPanelOperation operation )
   {
+    adjustSessionManager();
     List< ResponseData<?> > rds = new ArrayList< ResponseData<?> >();
 
     if( UserManagementPanelOperation.SearchUser.equals( operation ) )
@@ -247,6 +248,8 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   
   public FrameData searchUser( SearchUserData searchUserData )
   {
+    adjustSessionManager();
+    
     UserSearchCriteria criteria = new UserSearchCriteria();
     EntityUtil.shallowCopyEntity( searchUserData, criteria );
     IUserService service = getUserService();

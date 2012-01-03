@@ -78,7 +78,7 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
     if( queryCriteriasSize == 0)
     {
       //no criteria, return empty criteria
-      EmptyQueryCriteria.instance();
+      return EmptyQueryCriteria.instance();
     }
     if( queryCriteriasSize == 1 )
     {
