@@ -4,15 +4,16 @@ import java.io.Serializable;
 
 import cg.contentdata.shared.ITextList;
 import cg.contentdata.shared.ResourceData;
+import cg.contentdata.shared.TextListResourceData;
 
-public class ListUsersResourceData extends ResourceData implements ITextList, Serializable
+public class ListUsersGridResourceData extends TextListResourceData implements Serializable
 {
   private static final long serialVersionUID = -7580056450276980136L;
   
   private String listUsersText;
   private String listUsersTitle;
   
-  // following field is for column hearder
+  // following field is for column header
   private String id;
   private String name;
   private String firstName;
@@ -20,10 +21,8 @@ public class ListUsersResourceData extends ResourceData implements ITextList, Se
   private String status;
   private String phone;
   private String email;
-  
-  private String[] texts = { id, name, firstName, lastName, status, phone, email };
-  
-  
+ 
+
   public String getListUsersText()
   {
     return listUsersText;
@@ -96,19 +95,41 @@ public class ListUsersResourceData extends ResourceData implements ITextList, Se
   {
     this.email = email;
   }
+  
   @Override
   public String getText( int index )
   {
-    if( index <= 0 || index >= getCount() )
-      throw new RuntimeException( "Index value ( " + index + ") is invalid, expect between 0 and " + getCount() );
-    if( index == 0 )
-      return String.valueOf( id );
-    
-    return texts[index-1];
+    switch( index )
+    {
+      case 0:
+        return String.valueOf( id );
+      
+      case 1:
+        return getName();
+        
+      case 2:
+        return getFirstName();
+        
+      case 3:
+        return getLastName();
+        
+      case 4:
+        return getStatus();
+        
+      case 5:
+        return getPhone();
+        
+      case 6:
+        return getEmail();
+        
+      default:
+        throw new RuntimeException( "Index value ( " + index + " ) is invalid, expect between 0 and " + getCount() );
+    }
   }
+  
   @Override
   public int getCount()
   {
-    return texts.length;
+    return 7;
   }
 }

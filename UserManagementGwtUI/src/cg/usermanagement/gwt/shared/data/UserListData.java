@@ -24,7 +24,7 @@ public class UserListData implements ITextList, Serializable
   private String phone;
   private String email;
   
-  private String[] texts = { name, firstName, lastName, status, phone, email };
+//  private String[] texts = null;      //new String[6];      //{ name, firstName, lastName, status, phone, email };
   
   public Long getId()
   {
@@ -85,18 +85,38 @@ public class UserListData implements ITextList, Serializable
   
   public int getCount()
   {
-    return texts.length + 1;
+    return 7;   //id + texts
   }
   
   @Override
   public String getText( int index )
   {
-    if( index <= 0 || index >= getCount() )
-      throw new RuntimeException( "Index value ( " + index + " ) is invalid, expect between 0 and " + getCount() );
-    if( index == 0 )
-      return String.valueOf( id );
-    
-    return texts[index-1];
+    switch( index )
+    {
+      case 0:
+        return String.valueOf( id );
+      
+      case 1:
+        return getName();
+        
+      case 2:
+        return getFirstName();
+        
+      case 3:
+        return getLastName();
+        
+      case 4:
+        return getStatus();
+        
+      case 5:
+        return getPhone();
+        
+      case 6:
+        return getEmail();
+        
+      default:
+        throw new RuntimeException( "Index value ( " + index + " ) is invalid, expect between 0 and " + getCount() );
+    }
   }
 
 }

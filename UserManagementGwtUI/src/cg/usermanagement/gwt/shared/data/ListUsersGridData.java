@@ -4,7 +4,11 @@ import java.io.Serializable;
 
 import cg.contentdata.shared.GridContentData;
 
-public class ListUsersGridData< RD extends ListUsersResourceData > extends GridContentData< UserListData, RD > implements Serializable
+/**
+ * @author bright
+ *
+ */
+public class ListUsersGridData extends GridContentData< UserListData, ListUsersGridResourceData > implements Serializable
 {
   private static final long serialVersionUID = -4773863620107899631L;
 
@@ -18,7 +22,7 @@ public class ListUsersGridData< RD extends ListUsersResourceData > extends GridC
   public int getColumnCount()
   {
     //use resource data's Count
-    RD resourceData = getResourceData();
+    ListUsersGridResourceData resourceData = getResourceData();
     if( resourceData == null )
       return 0;
     
@@ -29,7 +33,7 @@ public class ListUsersGridData< RD extends ListUsersResourceData > extends GridC
   public String getHeaderText( int column )
   {
     // header text should get from the resource data;
-    RD resourceData = getResourceData();
+    ListUsersGridResourceData resourceData = getResourceData();
     if( resourceData == null )
       return "";
     
