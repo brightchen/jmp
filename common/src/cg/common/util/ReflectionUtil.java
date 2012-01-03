@@ -288,6 +288,7 @@ public class ReflectionUtil
    * get the actual type of  generic class
    * class A< T >{}
    * class B extends A< String >{}
+   * so, the actual type of generic class for B is String.class
    */
   @SuppressWarnings( "unchecked" )
   public static <T, A> Class< ? extends A > getGenericActualTypeArgumentClass( Class<T> clazz, Class< ? super T > genericClass, Class< A > actualTypeArgumentsClass )
