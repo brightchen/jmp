@@ -25,6 +25,8 @@ public class GridUI< T, RD extends TextListResourceData, D extends GridContentDa
     if( grid == null )
     {
       grid = new Grid();
+      grid.setStyleName( "thinBorder" );
+//      grid.setBorderWidth( 1 );
       setRealComponent( grid );
     }
     
@@ -47,6 +49,7 @@ public class GridUI< T, RD extends TextListResourceData, D extends GridContentDa
     {
       for( int columnIndex = 0; columnIndex < columnCount; ++columnIndex )
       {
+        grid.getCellFormatter().setStyleName( rowIndex, columnIndex, "thinBorder" );
         grid.setText( rowIndex, columnIndex, contentData.getText( rowIndex-startRowIndex, columnIndex ) );
       }
     }
@@ -65,6 +68,7 @@ public class GridUI< T, RD extends TextListResourceData, D extends GridContentDa
       return false;
     for( int columnIndex = 0; columnIndex < columnCount; ++columnIndex )
     {
+      grid.getCellFormatter().setStyleName( 0, columnIndex, "thinBorder" );
       grid.setText( 0, columnIndex, contentData.getHeaderText( columnIndex ) );
     }
     return true;
