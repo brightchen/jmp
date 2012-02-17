@@ -4,6 +4,7 @@ import cg.gwt.components.client.ui.components.SimpleMessageDialogUI;
 
 public class PopupResultCallback<T> extends PopupFailureReasonCallback<T>
 {
+  @SuppressWarnings( "rawtypes")
   public static PopupResultCallback instance = new PopupResultCallback();
   
   private PopupResultCallback(){}
