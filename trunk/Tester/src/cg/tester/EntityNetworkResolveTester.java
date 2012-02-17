@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import cg.query.SmartQueryBuilder;
-import cg.query.relation.EntityNetworkManager;
-import cg.query.relation.RefinedEntityNetwork;
 import cg.usermanagement.model.Account;
 import cg.usermanagement.model.Role;
 import cg.usermanagement.model.User;
@@ -51,7 +49,7 @@ public class EntityNetworkResolveTester
   {
     for( Set<Class> entitySet : getEntitySets() )
     {
-      RefinedEntityNetwork network = EntityNetworkManager.defaultInstance().resolveNetwork( entitySet );
+//      RefinedEntityNetwork network = EntityNetworkManager.defaultInstance().resolveNetwork( entitySet );
       String relationClause = SmartQueryBuilder.defaultInstance().buildRelationClause( entitySet );
       System.out.println( relationClause );
     }
