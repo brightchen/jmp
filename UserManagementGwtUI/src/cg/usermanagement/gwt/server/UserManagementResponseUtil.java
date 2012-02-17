@@ -79,6 +79,7 @@ public class UserManagementResponseUtil extends ResponseUtil
     
     // the client section is emtpy
     {
+      @SuppressWarnings( "rawtypes")
       ResponseData rd = new ResponseData();
       rd.setFlowData( UIIdentity.UM_EMPTY );
       rds.add( rd );

@@ -109,6 +109,7 @@ public class ResponseUtil
     
     // the client section is emtpy
     {
+      @SuppressWarnings( "rawtypes")
       ResponseData rd = new ResponseData();
       rd.setFlowData( UIIdentity.UM_EMPTY );
       rds.add( rd );
@@ -156,7 +157,7 @@ public class ResponseUtil
   {
     FrameData frameData = getCurrentFrameDataFromSession();
     // the frame data must already put into session when calling this method
-    frameData.mergeResponseData( clientSectionResponseData );
+    frameData.merge( clientSectionResponseData );
   }
 
   /**
@@ -164,19 +165,20 @@ public class ResponseUtil
    * compatible with the UI display, only update the section which listed in the responseDatas
    * @param responseDatas:
    */
-  public static void updateResponseDatasToSession( FrameData frameData )
+  public static FrameData mergeResponseDatasWithSession( FrameData frameData )
   {
     List<ResponseData<?>> responseDatas = frameData.getResponseDatas();
     if( responseDatas == null || responseDatas.isEmpty() )
-      return;
+      return frameData;
 
     FrameData previousFrameData = (FrameData)SessionManager.getAttribute( UserManagementSessionKey.currentFrameData );
     if( previousFrameData != null )
     {
-      frameData.merger( previousFrameData.getResponseDatas() );
+      frameData.merge( previousFrameData.getResponseDatas() );
     }
  
     SessionManager.putAttribute( UserManagementSessionKey.currentFrameData, frameData );
+    return frameData;
   }
   
   public static FrameData getCurrentFrameDataFromSession()
@@ -190,6 +192,7 @@ public class ResponseUtil
    * @param responseDataLists
    * @return
    */
+  @SuppressWarnings( "rawtypes")
   public static ResponseData getResponseDataByIdentity( UIIdentity identity, List< ResponseData<?> > ... responseDataLists )
   {
     if( identity == null || responseDataLists == null || responseDataLists.length == 0 )
@@ -208,6 +211,7 @@ public class ResponseUtil
     return null;
   }
   
+  @SuppressWarnings( "rawtypes")
   public static < D extends UIContentData > List< ResponseData<?> > toGenericResponseDataList( List< ResponseData<D> > rdList )
   {
     if( rdList == null || rdList.isEmpty() )
