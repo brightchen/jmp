@@ -28,6 +28,7 @@ public class SimplePanelCompositeUI< U extends Widget > extends PanelCompositeUI
       addChild( component );
   }
 
+  @SuppressWarnings( "unchecked")
   public U getComponent()
   {
     List< Widget > children = getChildren();

@@ -32,7 +32,7 @@ public enum Frame
     {
       Set<Frame> inheritableFrames = new HashSet<Frame>();
       inheritableFrames.addAll( Arrays.asList( UMF_SEARCH_USER ) );
-      frame2InheritableFrames.put( UMF_LIST_USERS, inheritableFrames );
+//      frame2InheritableFrames.put( UMF_LIST_USERS, inheritableFrames );
     }
   }
   

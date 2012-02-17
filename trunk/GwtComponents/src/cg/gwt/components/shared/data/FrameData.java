@@ -2,6 +2,8 @@ package cg.gwt.components.shared.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +18,15 @@ import java.util.Set;
 public class FrameData implements Serializable
 {
   private static final long serialVersionUID = -4472676609382823228L;
+  
+  private static Comparator< ResponseData<?> > SORT_BY_UIIDENTITY = new Comparator< ResponseData<?> >()
+      {
+        @Override
+        public int compare( ResponseData<?> o1, ResponseData<?> o2 ) 
+        {
+          return( o1.getFlowData().getUiIdentity().ordinal() - o2.getFlowData().getUiIdentity().ordinal() );
+        }
+      };
   
   private Frame frame;    //don't allow to change the frame
   private List< ResponseData<?> > responseDatas;
@@ -59,14 +70,22 @@ public class FrameData implements Serializable
   /**
    * merge the response data into FrameData, the rd will be added to frame data only if there don't have 
    * other response data in the frame data with same UIIdentity
+   * the order of the response data should be take into consideration
    * @param rd
    */
-  public void mergeResponseData( ResponseData<?> rd )
+  public void merge( ResponseData<?> rd )
+  {
+    merge( rd, true );
+  }
+  
+  protected void merge( ResponseData<?> rd, boolean sort )
   {
     if( !isAccept( rd ) )
       return;
     
     UIIdentity identity = rd.getFlowData().getUiIdentity();
+    
+    //ignore the response data if it already in the current list
     for( ResponseData<?> responseData : responseDatas )
     {
       if( responseData.getFlowData().getUiIdentity().equals( identity ) )
@@ -74,13 +93,15 @@ public class FrameData implements Serializable
     }
     
     responseDatas.add( rd );    
+    if( sort )
+      Collections.sort( responseDatas, SORT_BY_UIIDENTITY );
   }
   /**
    * is rd:ResponseData accept by this frame
    * @param rd
    * @return
    */
-  public boolean isAccept( ResponseData rd )
+  public boolean isAccept( @SuppressWarnings( "rawtypes") ResponseData rd )
   {
     if( rd == null )
       return false;
@@ -107,17 +128,22 @@ public class FrameData implements Serializable
   
   /**
    * the data of this FrameData over the data of other FrameData
+   * the order of the response data should be take into consideration
    * @param otherFrameData
    */
-  public void merger( List< ResponseData<?> > otherResponseDatas )
+  public void merge( List< ResponseData<?> > otherResponseDatas )
   {
-    if( otherResponseDatas == null )
+    if( otherResponseDatas == null || otherResponseDatas.isEmpty() )
       return;
 
     for( ResponseData<?> otherRd : otherResponseDatas )
     {
-      mergeResponseData( otherRd );
+      merge( otherRd );
     }
+    
+    //by default, order the response data by UIIdentity sequence
+    Collections.sort( responseDatas, SORT_BY_UIIDENTITY );
+    
   }
 
   public Frame getFrame()

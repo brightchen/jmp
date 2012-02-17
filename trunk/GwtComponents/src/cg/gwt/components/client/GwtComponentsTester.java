@@ -11,6 +11,7 @@ public class GwtComponentsTester implements EntryPoint
   public void onModuleLoad()
   {
     ButtonData buttonData = new ButtonData( "test", "test" );
+    @SuppressWarnings( "rawtypes")
     ButtonUI buttonui = new ButtonUI( buttonData );
     RootPanel.get().add( buttonui );
   }
