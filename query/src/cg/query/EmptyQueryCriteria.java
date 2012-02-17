@@ -32,6 +32,7 @@ public class EmptyQueryCriteria implements IQueryCriteria
     return "";
   }
 
+  @SuppressWarnings( "rawtypes")
   @Override
   public void addAliases( Map< String, Class > aliases )
   {

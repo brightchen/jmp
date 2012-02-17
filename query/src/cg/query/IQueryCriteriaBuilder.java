@@ -17,6 +17,7 @@ public interface IQueryCriteriaBuilder
    * @param operator: the operator of the query, it must be only parameter operator
    * @return: IQueryCriteria
    */
+  @SuppressWarnings( "rawtypes")
   public IQueryCriteria buildCriteria( Class entityClass, Object criteria, Operator operator );
   
   /**
@@ -26,5 +27,6 @@ public interface IQueryCriteriaBuilder
    * @param queryRelation: the relation of the property and property value, it must be only parameter operator
    * @return: IQueryCriteria
    */  
+  @SuppressWarnings( "rawtypes")
   public IQueryCriteria buildCriteria( Class entityClass, Object criteria, QueryRelation queryRelation );
 }
