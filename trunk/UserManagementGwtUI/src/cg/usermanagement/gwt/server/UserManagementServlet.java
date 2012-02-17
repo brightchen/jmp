@@ -77,13 +77,15 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   @Override
   public FrameData getStartUI( String localeName )
   {
-    FrameData frameRd = ResponseUtil.buildStartUI( LocaleUtil.getLocale( localeName ) );
+    Locale locale = LocaleUtil.getLocale( localeName );
+    FrameData frameRd = ResponseUtil.buildStartUI( locale );
     
     //put into the session
     String sessionId = SessionManager.startSession();
     setSessionId( sessionId );
+    SessionManager.putAttribute( UserManagementSessionKey.locale, locale );
     
-    ResponseUtil.updateResponseDatasToSession( frameRd );
+    ResponseUtil.mergeResponseDatasWithSession( frameRd );
     return frameRd;
   }
   
@@ -98,7 +100,6 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
    * @see cg.usermanagement.gwt.client.IUserManagement#changeLocale(java.lang.String)
    */
   @Override
-  @SuppressWarnings( "unchecked" )
   public FrameData changeLocale( String localeName )
   {
     Locale locale = LocaleUtil.getLocale( localeName );
@@ -140,7 +141,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     SessionManager.putAttribute( UserManagementSessionKey.userPermissions, permissions );
     
     FrameData frameData = ResponseUtil.getUserManagementPanelDatas( getCurrentLocale() );
-    ResponseUtil.updateResponseDatasToSession( frameData );
+    ResponseUtil.mergeResponseDatasWithSession( frameData );
     
     return frameData;
   }
@@ -163,7 +164,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     SessionManager.putAttribute( UserManagementSessionKey.accountPermissions, permissions );
     
     FrameData frameData = ResponseUtil.getUserManagementPanelDatas( getCurrentLocale() );
-    ResponseUtil.updateResponseDatasToSession( frameData );
+    ResponseUtil.mergeResponseDatasWithSession( frameData );
     
     return frameData;
 
@@ -188,10 +189,17 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     service.registerUser( view );
   }
   
+  /**
+   * the operation of user management panel, it's not the really operation.
+   * for example, "Search User" only display the search user ui which allow user to input the search criteria.
+   * when user input the search criteria and click the "search user" button of the search criteria ui, 
+   * the system calls the method searchUser() and do the really search.
+   */
   @Override
   public FrameData onUserManagementPanelOperation( UserManagementPanelOperation operation )
   {
     adjustSessionManager();
+    
     List< ResponseData<?> > rds = new ArrayList< ResponseData<?> >();
 
     if( UserManagementPanelOperation.SearchUser.equals( operation ) )
@@ -204,10 +212,12 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       rd.setContentData( data );
       
       rds.add( rd );
-      ResponseUtil.updateClientSectionResponseDataToSession( rd );
-      return new FrameData( Frame.UMF_SEARCH_USER, rds );
-
+      FrameData frameData = new FrameData( Frame.UMF_SEARCH_USER, rds );
+      ResponseUtil.mergeResponseDatasWithSession( frameData );
+      
+      return frameData;
     }
+    
     if( UserManagementPanelOperation.SearchAccount.equals( operation ) )
     {
     }
@@ -241,6 +251,8 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   @Override
   public long addRole( String roleName ) throws RoleException
   {
+    adjustSessionManager();
+    
     IUserService service = getUserService();
     RoleView roleView = service.addRole( roleName );
     return roleView.getId();
@@ -265,7 +277,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     }
     
     FrameData frameData = UserManagementResponseUtil.getListUsersResponses( getCurrentLocale(), userDatas );
-    ResponseUtil.updateResponseDatasToSession( frameData );
+    ResponseUtil.mergeResponseDatasWithSession( frameData );
     
     return frameData;
   }

@@ -78,6 +78,7 @@ public class UserManagementUIFlow
     event.fire();
   }
   
+  @SuppressWarnings( "unchecked")
   public static void buildPage()
   {
     if( pageUI != null )
@@ -103,7 +104,6 @@ public class UserManagementUIFlow
   /*
    * the responseDatas should be control section data and the data for the client section
    */
-  @SuppressWarnings( "unchecked" )
   public static void refreshPage( FrameData frameData )
   {
     if( pageUI == null )
@@ -135,6 +135,7 @@ public class UserManagementUIFlow
    * @param responseData
    * @return true if the response data is none client section data
    */
+  @SuppressWarnings( "unchecked")
   public static boolean handleNoneClientSectionResponseData( FrameData frameData, ResponseData responseData )
   {
     UIFlowData flowData = responseData.getFlowData();
@@ -169,7 +170,10 @@ public class UserManagementUIFlow
   {
     Frame frame = frameData.getFrame();
     Frame currentFrame = currentFrameData == null ? null : currentFrameData.getFrame();
+    
+    //think over the inheritable mode.
     boolean isInheritable = frame.isInheritable( currentFrame );
+    
     //all the client section real component using VerticalPanel now, refactor it later
     VerticalPanel realClientSectionUI = null;
     if( isInheritable )
@@ -196,6 +200,7 @@ public class UserManagementUIFlow
     
   }
   
+  @SuppressWarnings( "unchecked")
   public static Widget buildUI( ResponseData<?> responseData )
   {
     UIFlowData flowData = responseData.getFlowData();

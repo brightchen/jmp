@@ -18,6 +18,7 @@ public abstract class SaveRoleEvent extends UIEvent< RoleDetailData >
     onSaveRole();
   }
 
+  @SuppressWarnings( "unchecked")
   protected void onSaveRole()
   {
     final RoleDetailData data = getData();
