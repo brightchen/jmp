@@ -6,6 +6,7 @@ public class Sub extends Base
   {
   }
   
+  @SuppressWarnings( "unused")
   private void m2()
   {
   }

@@ -7,13 +7,16 @@ import java.util.List;
 
 class A
 {
+  @SuppressWarnings( "unused")
   private List< String > list;
   
+  @SuppressWarnings( "unused")
   private String name;
 }
 
 public class T1
 {
+  @SuppressWarnings( "unused")
   public static void main( String[] argvs )
   {
     try

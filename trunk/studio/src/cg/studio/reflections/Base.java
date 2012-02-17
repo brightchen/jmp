@@ -6,6 +6,7 @@ public class Base implements IBase
   {
   }
   
+  @SuppressWarnings( "unused")
   private void m2()
   {
   }
