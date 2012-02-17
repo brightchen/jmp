@@ -1,5 +1,6 @@
 package cg.model.util;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ import cg.common.reflect.ReflectionsBuilder;
 import cg.model.common.Feature;
 import cg.model.common.IFeatureEntries;
 
-public class FeatureManager
+public class FeatureManager implements Serializable
 {
   private static final long serialVersionUID = -4481808205759238923L;
   

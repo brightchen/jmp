@@ -1,5 +1,6 @@
 package cg.model.util;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ import cg.common.reflect.ReflectionsBuilder;
 import cg.model.common.IPermissionEntries;
 import cg.model.common.Permission;
 
-public class PermissionManager
+public class PermissionManager implements Serializable
 {
   private static final long serialVersionUID = 3842989715690883800L;
 
