@@ -55,6 +55,7 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
     return buildCriteria( entityClass, criteria, new RelationWrapper( queryRelation ) );
   }
 
+  @SuppressWarnings( "rawtypes")
   public IQueryCriteria buildCriteria( Class entityClass, Object criteria, RelationWrapper relationWrapper )
   {
     if( entityClass == null || criteria == null )
@@ -78,7 +79,7 @@ public class QueryCriteriaBuilder implements IQueryCriteriaBuilder
     if( queryCriteriasSize == 0)
     {
       //no criteria, return empty criteria
-      return EmptyQueryCriteria.instance();
+      EmptyQueryCriteria.instance();
     }
     if( queryCriteriasSize == 1 )
     {
