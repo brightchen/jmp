@@ -30,6 +30,7 @@ import cg.usermanagement.model.view.UserRegisterView;
 import cg.usermanagement.model.view.UserSearchView;
 import cg.usermanagement.permission.UserManagementPermission;
 import cg.usermanagement.shared.LoginException;
+import cg.usermanagement.shared.RegisterUserException;
 import cg.usermanagement.shared.RoleException;
 
 @Transactional
@@ -90,8 +91,15 @@ public class UserService extends GenericJpaDaoService implements IUserService
 
   @Transactional
   @Override
-  public boolean registerUser( UserRegisterView userRegisterView )
+  public boolean registerUser( UserRegisterView userRegisterView ) throws RegisterUserException
   {
+    if( userRegisterView.getName().isEmpty() )
+      throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.USERNAME_EMTPY );
+    if( userRegisterView.getPassword().isEmpty() )
+      throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.PASSWORD_EMTPY );
+    if( findUserByName( userRegisterView.getName() ) != null )
+      throw new RegisterUserException( RegisterUserException.REGISTER_USER_ERROR.USERNAME_EXISTED );
+    
     userRegisterView.setValuesToEntity();
     User user = userRegisterView.getEntity();
     EntityManager em = getEntityManager();
