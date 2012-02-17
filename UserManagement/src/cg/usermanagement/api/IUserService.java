@@ -11,6 +11,7 @@ import cg.usermanagement.model.view.RoleView;
 import cg.usermanagement.model.view.UserRegisterView;
 import cg.usermanagement.model.view.UserSearchView;
 import cg.usermanagement.shared.LoginException;
+import cg.usermanagement.shared.RegisterUserException;
 import cg.usermanagement.shared.RoleException;
 
 public interface IUserService
@@ -22,7 +23,7 @@ public interface IUserService
   public List< UserSearchView > findUsers( UserSearchCriteria criteria );
   
   public Account findAccountByName( String accountId );
-  public boolean registerUser( UserRegisterView userRegisterView );
+  public boolean registerUser( UserRegisterView userRegisterView ) throws RegisterUserException;
   
   public Set< PermissionView > getPermissionsByUser( long userId );
   public Set< PermissionView > getPermissionsByAccount( long accountId );
