@@ -7,6 +7,20 @@
   
   <!-- Servlets -->
   <servlet>
+    <servlet-name>managementServlet</servlet-name>
+    <servlet-class>cg.gwtui.server.GwtUiManagementServlet</servlet-class>
+    <init-param>
+      <param-name>responseBuilder</param-name>
+      <param-value>responseBuilder</param-value>
+    </init-param>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>managementServlet</servlet-name>
+    <url-pattern>/usermanagement/management</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>userManagementServlet</servlet-name>
     <servlet-class>cg.usermanagement.gwt.server.UserManagementServlet</servlet-class>
     <init-param>
@@ -31,7 +45,7 @@
   </listener>
    
   <session-config>
-    <session-timeout>1</session-timeout>    <!-- unit minutes -->
+    <session-timeout>30</session-timeout>    <!-- unit minutes -->
   </session-config>
    
   <!-- Default page to serve -->

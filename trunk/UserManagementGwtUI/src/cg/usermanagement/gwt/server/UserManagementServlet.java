@@ -19,12 +19,13 @@ import cg.gwt.components.shared.data.Frame;
 import cg.gwt.components.shared.data.FrameData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
+import cg.gwtui.server.GwtUiManagementSessionKey;
+import cg.gwtui.shared.data.ControlSectionData;
 import cg.resourcemanagement.util.LocaleUtil;
 import cg.services.session.SessionManager;
 import cg.usermanagement.api.IUserService;
 import cg.usermanagement.api.UserSearchCriteria;
 import cg.usermanagement.gwt.client.IUserManagement;
-import cg.usermanagement.gwt.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.shared.data.RoleDetailData;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserListData;
@@ -70,7 +71,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   public Locale getCurrentLocale()
   {
     adjustSessionManager();
-    Locale locale = (Locale)SessionManager.getAttribute( UserManagementSessionKey.locale );
+    Locale locale = (Locale)SessionManager.getAttribute( GwtUiManagementSessionKey.locale );
     return locale == null ? LocaleUtil.TOP_LOCALE : locale;
   }
   
@@ -78,14 +79,14 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   public FrameData getStartUI( String localeName )
   {
     Locale locale = LocaleUtil.getLocale( localeName );
-    FrameData frameRd = ResponseUtil.buildStartUI( locale );
+    FrameData frameRd = UserManagementResponseBuilder.getInstance().buildStartUI( locale );
     
     //put into the session
     String sessionId = SessionManager.startSession();
-    setSessionId( sessionId );
-    SessionManager.putAttribute( UserManagementSessionKey.locale, locale );
+    setSessionId( sessionId, true );    //create new session
+    SessionManager.putAttribute( GwtUiManagementSessionKey.locale, locale );
     
-    ResponseUtil.mergeResponseDatasWithSession( frameRd );
+    UserManagementResponseBuilder.getInstance().mergeResponseDatasWithSession( frameRd );
     return frameRd;
   }
   
@@ -104,9 +105,9 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   {
     Locale locale = LocaleUtil.getLocale( localeName );
     adjustSessionManager();
-    SessionManager.putAttribute( UserManagementSessionKey.locale, locale );
+    SessionManager.putAttribute( GwtUiManagementSessionKey.locale, locale );
 
-    FrameData frameData = (FrameData)SessionManager.getAttribute( UserManagementSessionKey.currentFrameData );
+    FrameData frameData = (FrameData)SessionManager.getAttribute( GwtUiManagementSessionKey.currentFrameData );
     List< ResponseData<?> > rds = frameData.getResponseDatas();
     if( rds == null || rds.size() == 0 )
       return frameData;
@@ -117,7 +118,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       
       //handle locale menu specially
       if( UIIdentity.CONTROL_SECTION.equals( rd.getFlowData().getUiIdentity() ) )
-        ResponseUtil.fillLocaleMenuItems( ( (ControlSectionData)rd.getContentData() ).getMenuPanelData().get( 0 ) );
+        UserManagementResponseBuilder.getInstance().fillLocaleMenuItems( ( (ControlSectionData)rd.getContentData() ).getMenuPanelData().get( 0 ) );
     }
     return frameData;
   }
@@ -140,8 +141,8 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     // cache the user permissions in the session as it is a very frequently used 
     SessionManager.putAttribute( UserManagementSessionKey.userPermissions, permissions );
     
-    FrameData frameData = ResponseUtil.getUserManagementPanelDatas( getCurrentLocale() );
-    ResponseUtil.mergeResponseDatasWithSession( frameData );
+    FrameData frameData = UserManagementResponseBuilder.getInstance().getUserManagementPanelDatas( getCurrentLocale() );
+    UserManagementResponseBuilder.getInstance().mergeResponseDatasWithSession( frameData );
     
     return frameData;
   }
@@ -163,8 +164,8 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
     // cache the role permissions in the session as it is a very frequently used 
     SessionManager.putAttribute( UserManagementSessionKey.accountPermissions, permissions );
     
-    FrameData frameData = ResponseUtil.getUserManagementPanelDatas( getCurrentLocale() );
-    ResponseUtil.mergeResponseDatasWithSession( frameData );
+    FrameData frameData = UserManagementResponseBuilder.getInstance().getUserManagementPanelDatas( getCurrentLocale() );
+    UserManagementResponseBuilder.getInstance().mergeResponseDatasWithSession( frameData );
     
     return frameData;
 
@@ -213,9 +214,7 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       
       rds.add( rd );
       FrameData frameData = new FrameData( Frame.UMF_SEARCH_USER, rds );
-      ResponseUtil.mergeResponseDatasWithSession( frameData );
-      
-      return frameData;
+      return UserManagementResponseBuilder.getInstance().mergeResponseDatasWithSession( frameData );
     }
     
     if( UserManagementPanelOperation.SearchAccount.equals( operation ) )
@@ -238,8 +237,9 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       rd.setContentData( data );
       
       rds.add( rd );
-      ResponseUtil.updateClientSectionResponseDataToSession( rd );
-      return new FrameData( Frame.UMF_ADD_ROLE, rds );
+      FrameData frameData = new FrameData( Frame.UMF_ADD_ROLE, rds );
+      return UserManagementResponseBuilder.getInstance().mergeResponseDatasWithSession( frameData );
+      
     }
     if( UserManagementPanelOperation.AddPermission.equals( operation ) )
     {
@@ -276,8 +276,8 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
       userDatas.add( userListData );
     }
     
-    FrameData frameData = UserManagementResponseUtil.getListUsersResponses( getCurrentLocale(), userDatas );
-    ResponseUtil.mergeResponseDatasWithSession( frameData );
+    FrameData frameData = UserManagementResponseBuilder.getInstance().getListUsersResponses( getCurrentLocale(), userDatas );
+    UserManagementResponseBuilder.getInstance().mergeResponseDatasWithSession( frameData );
     
     return frameData;
   }
@@ -291,13 +291,13 @@ public class UserManagementServlet extends RemoteServiceServlet implements IUser
   }
   protected String getSessionId()
   {
-    HttpSession session = getThreadLocalRequest().getSession(true);
+    HttpSession session = getThreadLocalRequest().getSession( false );
     String sessionId = ( String )session.getAttribute( SESSION_ID_KEY );
-    return sessionId;
+    return sessionId;   //when sessionId is null, which means the previous session timer-out and this is a new session
   }
-  public void setSessionId( String sessionId )
+  public void setSessionId( String sessionId, boolean create )
   {
-    HttpSession session = getThreadLocalRequest().getSession(true);
+    HttpSession session = getThreadLocalRequest().getSession( create );
     session.setAttribute( SESSION_ID_KEY, sessionId );
     
   }

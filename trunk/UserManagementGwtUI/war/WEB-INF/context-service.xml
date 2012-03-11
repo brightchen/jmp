@@ -5,6 +5,7 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans 
     http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+  <bean id="responseBuilder" class="cg.usermanagement.gwt.server.UserManagementResponseBuilder" />
   <bean id="userService" class="cg.usermanagement.service.UserService" />
     
 </beans>

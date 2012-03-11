@@ -62,7 +62,7 @@ public class UserManagementMenuEvent extends UIMenuEvent implements Serializable
 
   protected void onChangeLocaleSuccess( FrameData frameData )
   {
-    UserManagementUIFlow.refreshPage( frameData );
+    UserManagementUIFlow.getInstance().refreshPage( frameData );
   }
   
   public UserManagementMenuEvent clone()

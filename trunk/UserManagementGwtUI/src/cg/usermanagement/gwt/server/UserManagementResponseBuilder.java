@@ -9,8 +9,8 @@ import cg.gwt.components.shared.data.Frame;
 import cg.gwt.components.shared.data.FrameData;
 import cg.gwt.components.shared.data.ResponseData;
 import cg.gwt.components.shared.data.UIIdentity;
+import cg.gwtui.server.GwtUiResponseBuilder;
 import cg.services.session.SessionManager;
-import cg.usermanagement.gwt.shared.data.AccountLoginData;
 import cg.usermanagement.gwt.shared.data.ListUsersGridData;
 import cg.usermanagement.gwt.shared.data.UserListData;
 import cg.usermanagement.gwt.shared.data.UserLoginData;
@@ -18,10 +18,31 @@ import cg.usermanagement.gwt.shared.data.UserManagementPanelData;
 import cg.usermanagement.gwt.shared.data.UserManagementStartData;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
-public class UserManagementResponseUtil extends ResponseUtil
+public class UserManagementResponseBuilder extends GwtUiResponseBuilder
 {
+  private static UserManagementResponseBuilder instance;
+  public static UserManagementResponseBuilder getInstance()
+  {
+    if( instance == null )
+    {
+      synchronized( UserManagementResponseBuilder.class )
+      {
+        if( instance == null )
+        {
+          instance = new UserManagementResponseBuilder();
+        }
+      }
+    }
+    return instance;
+  }
   
-  public static List< ResponseData<?> > buildUserManagementStartUI( Locale locale )
+  /**
+   * instead of private constructor, use public constructor to support bean injection
+   */
+  public UserManagementResponseBuilder(){}
+  
+  @Override
+  public FrameData buildStartUI( Locale locale )
   {
     SessionManager.startSession();
 
@@ -29,9 +50,9 @@ public class UserManagementResponseUtil extends ResponseUtil
     
     // control section data
     {
-      rds.add( buildControlSectionData( locale ) );
+      rds.add( GwtUiResponseBuilder.getInstance().buildControlSectionData( locale ) );
     }
-    
+
     // user management data
     {
       ResponseData< UserManagementStartData > rd = new ResponseData< UserManagementStartData >();
@@ -40,20 +61,20 @@ public class UserManagementResponseUtil extends ResponseUtil
       UserLoginData userLoginData = new UserLoginData();
 //      userLoginData.setResourceData( UserManagementResourceDataBuilder.buildUserLoginResourceData( locale ) );
       
-      AccountLoginData accountLoginData = new AccountLoginData();
-//      accountLoginData.setResourceData( UserManagementResourceDataBuilder.buildAccountLoginResourceData( locale ) );
-      
       UserRegisterData userRegisterData = new UserRegisterData();
       //set resource data later
       //userRegisterData.setResourceData( UserManagementResourceDataBuilder.b() );
       
-      UserManagementStartData data = new UserManagementStartData( userLoginData, accountLoginData, userRegisterData );
+      UserManagementStartData data = new UserManagementStartData( userLoginData, null, userRegisterData );
       ResourceDataManager.defaultInstance.injectResourceDatas( locale, data, true );
       rd.setContentData( data );
       
       rds.add( rd );
     }    
-    return rds;
+    
+    FrameData frameRd = new FrameData( Frame.UMF_START );
+    frameRd.setResponseDatas( rds );
+    return frameRd;
   }
   
   
@@ -61,7 +82,7 @@ public class UserManagementResponseUtil extends ResponseUtil
   /*
    * get the response data to let the client build User Management Panel
    */
-  public static FrameData getUserManagementPanelDatas( Locale locale )
+  public FrameData getUserManagementPanelDatas( Locale locale )
   {
     List< ResponseData<?> > rds = new ArrayList< ResponseData<?> >();
     
@@ -88,7 +109,7 @@ public class UserManagementResponseUtil extends ResponseUtil
     return new FrameData( Frame.UMF_CONTROL_PANEL, rds );
   }
   
-  public static FrameData getListUsersResponses( Locale locale, List< UserListData > userDatas )
+  public FrameData getListUsersResponses( Locale locale, List< UserListData > userDatas )
   {
     List< ResponseData< ListUsersGridData > > listUsersResponses = new ArrayList< ResponseData< ListUsersGridData > >();
     

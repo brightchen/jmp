@@ -23,7 +23,7 @@ public class UserManagementPage implements EntryPoint
   public void onModuleLoad()
   {
 //    testMenuPanel();
-    UserManagementUIFlow.start();
+    UserManagementUIFlow.getInstance().start();
   }    
 
   

@@ -15,7 +15,7 @@ public class UserManagementTypicalCallback extends PopupFailureReasonCallback< F
   @Override
   public void onSuccess( FrameData frameData )
   {
-    UserManagementUIFlow.refreshPage( frameData );
+    UserManagementUIFlow.getInstance().refreshPage( frameData );
   }
 
 }
