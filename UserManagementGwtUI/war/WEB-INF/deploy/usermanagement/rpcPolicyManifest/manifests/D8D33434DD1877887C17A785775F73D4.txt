@@ -1,0 +1,2 @@
+serviceClass: cg.usermanagement.gwt.client.IUserManagement
+path: 2A9A2CD3156F2D69292BD6F9FBBF26D4.gwt.rpc

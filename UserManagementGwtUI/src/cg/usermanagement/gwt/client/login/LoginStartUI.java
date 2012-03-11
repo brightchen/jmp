@@ -15,14 +15,22 @@ public class LoginStartUI extends CompositeUI< UIPairData< UserLoginData, Accoun
   {
     setData( new UIPairData< UserLoginData, AccountLoginData >( userLoginData, accountLoginData ) );
     LoginUI userLoginUI = new LoginUI( userLoginData );
-    LoginUI accountLoginUI = new LoginUI( accountLoginData );
     addChild( userLoginUI );
-    addChild( accountLoginUI );
+    if( accountLoginData != null )   //accountLoginData means don't need account login section
+    {
+      LoginUI accountLoginUI = new LoginUI( accountLoginData );
+      addChild( accountLoginUI );
+      
+      tabTitles = new String[2];
+      tabTitles[1] = accountLoginData.getResourceData().getTitle();
+    }
+    else
+    {
+      tabTitles = new String[1];
+    }
     
-    tabTitles = new String[2];
     tabTitles[0] = userLoginData.getResourceData().getTitle();
-    tabTitles[1] = accountLoginData.getResourceData().getTitle();
-
+    
     setContainer( new TabPanel() );
   }
 

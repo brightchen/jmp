@@ -5,8 +5,8 @@ import java.util.List;
 import cg.gwt.components.client.ui.ComponentUI;
 import cg.gwt.components.client.ui.menu.NormalMenuPanel;
 import cg.gwt.components.shared.data.MenuBarData;
+import cg.gwtui.shared.data.ControlSectionData;
 import cg.usermanagement.gwt.client.menu.UserManagementMenuEvent;
-import cg.usermanagement.gwt.shared.data.ControlSectionData;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 

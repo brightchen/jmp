@@ -6,6 +6,7 @@
   <inherits name='cg.gwt.components.GwtComponents'/>
   <inherits name='cg.usermanagement.usermanagementshared'/>
   <inherits name='cg.contentdata.contentdatashared'/>
+  <inherits name='cg.gwtui.gwtui'/>
 
   <!-- this configuration don't have entry, it used by other module(s). -->
   <!-- <entry-point class='cg.usermanagement.gwt.client.Login'/>        -->

@@ -1,0 +1,2 @@
+serviceClass: cg.gwtui.client.IGwtUiManagement
+path: 0321B1E9E5D42FE192BD9F2DD4073B4B.gwt.rpc

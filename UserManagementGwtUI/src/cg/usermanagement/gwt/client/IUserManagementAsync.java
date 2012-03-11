@@ -1,13 +1,14 @@
 package cg.usermanagement.gwt.client;
 
 import cg.gwt.components.shared.data.FrameData;
+import cg.gwtui.client.IGwtUiManagementAsync;
 import cg.usermanagement.gwt.shared.data.SearchUserData;
 import cg.usermanagement.gwt.shared.data.UserManagementPanelOperation;
 import cg.usermanagement.gwt.shared.data.UserRegisterData;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface IUserManagementAsync
+public interface IUserManagementAsync extends IGwtUiManagementAsync
 {
   public void getStartUI( String localeName, AsyncCallback< FrameData > callback );
   
