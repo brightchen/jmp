@@ -1,5 +1,6 @@
 package cg.resourcemanagement;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,6 +9,8 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
+
+import org.apache.log4j.Logger;
 
 import cg.common.util.DataReference;
 import cg.resourcemanagement.util.LocaleUtil;
@@ -20,6 +23,7 @@ import cg.resourcemanagement.util.LocaleUtil;
  */
 public class ResourceManager
 {
+  private Logger log = Logger.getLogger( ResourceManager.class );
   private static ResourceManager instance;
   
   //  resource bundle base name ==> ( localeName ==> resource bundle ), String is more efficient than Locale as key
@@ -102,8 +106,15 @@ public class ResourceManager
   {
     // the TOP locale in fact is not a locale, get rid of it from the list
     // the keySet is a reference. should clone it
+    Map< String, ResourceBundle > resourceBundleMap = resourcesGroups.get( resourceBaseName );
+    if( resourceBundleMap == null )
+    {
+      log.error( "No resource group form base name: " + resourceBaseName );
+      return Collections.emptySet();
+    }
+    
     Set< String > supportedLocales = new HashSet< String >();
-    for( String localeName : resourcesGroups.get( resourceBaseName ).keySet() )
+    for( String localeName : resourceBundleMap.keySet() )
     {
       if( LocaleUtil.getLocaleName( LocaleUtil.TOP_LOCALE ).equals( localeName ) )
         continue;
@@ -128,7 +139,7 @@ public class ResourceManager
     return keys;
   }
   
-  public String getString( String resourceBaseName, Locale locale, String key )
+  public String getString( String resourceBaseName, Locale locale, String key ) throws MissingResourceException
   {
     Map< String, ResourceBundle > group = resourcesGroups.get( resourceBaseName );
     if( group == null )
@@ -139,16 +150,8 @@ public class ResourceManager
       ResourceBundle bundle = group.get( LocaleUtil.getLocaleName( locale ) );
       if( bundle != null )
       {
-        try
-        {
-          String value = bundle.getString( key );
-          return decodeString( locale, value );
-        }
-        catch( MissingResourceException mre )
-        {
-          mre.printStackTrace();
-          return key;   //return key when resource not found
-        }
+        String value = bundle.getString( key );
+        return decodeString( locale, value );
       }
     }
     return null;
@@ -166,9 +169,16 @@ public class ResourceManager
   {
     for( String baseName : resourcesGroups.keySet() )
     {
-      String value = getString( baseName, locale, key );
-      if( value != null )
-        return value;
+      try
+      {
+        String value = getString( baseName, locale, key );
+        if( value != null )
+          return value;
+      }
+      catch( MissingResourceException mre )
+      {
+        //try another base name
+      }
     }
     return null;
   }

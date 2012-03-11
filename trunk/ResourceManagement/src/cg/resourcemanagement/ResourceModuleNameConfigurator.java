@@ -20,6 +20,15 @@ public class ResourceModuleNameConfigurator
     putBuildinPackageModule();
   }
   
+  /**
+   * get the module name by resource data property and context.
+   *   - get module name by resource data context. if get it, return. 
+   *     this is used in case the resource data is used in different modules
+   *   - get module name by resource data property. if get it, return
+   * @param resourceDataProperty
+   * @param context
+   * @return
+   */
   public String getResourceModuleName( ClassProperty resourceDataProperty, ResourcePropertyContext context )
   {
     Class<?> ownerContentDataClass = context.getOwnerContentDataClass();
@@ -45,6 +54,8 @@ public class ResourceModuleNameConfigurator
   protected void putBuildinPackageModule()
   {
     addPackageModule( "cg.usermanagement.gwt.shared.data", "um" );
+    addPackageModule( "cg.gwtui.shared.data", "gwtui");
+    addPackageModule( "cg.sp.gwt.shared.data", "sp");
   }
   
   public void addPackageModule( String packageName, String moduleShortName )
